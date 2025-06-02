@@ -1,0 +1,74 @@
+[
+  {
+    "model": "seo_config.seo",
+    "pk": 1,
+    "fields": {
+      "slug": "about",
+      "title": "О компании – AlfaSMS",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "О компании – AlfaSMS",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  },
+  {
+    "model": "seo_config.seo",
+    "pk": 2,
+    "fields": {
+      "slug": "policy",
+      "title": "Политика конфиденциальности",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  },
+  {
+    "model": "seo_config.seo",
+    "pk": 3,
+    "fields": {
+      "slug": "offerta",
+      "title": "Оферта",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  },
+  {
+    "model": "seo_config.seo",
+    "pk": 4,
+    "fields": {
+      "slug": "cookies",
+      "title": "Политика использования cookies",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  },
+  {
+    "model": "seo_config.seo",
+    "pk": 5,
+    "fields": {
+      "slug": "home",
+      "title": "Главная страница",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  },
+  {
+    "model": "seo_config.seo",
+    "pk": 6,
+    "fields": {
+      "slug": "tarifs",
+      "title": "Тарифы Email-рассылок",
+      "description": "Узнайте о наших тарифах.",
+      "keywords": "контакты, sms, email, рассылка, тарифы",
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными."
+    }
+  }
+]
