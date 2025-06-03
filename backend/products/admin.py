@@ -1,5 +1,8 @@
 from django.contrib import admin
-from products.models import ProductVariant, ProductImage, Product, Category
+from common.mixins import AdminLimitMixin
+from .models import ProductVariant, ProductImage, Product, Category
+from mptt.admin import MPTTModelAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 
 class ProductImageLine(admin.TabularInline):
@@ -13,12 +16,16 @@ class ProductVariantLine(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    """
-    Категории
-    """
-
-    list_display = ("name", "slug", "parent")
+class CategoryAdmin(DraggableMPTTAdmin):
+    mptt_indent_field = "name"  # поле, по которому делается отступ для вложенности
+    list_display = (
+        "tree_actions",  # стрелочки для раскрытия/сворачивания дерева
+        "indented_title",  # название с отступом
+        "slug",
+        "is_active",
+    )
+    list_display_links = ("indented_title",)  # по клику на название — редактирование
+    prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
 
 @admin.register(Product)

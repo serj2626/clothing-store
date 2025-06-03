@@ -3,6 +3,10 @@ from django.db import models
 from django.utils import timezone
 from common.models import BaseID
 from products.models import Product
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 # from django.db import models
 
@@ -51,10 +55,20 @@ from products.models import Product
 
 # ===== ЗАКАЗ =====
 class Order(BaseID):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=timezone.now)
-    paid = models.BooleanField(default=False)
-    stripe_checkout_id = models.CharField(max_length=255, blank=True, null=True)
+    """
+    Модель заказа
+    """
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    created_at = models.DateTimeField(
+        default=timezone.now, verbose_name="Дата создания"
+    )
+    paid = models.BooleanField(default=False, verbose_name="Оплачен")
+    stripe_checkout_id = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name="Stripe checkout ID"
+    )
 
     class Meta:
         verbose_name = "Заказ"
@@ -65,9 +79,15 @@ class Order(BaseID):
 
 
 class OrderItem(BaseID):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    """
+    Позиция в заказе
+    """
+
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="items", verbose_name="Заказ"
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
 
     class Meta:
         verbose_name = "Позиция в заказе"

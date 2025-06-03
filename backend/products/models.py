@@ -3,6 +3,7 @@ from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
 from common.validators import validate_image_extension_and_format
 from common.upload_to import dynamic_upload_to
 import stripe
+from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -15,62 +16,38 @@ from users.models import User
 stripe.api_key = "sasdadasdasdasdasdasdasd"
 
 
-def generate_unique_slug(instance, slug_base):
-    slug = slugify(slug_base)
-    unique_slug = slug
-    num = 1
 
-    ModelClass = instance.__class__
-
-    while ModelClass.objects.filter(slug=unique_slug).exclude(pk=instance.pk).exists():
-        unique_slug = f"{slug}-{num}"
-        num += 1
-
-    return unique_slug
-
-
-# def get_unique_slug(model, name):
-#     base_slug = slugify(name)
-#     slug = base_slug
-#     counter = 1
-#     while model.objects.filter(slug=slug).exists():
-#         slug = f"{base_slug}-{counter}"
-#         counter += 1
-#     return slug
-
-
-class Category(BaseID, BaseName):
+class Category(MPTTModel, BaseID, BaseName):
     """
-    Товар
+    Категория товаров
     """
 
-    slug = models.SlugField(blank=True, null=True)
-    parent = models.ForeignKey(
-        "self",
-        on_delete=models.SET_NULL,
+    slug = models.SlugField('URL', max_length=100, unique=True, blank=True, null=True)
+    parent = TreeForeignKey(
+        'self',
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="children",
+        related_name='children',
+        verbose_name='Родительская категория'
     )
+    is_active = models.BooleanField('Активна', default=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug or self.slug.strip() == "":
-            if self.parent:
-                base_slug = f"{self.parent.name}-{self.name}"
-            else:
-                base_slug = self.name
-
-            self.slug = generate_unique_slug(self, base_slug)
-
-        super().save(*args, **kwargs)
+    class MPTTMeta:
+        order_insertion_by = ['name']  # только это поле здесь
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        unique_together = ['slug', 'parent']
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.name
 
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('products:category', kwargs={'slug': self.slug})
 
 class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
     """
@@ -82,13 +59,21 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
     #     USD = "USD", "USD"
     #     EUR = "EUR", "EUR"
 
-    category = models.ForeignKey(
+    # category = models.ForeignKey(
+    #     Category,
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True,
+    #     related_name="products",
+    #     verbose_name="Категория",
+    # )
+    category = TreeForeignKey(
         Category,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
-        related_name="products",
-        verbose_name="Категория",
+        related_name='products',
+        verbose_name='Категория'
     )
     avatar = models.ImageField(
         "Изображение",
