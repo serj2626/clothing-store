@@ -1,8 +1,16 @@
 from django.contrib import admin
 from common.mixins import AdminLimitMixin
-from .models import ProductVariant, ProductImage, Product, Category
+from .models import ProductVariant, ProductImage, Product, Category, Discount
 from mptt.admin import MPTTModelAdmin
 from mptt.admin import DraggableMPTTAdmin
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    '''
+    Админка скидок
+    '''
+
+    list_display = ('amount', 'start_date', 'end_date', 'is_active', )
 
 
 class ProductImageLine(admin.TabularInline):
