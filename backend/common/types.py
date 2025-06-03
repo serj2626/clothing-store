@@ -78,4 +78,5 @@ SIZE_TYPE = [
 GENDER_TYPE = [
     ("male", "Мужской"),
     ("female", "Женский"),
+    ("unisex", "Унисекс"),
 ]

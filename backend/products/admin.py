@@ -1,5 +1,5 @@
 from django.contrib import admin
-from common.mixins import AdminImagePreviewMixin, AdminLimitMixin
+from common.mixins import AdminImagePreviewMixin, AdminShortDescriptionMixin
 from .models import (
     ProductVariant,
     ProductImage,
@@ -7,10 +7,24 @@ from .models import (
     Category,
     Discount,
     ProductLike,
+    Brand,
 )
-from mptt.admin import MPTTModelAdmin
 from mptt.admin import DraggableMPTTAdmin
-from django.db.models import Q, Sum
+from django.db.models import Sum
+
+
+@admin.register(Brand)
+class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin):
+    """
+    Админка брендов
+    """
+
+    list_display = (
+        "name",
+        "country",
+        "get_description",
+        "get_image",
+    )
 
 
 @admin.register(ProductLike)
@@ -38,6 +52,14 @@ class DiscountAdmin(admin.ModelAdmin):
         "end_date",
         "is_active",
     )
+    fields = (
+        ("amount", "is_active"),
+        ("start_date", "end_date"),
+        "products",
+        "categories",
+    )
+
+    filter_horizontal = ("products", "categories")
 
 
 class ProductImageLine(admin.TabularInline):
@@ -72,10 +94,12 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     inlines = [ProductVariantLine, ProductImageLine]
 
     list_display = (
-        "id",
+        "get_article",
         "brand",
-        "country",
+        # "get_brand_name",
+        # "get_country",
         "title",
+        "gender",
         "category",
         "price",
         "currency",
@@ -86,19 +110,33 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         "get_image",
     )
     fields = (
-        ("brand", "country"),
+        ("brand", "gender"),
         ("title", "category"),
         ("avatar", "description"),
         ("price", "currency"),
         "is_active",
     )
     save_on_top = True
+    list_per_page = 15
+    list_filter = ("brand", "category", "currency")
+    list_editable = ("is_active", "price", "currency", "gender", "brand")
+    search_fields = ("title", "brand__name", "brand__country")
+    ordering = ["category", "price"]
+
+    # def get_brand_name(self, obj):
+    #     return obj.brand.name if obj.brand else "Нет данных"
+
+    # def get_country(self, obj):
+    #     return obj.brand.country if obj.brand else "Нет данных"
 
     def get_count_likes(self, obj):
         return obj.likes.count()
 
     def get_count_reviews(self, obj):
-        return obj.reviews.count()
+        return obj.reviews.count() if obj.reviews else 0
+
+    def get_article(self, obj):
+        return str(obj.id)[:8]
 
     def get_count(self, obj):
         return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
@@ -106,3 +144,6 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     get_count_likes.short_description = "Лайки"
     get_count_reviews.short_description = "Отзывы"
     get_count.short_description = "Количество"
+    # get_brand_name.short_description = "Бренд"
+    # get_country.short_description = "Страна"
+    get_article.short_description = "Артикул"

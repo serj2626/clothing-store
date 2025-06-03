@@ -26,6 +26,8 @@ urlpatterns = [
     ),
     path("api/v1/users/", include("users.urls")),
     path("api/v1/products/", include("products.urls")),
+    path("api/v1/legal/", include("legal.urls")),
+    path("api/v1/contacts/", include("contacts.urls")),
 ]
 
 if settings.DEBUG:

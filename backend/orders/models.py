@@ -60,7 +60,10 @@ class Order(BaseID):
     """
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="orders",
     )
     created_at = models.DateTimeField(
         default=timezone.now, verbose_name="Дата создания"

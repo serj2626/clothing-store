@@ -20,7 +20,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 TAG = "Товары и Корзина"
 
 
-@extend_schema(tags=[TAG], summary="Лайк товара")
+@extend_schema(tags=[TAG], summary="Поставить лайк товару")
 @api_view(["POST"])
 def toggle_product_like(request, product_id):
     ip = get_client_ip(request)

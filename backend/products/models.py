@@ -12,6 +12,7 @@ from common.types import (
     COLORS_TYPE,
     COUNTRY_TYPE,
     CURRENCY_TYPE,
+    GENDER_TYPE,
     SIZE_TYPE,
 )
 from common.upload import compress_image
@@ -20,6 +21,35 @@ from django.utils import timezone
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_key = "sasdadasdasdasdasdasdasd"
+
+
+class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
+    """
+    Бренд
+    """
+
+    country = models.CharField(
+        "Страна",
+        max_length=100,
+        choices=COUNTRY_TYPE,
+        default="cn",
+        null=True,
+        blank=True,
+    )
+    image = models.ImageField(
+        "Изображение",
+        validators=[validate_image_extension_and_format],
+        upload_to=dynamic_upload_to,
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Бренд"
+        verbose_name_plural = "Бренды"
+
+    def __str__(self):
+        return f"{self.name} - {self.get_country_display()}"
 
 
 class Category(MPTTModel, BaseID, BaseName):
@@ -55,19 +85,20 @@ class Category(MPTTModel, BaseID, BaseName):
         return reverse("products:category", kwargs={"slug": self.slug})
 
 
-class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
+class Product(BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin):
     """
     Продукт
     """
 
-    brand = models.CharField("Бренд", max_length=100, null=True, blank=True)
-    country = models.CharField(
-        "Страна",
-        max_length=100,
-        choices=COUNTRY_TYPE,
-        default="cn",
+    image_field_name = "avatar"
+
+    brand = models.ForeignKey(
+        Brand,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="products",
+        verbose_name="Бренд",
     )
     category = TreeForeignKey(
         Category,
@@ -77,6 +108,7 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
         related_name="products",
         verbose_name="Категория",
     )
+    gender = models.CharField("Пол", max_length=6, choices=GENDER_TYPE, default="male")
     avatar = models.ImageField(
         "Изображение",
         validators=[validate_image_extension_and_format],
@@ -94,10 +126,10 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
 
-    def save(self, *args, **kwargs):
-        if self.avatar:
-            self.avatar = compress_image(self.avatar)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.avatar:
+    #         self.avatar = compress_image(self.avatar)
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -208,6 +240,9 @@ class Discount(models.Model):
     products = models.ManyToManyField(
         "Product", blank=True, related_name="discounts", verbose_name="Продукты"
     )
+    categories = models.ManyToManyField(
+        "Category", blank=True, related_name="discounts", verbose_name="Категории"
+    )
 
     class Meta:
         verbose_name = "Скидка"
@@ -230,8 +265,8 @@ class Cart(BaseID, BaseDate):
     Корзина
     """
 
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="cart", verbose_name="Пользователь"
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь", related_name="cart"
     )
 
     class Meta:
@@ -250,13 +285,31 @@ class CartItem(BaseID):
     cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, related_name="items", verbose_name="Корзина"
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Товар",
+        related_name="products",
+    )
     quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
 
     class Meta:
-        unique_together = ("cart", "product")
         verbose_name = "Позиция в корзине"
         verbose_name_plural = "Позиции в корзине"
 
     def __str__(self):
         return f"Товар {self.product} в корзине {self.cart}"
+
+    @classmethod
+    def add_or_update(cls, cart, product, quantity=1):
+        """
+        Добавляет товар в корзину или обновляет количество, если товар уже есть.
+        """
+
+        item, created = cls.objects.get_or_create(
+            cart=cart, product=product, defaults={"quantity": quantity}
+        )
+        if not created:
+            item.quantity += quantity
+            item.save()
+        return item

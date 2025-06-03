@@ -8,7 +8,14 @@ from .models import (
     ProductImage,
     ProductReview,
     Wishlist,
+    Brand,
 )
+
+
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = "__all__"
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -43,7 +50,7 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ProductReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
-    country = serializers.CharField(source="get_country_display")
+    brand = BrandSerializer(read_only=True)
     currency = serializers.CharField(source="get_currency_display")
     count_likes = serializers.SerializerMethodField()
     count_reviews = serializers.SerializerMethodField()
@@ -53,7 +60,6 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "brand",
-            "country",
             "title",
             "category",
             "avatar",
@@ -76,7 +82,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class WishlistSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+    product = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Wishlist
@@ -96,4 +102,4 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ["id", "items"]
+        fields = ["items", "created_at", "updated_at"]

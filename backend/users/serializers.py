@@ -9,6 +9,9 @@ import re
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError as DjangoValidationError
 
+from orders.serializers import OrderSerializer
+from products.serializers import CartSerializer, WishlistSerializer
+
 
 User = get_user_model()
 
@@ -70,6 +73,10 @@ class RegisterSerializer(ModelSerializer):
 
 
 class UserInfoSerializer(ModelSerializer):
+    cart = CartSerializer(read_only=True)
+    orders = OrderSerializer(many=True, read_only=True)
+    wishlist = WishlistSerializer(many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ("id", "email", "phone")
+        fields = ("id", "email", "phone", "cart", "orders", "wishlist")

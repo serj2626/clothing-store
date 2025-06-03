@@ -7,18 +7,22 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from django.core.exceptions import MultipleObjectsReturned
 
+from common.upload import compress_image
+
 
 class WebpImageMixin:
     """
     Миксин для сжатия изображений
     """
 
+    image_field_name = "image"
+
     def save(self, *args, **kwargs):
-        if hasattr(self, "image") and self.image:
-            img = Image.open(self.image)
-            buffer = io.BytesIO()
-            img.save(buffer, format="webp", quality=90)
-            self.image.save("image.webp", buffer, save=False)
+        if hasattr(self, self.image_field_name):
+            image_field = getattr(self, self.image_field_name)
+            if image_field:
+                image_field = compress_image(image_field)
+                setattr(self, self.image_field_name, image_field)
         super().save(*args, **kwargs)
 
 
