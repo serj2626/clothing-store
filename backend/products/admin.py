@@ -1,8 +1,29 @@
 from django.contrib import admin
 from common.mixins import AdminImagePreviewMixin, AdminLimitMixin
-from .models import ProductVariant, ProductImage, Product, Category, Discount
+from .models import (
+    ProductVariant,
+    ProductImage,
+    Product,
+    Category,
+    Discount,
+    ProductLike,
+)
 from mptt.admin import MPTTModelAdmin
 from mptt.admin import DraggableMPTTAdmin
+from django.db.models import Q, Sum
+
+
+@admin.register(ProductLike)
+class ProductLikeAdmin(admin.ModelAdmin):
+    """
+    Админка лайков
+    """
+
+    list_display = (
+        "product",
+        "ip_address",
+        "created_at",
+    )
 
 
 @admin.register(Discount)
@@ -52,17 +73,36 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
 
     list_display = (
         "id",
+        "brand",
+        "country",
         "title",
         "category",
-        "avatar",
         "price",
         "currency",
         "is_active",
+        "get_count_likes",
+        "get_count_reviews",
+        "get_count",
+        "get_image",
     )
     fields = (
+        ("brand", "country"),
         ("title", "category"),
         ("avatar", "description"),
         ("price", "currency"),
         "is_active",
     )
     save_on_top = True
+
+    def get_count_likes(self, obj):
+        return obj.likes.count()
+
+    def get_count_reviews(self, obj):
+        return obj.reviews.count()
+
+    def get_count(self, obj):
+        return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
+
+    get_count_likes.short_description = "Лайки"
+    get_count_reviews.short_description = "Отзывы"
+    get_count.short_description = "Количество"

@@ -3,12 +3,17 @@ from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
 from common.validators import validate_image_extension_and_format
 from common.upload_to import dynamic_upload_to
 import stripe
+from common.utils import get_client_ip
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
-from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.timesince import timesince
-from common.types import COLORS_TYPE, CURRENCY_TYPE, GENDER_TYPE, SIZE_TYPE
+from common.types import (
+    COLORS_TYPE,
+    COUNTRY_TYPE,
+    CURRENCY_TYPE,
+    SIZE_TYPE,
+)
 from common.upload import compress_image
 from users.models import User
 from django.utils import timezone
@@ -55,6 +60,15 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
     Продукт
     """
 
+    brand = models.CharField("Бренд", max_length=100, null=True, blank=True)
+    country = models.CharField(
+        "Страна",
+        max_length=100,
+        choices=COUNTRY_TYPE,
+        default="cn",
+        null=True,
+        blank=True,
+    )
     category = TreeForeignKey(
         Category,
         on_delete=models.PROTECT,
@@ -71,7 +85,9 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
         blank=True,
     )
     price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
-    currency = models.CharField("Валюта", max_length=3, choices=CURRENCY_TYPE, default="RUB")
+    currency = models.CharField(
+        "Валюта", max_length=3, choices=CURRENCY_TYPE, default="RUB"
+    )
     is_active = models.BooleanField("Активен", default=True)
 
     class Meta:
@@ -85,6 +101,26 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
 
     def __str__(self):
         return self.title
+
+
+class ProductLike(models.Model):
+    """
+    Лайк товара
+    """
+
+    product = models.ForeignKey(
+        "Product", on_delete=models.CASCADE, related_name="likes", verbose_name="Товар"
+    )
+    ip_address = models.GenericIPAddressField("IP", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        unique_together = ("product", "ip_address")  # один лайк с одного IP
+        verbose_name = "Лайк"
+        verbose_name_plural = "Лайки"
+
+    def __str__(self):
+        return f"{self.ip_address} -> {self.product.title}"
 
 
 class ProductVariant(models.Model):

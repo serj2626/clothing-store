@@ -6,13 +6,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
+
+from common.utils import get_client_ip
 from .serializers import CartSerializer, WishlistSerializer, ProductSerializer
-from .models import Cart, Wishlist, CartItem, Product
+from .models import Cart, ProductLike, Wishlist, CartItem, Product
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from rest_framework.decorators import api_view
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
+
+
+@extend_schema(tags=[TAG], summary="Лайк товара")
+@api_view(["POST"])
+def toggle_product_like(request, product_id):
+    ip = get_client_ip(request)
+    product = Product.objects.get(id=product_id)
+
+    like, created = ProductLike.objects.get_or_create(product=product, ip_address=ip)
+
+    if not created:
+        like.delete()
+        liked = False
+    else:
+        liked = True
+
+    total_likes = ProductLike.objects.filter(product=product).count()
+    return JsonResponse({"liked": liked, "total_likes": total_likes})
 
 
 class ProductListView(generics.ListAPIView):
@@ -69,7 +92,6 @@ class CartView(APIView):
         return Response({"status": "updated"})
 
 
-
 # import stripe
 # from django.conf import settings
 # from django.views.decorators.csrf import csrf_exempt
@@ -96,12 +118,10 @@ class CartView(APIView):
 #         return JsonResponse({'error': str(e)}, status=400)
 
 
-
 # 🖼 ЧАСТЬ 2: Nuxt 3 (frontend)
 # 1. Установка Stripe JS SDK:
 
 # npm install @stripe/stripe-js
-
 
 
 # 2. Настрой .env и nuxt.config.ts

@@ -18,9 +18,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
+    color = serializers.CharField(source="get_color_display")
+
     class Meta:
         model = ProductVariant
-        fields = "__all__"
+        fields = ("color", "size", "quantity")
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -41,10 +43,36 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ProductReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
+    country = serializers.CharField(source="get_country_display")
+    currency = serializers.CharField(source="get_currency_display")
+    count_likes = serializers.SerializerMethodField()
+    count_reviews = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = (
+            "id",
+            "brand",
+            "country",
+            "title",
+            "category",
+            "avatar",
+            "price",
+            "currency",
+            "is_active",
+            "variants",
+            "images",
+            "reviews",
+            "category",
+            "count_likes",
+            "count_reviews",
+        )
+
+    def get_count_likes(self, obj):
+        return obj.likes.count()
+
+    def get_count_reviews(self, obj):
+        return obj.reviews.count()
 
 
 class WishlistSerializer(serializers.ModelSerializer):
