@@ -1,14 +1,36 @@
 import stripe
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
-from .serializers import CartSerializer, WishlistSerializer
+from drf_spectacular.utils import extend_schema
+from .serializers import CartSerializer, WishlistSerializer, ProductSerializer
 from .models import Cart, Wishlist, Order, OrderItem, CartItem, Product, OrderItem
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+TAG = "Товары и Корзина"
+
+
+class ProductListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    @extend_schema(tags=[TAG], summary="Список товаров")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    @extend_schema(tags=[TAG], summary="Детали товара")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 # ===== ИЗБРАННОЕ =====
