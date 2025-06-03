@@ -71,7 +71,7 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate):
         blank=True,
     )
     price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
-    currency = models.CharField("Валюта", max_length=3, choices=CURRENCY_TYPE)
+    currency = models.CharField("Валюта", max_length=3, choices=CURRENCY_TYPE, default="RUB")
     is_active = models.BooleanField("Активен", default=True)
 
     class Meta:

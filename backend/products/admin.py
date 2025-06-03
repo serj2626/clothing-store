@@ -1,16 +1,22 @@
 from django.contrib import admin
-from common.mixins import AdminLimitMixin
+from common.mixins import AdminImagePreviewMixin, AdminLimitMixin
 from .models import ProductVariant, ProductImage, Product, Category, Discount
 from mptt.admin import MPTTModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 
+
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
-    '''
+    """
     Админка скидок
-    '''
+    """
 
-    list_display = ('amount', 'start_date', 'end_date', 'is_active', )
+    list_display = (
+        "amount",
+        "start_date",
+        "end_date",
+        "is_active",
+    )
 
 
 class ProductImageLine(admin.TabularInline):
@@ -37,8 +43,10 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
+
+    image_field_name = "avatar"
 
     inlines = [ProductVariantLine, ProductImageLine]
 

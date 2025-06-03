@@ -40,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ProductReviewSerializer(many=True, read_only=True)
+    category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Product

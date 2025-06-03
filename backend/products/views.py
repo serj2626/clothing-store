@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
 from .serializers import CartSerializer, WishlistSerializer, ProductSerializer
-from .models import Cart, Wishlist, Order, OrderItem, CartItem, Product, OrderItem
+from .models import Cart, Wishlist, CartItem, Product
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -67,3 +67,97 @@ class CartView(APIView):
         item.quantity = quantity
         item.save()
         return Response({"status": "updated"})
+
+
+
+# import stripe
+# from django.conf import settings
+# from django.views.decorators.csrf import csrf_exempt
+# from django.http import JsonResponse
+# from django.views import View
+
+# stripe.api_key = settings.STRIPE_SECRET_KEY
+
+# @csrf_exempt
+# def create_checkout_session(request):
+#     import json
+#     data = json.loads(request.body)
+
+#     try:
+#         session = stripe.checkout.Session.create(
+#             payment_method_types=['card'],
+#             line_items=data['items'],
+#             mode='payment',
+#             success_url=data['success_url'],
+#             cancel_url=data['cancel_url'],
+#         )
+#         return JsonResponse({'id': session.id})
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=400)
+
+
+
+# 🖼 ЧАСТЬ 2: Nuxt 3 (frontend)
+# 1. Установка Stripe JS SDK:
+
+# npm install @stripe/stripe-js
+
+
+
+# 2. Настрой .env и nuxt.config.ts
+# .env:
+
+
+# STRIPE_PK=pk_test_...
+# API_BASE_URL=http://localhost:8000
+
+# export default defineNuxtConfig({
+#   runtimeConfig: {
+#     public: {
+#       stripePk: process.env.STRIPE_PK,
+#       apiBase: process.env.API_BASE_URL
+#     }
+#   }
+# })
+
+
+#  Код для оплаты
+# pages/checkout.vue (пример):
+
+
+# <template>
+#   <button @click="checkout">Оплатить</button>
+# </template>
+
+# <script setup>
+# import { loadStripe } from '@stripe/stripe-js'
+
+# const config = useRuntimeConfig()
+
+# const checkout = async () => {
+#   const stripe = await loadStripe(config.public.stripePk)
+
+#   const { data } = await useFetch('/api/checkout/', {
+#     baseURL: config.public.apiBase,
+#     method: 'POST',
+#     body: {
+#       items: [
+#         {
+#           price_data: {
+#             currency: 'usd',
+#             product_data: {
+#               name: 'Футболка',
+#             },
+#             unit_amount: 2500,
+#           },
+#           quantity: 1,
+#         }
+#       ],
+#       success_url: window.location.origin + '/success',
+#       cancel_url: window.location.origin + '/cancel'
+#     }
+#   })
+
+#   await stripe.redirectToCheckout({ sessionId: data.value.id })
+# }
+# </script>
