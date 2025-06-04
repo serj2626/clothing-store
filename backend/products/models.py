@@ -214,6 +214,41 @@ class ProductReview(BaseID, BaseName, BaseDescription, BaseDate):
         return timesince(self.created_timestamp)
 
 
+class CompanyReply(BaseID, BaseDescription, BaseDate):
+    """
+    Ответ компании на отзыв продукта
+    Только пользователи с правами администратора (компания) могут создавать ответы
+    """
+
+    review = models.ForeignKey(
+        ProductReview, on_delete=models.CASCADE, related_name="replies"
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        limit_choices_to={
+            "is_staff": True
+        },  # Ограничиваем авторов только staff-пользователями
+        verbose_name="Автор (компания)",
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.author.is_staff:
+            raise PermissionError("Только сотрудники компании могут отвечать на отзывы")
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Ответ компании"
+        verbose_name_plural = "Ответы компании"
+        permissions = [
+            ("can_reply_to_reviews", "Может отвечать на отзывы"),
+        ]
+
+    @property
+    def time_age(self):
+        return timesince(self.created_timestamp)
+
+
 class Wishlist(BaseDate):
     """
     Избранное

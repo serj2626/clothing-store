@@ -8,8 +8,13 @@ from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
 
 from common.utils import get_client_ip
-from .serializers import CartSerializer, WishlistSerializer, ProductSerializer
-from .models import Cart, ProductLike, Wishlist, CartItem, Product
+from .serializers import (
+    CartSerializer,
+    WishlistSerializer,
+    ProductSerializer,
+    CategorySerializer,
+)
+from .models import Cart, ProductLike, Wishlist, CartItem, Product, Category
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
@@ -18,6 +23,18 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
+
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(parent__isnull=True)
+
+    @extend_schema(tags=[TAG], summary="Список категорий")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 @extend_schema(tags=[TAG], summary="Поставить лайк товару")
