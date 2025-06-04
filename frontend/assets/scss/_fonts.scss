@@ -1,0 +1,70 @@
+@font-face {
+  font-family: "Helvetica Mtkadastr";
+  src: url("~/assets/fonts/helvetica-neue/helvetica-neue-light.woff2")
+      format("woff2"),
+    url("~/assets/fonts/helvetica-neue/helvetica-neue-light.ttf")
+      format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Mtkadastr";
+  src: url("~/assets/fonts/helvetica-neue/helvetica-neue-roman.woff2")
+      format("woff2"),
+    url("~/assets/fonts/helvetica-neue/helvetica-neue-roman.ttf")
+      format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Mtkadastr";
+  src: url("~/assets/fonts/helvetica-neue/helvetica-neue-medium.woff2")
+      format("woff2"),
+    url("~/assets/fonts/helvetica-neue/helvetica-neue-medium.ttf")
+      format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Mtkadastr";
+  src: url("~/assets/fonts/helvetica-neue/helvetica-neue-bold.woff2")
+      format("woff2"),
+    url("~/assets/fonts/helvetica-neue/helvetica-neue-bold.ttf")
+      format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Mtkadastr";
+  src: url("~/assets/fonts/inter/inter-regular.woff2") format("woff2"),
+    url("~/assets/fonts/inter/inter-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Mtkadastr";
+  src: url("~/assets/fonts/inter/inter-medium.woff2") format("woff2"),
+    url("~/assets/fonts/inter/inter-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Play Mtkadastr";
+  src: url("~/assets/fonts/play/play-regular.woff2") format("woff2"),
+    url("~/assets/fonts/play/play-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
