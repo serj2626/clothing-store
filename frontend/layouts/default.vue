@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="app">
     <HeaderComponent />
     <slot />
     <FooterComponent />
+    <BaseButtonScrollToTop />
   </div>
 
   <!-- <FooterComponent />
@@ -11,3 +12,11 @@
   <!-- <ReplainButton /> -->
   <!-- <BaseButtonScrollToTop /> -->
 </template>
+<style lang="scss">
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>

@@ -28,15 +28,15 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .scroll-to-top {
   position: fixed;
-  bottom: 40px;
+  bottom: 140px;
   right: 32px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: $teal;
-  color: #fff;
+  background-color: $accept;
+  color: $white;
   border: none;
   border-radius: 12px;
   cursor: pointer;

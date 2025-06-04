@@ -81,10 +81,11 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
     background-image: url("/public/store.jpg");
     background-size: cover;
     background-position: center;
-    // filter: contrast(0.5);
+    filter: contrast(0.5);
 
     &-block {
       position: absolute;
+      z-index: 150;
       top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);

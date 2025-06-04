@@ -1,5 +1,11 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+const color = computed(() => {
+  if (useRoute().name === "index") {
+    return "#fff";
+  }
+  return "#e0bea2;";
+});
 </script>
 <template>
   <div class="header-component">
@@ -12,12 +18,20 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
             size="40"
           />
         </button>
-        <nav class="nav">
-          <ul>
-            <li><a href="#">Главная</a></li>
-            <li><a href="#">Каталог</a></li>
-            <li><a href="#">О нас</a></li>
-            <li><a href="#">Контакты</a></li>
+        <nav class="header-component__wraper-nav">
+          <ul class="header-component__wraper-nav-list">
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
+              >Главная</NuxtLink
+            >
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/catalog"
+              >Каталог</NuxtLink
+            >
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
+              >О нас</NuxtLink
+            >
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
+              >Контакты</NuxtLink
+            >
           </ul>
         </nav>
         <div class="header-component__wraper-actions">
@@ -66,12 +80,22 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
   background-color: transparent;
   width: 100%;
-  padding-block: 20px;
+  padding-block: 25px;
 
   &__wraper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &-nav {
+      &-list {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        color: v-bind(color) !important;
+      }
+    }
 
     &-actions {
       display: flex;
@@ -80,7 +104,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       &-icon {
         @include header_link;
         font-weight: 700;
-        color: white;
+        color: v-bind(color);
         cursor: pointer;
       }
     }
@@ -89,18 +113,10 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       @include header_link;
       &-icon {
         cursor: pointer;
-        color: white;
+        color: v-bind(color);
         font-weight: 900;
       }
     }
   }
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
 }
 </style>

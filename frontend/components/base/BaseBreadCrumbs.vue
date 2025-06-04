@@ -1,100 +1,69 @@
-<script setup lang="ts">
-const {
-  breadcrumbs = [],
-  currentPage,
-  color = '#000',
-} = defineProps<{
-  breadcrumbs?: { title: string; path: string }[];
-  currentPage?: string;
-  color?: string;
+<script lang="ts" setup>
+interface ILink {
+  title: string;
+  url: string;
+}
+
+defineProps<{
+  breadcrumbs?: ILink[];
 }>();
 </script>
 <template>
-  <nav class="base-breadcrumbs">
-    <ul class="base-breadcrumbs__list">
-      <li class="base-breadcrumbs__list-back">
-        <NuxtLink class="base-breadcrumbs__list-item-link" to="/">
-          <span>Назад</span>
-        </NuxtLink>
-      </li>
-      <li class="base-breadcrumbs__list-item">
-        <NuxtLink class="base-breadcrumbs__list-item-link" to="/">
-          Главная
-        </NuxtLink>
-      </li>
-      <li
-        class="base-breadcrumbs__list-item"
-        v-for="breadcrumb in breadcrumbs"
-        :key="breadcrumb.title + breadcrumb.path"
-      >
+  <div class="base-bread">
+      <ul class="base-bread__links">
+        <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
         <NuxtLink
-          class="base-breadcrumbs__list-item-link"
-          :to="breadcrumb.path"
+          v-for="(link, indx) in breadcrumbs"
+          :key="indx"
+          :to="link.url"
+          class="base-bread__links-item"
         >
-          {{ breadcrumb.title }}
+          {{ link.title }}
         </NuxtLink>
-      </li>
-      <li
-        v-if="currentPage"
-        class="base-breadcrumbs__list-item base-breadcrumbs__list-item_current"
-      >
-        {{ currentPage }}
-      </li>
-    </ul>
-  </nav>
+      </ul>
+  </div>
 </template>
-
-<style lang="scss" scoped>
-.base-breadcrumbs {
-  padding-block: 15px;
-  border-bottom: 1px solid #c2babaab;
-  &__list {
-    display: flex;
+<style scoped lang="scss">
+.base-bread {
+  padding-top: 50px;
+  &__links {
+    display: none;
+    gap: 10px;
     align-items: center;
-    color: $txt;
-
-    &-back {
+    position: relative;
+    @include mediaMobile {
       display: flex;
-      align-items: center;
-      width: 74px;
-      height: 17px;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #ffffff81;
+    }
+    &-item {
+      cursor: pointer;
+      color: $white;
+      display: inline-block;
+      &:not(:last-child)::after {
+        content: "/";
+        padding: 0 5px;
+      }
 
+      &:last-child {
+        pointer-events: none;
+        color: $accent;
+        opacity: 0.8;
+        cursor: default;
+      }
+    }
+    &-back {
+      color: $white;
       @include mediaMobile {
         display: none;
       }
-    }
-
-    &-item {
-      display: none;
-
-      &-link {
-        display: flex;
-        gap: 5px;
-        color: $teal;
-
-        &-icon {
-          display: flex;
-        }
-      }
-
-      @include mediaMobile {
-        display: flex;
-      }
-
-      &_current {
-        opacity: 0.7;
-      }
-    }
-
-    &-item:last-child {
-      color: v-bind(color);
-    }
-
-    &-item:not(:last-child)::after {
-      content: '/';
-      padding: 0 5px;
-      color: v-bind(color);
-      opacity: 0.7;
     }
   }
 }
