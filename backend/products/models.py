@@ -52,7 +52,7 @@ class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
         return f"{self.name} - {self.get_country_display()}"
 
 
-class Category(MPTTModel, BaseID, BaseName):
+class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     """
     Категория товаров
     """
@@ -66,6 +66,14 @@ class Category(MPTTModel, BaseID, BaseName):
         related_name="children",
         verbose_name="Родительская категория",
     )
+    image = models.ImageField(
+        "Изображение",
+        validators=[validate_image_extension_and_format],
+        upload_to=dynamic_upload_to,
+        null=True,
+        blank=True,
+    )
+
     is_active = models.BooleanField("Активна", default=True)
 
     class MPTTMeta:

@@ -8,8 +8,12 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
         <h2 class="home-page__hero-block-title">Новая коллекция</h2>
         <div class="home-page__hero-block-separator" />
         <NuxtLink class="home-page__hero-block-link" to="/">
-          Смотреть Новинки
-          <Icon :name="HeroIcons.ARROW_RIGHT_SOLID" size="22" />
+          <p style="display: flex; align-items: center; text-align: center">
+            <span>Смотреть Новинки</span>
+            <button>
+              <Icon :name="HeroIcons.ARROW_RIGHT_SOLID" size="22" />
+            </button>
+          </p>
         </NuxtLink>
       </div>
     </section>
@@ -87,6 +91,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       color: #fff;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 20px;
       &-title {
         text-align: center;
@@ -103,7 +108,6 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
         font-size: 20px;
         text-transform: uppercase;
         color: #fff;
-        text-align: center;
       }
     }
   }
