@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Contact, Feedback, Footer
+from .models import Contact, Feedback, Footer, Subscription
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    """
+    Админка подписки
+    """
+
+    list_display = ("email", "created_at", "verified")
 
 
 @admin.register(Footer)

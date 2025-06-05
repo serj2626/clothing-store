@@ -24,6 +24,22 @@ class Contact(models.Model):
         return f"Контакт {self.get_type_display()}"
 
 
+class Subscription(BaseDate):
+    """
+    Подписка на рассылку
+    """
+
+    email = models.EmailField("Почта", max_length=255, unique=True)
+    verified = models.BooleanField("Проверен", default=False)
+
+    class Meta:
+        verbose_name = "Подписка на рассылку"
+        verbose_name_plural = "Подписки на рассылку"
+
+    def __str__(self):
+        return f"Подписка на рассылку от {self.email} от {self.created_at}"
+
+
 class Feedback(BaseDate):
     """
     Обратная связь
@@ -31,6 +47,9 @@ class Feedback(BaseDate):
 
     name = models.CharField("Имя", max_length=255)
     phone = models.CharField("Телефон", max_length=255)
+    message = models.CharField(
+        max_length=2500, blank=True, null=True, verbose_name="Сообщение"
+    )
     agree = models.BooleanField("Согласие", default=False)
     verified = models.BooleanField("Проверен", default=False)
 

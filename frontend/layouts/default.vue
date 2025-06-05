@@ -6,12 +6,6 @@
     <BaseButtonScrollToTop />
     <BaseAlertCookie />
   </div>
-
-  <!-- <FooterComponent />
-  <ModalComponent />
-  <BaseAlertCookie /> -->
-  <!-- <ReplainButton /> -->
-  <!-- <BaseButtonScrollToTop /> -->
 </template>
 <style lang="scss">
 .app {

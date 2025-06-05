@@ -41,6 +41,11 @@
   color: $color;
 }
 
+@mixin title_page($size: 20, $margin: 30) {
+  font-size: #{$size}px;
+  margin-block: #{$margin}px;
+}
+
 // @mixin link() {
 //   color: $txt_footer_link;
 //   transition: color $fast_ease;

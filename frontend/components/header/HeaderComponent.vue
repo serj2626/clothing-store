@@ -4,6 +4,17 @@ const route = useRoute();
 const color = computed(() => {
   return route.name === "index" ? "#fff" : "#252525";
 });
+
+const routeName = ref<string | undefined>("");
+
+watch(
+  () => route.name,
+  (newVal) => {
+    console.log("route.name changed:", newVal);
+    routeName.value = typeof newVal === "string" ? newVal : undefined;
+  },
+  { immediate: true }
+);
 </script>
 <template>
   <div class="header-component">
@@ -55,11 +66,13 @@ const color = computed(() => {
               :name="HeroIcons.HEART_SOLID"
               size="28"
           /></NuxtLink>
-          <Icon
-            class="header-component__wraper-actions-icon"
-            :name="HeroIcons.BASKET_SOLID"
-            size="28"
-          />
+          <NuxtLink to="/basket">
+            <Icon
+              class="header-component__wraper-actions-icon"
+              :name="HeroIcons.BASKET_SOLID"
+              size="28"
+            />
+          </NuxtLink>
         </div>
       </div>
     </div>

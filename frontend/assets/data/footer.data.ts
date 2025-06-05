@@ -12,11 +12,11 @@ export const footerLinks: ILink[] = [
     children: [
       {
         label: "О нас",
-        link: "/",
+        link: "/about",
       },
       {
         label: "Контакты",
-        link: "/",
+        link: "/contacts",
       },
     ],
   },
@@ -26,11 +26,11 @@ export const footerLinks: ILink[] = [
     children: [
       {
         label: "О нас",
-        link: "/",
+        link: "/about",
       },
       {
         label: "Контакты",
-        link: "/",
+        link: "/contacts",
       },
       {
         label: "Бонусная система",
@@ -44,15 +44,15 @@ export const footerLinks: ILink[] = [
     children: [
       {
         label: "Избранное",
-        link: "/",
+        link: "/favorite",
       },
       {
         label: "Публичная оферта",
-        link: "/",
+        link: "/offerta",
       },
       {
         label: "Политика конфиденциальности",
-        link: "/",
+        link: "/policy",
       },
     ],
   },

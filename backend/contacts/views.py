@@ -1,13 +1,39 @@
 from rest_framework import generics, status, response
-
 from common.mixins import BaseSectionViewMixin
-
-from .models import Contact, Feedback, Footer
-from .serializers import ContactSerializer, FeedbackSerializer, FooterSerializer
+from .models import Contact, Feedback, Footer, Subscription
+from .serializers import (
+    ContactSerializer,
+    FeedbackSerializer,
+    FooterSerializer,
+    SubscriptionSerializer,
+)
 from drf_spectacular.utils import extend_schema
-
+from rest_framework import generics, response, status
 
 TAG = "Контакты"
+
+
+class SubscriptionView(generics.CreateAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+
+    @extend_schema(tags=[TAG], summary="Подписаться на рассылку")
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            self.perform_create(serializer)
+        except Exception as e:
+            raise e
+
+        return response.Response(
+            {
+                "msg": "Вы успешно подписались на рассылку",
+                "status": "success",
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class FooterView(BaseSectionViewMixin):

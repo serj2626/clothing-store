@@ -10,6 +10,8 @@ from products.models import Cart
 from .models import Order, OrderItem
 
 
+TAG = "Заказы"
+
 # ===== STRIPE CHECKOUT =====
 class StripeCheckoutView(APIView):
     permission_classes = [IsAuthenticated]

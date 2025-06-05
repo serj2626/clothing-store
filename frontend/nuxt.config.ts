@@ -16,9 +16,12 @@ export default defineNuxtConfig({
         prefix: 'social',
         dir: './assets/icons/social'
       },
+       {
+        prefix: 'actions',
+        dir: './assets/icons/actions'
+      },
     ],
   },
-  // @ts-expect-error: Pinia config is added by @pinia/nuxt
   pinia: {
     storesDirs: ["./stores/**"],
   },

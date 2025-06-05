@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const breadcrumbs = [
   { title: "Главная", url: "/" },
-  { title: "О компании", url: "/about" },
+  { title: "Публичная оферта", url: "/offerta" },
 ];
 const html = `<p>
     1. Общие положения<br>
@@ -388,7 +388,8 @@ const html = `<p>
 // );
 </script>
 <template>
-  <div class="about-page">
+  <!-- <PageBlockContent :html="aboutInfo?.content" :title="aboutInfo?.title" /> -->
+  <div class="offerta-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs />
       <BaseWysiwyg v-if="html" :html="html" />

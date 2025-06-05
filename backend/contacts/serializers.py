@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import Feedback, Contact, Footer
+from .models import Feedback, Contact, Footer, Subscription
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для подписки на рассылку
+    """
+
+    class Meta:
+        model = Subscription
+        fields = ("email",)
 
 
 class FooterSerializer(serializers.ModelSerializer):
