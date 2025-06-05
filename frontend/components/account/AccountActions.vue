@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import AccountHistoryOrders from './AccountHistoryOrders.vue';
+import AccountLogout from './AccountLogout.vue';
+import AccountData from './AccountData.vue';
+
 const currentComponent = ref<"one" | "two" | "three">("one");
 
-// const tabs = {
-//   one: TabOne,
-//   two: TabTwo,
-//   three: TabThree,
-// };
+const tabs = {
+  one: AccountHistoryOrders,
+  two: AccountData,
+  three: AccountLogout,
+};
 </script>
 <template>
   <div class="account-actions">
@@ -31,6 +35,7 @@ const currentComponent = ref<"one" | "two" | "three">("one");
       Выйти
     </button>
   </div>
+  <component :is="tabs[currentComponent]" />
 </template>
 <style scoped lang="scss">
 .account-actions {
