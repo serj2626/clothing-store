@@ -46,7 +46,7 @@ const currentComponent = ref<"one" | "two" | "three">("one");
   &__btn {
     color: $white;
     padding: 15px 50px;
-    transition: all 0.3s ease-in;
+    transition: all 0.5s ease-in;
     background-color: #fff;
     color: $txt;
 
