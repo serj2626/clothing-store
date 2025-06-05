@@ -10,6 +10,14 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "nuxt-swiper",
   ],
+   icon: {
+    customCollections: [
+      {
+        prefix: 'social',
+        dir: './assets/icons/social'
+      },
+    ],
+  },
   // @ts-expect-error: Pinia config is added by @pinia/nuxt
   pinia: {
     storesDirs: ["./stores/**"],

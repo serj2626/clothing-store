@@ -15,6 +15,10 @@ const breadcrumbs = [
             <p class="contacts-page__content-list-social-title">
               В социальных сетях
             </p>
+            <span class="contacts-page__content-list-social-value">
+              <Icon name="social:insta" size="20" />
+              <Icon name="social:tg" size="20" />
+            </span>
           </div>
           <div class="contacts-page__content-list-phone">
             <p class="contacts-page__content-list-phone-title">По телефону</p>
@@ -53,6 +57,21 @@ const breadcrumbs = [
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 110px;
+
+      &-social {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        &-value {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          span{
+            cursor: pointer;
+          }
+        }
+      }
 
       &-phone {
         display: flex;

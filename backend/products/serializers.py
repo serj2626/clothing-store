@@ -7,7 +7,7 @@ from .models import (
     ProductVariant,
     ProductImage,
     ProductReview,
-    Wishlist,
+    Favorite,
     Brand,
 )
 
@@ -81,11 +81,11 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.reviews.count()
 
 
-class WishlistSerializer(serializers.ModelSerializer):
+class FavoriteSerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Wishlist
+        model = Favorite
         fields = ["id", "product"]
 
 

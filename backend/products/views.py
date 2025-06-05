@@ -10,11 +10,11 @@ from drf_spectacular.utils import extend_schema
 from common.utils import get_client_ip
 from .serializers import (
     CartSerializer,
-    WishlistSerializer,
+    FavoriteSerializer,
     ProductSerializer,
     CategorySerializer,
 )
-from .models import Cart, ProductLike, Wishlist, CartItem, Product, Category
+from .models import Cart, ProductLike, Favorite, CartItem, Product, Category
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
@@ -74,18 +74,18 @@ class ProductDetailView(generics.RetrieveAPIView):
 
 
 # ===== ИЗБРАННОЕ =====
-class WishlistView(APIView):
+class FavoriteView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        items = Wishlist.objects.filter(user=request.user)
-        data = WishlistSerializer(items, many=True).data
+        items = Favorite.objects.filter(user=request.user)
+        data = FavoriteSerializer(items, many=True).data
         return Response(data)
 
     def post(self, request):
         product_id = request.data.get("product_id")
         product = get_object_or_404(Product, id=product_id)
-        Wishlist.objects.get_or_create(user=request.user, product=product)
+        Favorite.objects.get_or_create(user=request.user, product=product)
         return Response({"status": "added"})
 
 

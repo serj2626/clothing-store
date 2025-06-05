@@ -257,14 +257,14 @@ class CompanyReply(BaseID, BaseDescription, BaseDate):
         return timesince(self.created_timestamp)
 
 
-class Wishlist(BaseDate):
+class Favorite(BaseDate):
     """
     Избранное
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
     product = models.ForeignKey(
-        "Product", on_delete=models.CASCADE, related_name="wishlisted_by"
+        "Product", on_delete=models.CASCADE, related_name="Favoriteed_by"
     )
 
     class Meta:

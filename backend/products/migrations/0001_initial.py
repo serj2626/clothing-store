@@ -427,7 +427,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="Wishlist",
+            name="Favorite",
             fields=[
                 (
                     "id",

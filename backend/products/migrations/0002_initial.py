@@ -129,20 +129,20 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AddField(
-            model_name="wishlist",
+            model_name="Favorite",
             name="product",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="wishlisted_by",
+                related_name="Favoriteed_by",
                 to="products.product",
             ),
         ),
         migrations.AddField(
-            model_name="wishlist",
+            model_name="Favorite",
             name="user",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="wishlist",
+                related_name="Favorite",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
@@ -163,7 +163,7 @@ class Migration(migrations.Migration):
             unique_together={("product", "color", "size")},
         ),
         migrations.AlterUniqueTogether(
-            name="wishlist",
+            name="Favorite",
             unique_together={("user", "product")},
         ),
     ]
