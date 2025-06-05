@@ -13,8 +13,9 @@ from .serializers import (
     FavoriteSerializer,
     ProductSerializer,
     CategorySerializer,
+    BrandSerializer,
 )
-from .models import Cart, ProductLike, Favorite, CartItem, Product, Category
+from .models import Cart, ProductLike, Favorite, CartItem, Product, Category, Brand
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
@@ -23,6 +24,15 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
+
+
+class BrandListView(generics.ListAPIView):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+    @extend_schema(tags=[TAG], summary="Список брендов")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class CategoryListView(generics.ListAPIView):

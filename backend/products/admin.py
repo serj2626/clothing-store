@@ -95,10 +95,10 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
 
     list_display = (
         "get_article",
+        "get_title",
         "brand",
         # "get_brand_name",
         # "get_country",
-        "title",
         "gender",
         "category",
         "price",
@@ -132,6 +132,9 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     def get_count_likes(self, obj):
         return obj.likes.count()
 
+    def get_title(self, obj):
+        return f"{obj.title[:20]}..."
+
     def get_count_reviews(self, obj):
         return obj.reviews.count() if obj.reviews else 0
 
@@ -144,6 +147,5 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     get_count_likes.short_description = "Лайки"
     get_count_reviews.short_description = "Отзывы"
     get_count.short_description = "Количество"
-    # get_brand_name.short_description = "Бренд"
-    # get_country.short_description = "Страна"
+    get_title.short_description = "Название"
     get_article.short_description = "Артикул"
