@@ -35,5 +35,6 @@ export const enum HeroIcons {
   USER_SOLID = "i-heroicons-solid-user",
   BASKET_SOLID = "i-heroicons-solid-shopping-bag",
   HEART_SOLID = "i-heroicons-solid-heart",
+  HEART = "i-heroicons-outline-heart",
   ARROW_RIGHT_SOLID = "i-heroicons-solid-chevron-double-right",
 }

@@ -49,12 +49,12 @@ const color = computed(() => {
               size="28"
             />
           </NuxtLink>
-
-          <Icon
-            class="header-component__wraper-actions-icon"
-            :name="HeroIcons.HEART_SOLID"
-            size="28"
-          />
+          <NuxtLink to="/favorite">
+            <Icon
+              class="header-component__wraper-actions-icon"
+              :name="HeroIcons.HEART_SOLID"
+              size="28"
+          /></NuxtLink>
           <Icon
             class="header-component__wraper-actions-icon"
             :name="HeroIcons.BASKET_SOLID"

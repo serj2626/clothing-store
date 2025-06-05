@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AccountHistoryOrders from './AccountHistoryOrders.vue';
-import AccountLogout from './AccountLogout.vue';
-import AccountData from './AccountData.vue';
+import AccountHistoryOrders from "./AccountHistoryOrders.vue";
+import AccountLogout from "./AccountLogout.vue";
+import AccountData from "./AccountData.vue";
 
 const currentComponent = ref<"one" | "two" | "three">("one");
 
@@ -35,7 +35,9 @@ const tabs = {
       Выйти
     </button>
   </div>
-  <component :is="tabs[currentComponent]" />
+<keep-alive>
+  <component :is="tabs[currentComponent]" :key="currentComponent" />
+</keep-alive>
 </template>
 <style scoped lang="scss">
 .account-actions {

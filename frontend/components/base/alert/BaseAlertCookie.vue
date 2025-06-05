@@ -14,7 +14,7 @@ function hideAlert() {
 <template>
   <div v-if="showAlert" class="alert-cookie container">
     <p class="alert-cookie__text">
-      AlfaSMS использует файлы cookie для улучшения взаимодействия с сайтом.
+      Наш магазин использует файлы cookie для улучшения взаимодействия с сайтом.
       Продолжая просмотр страниц сайта, вы соглашаетесь с использованием файлов
       cookie.
       <NuxtLink to="/cookies" class="alert-cookie__text-link">Подробнее</NuxtLink>
