@@ -1,5 +1,4 @@
 <script setup lang="ts"></script>
 <template>
-  <CatalogPage />
+  <AboutPage />
 </template>
-<style scoped lang="scss"></style>

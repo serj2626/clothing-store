@@ -2,12 +2,12 @@
 defineProps({
   html: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 </script>
 <template>
-  <div class="wysiwyg-component" v-if="html" v-html="html" />
+  <div v-if="html" class="wysiwyg-component" v-html="html" />
 </template>
 <style lang="scss" scoped>
 .wysiwyg-component {
@@ -49,7 +49,7 @@ defineProps({
     li {
       counter-increment: num 1;
       &::before {
-        content: counter(num) '. ';
+        content: counter(num) ". ";
       }
 
       ol {
@@ -58,12 +58,12 @@ defineProps({
         li {
           counter-increment: num2 1;
           &::before {
-            content: counter(num) '.' counter(num2) '. ';
+            content: counter(num) "." counter(num2) ". ";
           }
 
           ul {
             li {
-              list-style-type: '— ';
+              list-style-type: "— ";
               list-style-position: inside;
               &::before {
                 content: none;

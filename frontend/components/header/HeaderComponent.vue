@@ -26,7 +26,7 @@ const color = computed(() => {
               to="/catalog"
               >Каталог</NuxtLink
             >
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/about"
               >О нас</NuxtLink
             >
             <NuxtLink
