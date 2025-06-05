@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 <template>
-    <AccountActions />
+  <AccountActions />
+  <!-- <AccountData /> -->
+  <AccountLogout />
 </template>
 <style scoped lang="scss"></style>
