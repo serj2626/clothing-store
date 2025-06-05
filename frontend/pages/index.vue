@@ -4,6 +4,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
 <template>
   <div class="home-page">
     <section class="home-page__hero">
+      <div class="home-page__hero-overlay" />
       <div class="home-page__hero-block">
         <h2 class="home-page__hero-block-title">Новая коллекция</h2>
         <div class="home-page__hero-block-separator" />
@@ -50,25 +51,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       </div>
     </section>
 
-    <section class="home-page__subscribe">
-      <div class="container">
-        <h2 class="home-page__subscribe-title">Узнайте первым о новинках</h2>
-        <form action="" class="home-page__subscribe-form">
-          <input
-            class="home-page__subscribe-form-input"
-            type="email"
-            placeholder="Введите ваш email"
-          />
-          <button class="home-page__subscribe-form-btn" type="submit">
-            Подписаться
-          </button>
-          <p class="home-page__subscribe-form-text">
-            Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих
-            персональных данных и ознакомлен(а) с условиями конфиденциальности.
-          </p>
-        </form>
-      </div>
-    </section>
+    <BaseFormSubscribe />
   </div>
 </template>
 
@@ -81,11 +64,20 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
     background-image: url("/public/store.jpg");
     background-size: cover;
     background-position: center;
-    filter: contrast(0.5);
+    box-shadow: 0 10px 30px 20px rgba(0, 0, 0, 0.376);
 
+    &-overlay {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
     &-block {
       position: absolute;
-      z-index: 150;
+      z-index: 2;
       top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -145,58 +137,6 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
           color: #fff;
           background-color: #e0bea2c1;
         }
-      }
-    }
-  }
-
-  &__subscribe {
-    margin-block: 100px 50px;
-
-    &-title {
-      text-align: center;
-      color: #252525;
-      font-size: 36px;
-      font-weight: 300;
-      margin-bottom: 50px;
-    }
-
-    &-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      max-width: 600px;
-      width: 100%;
-      margin: 0 auto;
-
-      &-input {
-        padding-block: 16px;
-        border-radius: 5px;
-        border: 1px solid #252525;
-        color: #252525;
-        opacity: 0.5;
-        width: 100%;
-
-        &::placeholder {
-          text-align: center;
-        }
-      }
-
-      &-btn {
-        padding-block: 16px;
-        border-radius: 5px;
-        border: none;
-        background-color: #e0bea2;
-        color: #fff;
-        cursor: pointer;
-        width: 100%;
-      }
-
-      &-text {
-        text-align: center;
-        font-size: 16px;
-        color: #252525;
-        font-weight: 200;
       }
     }
   }

@@ -41,23 +41,23 @@
   color: $color;
 }
 
-@mixin link() {
-  color: $txt_footer_link;
-  transition: color $fast_ease;
+// @mixin link() {
+//   color: $txt_footer_link;
+//   transition: color $fast_ease;
 
-  &:hover {
-    color: $teal;
-  }
-}
+//   &:hover {
+//     color: teal;
+//   }
+// }
 
-@mixin header_link {
-  transition: all $fast_ease;
-  font-size: 15px;
+// @mixin header_link {
+//   transition: all $fast_ease;
+//   font-size: 15px;
 
-  &:hover {
-    opacity: 0.7;
-  }
-}
+//   &:hover {
+//     opacity: 0.7;
+//   }
+// }
 
 @mixin btn_close_form {
   position: absolute;
@@ -68,7 +68,7 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: all $fast_ease;
+  // transition: all $fast_ease;
   color: $bg_footer;
 
   &:active {

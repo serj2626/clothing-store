@@ -34,7 +34,7 @@ defineProps<IButton>();
   user-select: none;
   border-radius: $btn_radius;
   border: 1px solid transparent;
-  transition: all $fast_ease;
+  // transition: all $fast_ease;
   width: fit-content;
 
   cursor: pointer;
@@ -47,25 +47,25 @@ defineProps<IButton>();
   }
 
   &__red {
-    background-color: $btn_red;
-    color: $txt_white;
+    background-color: $error;
+    color: $white;
     box-shadow: 0 0 10px rgb(255, 252, 252);
   }
   &__green {
-    background-color: $btn_green;
-    color: $txt_white;
+    background-color: green;
+    color: $white;
   }
   &__teal {
-    background-color: $teal;
-    color: $txt_white;
+    background-color: teal;
+    color: $white;
   }
   &__gray {
     background-color: rgba(255, 255, 255, 0.12);
-    color: $txt_white;
+    color: $white;
   }
   &__blue {
     background-color: blue;
-    color: $txt_white;
+    color: $white;
   }
   &__white {
     background-color: white;

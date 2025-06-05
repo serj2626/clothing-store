@@ -4,6 +4,7 @@
     <slot />
     <FooterComponent />
     <BaseButtonScrollToTop />
+    <BaseAlertCookie />
   </div>
 
   <!-- <FooterComponent />

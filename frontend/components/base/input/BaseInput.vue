@@ -90,7 +90,7 @@ const currentType = computed(() => {
     transition: outline $desctop_wide;
 
     &:focus {
-      outline: 1px solid $btn_green;
+      outline: 1px solid green;
     }
 
     // &_error {

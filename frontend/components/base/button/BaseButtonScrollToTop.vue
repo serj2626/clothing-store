@@ -35,12 +35,12 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: $accept;
+  background-color: $accent;
   color: $white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  // box-shadow: 0 0 15px $teal;
+  // box-shadow: 0 0 15px teal;
   transition: all 0.3s ease;
   z-index: 100;
   animation: scaleBtn 0.5s linear;

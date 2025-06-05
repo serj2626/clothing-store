@@ -22,7 +22,7 @@ function hideAlert() {
     <BaseButton
       class="alert-cookie__btn"
       size="md"
-      color="green"
+      color="blue"
       label="Понятно"
       @click="hideAlert"
     />
@@ -44,7 +44,7 @@ function hideAlert() {
 
   padding: 15px;
   border-radius: 10px;
-  background-color: $txt_white;
+  background-color: $white;
   box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.46);
 
   @include mediaTablet{
@@ -61,7 +61,7 @@ function hideAlert() {
   }
 
   &__text-link {
-    color: $teal;
+    color: $txt;
   }
 
   &:deep(.base-button){

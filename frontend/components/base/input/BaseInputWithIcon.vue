@@ -100,7 +100,7 @@ const currentType = computed(() => {
     transition: all $default_ease;
 
     &:focus {
-      outline: 1px solid $btn_green;
+      outline: 1px solid green;
       border-radius: 5px;
     }
 
@@ -120,7 +120,7 @@ const currentType = computed(() => {
     justify-content: center;
     padding: 8px 12px;
     outline: 1px solid #d6e3e3;
-    transition: scale $fast_ease;
+    // transition: scale $fast_ease;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     

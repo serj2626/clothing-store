@@ -187,7 +187,7 @@ function submitRegisterForm() {
 .base-form-register {
   margin: 75px auto;
 
-  background-color: $txt_white;
+  background-color: $white;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   max-width: 600px;
@@ -307,7 +307,7 @@ function submitRegisterForm() {
           left: 50%;
           font-size: 12px;
           transform: translate(-50%, -50%);
-          background-color: $txt_white;
+          background-color: $white;
           padding: 0 5px;
 
           @include mediaMobile {
@@ -350,7 +350,7 @@ function submitRegisterForm() {
         }
 
         &-link {
-          color: $teal;
+          color: teal;
           cursor: pointer;
         }
       }

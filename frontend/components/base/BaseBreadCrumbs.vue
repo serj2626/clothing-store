@@ -10,22 +10,22 @@ defineProps<{
 </script>
 <template>
   <div class="base-bread">
-      <ul class="base-bread__links">
-        <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
-        <NuxtLink
-          v-for="(link, indx) in breadcrumbs"
-          :key="indx"
-          :to="link.url"
-          class="base-bread__links-item"
-        >
-          {{ link.title }}
-        </NuxtLink>
-      </ul>
+    <ul class="base-bread__links">
+      <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
+      <NuxtLink
+        v-for="(link, indx) in breadcrumbs"
+        :key="indx"
+        :to="link.url"
+        class="base-bread__links-item"
+      >
+        {{ link.title }}
+      </NuxtLink>
+    </ul>
   </div>
 </template>
 <style scoped lang="scss">
 .base-bread {
-  padding-top: 50px;
+  margin-top: 100px;
   &__links {
     display: none;
     gap: 10px;
@@ -41,21 +41,23 @@ defineProps<{
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: #ffffff81;
+      background-color: #6058583d;
     }
     &-item {
       cursor: pointer;
-      color: $white;
+      color: $txt;
       display: inline-block;
       &:not(:last-child)::after {
-        content: "/";
-        padding: 0 5px;
+        content: ">";
+        cursor: none;
+        margin-left: 10px;
+        color: #dca273;
       }
 
       &:last-child {
         pointer-events: none;
-        color: $accent;
-        opacity: 0.8;
+        color: $txt;
+        opacity: 0.7;
         cursor: default;
       }
     }

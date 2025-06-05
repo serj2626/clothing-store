@@ -9,7 +9,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $accept;
+    background-color: $accent;
     border-radius: 60px;
   }
 
@@ -21,7 +21,7 @@
 body {
   font-family: "Raleway", $ff_main, $ff_second, sans-serif;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 125%;
   background-color: white;
   color: $txt;

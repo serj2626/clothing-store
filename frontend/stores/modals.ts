@@ -2,6 +2,8 @@ export type ModalItem =
   | "register"
   | "feedback"
   | "login"
+
+  
   | "reviewDetail"
   | "reviewForm"
   | "success"

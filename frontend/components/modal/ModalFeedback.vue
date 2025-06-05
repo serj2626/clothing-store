@@ -168,7 +168,7 @@ const submitForm = () => {
 
   &__wraper {
     position: relative;
-    color: $txt_white;
+    color: $white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -208,7 +208,7 @@ const submitForm = () => {
 
       &:deep(.base-input) {
         width: 100%;
-        color: $txt_white;
+        color: $white;
         justify-content: center;
 
         &:focus {
@@ -218,7 +218,7 @@ const submitForm = () => {
 
       &:deep(.base-input__placeholder) {
         width: 100%;
-        color: $txt_white;
+        color: $white;
       }
 
       &:deep(.base-input__input) {
@@ -278,7 +278,7 @@ const submitForm = () => {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: $teal;
+        background-color: teal;
         border-radius: 50%;
         width: 90px;
         height: 90px;
@@ -305,14 +305,14 @@ const submitForm = () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: $txt_white;
+          background-color: $white;
           border-radius: 50%;
           transform: scale(0);
           transition: transform $default_ease;
         }
 
         &:hover {
-          color: $teal;
+          color: teal;
         }
 
         &:hover::before {
@@ -323,7 +323,7 @@ const submitForm = () => {
 
     &-close {
       @include btn_close_form;
-      color: $txt_white;
+      color: $white;
     }
   }
 }

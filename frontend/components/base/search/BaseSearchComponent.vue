@@ -29,7 +29,7 @@ import { HeroIcons } from '~/assets/icons/types/hero-icons';
   left: -85px;
   transform: translateX(-68%);
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.158);
-  background-color: $txt_white;
+  background-color: $white;
   border-radius: 10px;
 
   @include modal_arrow(600px, -3px);

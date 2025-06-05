@@ -17,7 +17,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.158);
   min-width: 330px;
-  background-color: $txt_white;
+  background-color: $white;
 
   &__wraper {
     position: relative;
@@ -31,7 +31,7 @@
       transform: translateX(-50%) rotate(45deg);
       width: 20px;
       height: 20px;
-      background-color: $txt_white;
+      background-color: $white;
       box-shadow: 0 0 20px rgb(240, 241, 241);
     }
   }

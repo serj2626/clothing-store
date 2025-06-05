@@ -79,7 +79,7 @@ onUnmounted(() => {
     transform: all 0.3s ease-in-out;
 
     &_open {
-      border-color: $teal;
+      border-color: teal;
     }
 
     &-text {
@@ -121,8 +121,8 @@ onUnmounted(() => {
     }
 
     &:hover {
-      background-color: $teal;
-      color: $txt_white;
+      background-color: teal;
+      color: $white;
     }
   }
 }

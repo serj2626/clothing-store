@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+const route = useRoute();
 const color = computed(() => {
-  if (useRoute().name === "index") {
-    return "#fff";
-  }
-  return "#e0bea2;";
+  return route.name === "index" ? "#fff" : "#252525";
 });
+
 </script>
 <template>
   <div class="header-component">
@@ -23,13 +22,15 @@ const color = computed(() => {
             <NuxtLink class="header-component__wraper-nav-list-link" to="/"
               >Главная</NuxtLink
             >
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/catalog"
+            <NuxtLink
+              class="header-component__wraper-nav-list-link"
+              to="/catalog"
               >Каталог</NuxtLink
             >
             <NuxtLink class="header-component__wraper-nav-list-link" to="/"
               >О нас</NuxtLink
             >
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
+            <NuxtLink class="header-component__wraper-nav-list-link" to="/contacts"
               >Контакты</NuxtLink
             >
           </ul>
@@ -81,6 +82,7 @@ const color = computed(() => {
   background-color: transparent;
   width: 100%;
   padding-block: 25px;
+  // background-color: rgba(255, 0, 0, 0.487);
 
   &__wraper {
     display: flex;
@@ -93,7 +95,9 @@ const color = computed(() => {
         display: flex;
         gap: 30px;
         align-items: center;
-        color: v-bind(color) !important;
+        &-link {
+          color: v-bind(color) !important;
+        }
       }
     }
 

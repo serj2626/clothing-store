@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
   border-radius: 10px;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.158);
   min-width: 330px;
-  background-color: $txt_white;
+  background-color: $white;
 
   &__wraper {
     position: relative;

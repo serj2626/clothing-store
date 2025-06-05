@@ -102,8 +102,8 @@ function clearFile() {
     &-check {
       display: flex;
       align-items: center;
-      background-color: $btn_green;
-      color: $txt_white;
+      background-color: green;
+      color: $white;
     }
   }
 
