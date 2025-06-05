@@ -4,7 +4,6 @@ const route = useRoute();
 const color = computed(() => {
   return route.name === "index" ? "#fff" : "#252525";
 });
-
 </script>
 <template>
   <div class="header-component">
@@ -30,7 +29,9 @@ const color = computed(() => {
             <NuxtLink class="header-component__wraper-nav-list-link" to="/"
               >О нас</NuxtLink
             >
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/contacts"
+            <NuxtLink
+              class="header-component__wraper-nav-list-link"
+              to="/contacts"
               >Контакты</NuxtLink
             >
           </ul>
@@ -41,11 +42,14 @@ const color = computed(() => {
             :name="HeroIcons.SEARCH_SOLID"
             size="28"
           />
-          <Icon
-            class="header-component__wraper-actions-icon"
-            :name="HeroIcons.USER_SOLID"
-            size="28"
-          />
+          <NuxtLink to="/account">
+            <Icon
+              class="header-component__wraper-actions-icon"
+              :name="HeroIcons.USER_SOLID"
+              size="28"
+            />
+          </NuxtLink>
+
           <Icon
             class="header-component__wraper-actions-icon"
             :name="HeroIcons.HEART_SOLID"

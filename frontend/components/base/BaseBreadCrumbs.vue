@@ -34,15 +34,15 @@ defineProps<{
     @include mediaMobile {
       display: flex;
     }
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: #6058583d;
-    }
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: -10px;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 1px;
+    //   background-color: #6058583d;
+    // }
     &-item {
       cursor: pointer;
       color: $txt;
