@@ -1,5 +1,12 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+import { api } from "~/api";
+const { $api } = useNuxtApp();
+
+const { data: categoriesList } = await useAsyncData(
+  "home-page-list-categories",
+  () => $api(api.category.list)
+);
 </script>
 
 <template>

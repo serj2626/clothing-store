@@ -1,4 +1,12 @@
 <script lang="ts" setup>
+import { api } from "~/api";
+const { $api } = useNuxtApp();
+
+interface IAboutInfo {
+  title: string;
+  content: string;
+}
+
 const breadcrumbs = [
   { title: "Главная", url: "/" },
   { title: "О компании", url: "/about" },
@@ -374,24 +382,16 @@ const html = `<p>
     7.2. Для&nbsp;реализации своих прав и&nbsp;законных интересов субъекты персональных данных имеют право обратиться к&nbsp;Оператору либо&nbsp;направить запрос лично или&nbsp;с&nbsp;помощью представителя. Запрос должен содержать сведения, указанные в&nbsp;ч.&nbsp;3&nbsp;ст.&nbsp;14&nbsp;ФЗ&nbsp;«О&nbsp;персональных данных».
 </p></p>`;
 
-// const { $api } = useNuxtApp();
-// import { api } from "~/api";
-
-// interface IAboutInfo {
-//   title: string;
-//   content: string;
-// }
-
-// const { data: aboutInfo } = await useAsyncData<IAboutInfo>(
-//   "about-page-info",
-//   () => $api(api.legal.aboutcompany)
-// );
+const { data: aboutInfo } = await useAsyncData<IAboutInfo>(
+  "about-page-info",
+  () => $api(api.legal.aboutcompany)
+);
 </script>
 <template>
   <div class="about-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs />
-      <BaseWysiwyg v-if="html" :html="html" />
+      <BaseWysiwyg v-if="aboutInfo?.content" :html="aboutInfo?.content" />
     </div>
   </div>
 </template>

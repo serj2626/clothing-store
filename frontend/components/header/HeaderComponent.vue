@@ -60,20 +60,20 @@ watch(
           <NuxtLink to="/account">
             <Icon
               class="header-component__wraper-actions-icon"
-              :name="HeroIcons.USER_SOLID"
+              :name="HeroIcons.user"
               size="28"
             />
           </NuxtLink>
           <NuxtLink to="/favorite">
             <Icon
               class="header-component__wraper-actions-icon"
-              :name="HeroIcons.HEART_SOLID"
+              :name="HeroIcons.heart"
               size="28"
           /></NuxtLink>
           <NuxtLink to="/basket">
             <Icon
               class="header-component__wraper-actions-icon"
-              :name="HeroIcons.BASKET_SOLID"
+              :name="HeroIcons.basket"
               size="28"
             />
           </NuxtLink>

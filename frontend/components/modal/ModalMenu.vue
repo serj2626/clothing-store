@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HeroIcons } from '~/assets/icons/types/hero-icons';
+import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
 const modalsStore = useModalsStore();
 const closeMenu = ref(false);
@@ -11,40 +11,64 @@ interface IModalMenu {
 }
 
 const menuModalLinks: IModalMenu[] = [
-  { title: "Главная", url: "/", icon: "i-heroicons-home" },
-  { title: "Каталог", url: "/catalog", icon: "i-heroicons-squares-2x2" },
-  { title: "О нас", url: "/about", icon: "i-heroicons-information-circle" },
-  { title: "Контакты", url: "/contacts", icon: "i-heroicons-phone" },
-  { title: "Личный кабинет", url: "/account", icon: "i-heroicons-user" },
-  { title: "Избранное", url: "/favorite", icon: "i-heroicons-heart" },
-  { title: "Корзина", url: "/basket", icon: "i-heroicons-shopping-cart" },
+  { title: "Главная", url: "/", icon: HeroIcons.home },
+  { title: "Каталог", url: "/catalog", icon: HeroIcons.catalog },
+  { title: "О нас", url: "/about", icon: HeroIcons.about },
+  { title: "Контакты", url: "/contacts", icon: HeroIcons.PHONE },
+  { title: "Личный кабинет", url: "/account", icon: HeroIcons.user },
+  { title: "Избранное", url: "/favorite", icon: HeroIcons.heart },
+  { title: "Корзина", url: "/basket", icon: HeroIcons.basket },
 ];
+
+// Обработчик клавиши ESC
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === "Escape" && !closeMenu.value) {
+    closeMenuHandler();
+  }
+};
+
+// Вешаем обработчик при монтировании
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+});
+
+// Удаляем при демонтировании
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
 
 const goToLink = (link: string) => {
   closeMenu.value = true;
   setTimeout(() => {
     navigateTo(link);
     modalsStore.closeModal("menu");
-  }, 500);
+  }, 300);
 };
 
 const closeMenuHandler = () => {
+  if (closeMenu.value) return;
+
   closeMenu.value = true;
   setTimeout(() => {
     modalsStore.closeModal("menu");
-  }, 500);
+  }, 300);
 };
 </script>
 
 <template>
   <Teleport to="body">
-    <div class="modal-menu__overlay" @click.self="closeMenuHandler()">
+    <div
+      class="modal-menu__overlay"
+      :class="{ 'modal-menu__overlay--closing': closeMenu }"
+      @click.self="closeMenuHandler()"
+    >
       <div class="modal-menu" :class="{ 'modal-menu--closing': closeMenu }">
         <div class="modal-menu__header">
           <div class="modal-menu__header-logo">ClothCrash</div>
           <button
             class="modal-menu__header-close"
             @click="closeMenuHandler()"
+            aria-label="Закрыть меню"
           >
             <Icon :size="30" :name="HeroIcons.CLOSE" />
           </button>
@@ -62,8 +86,8 @@ const closeMenuHandler = () => {
                 class="modal-menu__link"
                 @click="goToLink(link.url)"
               >
-                <span v-if="link.icon" class="link-icon" :class="link.icon"
-                  ><Icon :size="20" :name="link.icon" />
+                <span v-if="link.icon" class="link-icon">
+                  <Icon :size="20" :name="link.icon" />
                 </span>
                 <span class="link-text">{{ link.title }}</span>
                 <span class="link-arrow">→</span>
@@ -93,7 +117,12 @@ const closeMenuHandler = () => {
   backdrop-filter: blur(5px);
   z-index: 110;
   display: flex;
-  animation: fadeIn 0.3s ease forwards;
+  // animation: fadeIn 0.3s ease forwards;
+
+  &--closing {
+    // animation: fadeOut 0.3s ease forwards;
+    pointer-events: none;
+  }
 }
 
 .modal-menu {
@@ -104,14 +133,16 @@ const closeMenuHandler = () => {
   height: 100vh;
   padding: 30px;
   box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   display: flex;
   flex-direction: column;
   color: #fff;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
+  will-change: transform, opacity;
 
   &--closing {
-    animation: slideOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    pointer-events: none;
   }
 
   &__header {
@@ -258,29 +289,6 @@ const closeMenuHandler = () => {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.4);
   }
-
-  .close-icon {
-    width: 20px;
-    height: 20px;
-    position: relative;
-
-    span {
-      position: absolute;
-      height: 2px;
-      width: 100%;
-      background: #fff;
-      top: 50%;
-      left: 0;
-
-      &:first-child {
-        transform: rotate(45deg);
-      }
-
-      &:last-child {
-        transform: rotate(-45deg);
-      }
-    }
-  }
 }
 
 @keyframes slideIn {
@@ -313,6 +321,17 @@ const closeMenuHandler = () => {
   to {
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0);
   }
 }
 </style>
