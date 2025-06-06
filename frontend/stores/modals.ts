@@ -2,6 +2,7 @@ export type ModalItem =
   | "register"
   | "feedback"
   | "login"
+  | "menu"
 
   
   | "reviewDetail"

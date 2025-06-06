@@ -5,6 +5,7 @@
     <FooterComponent />
     <BaseButtonScrollToTop />
     <BaseAlertCookie />
+    <ModalComponent />
   </div>
 </template>
 <style lang="scss">

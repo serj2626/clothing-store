@@ -10,6 +10,7 @@ from drf_spectacular.utils import extend_schema
 from common.utils import get_client_ip
 from .serializers import (
     CartSerializer,
+    CategoryDetailSerializer,
     FavoriteSerializer,
     ProductSerializer,
     CategorySerializer,
@@ -43,6 +44,16 @@ class CategoryListView(generics.ListAPIView):
         return super().get_queryset().filter(parent__isnull=True)
 
     @extend_schema(tags=[TAG], summary="Список категорий")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+class CategoryDetailView(generics.RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryDetailSerializer
+    lookup_field = "slug"
+
+    @extend_schema(tags=[TAG], summary="Детальные подробности категории")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 

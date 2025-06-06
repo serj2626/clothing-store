@@ -4,10 +4,16 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-
+from .sitemaps import StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    # 'reviews': ReviewSitemap,
+}
 
 
 urlpatterns = [

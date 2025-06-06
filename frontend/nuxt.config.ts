@@ -3,13 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   css: ["@/assets/scss/global.scss"],
-  modules: [
-    "@pinia/nuxt",
-    "@nuxt/eslint",
-    "@nuxt/icon",
-    "@nuxt/image",
-    "nuxt-swiper",
-  ],
+  modules: ["@pinia/nuxt", "@nuxt/eslint", "@nuxt/icon", "@nuxt/image", "nuxt-swiper", "@nuxtjs/robots"],
    icon: {
     customCollections: [
       {

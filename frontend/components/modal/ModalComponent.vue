@@ -12,6 +12,7 @@
       /> -->
       <LazyModalFeedback v-if="activeModals.has('feedback')" key="chat" />
       <LazyModalSuccess v-if="activeModals.has('success')" key="success" />
+      <LazyModalMenu v-if="activeModals.has('menu')" key="menu" />
     </div>
   </transition>
 </template>

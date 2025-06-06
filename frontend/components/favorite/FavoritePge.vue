@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { products } from "~/assets/data/products.data";
+
 const breadcrumbs = [
   { title: "Главная", url: "/" },
   { title: "Избранное", url: "/favorite" },
@@ -12,40 +14,14 @@ const breadcrumbs = [
         <h2 class="favorite-page__content-title">Избранное</h2>
         <div class="favorite-page__content-list">
           <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
-          />
-          <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
-          />
-          <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
-          />
-          <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
-          />
-          <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
-          />
-          <ProductsCard
-            title="Белая куртка"
-            price="2900 грн"
-            sizes="vsadadad"
-            colors="asdsadsad"
+            v-for="product in products"
+            :id="product.id"
+            :key="product.id"
+            :title="product.title"
+            :price="product.price"
+            :sizes="product.sizes"
+            :colors="product.colors"
+            :image="product.image"
           />
         </div>
       </div>

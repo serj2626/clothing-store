@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
+from django.contrib.sitemaps import Sitemap
+# from .models import Article
 
 
 def validate_image_extension(value):
@@ -55,3 +57,26 @@ class SEO(models.Model):
         verbose_name = "SEO"
         verbose_name_plural = "SEO"
         ordering = ["slug"]
+
+
+class RobotsTxt(models.Model):
+    content = models.TextField("Содержимое robots.txt")
+    is_active = models.BooleanField("Активен", default=True)
+
+    class Meta:
+        verbose_name = "robots.txt"
+        verbose_name_plural = "robots.txt"
+
+    def __str__(self):
+        return "robots.txt (активный)" if self.is_active else "robots.txt (неактивный)"
+
+
+# class ArticleSitemap(Sitemap):
+#     changefreq = "weekly"
+#     priority = 0.8
+
+#     def items(self):
+#         return Article.objects.filter(published=True)
+
+#     def lastmod(self, obj):
+#         return obj.updated_at

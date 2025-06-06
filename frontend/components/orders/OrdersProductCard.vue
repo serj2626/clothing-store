@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import { HeroIcons } from "~/assets/icons/types/hero-icons";
-</script>
+<script setup lang="ts"></script>
 <template>
   <div class="orders-product-card">
     <div class="orders-product-card__product">
@@ -17,7 +15,8 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
         <p class="orders-product-card__product-info-title">Кремовое пальто</p>
       </div>
     </div>
-    <div class="orders-product-card__color"></div>
+    <ProductsColor color="black" />
+    <ProductsColor color="#e0bea2" />
     <select class="orders-product-card__size">
       <option value="S">S</option>
       <option value="M">M</option>
@@ -77,14 +76,6 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
     padding: 15px 30px;
     border-radius: 5px;
     border: 1px solid $accent;
-  }
-  &__color {
-    width: 30px;
-    aspect-ratio: 1/1;
-    background-color: #f1ddaa;
-    border-radius: 50%;
-    outline: 1px solid $white;
-    outline-offset: -5px;
   }
   &__price {
     display: flex;

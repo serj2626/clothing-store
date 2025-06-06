@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+const modalsStore = useModalsStore();
 const route = useRoute();
 const color = computed(() => {
   return route.name === "index" ? "#fff" : "#252525";
@@ -20,7 +21,10 @@ watch(
   <div class="header-component">
     <div class="container">
       <div class="header-component__wraper">
-        <button class="header-component__wraper-logo">
+        <button
+          class="header-component__wraper-logo"
+          @click="modalsStore.openModal('menu')"
+        >
           <Icon
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"

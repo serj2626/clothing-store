@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SEO
+from .models import SEO, RobotsTxt
 
 @admin.register(SEO)
 class SEOAdmin(admin.ModelAdmin):
@@ -16,3 +16,8 @@ class SEOAdmin(admin.ModelAdmin):
         #     "fields": ("twitter_title", "twitter_description", "twitter_image")
         # }),
     )
+
+
+@admin.register(RobotsTxt)
+class RobotsTxtAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "is_active")

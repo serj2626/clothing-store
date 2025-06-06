@@ -9,7 +9,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       <div class="home-page__hero-block">
         <h2 class="home-page__hero-block-title">Новая коллекция</h2>
         <div class="home-page__hero-block-separator" />
-        <NuxtLink class="home-page__hero-block-link" to="/">
+        <NuxtLink class="home-page__hero-block-link" to="/news">
           <div class="hero-link-content">
             <span>Смотреть Новинки</span>
             <Icon :name="HeroIcons.ARROW_RIGHT_SOLID" size="22" />

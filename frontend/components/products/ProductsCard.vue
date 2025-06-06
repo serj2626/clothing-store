@@ -2,6 +2,7 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
 defineProps<{
+  id: number;
   title: string;
   price: string;
   sizes: string;
@@ -10,34 +11,36 @@ defineProps<{
 }>();
 </script>
 <template>
-  <article class="products-card">
-    <div class="products-card__image">
-      <button class="products-card__image-icon">
-        <Icon :name="HeroIcons.HEART" size="24" />
-      </button>
-      <NuxtImg
-        v-if="!image"
-        format="webp"
-        loading="lazy"
-        class="products-card__image-item"
-        src="favorites/one.png"
-      />
-      <NuxtImg
-        v-else
-        format="webp"
-        loading="lazy"
-        class="products-card__image-item"
-        :src="image"
-      />
-    </div>
+  <NuxtLink class="products-card" :to="`/products/${id}`">
+    <article >
+      <div class="products-card__image">
+        <button class="products-card__image-icon">
+          <Icon :name="HeroIcons.HEART" size="24" />
+        </button>
+        <NuxtImg
+          v-if="!image"
+          format="webp"
+          loading="lazy"
+          class="products-card__image-item"
+          src="favorites/one.png"
+        />
+        <NuxtImg
+          v-else
+          format="webp"
+          loading="lazy"
+          class="products-card__image-item"
+          :src="image"
+        />
+      </div>
 
-    <div class="products-card__info">
-      <div class="products-card__info-title">{{ title }}</div>
-      <div class="products-card__info-price">{{ price }}</div>
-      <div class="products-card__info-sizes">{{ sizes }}</div>
-      <div class="products-card__info-colors">{{ colors }}</div>
-    </div>
-  </article>
+      <div class="products-card__info">
+        <div class="products-card__info-title">{{ title }}</div>
+        <div class="products-card__info-price">{{ price }}</div>
+        <div class="products-card__info-sizes">{{ sizes }}</div>
+        <div class="products-card__info-colors">{{ colors }}</div>
+      </div>
+    </article>
+  </NuxtLink>
 </template>
 <style scoped lang="scss">
 .products-card {
