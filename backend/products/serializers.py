@@ -12,24 +12,71 @@ from .models import (
 )
 
 
+class RecursiveSerializer(serializers.Serializer):
+    """Сериализатор для рекурсивного вывода детей"""
+
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
+class CategoryListSerializer(serializers.ModelSerializer):
+    children = RecursiveSerializer(many=True, read_only=True)
+    # image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ("id", "name", "slug", "image", "children", "is_active")
+
+    # def get_image(self, obj):
+    #     if obj.image:
+    #         return {
+    #             "original": obj.image.url,
+    #             "webp": (
+    #                 obj.image_webp.url
+    #                 if hasattr(obj, "image_webp") and obj.image_webp
+    #                 else None
+    #             ),
+    #         }
+    #     return None
+
+
+class CategoryDetailSerializer(CategoryListSerializer):
+    """Для детального просмотра, если нужно больше полей"""
+
+    parent = serializers.SerializerMethodField()
+
+    class Meta(CategoryListSerializer.Meta):
+        fields = CategoryListSerializer.Meta.fields + ("parent",)
+
+    def get_parent(self, obj):
+        if obj.parent:
+            return {
+                "id": obj.parent.id,
+                "name": obj.parent.name,
+                "slug": obj.parent.slug,
+            }
+        return None
+
+
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = "__all__"
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ("name", "slug", "image")
+# class CategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Category
+#         fields = ("name", "slug", "image")
 
 
-class CategoryDetailSerializer(CategorySerializer):
-    children = CategorySerializer(many=True, read_only=True)
+# class CategoryDetailSerializer(CategorySerializer):
+#     children = CategorySerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Category
-        fields = ("id", "name", "slug", "children")
+#     class Meta:
+#         model = Category
+#         fields = ("id", "name", "slug", "children")
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):

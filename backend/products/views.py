@@ -6,14 +6,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
-
+from django.db.models import Q
 from common.utils import get_client_ip
 from .serializers import (
     CartSerializer,
     CategoryDetailSerializer,
+    CategoryListSerializer,
     FavoriteSerializer,
     ProductSerializer,
-    CategorySerializer,
     BrandSerializer,
 )
 from .models import Cart, ProductLike, Favorite, CartItem, Product, Category, Brand
@@ -37,26 +37,19 @@ class BrandListView(generics.ListAPIView):
 
 
 class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
+    """Список всех категорий с древовидной структурой"""
+    serializer_class = CategoryListSerializer
+    
     def get_queryset(self):
-        return super().get_queryset().filter(parent__isnull=True)
-
-    @extend_schema(tags=[TAG], summary="Список категорий")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
+        return Category.objects.filter(
+            Q(parent__isnull=True) & Q(is_active=True)
+        ).prefetch_related('children')
 
 class CategoryDetailView(generics.RetrieveAPIView):
+    """Детальная информация о категории"""
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
-    lookup_field = "slug"
-
-    @extend_schema(tags=[TAG], summary="Детальные подробности категории")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
+    lookup_field = 'slug'
 
 @extend_schema(tags=[TAG], summary="Поставить лайк товару")
 @api_view(["POST"])

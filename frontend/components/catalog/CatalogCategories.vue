@@ -1,36 +1,22 @@
 <script setup lang="ts">
-const categories = [
-  { title: "Каталог", slug: "catalog" },
-  { title: "New", slug: "new" },
-  { title: "Bestsellers", slug: "bestsellers" },
-  { title: "Верхняя одежда", slug: "outerwear" },
-  { title: "Шубы", slug: "fur-coats" },
-  { title: "Тренчи", slug: "trench-coats" },
-  { title: "Пальто", slug: "coats" },
-  { title: "Пуховики и жилеты", slug: "down-jackets" },
-  { title: "Костюмы", slug: "suits" },
-  { title: "Жакеты", slug: "jackets" },
-  { title: "Платья", slug: "dresses" },
-  { title: "Рубашки и блузы", slug: "shirts-blouses" },
-  { title: "Юбки", slug: "skirts" },
-  { title: "Футболки и топы", slug: "tshirts-tops" },
-  { title: "Аксессуары", slug: "accessories" },
-  { title: "Sale", slug: "sale" },
-  { title: "Summer", slug: "summer" },
-  { title: "Посмотреть всё", slug: "all" },
-];
+import { api } from "~/api";
+import type { ICategoryResponse } from "~/types";
+const { $api } = useNuxtApp();
+
+const { data: allCategories } = await useAsyncData<ICategoryResponse[]>(
+  "catalog-page-list-categories",
+  () => $api(api.category.list)
+);
 </script>
 <template>
   <div class="catalog-categories">
     <p class="catalog-categories__title">Категории</p>
     <ul class="catalog-categories__list">
-      <NuxtLink
-        v-for="category in categories"
-        :key="category.slug"
-        class="catalog-categories__list-item"
-      >
-        {{ category.title }}
-      </NuxtLink>
+      <li v-for="category in allCategories" :key="category.slug">
+        <NuxtLink class="catalog-categories__list-item">
+          {{ category.name }}
+        </NuxtLink>
+      </li>
     </ul>
   </div>
 </template>
