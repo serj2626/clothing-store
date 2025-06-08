@@ -97,27 +97,29 @@ const closeMenuHandler = () => {
         </nav>
 
         <div class="modal-menu__footer">
-          <div class="modal-menu__footer-social-links">
-            <a href="#" class="modal-menu__footer-social-links-link"
-              >Instagram</a
-            >
-            <a href="#" class="modal-menu__footer-social-links-link"
-              >Telegram</a
-            >
-            <a href="#" class="modal-menu__footer-social-links-link">VK</a>
-          </div>
           <div class="modal-menu__footer-data">
+            <div class="modal-menu__footer-data-social-links">
+              <a href="#" class="modal-menu__footer-data-social-links-link"
+                >Instagram</a
+              >
+              <a href="#" class="modal-menu__footer-data-social-links-link"
+                >Telegram</a
+              >
+              <a href="#" class="modal-menu__footer-data-social-links-link"
+                >VK</a
+              >
+            </div>
             <div class="modal-menu__footer-data-copyright">
               © 2025 Все права защищены
             </div>
-            <div class="modal-menu__footer-data-actions">
-              <button class="modal-menu__footer-data-actions-login">
-                <Icon :name="HeroIcons.user" :size="26" />
-              </button>
-              <button class="modal-menu__footer-data-actions-color">
-                <Icon :name="HeroIcons.NIGHT" :size="26" />
-              </button>
-            </div>
+          </div>
+          <div class="modal-menu__footer-actions">
+            <button class="modal-menu__footer-actions-login">
+              <Icon :name="HeroIcons.user" :size="26" />
+            </button>
+            <button class="modal-menu__footer-actions-color">
+              <Icon :name="HeroIcons.NIGHT" :size="26" />
+            </button>
           </div>
         </div>
       </div>
@@ -263,56 +265,55 @@ const closeMenuHandler = () => {
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    &-social-links {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
-      text-decoration: none;
-      transition: color 0.3s ease;
+    align-items: end;
+    justify-content: space-between;
+    &-actions {
       display: flex;
+      align-items: center;
       gap: 10px;
 
-      &-link {
-        color: $white;
-      }
+      &-login,
+      &-color {
+        padding: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.8s ease;
 
-      &:hover {
-        color: #e0bea2;
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
       }
     }
     &-data {
       display: flex;
-      align-items: end;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 15px;
       &-copyright {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.4);
       }
-      &-actions {
+      &-social-links {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 14px;
+        text-decoration: none;
+        transition: color 0.3s ease;
         display: flex;
-        align-items: center;
         gap: 10px;
 
-        &-login,
-        &-color {
-          padding: 10px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: none;
-          cursor: pointer;
-          padding: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.8s ease;
+        &-link {
+          color: $white;
+        }
 
-          &:hover {
-            background: rgba(255, 255, 255, 0.2);
-          }
+        &:hover {
+          color: #e0bea2;
         }
       }
     }
