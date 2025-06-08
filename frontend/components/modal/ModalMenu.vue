@@ -182,6 +182,7 @@ const closeMenuHandler = () => {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      padding: 10px;
       background: rgba(255, 255, 255, 0.1);
       border: none;
       cursor: pointer;
@@ -265,7 +266,7 @@ const closeMenuHandler = () => {
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
     &-actions {
       display: flex;
@@ -295,7 +296,7 @@ const closeMenuHandler = () => {
     &-data {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       &-copyright {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.4);
