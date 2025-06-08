@@ -11,6 +11,7 @@ from .models import (
 )
 from mptt.admin import DraggableMPTTAdmin
 from django.db.models import Sum
+from django.utils.safestring import mark_safe
 
 
 @admin.register(Brand)
@@ -80,10 +81,20 @@ class CategoryAdmin(DraggableMPTTAdmin):
         "indented_title",  # название с отступом
         "slug",
         "is_active",
+        "get_image",
     )
     list_display_links = ("indented_title",)  # по клику на название — редактирование
     prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
+
+    def get_image(self, obj):
+        if obj.image and obj.parent is None:
+            return mark_safe(
+                f'<img src="{obj.image.url}" style="border-radius: 50%;" width="50" height="50">'
+            )
+        return "---"
+
+    get_image.short_description = "Фото"
 
 @admin.register(Product)
 class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
