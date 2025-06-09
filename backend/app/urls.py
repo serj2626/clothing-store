@@ -4,16 +4,9 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from .sitemaps import StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-
-
-sitemaps = {
-    "static": StaticViewSitemap,
-    # 'reviews': ReviewSitemap,
-}
 
 
 urlpatterns = [
@@ -35,6 +28,7 @@ urlpatterns = [
     path("api/v1/legal/", include("legal.urls")),
     path("api/v1/contacts/", include("contacts.urls")),
     path("api/v1/orders/", include("orders.urls")),
+    path("api/v1/seo/", include("seo_config.urls")),
 ]
 
 if settings.DEBUG:

@@ -38,18 +38,30 @@ class BrandListView(generics.ListAPIView):
 
 class CategoryListView(generics.ListAPIView):
     """Список всех категорий с древовидной структурой"""
+
     serializer_class = CategoryListSerializer
-    
+
     def get_queryset(self):
         return Category.objects.filter(
             Q(parent__isnull=True) & Q(is_active=True)
-        ).prefetch_related('children')
+        ).prefetch_related("children")
+
+    @extend_schema(tags=['Категории'], summary="Список категорий")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class CategoryDetailView(generics.RetrieveAPIView):
     """Детальная информация о категории"""
+
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
-    lookup_field = 'slug'
+    lookup_field = "slug"
+
+    @extend_schema(tags=['Категории'], summary="Детали категории")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 @extend_schema(tags=[TAG], summary="Поставить лайк товару")
 @api_view(["POST"])

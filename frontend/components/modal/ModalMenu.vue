@@ -114,7 +114,10 @@ const closeMenuHandler = () => {
             </div>
           </div>
           <div class="modal-menu__footer-actions">
-            <button class="modal-menu__footer-actions-login">
+            <button
+              class="modal-menu__footer-actions-login"
+              @click="goToLink('/auth')"
+            >
               <Icon :name="HeroIcons.user" :size="26" />
             </button>
             <button class="modal-menu__footer-actions-color">
@@ -135,10 +138,8 @@ const closeMenuHandler = () => {
   backdrop-filter: blur(5px);
   z-index: 110;
   display: flex;
-  // animation: fadeIn 0.3s ease forwards;
 
   &--closing {
-    // animation: fadeOut 0.3s ease forwards;
     pointer-events: none;
   }
 }
@@ -359,28 +360,6 @@ const closeMenuHandler = () => {
   to {
     transform: translateX(-100%);
     opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0);
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0);
   }
 }
 </style>

@@ -3,6 +3,7 @@ from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
 from common.validators import validate_image_extension_and_format
 from common.upload_to import dynamic_upload_to
 import stripe
+from django.urls import reverse
 from common.utils import get_client_ip
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
@@ -88,9 +89,7 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         return self.name
 
     def get_absolute_url(self):
-        from django.urls import reverse
-
-        return reverse("products:category", kwargs={"slug": self.slug})
+        return reverse("category_detail", kwargs={"slug": self.slug})
 
 
 class Product(BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin):
@@ -130,14 +129,12 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin):
     )
     is_active = models.BooleanField("Активен", default=True)
 
+    def get_absolute_url(self):
+        return reverse("product_detail", kwargs={"pk": self.pk})
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
-
-    # def save(self, *args, **kwargs):
-    #     if self.avatar:
-    #         self.avatar = compress_image(self.avatar)
-    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

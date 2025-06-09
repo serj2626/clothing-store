@@ -118,6 +118,9 @@ watch(
         align-items: center;
         &-link {
           color: v-bind(color) !important;
+          &:hover {
+            color: $accent;
+          }
         }
       }
     }

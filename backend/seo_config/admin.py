@@ -65,7 +65,7 @@ class SEOAdmin(admin.ModelAdmin):
 @admin.register(RobotsTxt)
 class RobotsTXTAdmin(admin.ModelAdmin):
     list_display = ("link",)
-    fields = ("text",)
+    fields = ("content",)
 
     def link(self, obj):
         return "Редактировать файл"

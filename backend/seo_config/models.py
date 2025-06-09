@@ -1,10 +1,13 @@
 from django.db import models
 import os
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
 from django.contrib.sitemaps import Sitemap
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 # from .models import Article
 
 
@@ -130,6 +133,37 @@ class RobotsTxt(models.Model):
 
     def __str__(self):
         return "robots.txt (активный)" if self.is_active else "robots.txt (неактивный)"
+
+
+class SitemapItem(models.Model):
+    """
+    Модель для элементов карты сайта
+    """
+
+    loc = models.URLField("URL страницы", max_length=2048)
+    lastmod = models.DateTimeField("Дата последнего изменения", default=timezone.now)
+    changefreq = models.CharField(
+        "Частота изменений",
+        max_length=10,
+        choices=SEO.ChangeFrequency.choices,
+        default=SEO.ChangeFrequency.WEEKLY,
+    )
+    priority = models.DecimalField(
+        "Приоритет",
+        max_digits=2,
+        decimal_places=1,
+        default=0.5,
+        validators=[MinValueValidator(0.1), MaxValueValidator(1.0)],
+    )
+    is_active = models.BooleanField("Активен", default=True)
+
+    class Meta:
+        verbose_name = "Элемент карты сайта"
+        verbose_name_plural = "Элементы карты сайта"
+        ordering = ["-priority"]
+
+    def __str__(self):
+        return f"Sitemap: {self.loc}"
 
 
 # class ArticleSitemap(Sitemap):

@@ -6,7 +6,6 @@ interface User {
   id: string
   name: string
   email: string
-  // добавьте другие поля по необходимости
 }
 
 export const useAuthStore = defineStore('auth', () => {
