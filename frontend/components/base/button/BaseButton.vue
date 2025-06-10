@@ -1,31 +1,28 @@
 <script lang="ts" setup>
-interface IButton {
-  size: 'xs' | 'sm' | 'md' | 'lg';
-  color?: 'red' | 'green' | 'gray' | 'blue' | 'white' | 'teal'
-  view?: 'outline' | 'fill';
+interface IBaseButton {
+  size?: "xs" | "sm" | "md" | "lg";
+  color?: string;
   label: string;
-  icon?: string;
   disabled?: boolean;
 }
 
-defineProps<IButton>();
+const { color = "blue", size = "md", label } = defineProps<IBaseButton>();
 </script>
 
 <template>
-  <div
+  <button
+    :label="label"
     :class="[
       'base-button',
       `base-button__${color}`,
       `base-button__${size}`,
       { 'base-button-fill_disabled': disabled },
     ]"
-  >
-    <Icon v-if="icon" :name="icon" />
-    <span class="base-button-fill__title">{{ label }}</span>
-  </div>
+  />
 </template>
 <style scoped lang="scss">
 .base-button {
+  background-color: v-bind(color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,34 +43,6 @@ defineProps<IButton>();
     scale: 0.96;
   }
 
-  &__red {
-    background-color: $error;
-    color: $white;
-    box-shadow: 0 0 10px rgb(255, 252, 252);
-  }
-  &__green {
-    background-color: green;
-    color: $white;
-  }
-  &__teal {
-    background-color: teal;
-    color: $white;
-  }
-  &__gray {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: $white;
-  }
-  &__blue {
-    background-color: blue;
-    color: $white;
-  }
-  &__white {
-    background-color: white;
-    color: #5c6a70;
-    border: 1px solid #5c6a704f;
-    box-shadow: 0 5px 12px rgba(69, 80, 84, 0.317);
-  }
-
   &__xs {
     padding: 6px 9px;
   }
@@ -89,10 +58,5 @@ defineProps<IButton>();
   &__lg {
     padding: 16px 28px;
   }
-}
-
-.iconify {
-  width: 40px;
-  aspect-ratio: 1;
 }
 </style>

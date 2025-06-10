@@ -3,21 +3,35 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   css: ["@/assets/scss/global.scss"],
-  modules: ["@pinia/nuxt", "@nuxt/eslint", "@nuxt/icon", "@nuxt/image", "nuxt-swiper", "@nuxtjs/robots"],
-   icon: {
+  modules: [
+    "@pinia/nuxt",
+    "@nuxt/eslint",
+    "@nuxt/icon",
+    "@nuxt/image",
+    "nuxt-swiper",
+    "@nuxtjs/robots",
+    "vue-yandex-maps/nuxt",
+  ],
+  icon: {
     customCollections: [
       {
-        prefix: 'social',
-        dir: './assets/icons/social'
+        prefix: "social",
+        dir: "./assets/icons/social",
       },
-       {
-        prefix: 'actions',
-        dir: './assets/icons/actions'
+      {
+        prefix: "actions",
+        dir: "./assets/icons/actions",
       },
     ],
   },
   pinia: {
     storesDirs: ["./stores/**"],
+  },
+  yandexMaps: {
+    apikey: process.env.YANDEX_MAP_API_KEY,
+    initializeOn: "onComponentMount",
+    strictMode: true,
+    lang: "ru_RU",
   },
   app: {
     head: {

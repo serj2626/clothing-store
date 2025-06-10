@@ -1,19 +1,19 @@
-interface Product {
+export interface IBaseProduct {
   id: number;
   title: string;
   price: string;
   sizes: string;
-  colors: string;
+  colors: string[];
   image?: string;
 }
 
-export const products: Product[] = [
+export const products: IBaseProduct[] = [
   {
     id: 1,
     title: "Футболка Oversize",
     price: "1 990 ₽",
     sizes: "S / M / L",
-    colors: "Черный, Белый",
+    colors: ["blue", "yellow", 'white'],
     image: "favorites/one.png",
   },
   {
@@ -21,7 +21,7 @@ export const products: Product[] = [
     title: "Худи Утепленное",
     price: "3 200 ₽",
     sizes: "M / L / XL",
-    colors: "Серый, Синий",
+    colors: ["red", "orange"],
     image: "favorites/two.png",
   },
   {
@@ -29,7 +29,7 @@ export const products: Product[] = [
     title: "Куртка демисезон",
     price: "4 800 ₽",
     sizes: "M / L / XL",
-    colors: "Оливковый",
+    colors: ["teal", "pink"],
     image: "favorites/three.png",
   },
   {
@@ -37,7 +37,7 @@ export const products: Product[] = [
     title: "Бейсболка Classic",
     price: "990 ₽",
     sizes: "One size",
-    colors: "Черный",
+    colors: ["rose", "gray"],
     image: "favorites/one.png",
   },
   {
@@ -45,7 +45,7 @@ export const products: Product[] = [
     title: "Шорты спортивные",
     price: "1 590 ₽",
     sizes: "S / M / L",
-    colors: "Серый, Черный",
+    colors: ["white", "silver"],
     image: "favorites/two.png",
   },
   {
@@ -53,7 +53,7 @@ export const products: Product[] = [
     title: "Футболка с принтом",
     price: "2 200 ₽",
     sizes: "M / L / XL",
-    colors: "Белый",
+    colors: ["orange", "violet"],
     image: "favorites/three.png",
   },
   {
@@ -61,7 +61,7 @@ export const products: Product[] = [
     title: "Брюки карго",
     price: "3 100 ₽",
     sizes: "M / L / XL",
-    colors: "Бежевый, Зеленый",
+    colors: ["black", "green"],
     image: "favorites/one.png",
   },
   {
@@ -69,7 +69,7 @@ export const products: Product[] = [
     title: "Лонгслив Basic",
     price: "2 000 ₽",
     sizes: "S / M / L / XL",
-    colors: "Белый, Черный",
+    colors: ["gold", "red"],
     image: "favorites/two.png",
   },
   {
@@ -77,7 +77,7 @@ export const products: Product[] = [
     title: "Пуховик зимний",
     price: "6 900 ₽",
     sizes: "L / XL",
-    colors: "Черный",
+    colors: ["pink", "darkblue"],
     image: "favorites/three.png",
   },
   {
@@ -85,7 +85,7 @@ export const products: Product[] = [
     title: "Рубашка в клетку",
     price: "2 400 ₽",
     sizes: "M / L / XL",
-    colors: "Красный, Черный",
+    colors: ["darkblue", "magenta"],
     image: "favorites/one.png",
   },
   {
@@ -93,7 +93,7 @@ export const products: Product[] = [
     title: "Топ женский",
     price: "1 300 ₽",
     sizes: "XS / S / M",
-    colors: "Белый, Пудровый",
+    colors: ["violet", "zinc"],
     image: "favorites/two.png",
   },
   {
@@ -101,7 +101,7 @@ export const products: Product[] = [
     title: "Платье летнее",
     price: "2 800 ₽",
     sizes: "S / M / L",
-    colors: "Цветочный принт",
+    colors: ["red", "teal"],
     image: "favorites/three.png",
   },
   {
@@ -109,7 +109,7 @@ export const products: Product[] = [
     title: "Юбка мини",
     price: "1 700 ₽",
     sizes: "S / M",
-    colors: "Черный",
+    colors: ["jade", "navy"],
     image: "favorites/one.png",
   },
   {
@@ -117,7 +117,7 @@ export const products: Product[] = [
     title: "Кроссовки белые",
     price: "5 400 ₽",
     sizes: "36-44",
-    colors: "Белый",
+    colors: ["black", "yellow"],
     image: "favorites/two.png",
   },
   {
@@ -125,7 +125,7 @@ export const products: Product[] = [
     title: "Свитер вязаный",
     price: "3 500 ₽",
     sizes: "M / L / XL",
-    colors: "Бежевый",
+    colors: ["black", "yellow"],
     image: "favorites/three.png",
   },
   {
@@ -133,7 +133,7 @@ export const products: Product[] = [
     title: "Джинсы прямые",
     price: "3 300 ₽",
     sizes: "30 / 32 / 34",
-    colors: "Синий",
+    colors: ["black", "yellow"],
     image: "favorites/one.png",
   },
   {
@@ -141,7 +141,7 @@ export const products: Product[] = [
     title: "Ветровка легкая",
     price: "2 900 ₽",
     sizes: "M / L / XL",
-    colors: "Зеленый",
+    colors: ["black", "yellow"],
     image: "favorites/two.png",
   },
   {
@@ -149,7 +149,7 @@ export const products: Product[] = [
     title: "Тренч классический",
     price: "4 700 ₽",
     sizes: "S / M / L",
-    colors: "Бежевый",
+    colors: ["emerald", "yellow"],
     image: "favorites/three.png",
   },
   {
@@ -157,7 +157,7 @@ export const products: Product[] = [
     title: "Майка однотонная",
     price: "890 ₽",
     sizes: "XS / S / M",
-    colors: "Черный, Белый",
+    colors: ["black", "yellow"],
     image: "favorites/one.png",
   },
   {
@@ -165,7 +165,7 @@ export const products: Product[] = [
     title: "Штаны спортивные",
     price: "2 300 ₽",
     sizes: "S / M / L",
-    colors: "Черный, Серый",
+    colors: ["emerald", "yellow"],
     image: "favorites/two.png",
   },
   {
@@ -173,7 +173,7 @@ export const products: Product[] = [
     title: "Жилетка утепленная",
     price: "3 800 ₽",
     sizes: "M / L / XL",
-    colors: "Черный",
+    colors: ["black", "yellow"],
     image: "favorites/three.png",
   },
   {
@@ -181,7 +181,7 @@ export const products: Product[] = [
     title: "Кроссовки кежуал",
     price: "4 200 ₽",
     sizes: "36-44",
-    colors: "Серый",
+    colors: ["emerald", "lightblue"],
     image: "favorites/one.png",
   },
   {
@@ -189,7 +189,7 @@ export const products: Product[] = [
     title: "Шапка вязаная",
     price: "700 ₽",
     sizes: "One size",
-    colors: "Серый, Черный",
+    colors: ["silver", "yellow"],
     image: "favorites/two.png",
   },
   {
@@ -197,7 +197,7 @@ export const products: Product[] = [
     title: "Пальто двубортное",
     price: "5 900 ₽",
     sizes: "S / M / L",
-    colors: "Графитовый",
+    colors: ["pink", "violet"],
     image: "favorites/three.png",
   },
   {
@@ -205,7 +205,7 @@ export const products: Product[] = [
     title: "Спортивный костюм",
     price: "4 600 ₽",
     sizes: "M / L / XL",
-    colors: "Серый",
+    colors: ["lightblue", "orange"],
     image: "favorites/one.png",
   },
   {
@@ -213,7 +213,7 @@ export const products: Product[] = [
     title: "Ремень кожаный",
     price: "1 100 ₽",
     sizes: "M / L / XL",
-    colors: "Коричневый",
+    colors: ["black", "khaki"],
     image: "favorites/two.png",
   },
   {
@@ -221,7 +221,7 @@ export const products: Product[] = [
     title: "Очки солнцезащитные",
     price: "1 500 ₽",
     sizes: "One size",
-    colors: "Черный",
+    colors: ["lightblue", "yellow"],
     image: "favorites/three.png",
   },
   {
@@ -229,7 +229,7 @@ export const products: Product[] = [
     title: "Кепка хлопковая",
     price: "900 ₽",
     sizes: "One size",
-    colors: "Синий, Бежевый",
+    colors: ["darkgreen", "khaki"],
     image: "favorites/one.png",
   },
   {
@@ -237,7 +237,7 @@ export const products: Product[] = [
     title: "Рюкзак городской",
     price: "2 600 ₽",
     sizes: "20L",
-    colors: "Черный",
+    colors: ["navajowhite", "mistyrose"],
     image: "favorites/two.png",
   },
   {
@@ -245,7 +245,7 @@ export const products: Product[] = [
     title: "Пижама хлопковая",
     price: "2 200 ₽",
     sizes: "S / M / L",
-    colors: "Белый, Синий",
+    colors: ["green", "fuchsia"],
     image: "favorites/three.png",
   },
 ];

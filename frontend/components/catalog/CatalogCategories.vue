@@ -12,30 +12,31 @@ const { data: allCategories } = await useAsyncData<ICategoryResponse[]>(
 const currentCategoryId = ref<string | null>(null);
 
 const toggleCategory = (categoryId: string) => {
-  currentCategoryId.value = currentCategoryId.value === categoryId ? null : categoryId;
+  currentCategoryId.value =
+    currentCategoryId.value === categoryId ? null : categoryId;
 };
 </script>
 
 <template>
   <aside class="catalog-nav">
     <h2 class="catalog-nav__title">Категории</h2>
-    
+
     <ul class="catalog-nav__list">
-      <li 
-        v-for="category in allCategories" 
+      <li
+        v-for="category in allCategories"
         :key="category.id"
         class="catalog-nav__item"
         :class="{
           'catalog-nav__item--opened': currentCategoryId === category.id,
-          'catalog-nav__item--has-children': category.children?.length
+          'catalog-nav__item--has-children': category.children?.length,
         }"
       >
         <div class="catalog-nav__parent" @click="toggleCategory(category.id)">
           <NuxtLink class="catalog-nav__link">
             {{ category.name }}
           </NuxtLink>
-          
-          <button 
+
+          <button
             v-if="category.children?.length"
             class="catalog-nav__toggle"
             aria-label="Toggle subcategories"
@@ -49,11 +50,11 @@ const toggleCategory = (categoryId: string) => {
         </div>
 
         <Transition name="catalog-nav">
-          <ul 
+          <ul
             v-if="category.children && currentCategoryId === category.id"
             class="catalog-nav__sublist"
           >
-            <li 
+            <li
               v-for="child in category.children"
               :key="child.id"
               class="catalog-nav__subitem"
@@ -82,7 +83,7 @@ const toggleCategory = (categoryId: string) => {
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0 0 1.5rem;
-    color: var(--color-text);
+    color: $txt;
   }
 
   &__list {
@@ -98,10 +99,12 @@ const toggleCategory = (categoryId: string) => {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-
-    &--opened &__toggle-icon {
-      transform: rotate(180deg);
+    padding: 5px 10px;
+    border-radius: $btn_radius;
+    &:hover{
+      background-color: rgb(238, 235, 235);;
     }
+
   }
 
   &__parent {
@@ -127,7 +130,6 @@ const toggleCategory = (categoryId: string) => {
         width: 100%;
       }
     }
-
   }
 
   &__toggle {
@@ -161,6 +163,11 @@ const toggleCategory = (categoryId: string) => {
 
   &__subitem {
     display: flex;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    &:hover {
+      color: $accent-dark;
+    }
   }
 
   &__sublink {
@@ -169,23 +176,23 @@ const toggleCategory = (categoryId: string) => {
     font-size: 0.9rem;
     padding: 0.25rem 0;
     transition: color 0.2s ease;
-
+    cursor: pointer;
     &:hover {
-      color: var(--color-accent);
+      color: $accent-dark;
     }
   }
 }
 
 .catalog-nav-enter-active,
 .catalog-nav-leave-active {
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
   overflow: hidden;
 }
 
 .catalog-nav-enter-from,
 .catalog-nav-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-20px);
   max-height: 0;
 }
 

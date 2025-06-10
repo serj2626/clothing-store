@@ -62,12 +62,39 @@ class SEOAdmin(admin.ModelAdmin):
     lastmod_pretty.short_description = "Обновлено"
 
 
+# @admin.register(RobotsTxt)
+# class RobotsTXTAdmin(admin.ModelAdmin):
+#     list_display = ("link",)
+#     fields = ("content",)
+
+#     def link(self, obj):
+#         return "Редактировать файл"
+
+#     link.short_description = "Переход к файлу"
+
+
+from django.utils.safestring import mark_safe
+
+
 @admin.register(RobotsTxt)
-class RobotsTXTAdmin(admin.ModelAdmin):
-    list_display = ("link",)
-    fields = ("content",)
+class RobotsTxtAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "is_active", "preview_link")
+    readonly_fields = ("preview",)
+    fieldsets = (
+        (None, {
+            "fields": ("content", "is_active", "preview")
+        }),
+    )
 
-    def link(self, obj):
-        return "Редактировать файл"
+    def preview(self, obj):
+        if not obj.pk:
+            return "Сначала сохраните файл, чтобы просмотреть."
+        url = "/robots.txt"
+        return mark_safe(f'<iframe src="{url}" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>')
 
-    link.short_description = "Переход к файлу"
+    preview.short_description = "Предпросмотр robots.txt"
+
+    def preview_link(self, obj):
+        return mark_safe(f'<a href="/robots.txt" target="_blank">Открыть</a>')
+
+    preview_link.short_description = "Просмотр"

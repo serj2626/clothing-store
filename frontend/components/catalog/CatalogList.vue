@@ -3,14 +3,14 @@ import { products } from '~/assets/data/products.data';
 </script>
 <template>
   <div class="catalog-list">
-    <ProductsCard
+    <ProductCard
       v-for="product in products"
       :id="product.id"
       :key="product.id"
       :title="product.title"
       :price="product.price"
       :sizes="product.sizes"
-      :colors="product.colors"
+      :colors="product.colors || []"
       :image="product.image"
     />
   </div>

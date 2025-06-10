@@ -8,8 +8,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
+from seo_config.views import robots_txt_view
+
 
 urlpatterns = [
+    path("robots.txt", robots_txt_view, name="robots_txt"),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("admin/", admin.site.urls),
     path("api/v1/schema/", SpectacularAPIView.as_view(), name="schema"),

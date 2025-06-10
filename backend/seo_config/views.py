@@ -1,20 +1,13 @@
-import datetime
 from rest_framework.generics import RetrieveAPIView
 from .serializers import SEOSerializer, RobotsTxtSerializer, SitemapItemSerializer
 from drf_spectacular.utils import extend_schema
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
-from .models import RobotsTxt
-from rest_framework import viewsets, generics
-from products.models import Product, Category
-from django.contrib.sitemaps import Sitemap
-from rest_framework import viewsets
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from .models import SEO, RobotsTxt, SitemapItem
-from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.openapi import OpenApiResponse
+from django.template.loader import render_to_string
+
 
 TAG = "Настройки SEO и Конфигурация"
 
@@ -25,8 +18,14 @@ def robots_txt_view(request):
     return HttpResponse(content, content_type="text/plain")
 
 
+@extend_schema(tags=[TAG], summary="Получение списка SEO")
+class SEOListView(generics.ListAPIView):
+    queryset = SEO.objects.all()
+    serializer_class = SEOSerializer
+
+
 @extend_schema(tags=[TAG], summary="Получение SEO")
-class SEOView(RetrieveAPIView):
+class SEODetailView(RetrieveAPIView):
     queryset = SEO.objects.all()
     serializer_class = SEOSerializer
     lookup_field = "slug"
@@ -50,6 +49,18 @@ class RobotsTxtViewSet(generics.ListAPIView):
             return Response(serializer.data)
         # Возвращаем дефолтный robots.txt, если нет активного
         return Response({"content": "User-agent: *\nDisallow:", "is_active": True})
+
+
+def sitemap_xml(request):
+    seo_items = SEO.objects.all()
+    xml = render_to_string(
+        "seo/sitemap.xml",
+        {
+            "items": seo_items,
+            "request": request,
+        },
+    )
+    return HttpResponse(xml, content_type="application/xml")
 
 
 class SitemapViewSet(generics.ListAPIView):

@@ -1,9 +1,8 @@
 from django.urls import path
 
-from .views import SEOView, robots_txt_view
+from .views import SEODetailView, sitemap_xml, SEOListView
 
-from django.urls import path, re_path
-from django.contrib.sitemaps.views import sitemap
+from django.urls import path
 
 # from configs.views import robots_txt, StaticSitemap, PortfolioSitemap, SpecialistSitemap, SubServiceSitemap, \
 #     ServiceSitemap, SEOAPIView, BlogSitemap
@@ -21,6 +20,7 @@ from django.contrib.sitemaps.views import sitemap
 
 
 urlpatterns = [
-    path("<slug:slug>/", SEOView.as_view(), name="seo-detail"),
-    path("robots.txt", robots_txt_view, name="robots_txt"),
+    path("", SEOListView.as_view(), name="seo_list"),
+    path("<slug:slug>/", SEODetailView.as_view(), name="seo_detail"),
+    path("sitemap.xml", sitemap_xml, name="sitemap-xml"),
 ]

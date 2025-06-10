@@ -3,7 +3,7 @@
     <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>
-  <!-- <BaseSeoMeta /> -->
+  <BaseSeoMeta />
 </template>
 <style>
 .page-enter-active,

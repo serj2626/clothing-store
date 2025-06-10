@@ -1,18 +1,12 @@
 <script setup lang="ts">
+import type { IBaseProduct } from "~/assets/data/products.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
-defineProps<{
-  id: number;
-  title: string;
-  price: string;
-  sizes: string;
-  colors: string;
-  image?: string;
-}>();
+defineProps<IBaseProduct>();
 </script>
 <template>
-  <NuxtLink class="products-card" :to="`/products/${id}`">
-    <article >
+  <NuxtLink :to="`/products/${id}`">
+    <article class="products-card">
       <div class="products-card__image">
         <button class="products-card__image-icon">
           <Icon :name="HeroIcons.HEART" size="24" />
@@ -37,7 +31,9 @@ defineProps<{
         <div class="products-card__info-title">{{ title }}</div>
         <div class="products-card__info-price">{{ price }}</div>
         <div class="products-card__info-sizes">{{ sizes }}</div>
-        <div class="products-card__info-colors">{{ colors }}</div>
+        <div class="products-card__info-colors">
+          <ProductColor v-for="color in colors" :key="color" :color="color" />
+        </div>
       </div>
     </article>
   </NuxtLink>
@@ -52,9 +48,18 @@ defineProps<{
     align-items: center;
     &-price {
       font-weight: 700;
+      color: $txt;
     }
     &-sizes {
       opacity: 0.5;
+    }
+    &-title {
+      color: $txt;
+    }
+    &-colors {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   }
 
