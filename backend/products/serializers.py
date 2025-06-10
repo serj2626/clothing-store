@@ -80,11 +80,11 @@ class BrandSerializer(serializers.ModelSerializer):
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
-    color = serializers.CharField(source="get_color_display")
+    color_name = serializers.CharField(source="get_color_display")
 
     class Meta:
         model = ProductVariant
-        fields = ("color", "size", "quantity")
+        fields = ("color", "color_name", "size", "quantity")
 
 
 class ProductImageSerializer(serializers.ModelSerializer):

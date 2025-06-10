@@ -17,6 +17,7 @@ interface IbrandProduct {
 
 interface IProductVariant {
   color: string;
+  color_name: string;
   size: string;
   quantity: number;
 }
