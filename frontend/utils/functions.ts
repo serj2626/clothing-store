@@ -29,3 +29,11 @@ export const getVideo = (videoUrl: string | undefined) => {
 export const getMedia = (mediaContentUrl: string) => {
   return [useRuntimeConfig().public.media_url, mediaContentUrl].join('')
 }
+
+export const formatNumber = (num: number): string => {
+  return num.toLocaleString("ru-RU");
+};
+
+export const formatNumberCustom = (num: number, separator = " "): string => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+};

@@ -15,6 +15,7 @@ defineProps<{ products: IproductsResponse[] }>();
       :count_likes="product.count_likes"
       :count_reviews="product.count_reviews"
       :is_active="product.is_active"
+      :currency="product.currency"
     />
   </div>
 

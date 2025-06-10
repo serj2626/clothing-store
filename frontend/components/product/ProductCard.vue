@@ -29,7 +29,9 @@ defineProps<IproductsResponse>();
 
       <div class="products-card__info">
         <div class="products-card__info-title">{{ title }}</div>
-        <div class="products-card__info-price">{{ price }}</div>
+        <div class="products-card__info-price">
+          {{ formatNumberCustom(+price) }} {{ currency }}
+        </div>
         <div class="products-card__info-sizes">{{ variants }}</div>
         <!-- <div class="products-card__info-colors">
           <ProductColor v-for="color in colors" :key="color" :color="color" />
@@ -40,6 +42,9 @@ defineProps<IproductsResponse>();
 </template>
 <style scoped lang="scss">
 .products-card {
+  overflow: hidden;
+  border-radius: $btn_radius;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   &__info {
     padding-top: 15px;
     display: flex;
@@ -64,6 +69,7 @@ defineProps<IproductsResponse>();
   }
 
   &__image {
+    overflow: hidden;
     position: relative;
     width: 100%;
     height: 400px;
