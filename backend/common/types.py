@@ -34,9 +34,9 @@ CONTACTS_TYPE = [
 ]
 
 CURRENCY_TYPE = [
-    ("RUB", "RUB"),
-    ("USD", "USD"),
-    ("EUR", "EUR"),
+    ("RUB", "руб"),
+    ("USD", "доллар"),
+    ("EUR", "евро"),
 ]
 
 COLORS_TYPE = [
