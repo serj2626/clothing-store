@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { IBaseProduct } from "~/assets/data/products.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-
-defineProps<IBaseProduct>();
+import type { IproductsResponse } from "~/types";
+defineProps<IproductsResponse>();
 </script>
 <template>
   <NuxtLink :to="`/products/${id}`">
@@ -12,7 +11,7 @@ defineProps<IBaseProduct>();
           <Icon :name="HeroIcons.HEART" size="24" />
         </button>
         <NuxtImg
-          v-if="!image"
+          v-if="!avatar"
           format="webp"
           loading="lazy"
           class="products-card__image-item"
@@ -23,17 +22,18 @@ defineProps<IBaseProduct>();
           format="webp"
           loading="lazy"
           class="products-card__image-item"
-          :src="image"
+          :src="avatar"
+          :alt="title"
         />
       </div>
 
       <div class="products-card__info">
         <div class="products-card__info-title">{{ title }}</div>
         <div class="products-card__info-price">{{ price }}</div>
-        <div class="products-card__info-sizes">{{ sizes }}</div>
-        <div class="products-card__info-colors">
+        <div class="products-card__info-sizes">{{ variants }}</div>
+        <!-- <div class="products-card__info-colors">
           <ProductColor v-for="color in colors" :key="color" :color="color" />
-        </div>
+        </div> -->
       </div>
     </article>
   </NuxtLink>

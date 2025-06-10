@@ -2,13 +2,14 @@
 import AccountHistoryOrders from "./AccountHistoryOrders.vue";
 import AccountLogout from "./AccountLogout.vue";
 import AccountData from "./AccountData.vue";
-
-const currentComponent = ref<"one" | "two" | "three">("one");
+import AccountFeedback from "./AccountFeedback.vue";
+const currentComponent = ref<"one" | "two" | "three" | "four">("one");
 
 const tabs = {
   one: AccountHistoryOrders,
   two: AccountData,
-  three: AccountLogout,
+  three: AccountFeedback,
+  four: AccountLogout,
 };
 </script>
 <template>
@@ -32,12 +33,21 @@ const tabs = {
       :class="{ 'account-actions__btn_active': currentComponent === 'three' }"
       @click="currentComponent = 'three'"
     >
+      Обратная связь
+    </button>
+    <button
+      class="account-actions__btn"
+      :class="{ 'account-actions__btn_active': currentComponent === 'four' }"
+      @click="currentComponent = 'four'"
+    >
       Выйти
     </button>
   </div>
-<keep-alive>
-  <component :is="tabs[currentComponent]" :key="currentComponent" />
-</keep-alive>
+  <Transition name="fade" mode="out-in">
+    <keep-alive>
+      <component :is="tabs[currentComponent]" :key="currentComponent" />
+    </keep-alive>
+  </Transition>
 </template>
 <style scoped lang="scss">
 .account-actions {
@@ -69,5 +79,16 @@ const tabs = {
       box-shadow: $btn-accent-hover-shadow;
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  scale: 0;
 }
 </style>

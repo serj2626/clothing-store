@@ -26,7 +26,7 @@ export interface IproductsResponse {
   title: string;
   category: string;
   avatar: string;
-  price: number | string;
+  price: string;
   currency: string;
   is_active: boolean;
   count_likes: number;

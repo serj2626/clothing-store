@@ -3,20 +3,22 @@ import type { IproductsResponse } from "~/types";
 defineProps<{ products: IproductsResponse[] }>();
 </script>
 <template>
-  <!-- <div class="catalog-list">
+  <div class="catalog-list">
     <ProductCard
       v-for="product in products"
       :id="product.id"
       :key="product.id"
       :title="product.title"
       :price="product.price"
-      :sizes="product.sizes"
-      :colors="product.colors || []"
-      :image="product.avatar"
+      :variants="product.variants"
+      :avatar="product.avatar"
+      :count_likes="product.count_likes"
+      :count_reviews="product.count_reviews"
+      :is_active="product.is_active"
     />
-  </div> -->
+  </div>
 
-  {{ products.slice(0,1) }}
+  <!-- {{ products.slice(0,1) }} -->
 </template>
 <style scoped lang="scss">
 .catalog-list {
