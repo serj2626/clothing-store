@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-const breadcrumbs = [
-  { title: "Главная", url: "/" },
-  { title: "Политика конфиденциальности", url: "/policy" },
-];
+import { policyPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 const html = `<p>
     1. Общие положения<br>
     1.1. Политика в&nbsp;отношении обработки персональных данных (далее&nbsp;— Политика) направлена на&nbsp;защиту прав и&nbsp;свобод физических лиц, персональные данные которых обрабатывает ООО&nbsp;«ФИРМА ВЕРОНИКА ЛТД» (далее&nbsp;— Оператор).
@@ -391,7 +388,7 @@ const html = `<p>
   <!-- <PageBlockContent :html="aboutInfo?.content" :title="aboutInfo?.title" /> -->
   <div class="policy-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs />
+      <BaseBreadCrumbs :breadcrumbs="policyPageBreadcrumbs" />
       <BaseWysiwyg v-if="html" :html="html" />
     </div>
   </div>

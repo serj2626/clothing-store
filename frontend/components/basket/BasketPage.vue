@@ -1,15 +1,11 @@
 <script setup lang="ts">
-const breadcrumbs = [
-  { title: "Главная", url: "/" },
-  { title: "Корзина", url: "/basket" },
-];
+import { basketPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 </script>
 <template>
   <div class="basket-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs />
+      <BaseBreadCrumbs :breadcrumbs="basketPageBreadcrumbs" />
       <BasketContent />
     </div>
   </div>
 </template>
-<style scoped lang="scss"></style>

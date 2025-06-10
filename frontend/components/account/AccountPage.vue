@@ -1,13 +1,10 @@
 <script setup lang="ts">
-const breadcrumbs = [
-  { title: "Главная", url: "/" },
-  { title: "Личный кабинет", url: "/account" },
-];
+import { accountPageBreadcrumbs } from '~/assets/data/breadcrumbs.data';
 </script>
 <template>
   <div class="account-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs />
+      <BaseBreadCrumbs :breadcrumbs="accountPageBreadcrumbs" />
       <AccountContent />
     </div>
   </div>

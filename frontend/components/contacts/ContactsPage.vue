@@ -8,6 +8,7 @@ const breadcrumbs = [
   <div class="contacts-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs />
+      <ContactsMap style="margin-block: 50px" />
       <div class="contacts-page__content">
         <h4 class="contacts-page__content-title">Связаться с нами</h4>
         <div class="contacts-page__content-list">
@@ -41,7 +42,20 @@ const breadcrumbs = [
           </div>
         </div>
       </div>
-      <BaseFormSubscribe />
+      <BaseFormSubscribe style="margin-inline: auto" />
+
+      <!-- <div
+        style="
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          align-items: end;
+          gap: 50px;
+          margin-bottom: 100px;
+        "
+      >
+        <BaseFormSubscribe />
+        <ContactsMap style="justify-self: end" />
+      </div> -->
     </div>
   </div>
 </template>
@@ -67,7 +81,7 @@ const breadcrumbs = [
           align-items: center;
           gap: 10px;
 
-          span{
+          span {
             cursor: pointer;
           }
         }

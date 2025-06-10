@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { products } from '~/assets/data/products.data';
+import type { IproductsResponse } from "~/types";
+defineProps<{ products: IproductsResponse[] }>();
 </script>
 <template>
-  <div class="catalog-list">
+  <!-- <div class="catalog-list">
     <ProductCard
       v-for="product in products"
       :id="product.id"
@@ -11,9 +12,11 @@ import { products } from '~/assets/data/products.data';
       :price="product.price"
       :sizes="product.sizes"
       :colors="product.colors || []"
-      :image="product.image"
+      :image="product.avatar"
     />
-  </div>
+  </div> -->
+
+  {{ products.slice(0,1) }}
 </template>
 <style scoped lang="scss">
 .catalog-list {

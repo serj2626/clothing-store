@@ -1,19 +1,15 @@
 <script setup lang="ts">
+import { favoritePageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 import { products } from "~/assets/data/products.data";
-
-const breadcrumbs = [
-  { title: "Главная", url: "/" },
-  { title: "Избранное", url: "/favorite" },
-];
 </script>
 <template>
   <div class="favorite-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs />
+      <BaseBreadCrumbs :breadcrumbs="favoritePageBreadcrumbs" />
       <div class="favorite-page__content">
         <h2 class="favorite-page__content-title">Избранное</h2>
         <div class="favorite-page__content-list">
-          <ProductsCard
+          <ProductCard
             v-for="product in products"
             :id="product.id"
             :key="product.id"
