@@ -10,6 +10,7 @@ from .models import (
     Favorite,
     Brand,
 )
+from django.db.models import Sum
 
 
 class RecursiveSerializer(serializers.Serializer):
@@ -65,20 +66,6 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class CategorySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Category
-#         fields = ("name", "slug", "image")
-
-
-# class CategoryDetailSerializer(CategorySerializer):
-#     children = CategorySerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = Category
-#         fields = ("id", "name", "slug", "children")
-
-
 class ProductVariantSerializer(serializers.ModelSerializer):
     color_name = serializers.CharField(source="get_color_display")
 
@@ -109,6 +96,7 @@ class ProductSerializer(serializers.ModelSerializer):
     currency = serializers.CharField(source="get_currency_display")
     count_likes = serializers.SerializerMethodField()
     count_reviews = serializers.SerializerMethodField()
+    total_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -127,6 +115,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "category",
             "count_likes",
             "count_reviews",
+            "total_count",
         )
 
     def get_count_likes(self, obj):
@@ -134,6 +123,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_count_reviews(self, obj):
         return obj.reviews.count()
+
+    def get_total_count(self, obj):
+        return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

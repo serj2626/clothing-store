@@ -8,6 +8,7 @@ defineProps<{ products: IproductsResponse[] }>();
       v-for="product in products"
       :id="product.id"
       :key="product.id"
+      :category="product.category"
       :title="product.title"
       :price="product.price"
       :variants="product.variants"
@@ -16,10 +17,10 @@ defineProps<{ products: IproductsResponse[] }>();
       :count_reviews="product.count_reviews"
       :is_active="product.is_active"
       :currency="product.currency"
+      :total_count="product.total_count"
+      :brand="product.brand"
     />
   </div>
-
-  <!-- {{ products.slice(0,1) }} -->
 </template>
 <style scoped lang="scss">
 .catalog-list {

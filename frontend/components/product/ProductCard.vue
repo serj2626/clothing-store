@@ -1,7 +1,20 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IproductsResponse } from "~/types";
-defineProps<IproductsResponse>();
+const props = defineProps<IproductsResponse>();
+
+const allColors = computed(() => {
+  const colors = props.variants.map((item) => {
+    return item.color;
+  });
+  return colors;
+});
+const allSizes = computed(() => {
+  const sizes = props.variants.map((item) => {
+    return item.size;
+  });
+  return sizes;
+});
 </script>
 <template>
   <NuxtLink :to="`/products/${id}`">
@@ -32,10 +45,18 @@ defineProps<IproductsResponse>();
         <div class="products-card__info-price">
           {{ formatNumberCustom(+price) }} {{ currency }}
         </div>
-        <div class="products-card__info-sizes">{{ variants }}</div>
-        <!-- <div class="products-card__info-colors">
-          <ProductColor v-for="color in colors" :key="color" :color="color" />
-        </div> -->
+        <div v-if="total_count" class="products-card__info-colors">
+          <ProductColor
+            v-for="color in allColors"
+            :key="color"
+            :color="color"
+          />
+        </div>
+        <div v-else class="products-card__info-total">Нет в наличии</div>
+        <div v-if="brand" class="products-card__info-brand-yes">
+          {{ brand.name }}
+        </div>
+        <div v-else class="products-card__info-brand-no">Без ТМ</div>
       </div>
     </article>
   </NuxtLink>
@@ -46,7 +67,7 @@ defineProps<IproductsResponse>();
   border-radius: $btn_radius;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   &__info {
-    padding-top: 15px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -65,6 +86,16 @@ defineProps<IproductsResponse>();
       display: flex;
       align-items: center;
       gap: 5px;
+    }
+    &-total {
+      color: $error;
+      font-weight: 600;
+    }
+    &-brand-yes {
+      color: $txt;
+    }
+    &-brand-no {
+      color: $txt;
     }
   }
 

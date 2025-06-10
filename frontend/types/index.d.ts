@@ -32,5 +32,6 @@ export interface IproductsResponse {
   is_active: boolean;
   count_likes: number;
   count_reviews: number;
+  total_count: number | null;
   variants: IProductVariant[];
 }
