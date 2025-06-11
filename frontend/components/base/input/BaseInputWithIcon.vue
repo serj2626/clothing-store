@@ -97,7 +97,7 @@ const currentType = computed(() => {
     font-size: 15px;
     outline: 1px solid #d6e3e3;
     color: $txt;
-    transition: all $default_ease;
+    // transition: all $default_ease;
 
     &:focus {
       outline: 1px solid green;

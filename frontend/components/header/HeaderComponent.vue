@@ -7,6 +7,7 @@ const color = computed(() => {
 });
 
 const routeName = ref<string | undefined>("");
+const searchValue = ref(false);
 
 watch(
   () => route.name,
@@ -51,11 +52,13 @@ watch(
             >
           </ul>
         </nav>
+
         <div class="header-component__wraper-actions">
           <Icon
             class="header-component__wraper-actions-icon"
             :name="HeroIcons.SEARCH_SOLID"
             size="28"
+            @click="searchValue = !searchValue"
           />
           <NuxtLink to="/account">
             <Icon
@@ -79,6 +82,7 @@ watch(
           </NuxtLink>
         </div>
       </div>
+      <BaseSearchComponent v-if="searchValue" @close="searchValue = false" />
     </div>
   </div>
 </template>
@@ -113,9 +117,12 @@ watch(
     &-nav {
       &-list {
         list-style: none;
-        display: flex;
+        display: none;
         gap: 30px;
         align-items: center;
+        @include mediaTablet {
+          display: flex;
+        }
         &-link {
           color: v-bind(color) !important;
           &:hover {

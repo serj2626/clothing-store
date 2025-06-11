@@ -6,13 +6,12 @@
       role="dialog"
       @click.self="modalsStore.closeAllModals()"
     >
-      <!-- <LazyBaseFormRegister
-        v-if="activeModals.has('register')"
-        key="register"
-      /> -->
-      <LazyModalFeedback v-if="activeModals.has('feedback')" key="chat" />
       <LazyModalSuccess v-if="activeModals.has('success')" key="success" />
       <LazyModalMenu v-if="activeModals.has('menu')" key="menu" />
+      <LazyModalProductInBasket
+        v-if="activeModals.has('deleteProduct')"
+        key="deleteProduct"
+      />
     </div>
   </transition>
 </template>

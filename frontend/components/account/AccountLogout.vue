@@ -13,7 +13,7 @@ function goBack() {
         class="account-logout__actions-btn account-logout__actions-btn--yes"
         @click="goBack"
       >
-        Да
+        Да 
       </button>
       <button
         type="button"
@@ -29,9 +29,9 @@ function goBack() {
 <style scoped lang="scss">
 .account-logout {
   padding: 30px;
-  background-color: $white;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  // background-color: $white;
+  // border-radius: 16px;
+  // box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 40px auto;
   text-align: center;

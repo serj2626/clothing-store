@@ -1,13 +1,7 @@
 export type ModalItem =
-  | "register"
-  | "feedback"
-  | "login"
   | "menu"
-
-  
-  | "reviewDetail"
-  | "reviewForm"
   | "success"
+  | "deleteProduct"
   | "resetPassword"
   | "changePassword";
 

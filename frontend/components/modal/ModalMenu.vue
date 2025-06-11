@@ -146,7 +146,7 @@ const closeMenuHandler = () => {
 
 .modal-menu {
   position: relative;
-  width: 90vw;
+  width: 100%;
   max-width: 380px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   height: 100vh;
@@ -158,6 +158,10 @@ const closeMenuHandler = () => {
   color: #fff;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   will-change: transform, opacity;
+
+  @include mediaLaptop {
+    width: 90vw;
+  }
 
   &--closing {
     animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;

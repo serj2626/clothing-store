@@ -1,3 +1,86 @@
+<script setup lang="ts">
+const authStore = useAuthStore()
+const router = useRouter()
+
+const isLoginForm = ref(true)
+const isLoading = ref(false)
+const loginError = ref('')
+const registerError = ref('')
+
+const loginData = reactive({
+  email: '',
+  password: ''
+})
+
+const registerData = reactive({
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+})
+
+const toggleForm = (showLogin: boolean) => {
+  isLoginForm.value = showLogin
+  loginError.value = ''
+  registerError.value = ''
+}
+
+const validateRegister = () => {
+  if (registerData.password !== registerData.confirmPassword) {
+    registerError.value = 'Пароли не совпадают'
+    return false
+  }
+  if (registerData.password.length < 6) {
+    registerError.value = 'Пароль должен содержать минимум 6 символов'
+    return false
+  }
+  return true
+}
+
+const handleLogin = async () => {
+  try {
+    isLoading.value = true
+    loginError.value = ''
+    const success = await authStore.login(loginData)
+    
+    if (success) {
+      await router.push('/account')
+    } else {
+      loginError.value = 'Неверный email или пароль'
+    }
+  } catch (error) {
+    loginError.value = 'Произошла ошибка при входе'
+    console.error('Login error:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const handleRegister = async () => {
+  if (!validateRegister()) return
+
+  try {
+    isLoading.value = true
+    registerError.value = ''
+    const success = await authStore.register({
+      name: registerData.name,
+      email: registerData.email,
+      password: registerData.password
+    })
+    
+    if (success) {
+      await router.push('/account')
+    } else {
+      registerError.value = 'Ошибка при регистрации'
+    }
+  } catch (error) {
+    registerError.value = 'Произошла ошибка при регистрации'
+    console.error('Registration error:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
 <template>
   <div class="auth-page">
     <div class="auth-container">
@@ -135,91 +218,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const authStore = useAuthStore()
-const router = useRouter()
-
-const isLoginForm = ref(true)
-const isLoading = ref(false)
-const loginError = ref('')
-const registerError = ref('')
-
-const loginData = reactive({
-  email: '',
-  password: ''
-})
-
-const registerData = reactive({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: ''
-})
-
-const toggleForm = (showLogin: boolean) => {
-  isLoginForm.value = showLogin
-  loginError.value = ''
-  registerError.value = ''
-}
-
-const validateRegister = () => {
-  if (registerData.password !== registerData.confirmPassword) {
-    registerError.value = 'Пароли не совпадают'
-    return false
-  }
-  if (registerData.password.length < 6) {
-    registerError.value = 'Пароль должен содержать минимум 6 символов'
-    return false
-  }
-  return true
-}
-
-const handleLogin = async () => {
-  try {
-    isLoading.value = true
-    loginError.value = ''
-    const success = await authStore.login(loginData)
-    
-    if (success) {
-      await router.push('/account')
-    } else {
-      loginError.value = 'Неверный email или пароль'
-    }
-  } catch (error) {
-    loginError.value = 'Произошла ошибка при входе'
-    console.error('Login error:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const handleRegister = async () => {
-  if (!validateRegister()) return
-
-  try {
-    isLoading.value = true
-    registerError.value = ''
-    const success = await authStore.register({
-      name: registerData.name,
-      email: registerData.email,
-      password: registerData.password
-    })
-    
-    if (success) {
-      await router.push('/account')
-    } else {
-      registerError.value = 'Ошибка при регистрации'
-    }
-  } catch (error) {
-    registerError.value = 'Произошла ошибка при регистрации'
-    console.error('Registration error:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-</script>
-
 <style scoped lang="scss">
 .auth-page {
   display: flex;

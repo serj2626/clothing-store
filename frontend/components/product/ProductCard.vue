@@ -15,6 +15,10 @@ const allSizes = computed(() => {
   });
   return sizes;
 });
+
+function sliceTitle(title: string) {
+  return title.length > 26 ? `${title.slice(0, 26)}.....` : title;
+}
 </script>
 <template>
   <NuxtLink :to="`/products/${id}`">
@@ -41,7 +45,7 @@ const allSizes = computed(() => {
       </div>
 
       <div class="products-card__info">
-        <div class="products-card__info-title">{{ title }}</div>
+        <div class="products-card__info-title">{{ sliceTitle(title) }}</div>
         <div class="products-card__info-price">
           {{ formatNumberCustom(+price) }} {{ currency }}
         </div>
@@ -66,12 +70,17 @@ const allSizes = computed(() => {
   overflow: hidden;
   border-radius: $btn_radius;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 100%; // Добавляем высоту 100%
+  display: flex; // Используем flexbox
+  flex-direction: column;
+
   &__info {
-    padding: 30px;
+    padding: 15px 30px;
     display: flex;
     flex-direction: column;
     gap: 5px;
     align-items: center;
+    flex-grow: 1;
     &-price {
       font-weight: 700;
       color: $txt;
@@ -103,7 +112,7 @@ const allSizes = computed(() => {
     overflow: hidden;
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 300px;
     display: block;
 
     &-icon {
@@ -123,8 +132,8 @@ const allSizes = computed(() => {
     &-item {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      display: block;
+      object-fit: contain; // Масштабирует изображение, сохраняя пропорции
+      object-position: center; // Центрирует изображение
     }
   }
 }

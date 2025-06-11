@@ -21,7 +21,7 @@ const showFormLogin = ref<boolean>(false);
   .base-button-login__btn {
     color: $txt;
     background-color: rgba(0, 0, 0, 0.06);
-    transition: background-color $default_ease;
+    // transition: background-color $default_ease;
     box-shadow: 0 0 20px rgb(169, 164, 164);
     &:hover {
       background-color: rgba(0, 0, 0, 0.082);
