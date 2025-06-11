@@ -16,7 +16,7 @@ export const api = {
     cookiepolicy: "/legal/cookie-policy/", //Получает политику cookie
   },
   contacts: {
-    contacts: "/contacts/", //Получает контактную информацию
+    list: "/contacts/", //Получает контактную информацию
     feedback: "/contacts/feedback/", //Запрос на создание обратной связи
     footer: "/contacts/footer/", //Запрос на получение данных для футера
     subscription: "/contacts/subscription/", //Запрос на создание подписки
