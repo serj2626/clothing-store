@@ -44,14 +44,13 @@ const title = computed(() => {
     : "Clothes Store";
 });
 
-const robotsContent = computed(() => {
-  const robotsContent: string[] = [];
-  if (data.value?.nofollow) robotsContent.push("nofollow");
-  if (data.value?.noindex) robotsContent.push("noindex");
+// const robotsContent = computed(() => {
+//   const robotsContent: string[] = [];
+//   if (data.value?.nofollow) robotsContent.push("nofollow");
+//   if (data.value?.noindex) robotsContent.push("noindex");
 
-  return robotsContent.join(", ");
-});
-
+//   return robotsContent.join(", ");
+// });
 
 useSeoMeta({
   title: () => data.value?.title || title.value,
@@ -60,30 +59,45 @@ useSeoMeta({
   ogTitle: () => data.value?.og_title || title.value,
   ogDescription: () => data.value?.og_description || "",
   ogImage: () => (data.value?.og_image ? mediaUrl + data.value?.og_image : ""),
+  robots: `${data.value?.noindex ? "noindex" : "index"},${
+    data.value?.nofollow ? "nofollow" : "follow"
+  }`,
 });
-useHead({
-  link: [
-    {
-      rel: "canonical",
-      href: data.value?.canonical_url,
-    },
-  ],
-  meta: [
-    {
-      name: "robots",
-      content: robotsContent,
-    },
-  ],
-});
+// useHead({
+//   link: [
+//     {
+//       rel: "canonical",
+//       href: data.value?.canonical_url,
+//     },
+//   ],
+//   // meta: [
+//   //   {
+//   //     name: "robots",
+//   //     content: robotsContent,
+//   //   },
+//   // ],
+// });
+
+// useHead({
+//   script: data.value?.json_ld
+//     ? [
+//         {
+//           type: "application/ld+json",
+//           innerHTML: data.value.json_ld,
+//         },
+//       ]
+//     : [],
+// });
 
 useHead({
-  script: data.value?.json_ld
-    ? [
-        {
-          type: "application/ld+json",
-          innerHTML: data.value.json_ld,
-        },
-      ]
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: data.value?.json_ld,
+    },
+  ],
+  link: data.value?.canonical_url
+    ? [{ rel: "canonical", href: data.value.canonical_url }]
     : [],
 });
 </script>
