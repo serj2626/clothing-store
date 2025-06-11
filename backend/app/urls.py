@@ -7,8 +7,15 @@ from drf_spectacular.views import (
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import ProductSitemap, SEOSitemap
 from seo_config.views import robots_txt_view
+
+
+sitemaps = {
+    "seo": SEOSitemap,
+    "products": ProductSitemap,
+}
 
 
 urlpatterns = [
@@ -32,6 +39,7 @@ urlpatterns = [
     path("api/v1/contacts/", include("contacts.urls")),
     path("api/v1/orders/", include("orders.urls")),
     path("api/v1/seo/", include("seo_config.urls")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django-sitemap"),
 ]
 
 if settings.DEBUG:

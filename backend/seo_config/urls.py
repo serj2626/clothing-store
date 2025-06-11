@@ -1,7 +1,6 @@
 from django.urls import path
 
 from .views import SEODetailView, sitemap_xml, SEOListView
-
 from django.urls import path
 
 # from configs.views import robots_txt, StaticSitemap, PortfolioSitemap, SpecialistSitemap, SubServiceSitemap, \
