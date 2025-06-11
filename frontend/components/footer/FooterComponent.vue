@@ -27,13 +27,14 @@ import { footerLinks } from "~/assets/data/footer.data";
           </div>
         </div>
       </div>
+      <p class="footer-component__copyright">Copyright © 2023. All rights reserved</p>
     </div>
   </footer>
 </template>
 <style lang="scss">
 .footer-component {
   &__content {
-    padding-bottom: 75px;
+    padding-bottom: 55px;
     &-list {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -68,6 +69,13 @@ import { footerLinks } from "~/assets/data/footer.data";
         }
       }
     }
+  }
+  &__copyright {
+    font-weight: 200;
+    color: $black;
+    opacity: 0.8;
+    text-align: center;
+    padding-bottom: 10px;
   }
 }
 </style>

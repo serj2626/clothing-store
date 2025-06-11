@@ -1,13 +1,11 @@
 <script setup lang="ts">
-const breadcrumbs = [
-  { title: "Главная", url: "/" },
-  { title: "Контакты", url: "/contacts" },
-];
+import { contactsPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
+const { data: contactsInfo } = useNuxtData("contacts-info");
 </script>
 <template>
   <div class="contacts-page">
     <div class="container">
-      <BaseBreadCrumbs :breadcrumbs />
+      <BaseBreadCrumbs :breadcrumbs="contactsPageBreadcrumbs" />
       <ContactsMap style="margin-block: 50px" />
       <div class="contacts-page__content">
         <h4 class="contacts-page__content-title">Связаться с нами</h4>
@@ -17,45 +15,36 @@ const breadcrumbs = [
               В социальных сетях
             </p>
             <span class="contacts-page__content-list-social-value">
-              <Icon name="social:insta" size="20" />
-              <Icon name="social:tg" size="20" />
+              <a :href="contactsInfo.insta[0].value"><Icon name="social:insta" size="20" /></a>
+              <a :href="contactsInfo.tg[0].value"><Icon name="social:tg" size="20" /></a>
             </span>
           </div>
           <div class="contacts-page__content-list-phone">
             <p class="contacts-page__content-list-phone-title">По телефону</p>
-            <span class="contacts-page__content-list-phone-value"
-              >+38(067) 158 82 66</span
+            <span
+              v-for="(phone, index) in contactsInfo.phone"
+              :key="index"
+              class="contacts-page__content-list-phone-value"
             >
-            <span class="contacts-page__content-list-phone-value"
-              >+38(067) 158 82 66</span
-            >
+              {{ phone.value }}
+            </span>
           </div>
           <div class="contacts-page__content-list-mail">
             <p class="contacts-page__content-list-mail-title">По почте</p>
-            <span class="contacts-page__content-list-mail-value"
-              >example@gmail.com</span
-            >
+            <span
+              v-for="(mail, index) in contactsInfo.mail"
+              :key="index"
+              class="contacts-page__content-list-mail-value"
+              >{{ mail.value }}
+            </span>
           </div>
           <div class="contacts-page__content-list-office">
             <p class="contacts-page__content-list-office-title">Наш офис</p>
-            <span>Санкт-Петербург, ул. Ленсовета д81</span>
+            <span>{{ contactsInfo.address[0].value }}</span>
           </div>
         </div>
       </div>
       <BaseFormSubscribe style="margin-inline: auto" />
-
-      <!-- <div
-        style="
-          display: grid;
-          grid-template-columns: 1fr 2fr;
-          align-items: end;
-          gap: 50px;
-          margin-bottom: 100px;
-        "
-      >
-        <BaseFormSubscribe />
-        <ContactsMap style="justify-self: end" />
-      </div> -->
     </div>
   </div>
 </template>

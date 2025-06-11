@@ -35,3 +35,9 @@ export interface IproductsResponse {
   total_count: number | null;
   variants: IProductVariant[];
 }
+
+export interface IContactsResponse {
+  type: string;
+  second_type: string;
+  value: string;
+}
