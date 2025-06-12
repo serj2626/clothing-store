@@ -1,10 +1,10 @@
 <script setup lang="ts">
-interface Condition {
+interface ICondition {
   icon: string;
   text: string;
 }
 
-const conditions = ref<Condition[]>([
+const conditions = ref<ICondition[]>([
   {
     icon: "conditions:one",
     text: "если заказ не был использован и сохранил товарный вид(в том числе не нарушены бирки, ярлыки, упаковочные материалы)",
