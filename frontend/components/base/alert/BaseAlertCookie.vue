@@ -22,7 +22,7 @@ function hideAlert() {
     <BaseButton
       class="alert-cookie__btn"
       size="md"
-      color="blue"
+      color="#cca88a"
       label="Понятно"
       @click="hideAlert"
     />

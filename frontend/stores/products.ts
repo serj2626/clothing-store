@@ -1,3 +1,23 @@
+import type { IproductsResponse } from "~/types";
+import { api } from "~/api";
 import { defineStore } from "pinia";
 
-export const useProductStore = defineStore("product", () => {});
+export const useProductStore = defineStore("product", () => {
+  const products = ref([]);
+  const error = ref(null);
+
+  const fetchAllProducts = async () => {
+    const { $api } = useNuxtApp();
+    try {
+      const { data } = await $fetch<IproductsResponse[]>(api.products.list);
+      products.value = data;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  return {
+    products,
+    fetchAllProducts,
+  };
+});

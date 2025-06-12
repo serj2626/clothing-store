@@ -4,21 +4,28 @@ interface IBaseButton {
   color?: string;
   label: string;
   disabled?: boolean;
+  radius?: string;
 }
 
-const { color = "blue", size = "md", label } = defineProps<IBaseButton>();
+const {
+  color = "blue",
+  size = "md",
+  radius = "10px",
+  label,
+} = defineProps<IBaseButton>();
 </script>
 
 <template>
   <button
-    :label="label"
     :class="[
       'base-button',
       `base-button__${color}`,
       `base-button__${size}`,
       { 'base-button-fill_disabled': disabled },
     ]"
-  />
+  >
+    {{ label }}
+  </button>
 </template>
 <style scoped lang="scss">
 .base-button {
@@ -27,9 +34,10 @@ const { color = "blue", size = "md", label } = defineProps<IBaseButton>();
   justify-content: center;
   align-items: center;
   gap: 5px;
+  color: white;
 
   user-select: none;
-  border-radius: $btn_radius;
+  border-radius: v-bind(radius);
   border: 1px solid transparent;
   // transition: all $fast_ease;
   width: fit-content;

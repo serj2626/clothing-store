@@ -6,7 +6,11 @@ const { data: contactsInfo } = useNuxtData("contacts-info");
   <div class="contacts-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="contactsPageBreadcrumbs" />
-      <ContactsMap style="margin-block: 50px" />
+      <ContactsMap
+        :map-width="contactsInfo.latitude[0].value"
+        :map-longitude="contactsInfo.longitude[0].value"
+        style="margin-block: 50px"
+      />
       <div class="contacts-page__content">
         <h4 class="contacts-page__content-title">Связаться с нами</h4>
         <div class="contacts-page__content-list">
@@ -15,8 +19,12 @@ const { data: contactsInfo } = useNuxtData("contacts-info");
               В социальных сетях
             </p>
             <span class="contacts-page__content-list-social-value">
-              <a :href="contactsInfo.insta[0].value"><Icon name="social:insta" size="20" /></a>
-              <a :href="contactsInfo.tg[0].value"><Icon name="social:tg" size="20" /></a>
+              <a :href="contactsInfo.insta[0].value"
+                ><Icon name="social:insta" size="20"
+              /></a>
+              <a :href="contactsInfo.tg[0].value"
+                ><Icon name="social:tg" size="20"
+              /></a>
             </span>
           </div>
           <div class="contacts-page__content-list-phone">

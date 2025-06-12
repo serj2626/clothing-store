@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Thumbs, Zoom } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/thumbs'
-import 'swiper/css/zoom'
+import { ref } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Thumbs, Zoom } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/zoom";
 
 // Для теста используем базовые URL изображений
-const placeholderImage = 'https://via.placeholder.com/800x800/f5f5dc/000000?text=Product+Image'
+const placeholderImage =
+  "https://via.placeholder.com/800x800/f5f5dc/000000?text=Product+Image";
 
 const breadcrumbs = [
   { title: "Главная", url: "/" },
   { title: "Каталог", url: "/catalog" },
   { title: "Товар", url: "/" },
   { title: "Кремовое пальто", url: "/" },
-]
+];
 
-const thumbsSwiper = ref<any>(null)
-const activeColor = ref("#f5f5dc") // Используем hex-код вместо строки
-const activeSize = ref("M")
+const thumbsSwiper = ref<any>(null);
+const activeColor = ref("#f5f5dc"); // Используем hex-код вместо строки
+const activeSize = ref("M");
 
 const product = {
   title: "Кремовое пальто",
@@ -27,40 +28,32 @@ const product = {
   oldPrice: 15990,
   colors: ["#f5f5dc", "#000000", "#a52a2a", "#0000ff"],
   sizes: ["XS", "S", "M", "L", "XL"],
-  description: "Элегантное кремовое пальто из шерсти с кашемиром. Классический крой, отложной воротник, длинные рукава. Подходит для любого сезона.",
+  description:
+    "Элегантное кремовое пальто из шерсти с кашемиром. Классический крой, отложной воротник, длинные рукава. Подходит для любого сезона.",
   details: [
     { title: "Состав", value: "Шерсть 80%, кашемир 20%" },
     { title: "Уход", value: "Химчистка" },
     { title: "Сезон", value: "Демисезон" },
     { title: "Страна", value: "Италия" },
   ],
-}
+};
 
 const galleryImages = [
   { id: 1, src: placeholderImage, alt: "Кремовое пальто - вид спереди" },
   { id: 2, src: placeholderImage, alt: "Кремовое пальто - вид сбоку" },
   { id: 3, src: placeholderImage, alt: "Кремовое пальто - детали" },
   { id: 4, src: placeholderImage, alt: "Кремовое пальто - на модели" },
-]
+];
 
 const setThumbsSwiper = (swiper: any) => {
-  thumbsSwiper.value = swiper
-}
+  thumbsSwiper.value = swiper;
+};
 </script>
 
 <template>
   <div class="product-page">
     <div class="container">
-      <!-- Временно убираем BaseBreadCrumbs для теста -->
-      <div class="product-page__breadcrumbs">
-        <a v-for="(item, index) in breadcrumbs" 
-           :key="index" 
-           :href="item.url"
-           class="breadcrumb-item">
-          {{ item.title }} <span v-if="index < breadcrumbs.length - 1">/</span>
-        </a>
-      </div>
-      
+
       <div class="product-page__content">
         <!-- Галерея изображений -->
         <div class="product-gallery">
@@ -125,7 +118,9 @@ const setThumbsSwiper = (swiper: any) => {
                 v-for="(color, index) in product.colors"
                 :key="index"
                 class="product-info__color"
-                :class="{ 'product-info__color--active': activeColor === color }"
+                :class="{
+                  'product-info__color--active': activeColor === color,
+                }"
                 :style="{ backgroundColor: color }"
                 @click="activeColor = color"
                 :aria-label="`Цвет ${index + 1}`"
@@ -164,8 +159,12 @@ const setThumbsSwiper = (swiper: any) => {
                 :key="index"
                 class="product-info__details-item"
               >
-                <span class="product-info__detail-title">{{ detail.title }}:</span>
-                <span class="product-info__detail-value">{{ detail.value }}</span>
+                <span class="product-info__detail-title"
+                  >{{ detail.title }}:</span
+                >
+                <span class="product-info__detail-value">{{
+                  detail.value
+                }}</span>
               </li>
             </ul>
           </div>
@@ -318,7 +317,7 @@ const setThumbsSwiper = (swiper: any) => {
 }
 
 .product-info__color--active::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -4px;
   left: -4px;
@@ -404,11 +403,11 @@ const setThumbsSwiper = (swiper: any) => {
     grid-template-columns: 1fr;
     gap: 30px;
   }
-  
+
   .product-gallery {
     order: -1;
   }
-  
+
   .product-gallery__main {
     height: 400px;
   }

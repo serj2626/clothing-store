@@ -11,7 +11,8 @@ const { data: productsList } = await useAsyncData<IproductsResponse[]>(
 </script>
 <template>
   <div class="catalog-page">
-    <div class="container">
+    {{ productsList }}
+    <!-- <div class="container">
       <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
       <div class="catalog-page__content">
         <CatalogCategories style="flex: 1" />
@@ -20,7 +21,7 @@ const { data: productsList } = await useAsyncData<IproductsResponse[]>(
           <CatalogList :products="productsList || []" />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <style scoped lang="scss">

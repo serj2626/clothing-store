@@ -42,7 +42,13 @@
           />
         </div>
       </div>
-      <button class="account-data__form-submit">ОБНОВИТЬ ИНФОРМАЦИЮ</button>
+      <BaseButton
+        class="account-data__form-submit"
+        label="ОБНОВИТЬ ИНФОРМАЦИЮ"
+        size="lg"
+        radius="0"
+        color="#e0bea2"
+      />
     </form>
   </div>
 </template>
@@ -52,10 +58,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    &-submit{
-        background-color: $accent;
-        color: $white;
-        padding-block: 16px;
+    &-submit {
+      display: block;
+      width: 100%;
+      color: $white;
+      padding-block: 16px;
     }
     &-personal {
       &-title {
