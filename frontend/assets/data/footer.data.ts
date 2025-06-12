@@ -29,8 +29,8 @@ export const footerLinks: ILink[] = [
         link: "/about",
       },
       {
-        label: "Контакты",
-        link: "/contacts",
+        label: "Условия возврата",
+        link: "/return",
       },
       {
         label: "Бонусная система",

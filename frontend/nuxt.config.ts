@@ -22,6 +22,10 @@ export default defineNuxtConfig({
         prefix: "actions",
         dir: "./assets/icons/actions",
       },
+      {
+        prefix: "conditions",
+        dir: "./assets/icons/conditions",
+      },
     ],
   },
   pinia: {

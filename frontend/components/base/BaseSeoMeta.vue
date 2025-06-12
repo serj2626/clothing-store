@@ -47,15 +47,15 @@ const canonicalLink = computed(() =>
 
 const json_ld = computed(() => data.value?.json_ld || null);
 
-useHead({
-  link: canonicalLink,
-  script: [
-    {
-      type: "application/ld+json",
-      innerHTML: json_ld,
-    },
-  ],
-});
+// useHead({
+//   link: canonicalLink,
+//   script: [
+//     {
+//       type: "application/ld+json",
+//       innerHTML: json_ld,
+//     },
+//   ],
+// });
 
 useSeoMeta({
   title: () => data.value?.title || title,
