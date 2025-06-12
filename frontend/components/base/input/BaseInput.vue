@@ -29,6 +29,8 @@ type TInputTypes =
 interface IInputProps {
   placeholder?: string;
   type?: TInputTypes;
+  radius?: string;
+  animate?: boolean;
   // maskOptions?: MaskInputOptions;
 }
 
@@ -56,10 +58,10 @@ const currentType = computed(() =>
         :class="{ 'base-input__input--error': !!error }"
         @focus="isFocused = true"
         @blur="isFocused = false"
-      >
+      />
       <span
         class="base-input__placeholder"
-        :class="{ active: isFocused || inputValue }"
+        :class="{ active: isFocused  || inputValue }"
       >
         {{ props.placeholder }}
       </span>
@@ -95,6 +97,7 @@ const currentType = computed(() =>
     font-size: 14px;
     color: $txt;
     background: white;
+    border-radius: v-bind(radius);
     transition: border-color 0.3s;
 
     &:focus {
@@ -114,7 +117,7 @@ const currentType = computed(() =>
     color: $txt;
     font-size: 14px;
     pointer-events: none;
-    transition: 0.2s ease;
+    transition: 0.5s ease;
     background: white;
     padding: 0 4px;
 

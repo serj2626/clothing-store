@@ -19,6 +19,7 @@ const registerData = reactive({
       <label for="register-name">Имя</label>
       <BaseInput
         v-model="registerData.name"
+        radius="8px"
         type="text"
         placeholder="Ваше имя"
       />
@@ -28,6 +29,7 @@ const registerData = reactive({
       <label for="register-email">Email</label>
       <BaseInput
         v-model="registerData.email"
+        radius="8px"
         type="email"
         placeholder="your@email.com"
       />
@@ -37,6 +39,7 @@ const registerData = reactive({
       <label for="register-password">Пароль</label>
       <BaseInput
         v-model="registerData.password"
+        radius="8px"
         type="password"
         placeholder="••••••••"
       />
@@ -47,6 +50,7 @@ const registerData = reactive({
 
       <BaseInput
         v-model="registerData.confirmPassword"
+        radius="8px"
         type="password"
         placeholder="••••••••"
       />

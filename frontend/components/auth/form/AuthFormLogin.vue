@@ -6,23 +6,32 @@ defineProps<{
 
 const emit = defineEmits(["submit"]);
 
-
-const loginData = reactive({
-  email: "",
-  password: "",
-});
+// const loginData = reactive({
+//   email: "",
+//   password: "",
+// });
 </script>
 <template>
   <form class="auth-form-login" @submit.prevent="emit('submit')">
     <div class="auth-form-login__form-group">
       <label for="login-email">Email</label>
-      <BaseInput type="email" placeholder="your@email.com" />
+      <BaseInput
+        :animate="false"
+        radius="8px"
+        type="email"
+        placeholder="your@email.com"
+      />
     </div>
 
     <div class="auth-form-login__form-group">
       <label for="login-password">Пароль</label>
 
-      <BaseInput type="password" placeholder="••••••••" />
+      <BaseInput
+        :animate="false"
+        radius="8px"
+        type="password"
+        placeholder="••••••••"
+      />
       <NuxtLink to="/forgot-password" class="auth-form-login__forgot-password">
         Забыли пароль?
       </NuxtLink>
