@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { MaskInputOptions } from "maska";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+// import { MaskInputOptions } from "maska";
 
 type TInputTypes =
   | "button"
@@ -28,91 +28,119 @@ type TInputTypes =
 
 interface IInputProps {
   placeholder?: string;
-  error?: string;
-  maskOptions?: MaskInputOptions;
   type?: TInputTypes;
+  // maskOptions?: MaskInputOptions;
 }
 
-const inputValue = defineModel("inputValue");
-const error = defineModel("error");
-
+const inputValue = defineModel<string>("inputValue");
+const error = defineModel<string>("error");
 const props = defineProps<IInputProps>();
 
 const showPassword = ref(false);
+const isFocused = ref(false);
 
-const currentType = computed(() => {
-  if (props.type === "password" && showPassword.value) {
-    return "text";
-  }
-  return props.type;
-});
+const currentType = computed(() =>
+  props.type === "password" && showPassword.value
+    ? "text"
+    : props.type ?? "text"
+);
 </script>
+
 <template>
   <label class="base-input">
-    <input
-      v-model="inputValue"
-      v-maska="maskOptions"
-      :class="{ 'base-input__input_error': error }"
-      :type="currentType"
-      class="base-input__input"
-    />
-    <span v-if="!inputValue" class="base-input__placeholder">{{
-      placeholder
-    }}</span>
+    <div class="base-input__wrapper">
+      <input
+        v-model="inputValue"
+        :type="currentType"
+        class="base-input__input"
+        :class="{ 'base-input__input--error': !!error }"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
+      >
+      <span
+        class="base-input__placeholder"
+        :class="{ active: isFocused || inputValue }"
+      >
+        {{ props.placeholder }}
+      </span>
+      <Icon
+        v-if="props.type === 'password'"
+        :name="showPassword ? HeroIcons.EYE_CLOSE : HeroIcons.EYE"
+        size="20"
+        class="base-input__icon"
+        @click="showPassword = !showPassword"
+      />
+    </div>
     <small v-if="error" class="base-input__error">{{ error }}</small>
-    <Icon
-      v-if="type === 'password'"
-      :name="showPassword ? HeroIcons.EYE_CLOSE : HeroIcons.EYE"
-      size="20"
-      class="base-input__icon"
-      @click="showPassword = !showPassword"
-    />
   </label>
 </template>
-<style lang="scss" scoped>
+
+<style scoped lang="scss">
 .base-input {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  border-radius: 5px;
+  gap: 6px;
+  width: 100%;
 
-  &__placeholder {
-    position: absolute;
-    color: #5c6a70;
-    padding-left: 11px;
+  &__wrapper {
+    position: relative;
+    width: 100%;
   }
 
   &__input {
-    padding: 9px 19px 9px 11px;
-    cursor: auto;
-    border-radius: 5px;
-    transition: outline $desctop_wide;
+    width: 100%;
+    padding-block: 16px;
+    padding-left: 20px;
+    border: 1px solid $txt;
+    font-size: 14px;
+    color: $txt;
+    background: white;
+    transition: border-color 0.3s;
 
     &:focus {
-      outline: 1px solid green;
+      border-color: green;
+      outline: none;
     }
 
-    // &_error {
-    //   border-bottom: 1px solid $error;
-    // }
+    &--error {
+      border-color: red;
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    color: $txt;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.2s ease;
+    background: white;
+    padding: 0 4px;
+
+    &.active {
+      top: 4px;
+      font-size: 11px;
+      opacity: 0;
+    }
   }
 
   &__icon {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 12px;
     transform: translateY(-50%);
-    background-color: $txt;
-    opacity: 0.7;
     cursor: pointer;
+    opacity: 0.7;
+    color: $txt;
   }
 
   &__error {
-    color: rgb(255, 0, 0);
+    color: red;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: 500;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.5px;
   }
 }
 </style>
