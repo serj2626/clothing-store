@@ -1,30 +1,59 @@
+# Сторонние библиотеки
 import stripe
+
+# Django
 from django.conf import settings
-from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from drf_spectacular.utils import extend_schema
 from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.http import require_POST
+
+# Django REST Framework
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+# DRF Spectacular
+from drf_spectacular.utils import extend_schema
+
+# Приложения проекта (локальные импорты)
+from common.pagination import ListResultsSetPagination
 from common.utils import get_client_ip
+from .models import Brand, Cart, CartItem, Category, Favorite, Product, ProductLike
 from .serializers import (
+    BrandSerializer,
     CartSerializer,
     CategoryDetailSerializer,
     CategoryListSerializer,
     FavoriteSerializer,
     ProductSerializer,
-    BrandSerializer,
 )
-from .models import Cart, ProductLike, Favorite, CartItem, Product, Category, Brand
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from rest_framework.decorators import api_view
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
+from rest_framework.pagination import PageNumberPagination
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10  # по умолчанию 10
+    page_size_query_param = "page_size"  # можно переопределить из запроса
+    max_page_size = 100
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                "count": self.page.paginator.count,
+                "next": self.get_next_link(),
+                "previous": self.get_previous_link(),
+                "results": data,
+            }
+        )
 
 
 class BrandListView(generics.ListAPIView):
@@ -46,7 +75,7 @@ class CategoryListView(generics.ListAPIView):
             Q(parent__isnull=True) & Q(is_active=True)
         ).prefetch_related("children")
 
-    @extend_schema(tags=['Категории'], summary="Список категорий")
+    @extend_schema(tags=["Категории"], summary="Список категорий")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -58,7 +87,7 @@ class CategoryDetailView(generics.RetrieveAPIView):
     serializer_class = CategoryDetailSerializer
     lookup_field = "slug"
 
-    @extend_schema(tags=['Категории'], summary="Детали категории")
+    @extend_schema(tags=["Категории"], summary="Детали категории")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -84,12 +113,15 @@ def toggle_product_like(request, product_id):
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = ListResultsSetPagination
 
     @extend_schema(tags=[TAG], summary="Список товаров")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
 
+# кешируем на 5 минут (300 секунд)
+@method_decorator(cache_page(60 * 5), name="get")
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

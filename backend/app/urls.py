@@ -8,13 +8,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from .sitemap import ProductSitemap, SEOSitemap
+from .sitemap import CategorySitemap, ProductSitemap, SEOSitemap
 from seo_config.views import robots_txt_view
 
 
 sitemaps = {
     "seo": SEOSitemap,
     "products": ProductSitemap,
+    "categories": CategorySitemap,
 }
 
 
