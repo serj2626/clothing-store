@@ -263,6 +263,13 @@ class Favorite(BaseDate):
     product = models.ForeignKey(
         "Product", on_delete=models.CASCADE, related_name="Favoriteed_by"
     )
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Выбранный вариант",
+    )
 
     class Meta:
         unique_together = ("user", "product")
