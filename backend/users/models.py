@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
-from common.models import BaseID
+from common.models import BaseDate, BaseID
 from django.core.mail import send_mail
 
 
@@ -55,25 +55,44 @@ class User(BaseID, AbstractBaseUser, PermissionsMixin):
 #     def __str__(self):
 #         return f"EmailVerification object for {self.user.email}"
 
-    # def send_verification_email(self):
-    #     link = reverse(
-    #         "users:email_verification",
-    #         kwargs={"email": self.user.email, "code": self.code},
-    #     )
-    #     verification_link = f"{settings.DOMAIN_NAME}{link}"
-    #     subject = f"Подверждение учетной записи для {self.user.username}"
-    #     message = (
-    #         "Для подверждения учетной записи для {} перейдите по ссылке: {}".format(
-    #             self.user.email, verification_link
-    #         )
-    #     )
-    #     send_mail(
-    #         subject=subject,
-    #         message=message,
-    #         from_email=settings.EMAIL_HOST_USER,
-    #         recipient_list=[self.user.email],
-    #         fail_silently=False,
-    #     )
+# def send_verification_email(self):
+#     link = reverse(
+#         "users:email_verification",
+#         kwargs={"email": self.user.email, "code": self.code},
+#     )
+#     verification_link = f"{settings.DOMAIN_NAME}{link}"
+#     subject = f"Подверждение учетной записи для {self.user.username}"
+#     message = (
+#         "Для подверждения учетной записи для {} перейдите по ссылке: {}".format(
+#             self.user.email, verification_link
+#         )
+#     )
+#     send_mail(
+#         subject=subject,
+#         message=message,
+#         from_email=settings.EMAIL_HOST_USER,
+#         recipient_list=[self.user.email],
+#         fail_silently=False,
+#     )
 
-    # def is_expired(self):
-    #     return True if now() >= self.expiration else False
+# def is_expired(self):
+#     return True if now() >= self.expiration else False
+
+
+class Profile(BaseID, BaseDate):
+    """
+    Profile model
+    """
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField("Имя", max_length=50, null=True, blank=True)
+    last_name = models.CharField("Фамилия", max_length=50, null=True, blank=True)
+    city = models.CharField("Город", max_length=50, null=True, blank=True)
+    street = models.CharField("Улица", max_length=50, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Профиль"
+        verbose_name_plural = "Профили"
+
+    def __str__(self):
+        return f'Профиль "{self.user.email}"'

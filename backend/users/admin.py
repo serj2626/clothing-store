@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Profile
+
+
+class ProfileLine(admin.TabularInline):
+    model = Profile
+    extra = 0
 
 
 @admin.register(User)
@@ -9,6 +14,7 @@ class UserAdmin(UserAdmin):
     list_display = ("email", "phone", "is_staff", "is_superuser")
     search_fields = ("email", "phone")
     ordering = ("email",)
+    inlines = (ProfileLine,)
     fieldsets = (
         (None, {"fields": ("email", "phone", "password")}),
         (
