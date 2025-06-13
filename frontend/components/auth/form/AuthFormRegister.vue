@@ -16,16 +16,6 @@ const registerData = reactive({
 <template>
   <form class="auth-form-register" @submit.prevent="emit('submit')">
     <div class="auth-form-register__form-group">
-      <label for="register-name">Имя</label>
-      <BaseInput
-        v-model="registerData.name"
-        radius="8px"
-        type="text"
-        placeholder="Ваше имя"
-      />
-    </div>
-
-    <div class="auth-form-register__form-group">
       <label for="register-email">Email</label>
       <BaseInput
         v-model="registerData.email"
@@ -34,7 +24,15 @@ const registerData = reactive({
         placeholder="your@email.com"
       />
     </div>
-
+    <div class="auth-form-register__form-group">
+      <label for="register-name">Телефон</label>
+      <BaseInput
+        v-model="registerData.name"
+        radius="8px"
+        type="text"
+        placeholder="Ваш номер телефона"
+      />
+    </div>
     <div class="auth-form-register__form-group">
       <label for="register-password">Пароль</label>
       <BaseInput
