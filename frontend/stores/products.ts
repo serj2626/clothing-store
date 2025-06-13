@@ -12,7 +12,7 @@ export const useProductStore = defineStore("product", () => {
   const prevPage = ref<number | null>(null);
   const countProducts = ref<number>(0);
 
-  async function fetchAllProducts(page: number = 1, page_size: number = 10) {
+  async function fetchAllProducts(page: number = 1, page_size: number = 9) {
     const { $api } = useNuxtApp();
     try {
       const res = await $api<IproductResponse>(api.products.list, {
