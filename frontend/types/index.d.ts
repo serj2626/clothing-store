@@ -15,6 +15,11 @@ interface IbrandProduct {
   image: null | string;
 }
 
+interface IProductImage {
+  id: number;
+  image: string;
+}
+
 interface IProductVariant {
   color: string;
   color_name: string;
@@ -34,6 +39,7 @@ export interface IproductsResponse {
   count_reviews: number;
   total_count: number | null;
   variants: IProductVariant[];
+  images: IProductImage[];
 }
 
 export interface IContactsResponse {
