@@ -24,5 +24,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="observerRef" style="height: 1px; width: 100%"></div>
+  <div ref="observerRef" style="height: 1px; width: 100%">Загрузка</div>
 </template>
