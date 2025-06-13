@@ -4,14 +4,8 @@
     <div class="container">
       <h2 class="base-form-subscribe__title">Узнайте первым о новинках</h2>
       <form class="base-form-subscribe__form">
-        <input
-          class="base-form-subscribe__form-input"
-          type="email"
-          placeholder="Введите ваш email"
-        />
-        <button class="base-form-subscribe__form-btn" type="submit">
-          Подписаться
-        </button>
+        <BaseInput radius="5px" type="email" placeholder="Введите ваш email" />
+        <BaseButton class="base-form-subscribe__form-btn" color="#e0bea2" radius="5px" size="lg" label="Подписаться" />
         <p class="base-form-subscribe__form-text">
           Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих
           персональных данных и ознакомлен(а) с условиями конфиденциальности.
