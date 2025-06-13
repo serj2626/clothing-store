@@ -1,52 +1,59 @@
 <script setup lang="ts">
-import { api } from "~/api";
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
-const { $api } = useNuxtApp();
 
 const productStore = useProductStore();
-const { products } = storeToRefs(productStore);
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 
 // Загружаем первую страницу при монтировании
 onMounted(async () => {
+  await loadProducts(1);
+});
+
+const loadProducts = async (page: number) => {
+  if (isLoading.value) return;
+
   try {
     isLoading.value = true;
-    await productStore.fetchAllProducts(1);
+    await productStore.fetchAllProducts(page);
   } catch (e: any) {
     error.value = e.message;
   } finally {
     isLoading.value = false;
   }
-});
+};
 
-// Функция для загрузки следующей страницы
 const loadMore = async () => {
-  if (productStore.nextPage) {
-    try {
-      isLoading.value = true;
-      await productStore.fetchAllProducts(productStore.nextPage);
-    } catch (e: any) {
-      error.value = e.message;
-    } finally {
-      isLoading.value = false;
-    }
+  if (productStore.nextPage && !isLoading.value) {
+    await loadProducts(productStore.nextPage);
   }
 };
 </script>
 <template>
   <div class="catalog-page">
-    <div class="container">
-      <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
-      <div class="catalog-page__content">
-        <CatalogCategories style="flex: 1" />
-        <div class="catalog-page__main" style="flex: 3">
-          <CatalogFilters />
-          <div v-if="isLoading && productStore.products.length === 0">Loading...</div>
-          <CatalogList v-else :products />
+    <div v-if="isLoading && productStore.products.length === 0">Loading...</div>
+    <div v-else-if="error">{{ error }}</div>
+    <template v-else>
+      <div class="container">
+        <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
+        <div class="catalog-page__content">
+          <CatalogCategories style="flex: 1" />
+          <div class="catalog-page__main" style="flex: 3">
+            <CatalogFilters />
+            <CatalogList :products="productStore.products" />
+
+            <LoadMoreObserver
+              v-if="productStore.nextPage && !isLoading"
+              @intersect="loadMore"
+            />
+
+            <div v-if="isLoading" class="loading-indicator">
+              Loading more products...
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <style scoped lang="scss">
