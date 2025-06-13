@@ -10,6 +10,10 @@ from django.core.mail import send_mail
 
 
 class UserManager(BaseUserManager):
+    """
+    Менеджер пользователей
+    """
+
     def create_user(self, email, phone, password=None, **extra_fields):
         if not email:
             raise ValueError("Email обязателен")
@@ -26,6 +30,10 @@ class UserManager(BaseUserManager):
 
 
 class User(BaseID, AbstractBaseUser, PermissionsMixin):
+    """
+    Модель пользователя
+    """
+
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
     is_verified_email = models.BooleanField(default=False)
@@ -81,7 +89,7 @@ class User(BaseID, AbstractBaseUser, PermissionsMixin):
 
 class Profile(BaseID, BaseDate):
     """
-    Profile model
+    Модель профиля
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
