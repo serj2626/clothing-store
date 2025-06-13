@@ -189,9 +189,51 @@ class OrderingProcessItem(models.Model):
     """
 
     text = models.TextField("Текст")
-    icon = models.FileField("Иконка", upload_to="icons/", blank=True, null=True)
+    icon = models.FileField(
+        "Иконка", upload_to="ordering_process_icons/", blank=True, null=True
+    )
     ordering_process = models.ForeignKey(
         OrderingProcess, on_delete=models.CASCADE, verbose_name="Процесс заказа"
+    )
+
+    class Meta:
+        verbose_name = "Пункт процесса заказа"
+        verbose_name_plural = "Пункты процесса заказа"
+
+    def __str__(self):
+        return f'Пункт "{self.text}"'
+
+
+class ExchangeAndReturnPage(BaseTitle, BaseDate):
+    """
+    Модель страницы Обмен и Возврат
+    """
+
+    description = models.TextField("Описание")
+    text = models.TextField("Текст")
+
+    class Meta:
+        verbose_name = "Страница Обмен и Возврат"
+        verbose_name_plural = "Страницы Обмен и Возврат"
+
+    def __str__(self):
+        return f'Страница "{self.title}"'
+
+
+class TermsProcessItem(models.Model):
+    """
+    Модель пунктов процесса заказа
+    """
+
+    page = models.ForeignKey(
+        ExchangeAndReturnPage,
+        on_delete=models.CASCADE,
+        verbose_name="Страница",
+        related_name="terms_processes_items",
+    )
+    text = models.TextField("Текст")
+    icon = models.FileField(
+        "Иконка", upload_to="terms_process_icons/", blank=True, null=True
     )
 
     class Meta:
