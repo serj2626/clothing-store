@@ -11,12 +11,12 @@ const allColors = computed(() => {
   });
   return colors;
 });
-const allSizes = computed(() => {
-  const sizes = props.variants.map((item) => {
-    return item.size;
-  });
-  return sizes;
-});
+// const allSizes = computed(() => {
+//   const sizes = props.variants.map((item) => {
+//     return item.size;
+//   });
+//   return sizes;
+// });
 
 function sliceTitle(title: string) {
   return title.length > 26 ? `${title.slice(0, 26)}.....` : title;

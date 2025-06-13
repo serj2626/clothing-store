@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("auth", () => {
       });
 
       user.value = userData;
-    } catch (err) {
+    } catch {
       throw new Error("Ошибка авторизации");
     }
   };

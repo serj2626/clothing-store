@@ -42,6 +42,7 @@ watch(
               to="/catalog"
               >Каталог</NuxtLink
             >
+            <!-- <CurvedLogo /> -->
             <NuxtLink class="header-component__wraper-nav-list-link" to="/about"
               >О нас</NuxtLink
             >
