@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import type { IproductsResponse } from "~/types";
-const props = defineProps<IproductsResponse>();
+import type { IProduct } from "~/types";
+
+
+const props = defineProps<IProduct>();
 
 const allColors = computed(() => {
   const colors = props.variants.map((item) => {

@@ -41,12 +41,10 @@ const loadMore = async () => {
           <div class="catalog-page__main" style="flex: 3">
             <CatalogFilters />
             <CatalogList :products="productStore.products" />
-
             <LoadMoreObserver
               v-if="productStore.nextPage && !isLoading"
               @intersect="loadMore"
             />
-
             <div v-if="isLoading" class="loading-indicator">
               Loading more products...
             </div>

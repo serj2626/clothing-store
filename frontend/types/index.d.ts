@@ -42,7 +42,7 @@ export interface IProduct {
   images: IProductImage[];
 }
 
-export interface IproductResponse {
+export interface IProductResponse {
   current: number;
   next: null | number;
   previous: null | number;

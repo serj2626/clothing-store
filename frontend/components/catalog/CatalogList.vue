@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { IproductsResponse } from "~/types";
-defineProps<{ products: IproductsResponse[] }>();
+import type { IProduct } from '~/types';
+
+defineProps<{ products: IProduct[] }>();
 </script>
 <template>
   <div class="catalog-list">
@@ -19,6 +20,7 @@ defineProps<{ products: IproductsResponse[] }>();
       :currency="product.currency"
       :total_count="product.total_count"
       :brand="product.brand"
+      :images="product?.images"
     />
   </div>
 </template>

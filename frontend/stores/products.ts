@@ -36,7 +36,7 @@ export const useProductStore = defineStore("product", () => {
       prevPage.value = res.previous;
 
       return res;
-    } catch (e: any) {
+    } catch (e: Error) {
       error.value = e.message || "Something went wrong";
       throw e; 
     }
