@@ -39,7 +39,7 @@ const {
   user-select: none;
   border-radius: v-bind(radius);
   border: 1px solid transparent;
-  // transition: all $fast_ease;
+  transition: all 0.3 ease-in-out;
   width: fit-content;
 
   cursor: pointer;
@@ -47,9 +47,7 @@ const {
   &:hover {
     opacity: 0.8;
   }
-  &:active {
-    scale: 0.96;
-  }
+
 
   &__xs {
     padding: 6px 9px;

@@ -29,6 +29,7 @@ const loadMore = async () => {
   }
 };
 </script>
+
 <template>
   <div class="catalog-page">
     <div v-if="isLoading && productStore.products.length === 0">Loading...</div>
@@ -36,9 +37,11 @@ const loadMore = async () => {
     <template v-else>
       <div class="container">
         <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
-        <div class="catalog-page__content">
-          <CatalogCategories style="flex: 1" />
-          <div class="catalog-page__main" style="flex: 3">
+        <div class="catalog-layout">
+          <div class="catalog-sidebar">
+            <CatalogCategories />
+          </div>
+          <div class="catalog-content">
             <CatalogFilters />
             <CatalogList :products="productStore.products" />
             <LoadMoreObserver
@@ -54,17 +57,49 @@ const loadMore = async () => {
     </template>
   </div>
 </template>
+
 <style scoped lang="scss">
-.catalog-page {
-  &__content {
-    margin-block: 30px 100px;
-    display: flex;
-    gap: 15px;
-  }
-  &__main {
-    display: flex;
+.catalog-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  position: relative;
+}
+
+.catalog-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  height: fit-content;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.catalog-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.loading-indicator {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .catalog-layout {
     flex-direction: column;
-    gap: 30px;
+  }
+
+  .catalog-sidebar {
+    width: 100%;
+    position: static;
+    max-height: none;
   }
 }
 </style>

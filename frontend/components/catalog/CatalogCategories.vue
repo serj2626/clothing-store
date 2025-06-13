@@ -101,9 +101,9 @@ const toggleCategory = (categoryId: string) => {
     gap: 0.5rem;
     padding: 5px 10px;
     border-radius: $btn_radius;
-    &:hover{
-      background-color: rgb(238, 235, 235);;
-    }
+    // &:hover{
+    //   background-color: rgb(238, 235, 235);;
+    // }
 
   }
 
@@ -124,7 +124,7 @@ const toggleCategory = (categoryId: string) => {
     position: relative;
 
     &:hover {
-      color: var(--color-accent);
+      // color: var(--color-accent);
 
       &::after {
         width: 100%;
@@ -165,9 +165,9 @@ const toggleCategory = (categoryId: string) => {
     display: flex;
     transition: color 0.2s ease;
     cursor: pointer;
-    &:hover {
-      color: $accent-dark;
-    }
+    // &:hover {
+    //   color: $accent-dark;
+    // }
   }
 
   &__sublink {
@@ -177,9 +177,9 @@ const toggleCategory = (categoryId: string) => {
     padding: 0.25rem 0;
     transition: color 0.2s ease;
     cursor: pointer;
-    &:hover {
-      color: $accent-dark;
-    }
+    // &:hover {
+    //   color: $accent-dark;
+    // }
   }
 }
 
