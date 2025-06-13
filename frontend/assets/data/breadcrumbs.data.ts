@@ -48,3 +48,8 @@ export const returnPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Обмен и возврат", url: "/return" },
 ];
+
+export const deliveryPageBreadcrumbs: IBreadcrumb[] = [
+  { title: "Главная", url: "/" },
+  { title: "Оплата и доставка", url: "/delivery" },
+];

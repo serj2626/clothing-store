@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from common.models import BaseID
+from common.models import BaseDate, BaseID, BaseTitle
 from products.models import Product
 from django.contrib.auth import get_user_model
 

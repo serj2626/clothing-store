@@ -9,7 +9,3 @@ import { returnPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
     </div>
   </div>
 </template>
-<style scoped lang="scss">
-.return-page {
-}
-</style>

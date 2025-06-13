@@ -25,8 +25,8 @@ export const footerLinks: ILink[] = [
     link: "/",
     children: [
       {
-        label: "О нас",
-        link: "/about",
+        label: "Оплата и доставка",
+        link: "/delivery",
       },
       {
         label: "Условия возврата",
