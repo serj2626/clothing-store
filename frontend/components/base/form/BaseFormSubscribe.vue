@@ -5,10 +5,17 @@
       <h2 class="base-form-subscribe__title">Узнайте первым о новинках</h2>
       <form class="base-form-subscribe__form">
         <BaseInput radius="5px" type="email" placeholder="Введите ваш email" />
-        <BaseButton class="base-form-subscribe__form-btn" color="#e0bea2" radius="5px" size="lg" label="Подписаться" />
+        <BaseButton
+          class="base-form-subscribe__form-btn"
+          color="#e0bea2"
+          radius="5px"
+          size="lg"
+          label="Подписаться"
+        />
         <p class="base-form-subscribe__form-text">
           Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих
-          персональных данных и ознакомлен(а) с условиями конфиденциальности.
+          персональных данных и ознакомлен(а) с
+          <NuxtLink class="base-form-subscribe__form-text-link" to="/policy">условиями конфиденциальности.</NuxtLink>
         </p>
       </form>
     </div>
@@ -63,6 +70,10 @@
       font-size: 16px;
       color: #252525;
       font-weight: 200;
+
+      &-link {
+        color: blue;
+      }
     }
   }
 }

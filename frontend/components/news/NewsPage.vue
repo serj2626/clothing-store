@@ -35,6 +35,7 @@ const { data: productNewsCollection } = await useAsyncData(
           />
         </div>
       </div>
+      <BaseFormSubscribe />
     </div>
   </div>
 </template>
