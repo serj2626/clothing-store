@@ -42,7 +42,8 @@ const loadMore = async () => {
         <CatalogCategories style="flex: 1" />
         <div class="catalog-page__main" style="flex: 3">
           <CatalogFilters />
-          <CatalogList :products />
+          <div v-if="isLoading && productStore.products.length === 0">Loading...</div>
+          <CatalogList v-else :products />
         </div>
       </div>
     </div>
