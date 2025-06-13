@@ -1,27 +1,51 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
-import type { IproductsResponse } from "~/types";
 const { $api } = useNuxtApp();
 
-const { data: productsList } = await useAsyncData<IproductsResponse[]>(
-  "catalog-page-list-products",
-  () => $api(api.products.list)
-);
+const productStore = useProductStore();
+const { products } = storeToRefs(productStore);
+const isLoading = ref(false);
+const error = ref<string | null>(null);
+
+// Загружаем первую страницу при монтировании
+onMounted(async () => {
+  try {
+    isLoading.value = true;
+    await productStore.fetchAllProducts(1);
+  } catch (e: any) {
+    error.value = e.message;
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+// Функция для загрузки следующей страницы
+const loadMore = async () => {
+  if (productStore.nextPage) {
+    try {
+      isLoading.value = true;
+      await productStore.fetchAllProducts(productStore.nextPage);
+    } catch (e: any) {
+      error.value = e.message;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+};
 </script>
 <template>
   <div class="catalog-page">
-    {{ productsList }}
-    <!-- <div class="container">
+    <div class="container">
       <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
       <div class="catalog-page__content">
         <CatalogCategories style="flex: 1" />
         <div class="catalog-page__main" style="flex: 3">
           <CatalogFilters />
-          <CatalogList :products="productsList || []" />
+          <CatalogList :products />
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 <style scoped lang="scss">

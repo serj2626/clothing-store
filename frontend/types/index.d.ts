@@ -26,7 +26,7 @@ interface IProductVariant {
   size: string;
   quantity: number;
 }
-export interface IproductsResponse {
+export interface IProduct {
   id: string;
   brand: null | IbrandProduct;
   title: string;
@@ -40,6 +40,14 @@ export interface IproductsResponse {
   total_count: number | null;
   variants: IProductVariant[];
   images: IProductImage[];
+}
+
+export interface IproductResponse {
+  current: number;
+  next: null | number;
+  previous: null | number;
+  count: number;
+  results: IProduct[];
 }
 
 export interface IContactsResponse {
