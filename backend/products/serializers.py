@@ -78,7 +78,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductImage
-        fields = "__all__"
+        fields = ("id", "image")
 
 
 class ProductReviewSerializer(serializers.ModelSerializer):
