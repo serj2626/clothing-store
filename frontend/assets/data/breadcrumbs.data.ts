@@ -57,3 +57,8 @@ export const bonusPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Бонусная система", url: "/bonus" },
 ];
+
+export const newsPageBreadcrumbs: IBreadcrumb[] = [
+  { title: "Главная", url: "/" },
+  { title: "Новинки", url: "/news" },
+];

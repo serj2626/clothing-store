@@ -33,6 +33,7 @@ export const api = {
   },
   products: {
     list: "/products/", //Возвращает список всех продуктов
+    last: "/products/last-collection/", //Возвращает список последних продуктов
     detail: (id: string) => `/products/${id}`, //Возвращает конкретный продукт
     like: (id: string) => `/products/${id}/like`, //Возвращает конкретный продукт
   },

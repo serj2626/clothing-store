@@ -110,6 +110,19 @@ def toggle_product_like(request, product_id):
     return JsonResponse({"liked": liked, "total_likes": total_likes})
 
 
+class ProductLastCollectionView(generics.ListAPIView):
+    queryset = Product.objects.all().order_by("-created_at")[:10]
+    serializer_class = ProductSerializer
+
+    @extend_schema(
+        tags=[TAG],
+        summary="Последние добавленные товары",
+        description="Возвращает последние 10 товаров",
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
