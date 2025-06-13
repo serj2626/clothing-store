@@ -17,7 +17,7 @@ function hideAlert() {
       Наш магазин использует файлы cookie для улучшения взаимодействия с сайтом.
       Продолжая просмотр страниц сайта, вы соглашаетесь с использованием файлов
       cookie.
-      <NuxtLink to="/cookies" class="alert-cookie__text-link">Подробнее</NuxtLink>
+      <NuxtLink to="/cookie" class="alert-cookie__text-link">Подробнее</NuxtLink>
     </p>
     <BaseButton
       class="alert-cookie__btn"
@@ -61,7 +61,7 @@ function hideAlert() {
   }
 
   &__text-link {
-    color: $txt;
+    color: blue;
   }
 
   &:deep(.base-button){

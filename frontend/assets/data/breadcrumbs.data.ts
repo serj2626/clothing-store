@@ -62,3 +62,8 @@ export const newsPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Новинки", url: "/news" },
 ];
+
+export const cookiePageBreadcrumbs: IBreadcrumb[] = [
+  { title: "Главная", url: "/" },
+  { title: "Cookie", url: "/cookie" },
+];

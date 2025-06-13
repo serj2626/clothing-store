@@ -30,24 +30,24 @@ const validateRegister = () => {
   return true;
 };
 
-const handleLogin = async () => {
-  try {
-    isLoading.value = true;
-    loginError.value = "";
-    const success = await authStore.login(loginData);
+// const handleLogin = async () => {
+//   try {
+//     isLoading.value = true;
+//     loginError.value = "";
+//     const success = await authStore.login(loginData);
 
-    if (success) {
-      await router.push("/account");
-    } else {
-      loginError.value = "Неверный email или пароль";
-    }
-  } catch (error) {
-    loginError.value = "Произошла ошибка при входе";
-    console.error("Login error:", error);
-  } finally {
-    isLoading.value = false;
-  }
-};
+//     if (success) {
+//       await router.push("/account");
+//     } else {
+//       loginError.value = "Неверный email или пароль";
+//     }
+//   } catch (error) {
+//     loginError.value = "Произошла ошибка при входе";
+//     console.error("Login error:", error);
+//   } finally {
+//     isLoading.value = false;
+//   }
+// };
 
 const handleRegister = async () => {
   if (!validateRegister()) return;
@@ -88,7 +88,6 @@ const handleRegister = async () => {
         v-if="isLoginForm"
         :is-loading="isLoading"
         :login-error="loginError"
-        @submit="handleLogin"
       />
 
       <AuthFormRegister

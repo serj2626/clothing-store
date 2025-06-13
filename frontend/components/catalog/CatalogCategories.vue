@@ -43,7 +43,11 @@ const toggleCategory = (categoryId: string) => {
           >
             <Icon
               class="catalog-nav__toggle-icon"
-              :name="HeroIcons.DOWN"
+              :name="
+                currentCategoryId === category.id
+                  ? HeroIcons.UP
+                  : HeroIcons.DOWN
+              "
               size="18"
             />
           </button>
@@ -104,7 +108,6 @@ const toggleCategory = (categoryId: string) => {
     // &:hover{
     //   background-color: rgb(238, 235, 235);;
     // }
-
   }
 
   &__parent {
@@ -137,17 +140,17 @@ const toggleCategory = (categoryId: string) => {
     border: none;
     padding: 0.25rem;
     cursor: pointer;
-    color: var(--color-accent);
-    transition: all 0.2s ease;
+    color: $accent;
+    transition: all 0.5s ease;
     border-radius: 4px;
 
     &:hover {
-      color: var(--color-accent-dark);
+      color: $accent-dark;
       background: rgba(0, 0, 0, 0.05);
     }
 
     &-icon {
-      transition: transform 0.2s ease;
+      transition: transform 0.5s ease;
     }
   }
 
@@ -192,7 +195,7 @@ const toggleCategory = (categoryId: string) => {
 .catalog-nav-enter-from,
 .catalog-nav-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-60px);
   max-height: 0;
 }
 

@@ -1,21 +1,38 @@
 <script setup lang="ts">
+import { api } from "~/api";
+const { $api } = useNuxtApp();
+
 defineProps<{
   isLoading: boolean;
   loginError: string;
 }>();
 
-const emit = defineEmits(["submit"]);
+// const emit = defineEmits(["submit"]);
 
-// const loginData = reactive({
-//   email: "",
-//   password: "",
-// });
+const loginData = reactive({
+  email: "",
+  password: "",
+});
+
+async function submit() {
+  try {
+    const res = await $api(api.users.login, {
+      method: "POST",
+      body: loginData,
+    });
+
+    console.log(res);
+  } catch (e) {
+    console.log("error", e);
+  }
+}
 </script>
 <template>
-  <form class="auth-form-login" @submit.prevent="emit('submit')">
+  <form class="auth-form-login" @submit.prevent="submit">
     <div class="auth-form-login__form-group">
       <label for="login-email">Email</label>
       <BaseInput
+        v-model:input-value="loginData.email"
         :animate="false"
         radius="8px"
         type="email"
@@ -27,6 +44,7 @@ const emit = defineEmits(["submit"]);
       <label for="login-password">Пароль</label>
 
       <BaseInput
+        v-model:input-value="loginData.password"
         :animate="false"
         radius="8px"
         type="password"
@@ -37,11 +55,7 @@ const emit = defineEmits(["submit"]);
       </NuxtLink>
     </div>
 
-    <button
-      type="submit"
-      class="auth-form-login__auth-btn"
-      :disabled="isLoading"
-    >
+    <button class="auth-form-login__auth-btn" :disabled="isLoading">
       <span v-if="!isLoading">Войти</span>
       <span v-else class="auth-form-login__loader"></span>
     </button>
