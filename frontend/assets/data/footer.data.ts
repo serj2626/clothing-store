@@ -34,7 +34,7 @@ export const footerLinks: ILink[] = [
       },
       {
         label: "Бонусная система",
-        link: "/",
+        link: "/bonus",
       },
     ],
   },

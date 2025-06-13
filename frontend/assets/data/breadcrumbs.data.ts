@@ -43,7 +43,6 @@ export const policyPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Политика конфиденциальности", url: "/policy" },
 ];
 
-
 export const returnPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Обмен и возврат", url: "/return" },
@@ -52,4 +51,9 @@ export const returnPageBreadcrumbs: IBreadcrumb[] = [
 export const deliveryPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Оплата и доставка", url: "/delivery" },
+];
+
+export const bonusPageBreadcrumbs: IBreadcrumb[] = [
+  { title: "Главная", url: "/" },
+  { title: "Бонусная система", url: "/bonus" },
 ];
