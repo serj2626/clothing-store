@@ -44,7 +44,8 @@ const {
   cursor: pointer;
 
   &:hover {
-    opacity: 0.8;
+    border-color: $accent-dark;
+    color: $accent-dark;
   }
 
   &__xs {
