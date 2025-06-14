@@ -44,6 +44,7 @@ defineProps<IInputProps>();
     position: absolute;
     left: 20px;
     top: 20px;
+    opacity: 0.8;
 
     &.active {
       top: 4px;
@@ -58,12 +59,15 @@ defineProps<IInputProps>();
     background-color: transparent;
     padding: 16px 20px;
     width: 100%;
+    min-height: 100px;
     max-height: 200px;
     height: 100px;
     border-radius: 5px;
     border: 1px solid #25252584;
+    transition: all 0.3s ease-in;
 
     &:focus {
+      border-color: #e0bea2;
       outline: none;
     }
 

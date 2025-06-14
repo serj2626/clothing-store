@@ -101,7 +101,7 @@ const currentType = computed(() =>
     transition: border-color 0.3s;
 
     &:focus {
-      border-color: green;
+      border-color: #e0bea2;
       outline: none;
     }
 
@@ -120,6 +120,7 @@ const currentType = computed(() =>
     transition: 0.5s ease;
     background: white;
     padding: 0 4px;
+    opacity: .8;
 
     &.active {
       top: 4px;

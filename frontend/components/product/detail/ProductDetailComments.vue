@@ -1,49 +1,46 @@
 <script setup lang="ts">
-// Демо-данные
-const likesCount = ref(128)
-const isLiked = ref(false)
+const modalsStore = useModalsStore();
+const likesCount = ref(128);
+const isLiked = ref(false);
 
 const comments = ref([
   {
     id: 1,
-    userName: 'Анна П.',
-    date: '15 мая 2023',
+    userName: "Анна П.",
+    date: "15 мая 2023",
     rating: 5,
-    text: 'Отличное качество, удобная посадка. Заказала свой обычный размер - подошел идеально.',
-    photos: [
-      '/favorites/one.png',
-      '/favorites/two.png'
-    ],
-    advantages: 'Качество, посадка, материал',
-    disadvantages: 'Нет'
+    text: "Отличное качество, удобная посадка. Заказала свой обычный размер - подошел идеально.",
+    photos: ["/favorites/one.png", "/favorites/two.png"],
+    advantages: "Качество, посадка, материал",
+    disadvantages: "Нет",
   },
   {
     id: 2,
-    userName: 'Иван С.',
-    date: '10 мая 2023',
+    userName: "Иван С.",
+    date: "10 мая 2023",
     rating: 4,
-    text: 'Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.',
-    photos: [
-      '/favorites/three.png'
-    ],
-    advantages: 'Теплая, удобная',
-    disadvantages: 'Цвет отличается'
-  }
-])
+    text: "Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.",
+    photos: ["/favorites/three.png"],
+    advantages: "Теплая, удобная",
+    disadvantages: "Цвет отличается",
+  },
+]);
 
 const openGallery = (photos, index) => {
   // Здесь будет логика открытия галереи
-  console.log('Open gallery at index:', index)
-}
+  console.log("Open gallery at index:", index);
+};
 </script>
 <template>
   <div class="ozon-comments">
     <div class="comments-header">
       <h3 class="comments-title">Отзывы о товаре</h3>
       <div class="likes-block">
-        <button class="like-btn" :class="{ 'liked': isLiked }">
+        <button class="like-btn" :class="{ liked: isLiked }">
           <Icon name="ph:heart" class="like-icon" />
-          <span class="likes-count">{{ likesCount }} человеку понравился товар</span>
+          <span @click="modalsStore.openModal('review')" class="likes-count"
+            >{{ likesCount }} человеку понравился товар</span
+          >
         </button>
       </div>
     </div>
@@ -62,11 +59,11 @@ const openGallery = (photos, index) => {
 
         <div class="comment-rating">
           <div class="stars">
-            <Icon 
-              v-for="star in 5" 
-              :key="star" 
-              name="ph:star-fill" 
-              :class="{ 'active': star <= comment.rating }" 
+            <Icon
+              v-for="star in 5"
+              :key="star"
+              name="ph:star-fill"
+              :class="{ active: star <= comment.rating }"
             />
           </div>
           <span class="rating-value">{{ comment.rating }} из 5</span>
@@ -75,14 +72,14 @@ const openGallery = (photos, index) => {
         <div class="comment-text">{{ comment.text }}</div>
 
         <div v-if="comment.photos.length" class="comment-photos">
-          <div 
-            v-for="(photo, idx) in comment.photos" 
-            :key="idx" 
+          <div
+            v-for="(photo, idx) in comment.photos"
+            :key="idx"
             class="photo-thumb"
             @click="openGallery(comment.photos, idx)"
           >
-            <NuxtImg 
-              :src="photo" 
+            <NuxtImg
+              :src="photo"
               loading="lazy"
               format="webp"
               width="100"

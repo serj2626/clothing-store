@@ -19,10 +19,18 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       <option value="">2xl</option>
     </select>
     <div class="products-detail-info__actions">
-      <button class="products-detail-info__actions-basket">В КОРЗИНУ</button>
-      <button class="products-detail-info__actions-favorite">
-        В ИЗБРАННОЕ
-      </button>
+      <BaseButton
+        radius="5px"
+        label="В КОРЗИНУ"
+        size="lg"
+        style="width: 100%"
+      />
+      <BaseButtonOutline
+        radius="5px"
+        label="В ИЗБРАННОЕ"
+        size="lg"
+        style="width: 100%"
+      />
     </div>
     <p class="products-detail-info__description">Подробности</p>
     <div class="products-detail-info__accordion">
@@ -121,7 +129,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
           font-weight: 700;
         }
         &-icon {
-            color: $accent-dark;
+          color: $accent-dark;
         }
       }
       &-content {
