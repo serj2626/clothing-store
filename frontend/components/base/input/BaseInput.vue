@@ -93,7 +93,7 @@ const currentType = computed(() =>
     width: 100%;
     padding-block: 16px;
     padding-left: 20px;
-    border: 1px solid $txt;
+    border: 1px solid #25252584;
     font-size: 14px;
     color: $txt;
     background: white;

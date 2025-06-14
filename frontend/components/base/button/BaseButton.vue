@@ -8,7 +8,7 @@ interface IBaseButton {
 }
 
 const {
-  color = "blue",
+  color = "#d38f56",
   size = "md",
   radius = "10px",
   label,

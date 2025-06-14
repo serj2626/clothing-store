@@ -1,10 +1,60 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { api } from "~/api";
+const { $api } = useNuxtApp();
+
+const modalsStore = useModalsStore();
+
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface ISubscribeResponse {
+  msg: string;
+  status: string;
+}
+
+interface FeedbackForm {
+  email: FormField<string>;
+}
+
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+});
+
+function clearForm() {
+  formData.email.value = "";
+  formData.email.error = "";
+}
+
+async function submit() {
+  try {
+    const res: ISubscribeResponse = await $api(api.contacts.subscription, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+      },
+    });
+    console.log("asdasdsad", res.msg, res.status);
+    modalsStore.openModal("success");
+    clearForm();
+  } catch (e) {
+    console.log("error", e);
+  }
+}
+</script>
 <template>
   <div class="base-form-subscribe">
     <div class="container">
       <h2 class="base-form-subscribe__title">Узнайте первым о новинках</h2>
-      <form class="base-form-subscribe__form">
-        <BaseInput radius="5px" type="email" placeholder="Введите ваш email" />
+      <form class="base-form-subscribe__form" @submit.prevent="submit">
+        <BaseInput
+          v-model:input-value="formData.email.value"
+          radius="5px"
+          type="email"
+          placeholder="Введите ваш email"
+        />
         <BaseButton
           class="base-form-subscribe__form-btn"
           color="#e0bea2"
@@ -15,7 +65,9 @@
         <p class="base-form-subscribe__form-text">
           Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих
           персональных данных и ознакомлен(а) с
-          <NuxtLink class="base-form-subscribe__form-text-link" to="/policy">условиями конфиденциальности.</NuxtLink>
+          <NuxtLink class="base-form-subscribe__form-text-link" to="/policy"
+            >условиями конфиденциальности.</NuxtLink
+          >
         </p>
       </form>
     </div>

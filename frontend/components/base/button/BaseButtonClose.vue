@@ -4,11 +4,12 @@ const {
   size = 20,
   top = "0",
   right = "0",
+  color= 'black'
 } = defineProps<{
   size?: number;
   top?: string;
   right?: string;
-  color: string
+  color?: string
 }>();
 </script>
 <template>

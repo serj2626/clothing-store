@@ -14,6 +14,7 @@ export const api = {
     oferta: "/legal/offerta/", //Получает оферту
     aboutcompany: "/legal/about-company/", //Получает информацию о компании
     cookiepolicy: "/legal/cookie-policy/", //Получает политику cookie
+    exchange: "/legal/exchange-and-return/", // Страница обмена и возврата
   },
   contacts: {
     list: "/contacts/", //Получает контактную информацию

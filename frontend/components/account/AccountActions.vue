@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import AccountHistoryOrders from "./AccountHistoryOrders.vue";
 import AccountLogout from "./AccountLogout.vue";
-import AccountData from "./AccountData.vue";
-import AccountFeedback from "./AccountFeedback.vue";
+import AccountFormData from "./form/AccountFormData.vue";
+import BaseFormFeedback from "../base/form/BaseFormFeedback.vue";
 const currentComponent = ref<"one" | "two" | "three" | "four">("one");
 
 const tabs = {
   one: AccountHistoryOrders,
-  two: AccountData,
-  three: AccountFeedback,
+  two: AccountFormData,
+  three: BaseFormFeedback,
   four: AccountLogout,
 };
 </script>

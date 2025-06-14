@@ -1,14 +1,61 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { api } from "~/api";
+const { $api } = useNuxtApp();
+
+const modalsStore = useModalsStore();
+
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface ISubscribeResponse {
+  msg: string;
+  status: string;
+}
+
+interface FeedbackForm {
+  message: FormField<string>;
+  name: FormField<string>;
+  phone: FormField<string>;
+}
+
+const formData = reactive<FeedbackForm>({
+  name: { value: "", error: "", required: true },
+  phone: { value: "", error: "", required: true },
+  message: { value: "", error: "", required: true },
+});
+
+async function submit() {
+  try {
+    const res = await $api<ISubscribeResponse>(api.contacts.feedback, {
+      method: "POST",
+      body: {
+        name: formData.name.value,
+        phone: formData.phone.value,
+        message: formData.message.value,
+        agree: true,
+      },
+    });
+    console.log("asdasdsad", res.msg, res.status);
+    modalsStore.openModal("success");
+    clearForm(formData);
+  } catch (e) {
+    console.log("error", e);
+  }
+}
+</script>
 
 <template>
   <div class="account-form-feedback">
     <p class="account-form-feedback__title">Форма обратной связи</p>
 
-    <form class="account-form-feedback__form" @submit.prevent="$emit('submit')">
+    <form class="account-form-feedback__form" @submit.prevent="submit">
       <div class="account-form-feedback__form-group">
         <label for="login-email">Имя</label>
         <BaseInput
-          :animate="false"
+          v-model:input-value="formData.name.value"
           radius="8px"
           type="text"
           placeholder="Ваше имя "
@@ -18,18 +65,18 @@
       <div class="account-form-feedback__form-group">
         <label for="login-password">Телефон</label>
         <BaseInput
+          v-model:input-value="formData.phone.value"
           :animate="false"
           radius="8px"
           type="text"
           placeholder="8-888-888-88-88"
         />
       </div>
-      <div class="account-form-feedback__form-group">
-        <textarea
-          class="account-form-feedback__form-group-textarea"
-          placeholder="Ваше сообщение"
-        />
-      </div>
+      <BaseInputTextArea
+        v-model:input-value="formData.message.value"
+        placeholder="Ваше сообщение"
+      />
+
       <BaseButton
         class="account-form-feedback__form-submit"
         label="Отправить"
@@ -73,17 +120,6 @@
         font-size: 14px;
         color: $txt;
         font-weight: 500;
-      }
-      &-textarea {
-        resize: vertical;
-        margin-top: 8px;
-        width: 100%;
-        max-height: 200px;
-        height: 100px;
-        border-radius: 8px;
-        border: 1px solid $txt;
-        padding-block: 16px;
-        padding-left: 20px;
       }
     }
   }

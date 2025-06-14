@@ -8,7 +8,7 @@ interface FormData {
   [key: string]: FormField;
 }
 
-export const clearFormAuth = (formData: FormData) => {
+export const clearForm = (formData: FormData) => {
   for (const key in formData) {
     if (key === 'remember') {
       formData[key].value = false;
@@ -23,11 +23,11 @@ export const clearFormAuth = (formData: FormData) => {
 
 
 export const getVideo = (videoUrl: string | undefined) => {
-  return [useRuntimeConfig().public.media_url, videoUrl].join('')
+  return [useRuntimeConfig().public.mediaUrl, videoUrl].join('')
 }
 
 export const getMedia = (mediaContentUrl: string) => {
-  return [useRuntimeConfig().public.media_url, mediaContentUrl].join('')
+  return [useRuntimeConfig().public.mediaUrl, mediaContentUrl].join('')
 }
 
 export const formatNumber = (num: number): string => {

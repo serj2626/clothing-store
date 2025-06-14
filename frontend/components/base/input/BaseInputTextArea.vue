@@ -4,7 +4,7 @@ interface IInputProps {
   error?: string;
 }
 
-const inputValue = defineModel<string | number>("inputValue");
+const inputValue = defineModel<string | number>("textareaValue");
 
 defineProps<IInputProps>();
 </script>
@@ -15,10 +15,16 @@ defineProps<IInputProps>();
       :class="{ 'textarea-component__input--error': error }"
       class="textarea-component__input"
     />
-    <span v-if="!inputValue" class="textarea-component__placeholder">{{
-      placeholder
-    }}</span>
-    <small v-if="error" class="textarea-component__error">{{ error }}</small>
+    <span
+      v-if="!inputValue"
+      class="textarea-component__placeholder"
+      :class="{ active: inputValue }"
+    >
+      {{ placeholder }}
+    </span>
+    <small v-if="error" class="textarea-component__error">
+      {{ error }}
+    </small>
   </label>
 </template>
 
@@ -38,6 +44,12 @@ defineProps<IInputProps>();
     position: absolute;
     left: 20px;
     top: 20px;
+
+    &.active {
+      top: 4px;
+      font-size: 11px;
+      opacity: 0;
+    }
   }
 
   &__input {
@@ -45,11 +57,11 @@ defineProps<IInputProps>();
     border: none;
     background-color: transparent;
     padding: 16px 20px;
-    max-height: 300px;
-    min-height: 300px;
-    min-width: 100%;
-    box-shadow: 10px 14px 20px rgba(252, 252, 252, 0.469);
+    width: 100%;
+    max-height: 200px;
+    height: 100px;
     border-radius: 5px;
+    border: 1px solid #25252584;
 
     &:focus {
       outline: none;
