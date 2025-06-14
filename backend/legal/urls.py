@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CookiePolicyView, AboutView, OffertaView, PolicyView
+from .views import CookiePolicyView, AboutView, OffertaView, PolicyView, ExchangeAndReturnPageView
 
 
 urlpatterns = [
@@ -7,4 +7,6 @@ urlpatterns = [
     path("about-company/", AboutView.as_view(), name="about-company"),
     path("offerta/", OffertaView.as_view(), name="offerta"),
     path("policy/", PolicyView.as_view(), name="policy"),
+    path("exchange-and-return/", ExchangeAndReturnPageView.as_view(), name="exchange-and-return"),
+
 ]

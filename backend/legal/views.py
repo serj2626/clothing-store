@@ -1,10 +1,11 @@
 from common.mixins import BaseSectionViewMixin
-from .models import About, CookiePolicy, Offerta, Policy
+from .models import About, CookiePolicy, Offerta, Policy, ExchangeAndReturnPage
 from .serializers import (
     AboutSerializer,
     CookiePolicySerializer,
     OffertaSerializer,
     PolicySerializer,
+    ExchangeAndReturnPageSerializer,
 )
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveAPIView
@@ -46,5 +47,14 @@ class CookiePolicyView(BaseSectionViewMixin):
     serializer_class = CookiePolicySerializer
 
     @extend_schema(tags=[TAG], summary="Политика cookie")
+    def get(self, request):
+        return super().get(request)
+
+
+class ExchangeAndReturnPageView(BaseSectionViewMixin):
+    model = ExchangeAndReturnPage
+    serializer_class = ExchangeAndReturnPageSerializer
+
+    @extend_schema(tags=[TAG], summary="Страница обмена и возврата")
     def get(self, request):
         return super().get(request)
