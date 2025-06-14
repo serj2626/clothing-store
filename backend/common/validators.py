@@ -49,3 +49,25 @@ def validate_image_extension_and_format(image):
         raise ValidationError(
             "Не удалось открыть изображение. Убедитесь, что файл — это допустимое изображение."
         )
+
+
+
+def validate_image_extension_and_format(value):
+    import os
+    from PIL import Image
+    
+    ext = os.path.splitext(value.name)[1].lower()
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+    
+    if ext not in valid_extensions:
+        raise ValidationError(
+            _('Неподдерживаемый формат изображения. Разрешены: JPG, JPEG, PNG, WEBP')
+        )
+    
+    try:
+        img = Image.open(value)
+        img.verify()
+    except Exception as e:
+        raise ValidationError(
+            _('Файл не является изображением или поврежден')
+        )

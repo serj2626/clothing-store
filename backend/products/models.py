@@ -200,6 +200,7 @@ class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
     """
     Изображение продукта
     """
+
     image_field_name = "image"
 
     product = models.ForeignKey(
@@ -211,7 +212,6 @@ class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
         upload_to=dynamic_upload_to,
     )
 
-
     class Meta:
         verbose_name = "Изображение товара"
         verbose_name_plural = "Изображения товара"
@@ -220,22 +220,71 @@ class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
         return self.product.title
 
 
-class ProductReview(BaseID, BaseName, BaseDescription, BaseDate):
+class Review(BaseID, BaseDescription, BaseDate):
     """
     Отзыв продукта
     """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="reviews",
+        verbose_name="Пользователь",
+    )
 
     email = models.EmailField("Email")
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
     )
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="reviews",
+    )
+    advantages = models.TextField("Достоинства", blank=True, null=True)
+    disadvantages = models.TextField("Недостатки", blank=True, null=True)
     rating = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+    is_published = models.BooleanField("Опубликован", default=False)
+    likes = models.ManyToManyField(User, related_name="+", blank=True)
+    dislikes = models.ManyToManyField(User, related_name="+", blank=True)
+
+    @property
+    def has_admin_reply(self):
+        return hasattr(self, "admin_reply")
 
     @property
     def time_age(self):
-        return timesince(self.created_timestamp)
+        return timesince(self.created_at)
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ["-created_at"]
+        unique_together = ["user", "product"]
+
+
+class ReviewPhoto(BaseDate, WebpImageMixin):
+    review = models.ForeignKey(
+        Review, on_delete=models.CASCADE, related_name="photos", verbose_name="Отзыв"
+    )
+    image = models.ImageField(
+        "Фотография",
+        upload_to=dynamic_upload_to,
+        validators=[validate_image_extension_and_format],
+    )
+
+    class Meta:
+        verbose_name = "Фотография отзыва"
+        verbose_name_plural = "Фотографии отзывов"
+
+    def __str__(self):
+        return f"Фото для отзыва #{self.review.id}"
 
 
 class CompanyReply(BaseID, BaseDescription, BaseDate):
@@ -244,9 +293,7 @@ class CompanyReply(BaseID, BaseDescription, BaseDate):
     Только пользователи с правами администратора (компания) могут создавать ответы
     """
 
-    review = models.ForeignKey(
-        ProductReview, on_delete=models.CASCADE, related_name="replies"
-    )
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="replies")
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

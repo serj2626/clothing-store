@@ -22,6 +22,7 @@ const { data: product, pending } = await useAsyncData<IProduct>(
         <ProductDetailImages v-if="product" :product="product" />
         <ProductDetailInfo />
       </div>
+      <ProductDetailComments   />
     </div>
   </div>
 </template>

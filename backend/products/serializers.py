@@ -7,7 +7,7 @@ from .models import (
     Product,
     ProductVariant,
     ProductImage,
-    ProductReview,
+    Review,
     # Favorite,
     Brand,
 )
@@ -84,7 +84,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductReview
+        model = Review
         fields = "__all__"
 
 
