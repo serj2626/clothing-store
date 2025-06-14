@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { HeroIcons } from "~/assets/icons/types/hero-icons";
+
 const modalsStore = useModalsStore();
 const likesCount = ref(128);
 const isLiked = ref(false);
@@ -24,6 +26,36 @@ const comments = ref([
     advantages: "Теплая, удобная",
     disadvantages: "Цвет отличается",
   },
+  {
+    id: 3,
+    userName: "Иван С.",
+    date: "10 мая 2023",
+    rating: 4,
+    text: "Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.",
+    photos: ["/favorites/three.png"],
+    advantages: "Теплая, удобная",
+    disadvantages: "Цвет отличается",
+  },
+  {
+    id: 4,
+    userName: "Иван С.",
+    date: "10 мая 2023",
+    rating: 4,
+    text: "Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.",
+    photos: ["/favorites/three.png"],
+    advantages: "Теплая, удобная",
+    disadvantages: "Цвет отличается",
+  },
+  {
+    id: 5,
+    userName: "Иван С.",
+    date: "10 мая 2023",
+    rating: 4,
+    text: "Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.",
+    photos: ["/favorites/three.png"],
+    advantages: "Теплая, удобная",
+    disadvantages: "Цвет отличается",
+  },
 ]);
 
 const openGallery = (photos, index) => {
@@ -32,13 +64,24 @@ const openGallery = (photos, index) => {
 };
 </script>
 <template>
-  <div class="ozon-comments">
-    <div class="comments-header">
-      <h3 class="comments-title">Отзывы о товаре</h3>
-      <div class="likes-block">
+  <div class="product-detail-comments">
+    <div class="product-detail-comments__header">
+      <div class="product-detail-comments__header-top">
+        <h3 class="product-detail-comments__header-top-title">
+          Отзывы о товаре
+        </h3>
+        <button
+          class="product-detail-comments__header-top-btn"
+          @click="modalsStore.openModal('review')"
+        >
+          <Icon :name="HeroIcons.PLUS" size="32" />
+        </button>
+      </div>
+
+      <div class="product-detail-comments__main">
         <button class="like-btn" :class="{ liked: isLiked }">
           <Icon name="ph:heart" class="like-icon" />
-          <span @click="modalsStore.openModal('review')" class="likes-count"
+          <span class="likes-count"
             >{{ likesCount }} человеку понравился товар</span
           >
         </button>
@@ -103,36 +146,55 @@ const openGallery = (photos, index) => {
         </div>
       </div>
     </div>
+    <PaginationComponent />
   </div>
 </template>
 <style scoped lang="scss">
-.ozon-comments {
+.product-detail-comments {
   background: $white;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+  margin-bottom: 100px;
 
-.comments-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba($txt, 0.1);
-}
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba($txt, 0.1);
+    &-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      &-title {
+        font-family: $ff_title;
+        font-size: 22px;
+        font-weight: 700;
+        color: $txt;
+        margin: 0;
+      }
+      &-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: $accent-dark;
+        font-size: 20px;
+        transition: all 0.3s ease;
+        &:hover {
+          color: $accent;
+          scale: 1.1;
+        }
+      }
+    }
+  }
 
-.comments-title {
-  font-family: $ff_title;
-  font-size: 22px;
-  font-weight: 700;
-  color: $txt;
-  margin: 0;
-}
-
-.likes-block {
-  display: flex;
-  align-items: center;
+  &__main {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .like-btn {
@@ -305,7 +367,7 @@ const openGallery = (photos, index) => {
 }
 
 @include mediaTablet {
-  .ozon-comments {
+  .product-detail-comments {
     padding: 32px;
   }
 
