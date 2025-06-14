@@ -11,9 +11,15 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 
 from orders.serializers import OrderSerializer
 from products.serializers import CartSerializer, FavoriteSerializer
-
+from .models import Profile
 
 User = get_user_model()
+
+
+class ProfileSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ("first_name", "last_name", "city", "street")
 
 
 class RegisterSerializer(ModelSerializer):
@@ -76,6 +82,7 @@ class UserInfoSerializer(ModelSerializer):
     cart = CartSerializer(read_only=True)
     orders = OrderSerializer(many=True, read_only=True)
     favorites = FavoriteSerializer(many=True, read_only=True)
+    profile = ProfileSerializer(read_only=True, many=False)
 
     class Meta:
         model = User
@@ -83,6 +90,7 @@ class UserInfoSerializer(ModelSerializer):
             "id",
             "email",
             "phone",
+            "profile",
             "cart",
             "orders",
             "favorites",
