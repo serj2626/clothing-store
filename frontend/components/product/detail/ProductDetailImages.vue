@@ -1,149 +1,132 @@
-<!-- <script setup lang="ts">
-import { ref } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Thumbs, FreeMode } from 'swiper/modules'
+<script setup lang="ts">
+import { ref } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/thumbs";
+import type { IProduct } from "~/types";
 
-// CSS
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/navigation'
-import 'swiper/css/thumbs'
+defineProps<{ product: IProduct }>();
 
-const thumbsSwiper = ref(null)
+const thumbsSwiper = ref<any>(null);
+const mainSwiper = ref<any>(null);
 
-const images = [
-  '/favorites/one.png',
-  '/favorites/two.png',
-  '/favorites/three.png',
-  '/favorites/one.png',
-  '/favorites/two.png',
-  '/favorites/three.png'
-]
+function setThumbsSwiper(swiper: any) {
+  thumbsSwiper.value = swiper;
+}
 
-const onThumbsSwiper = (swiper: any) => {
-  thumbsSwiper.value = swiper
+function setMainSwiper(swiper: any) {
+  mainSwiper.value = swiper;
 }
 </script>
 
 <template>
-  <div class="product-gallery">
+  <div v-if="product.images?.length" class="gallery">
+    <!-- Миниатюры (вертикальные) -->
     <Swiper
-      class="thumbs-swiper"
-      direction="vertical"
-      :spaceBetween="10"
-      :slidesPerView="4"
-      :freeMode="true"
-      :watchSlidesProgress="true"
-      :modules="[FreeMode, Thumbs]"
-      @swiper="onThumbsSwiper"
+      class="gallery-thumbs"
+      :direction="'vertical'"
+      :space-between="10"
+      :slides-per-view="4"
+      :watch-slides-progress="true"
+      :modules="[Thumbs]"
+      @swiper="setThumbsSwiper"
     >
-      <SwiperSlide v-for="(img, idx) in images" :key="idx">
-        <img :src="img" alt="preview" />
+      <SwiperSlide v-for="item in product.images" :key="item.id">
+        <NuxtImg
+          v-if="item.image"
+          :src="item.image"
+          format="webp"
+          loading="lazy"
+          width="100"
+          height="100"
+        />
       </SwiperSlide>
     </Swiper>
 
+    <!-- Основное изображение -->
     <Swiper
-      class="main-swiper"
+      class="gallery-top"
       :thumbs="{ swiper: thumbsSwiper }"
-      :navigation="true"
-      :modules="[Navigation, Thumbs]"
+      :slides-per-view="1"
+      :space-between="10"
+      :modules="[Thumbs]"
+      @swiper="setMainSwiper"
     >
-      <SwiperSlide v-for="(img, idx) in images" :key="idx">
-        <img :src="img" alt="main" />
+      <SwiperSlide v-for="item in product.images" :key="item.id">
+        <NuxtImg
+          v-if="item.image"
+          :src="item.image"
+          format="webp"
+          loading="lazy"
+          width="600"
+          height="600"
+        />
       </SwiperSlide>
     </Swiper>
   </div>
+  <NuxtImg
+    v-else
+    :src="product.avatar"
+    format="webp"
+    loading="lazy"
+    width="500"
+    height="500"
+  />
 </template>
 
 <style scoped lang="scss">
-.product-gallery {
+.gallery {
   display: flex;
   gap: 20px;
-  align-items: flex-start;
+  height: 500px; /* Фиксированная высота контейнера */
 
-  .thumbs-swiper {
+  .gallery-thumbs {
     width: 100px;
-    height: 500px;
+    height: 100%;
 
     .swiper-slide {
-      height: auto !important;
-    }
-
-    img {
-      width: 100%;
+      height: calc(25% - 10px); /* 4 слайда с учетом gap */
       cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.2s;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
 
-      &:hover {
-        border-color: #e0bea2;
+      &.swiper-slide-thumb-active {
+        opacity: 1;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        object-fit: cover;
       }
     }
   }
 
-  .main-swiper {
+  .gallery-top {
     flex: 1;
+    height: 100%;
 
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
+    .swiper-slide {
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        object-fit: contain; /* или cover в зависимости от предпочтений */
+      }
     }
   }
 }
-</style>
- -->
 
-
-
-
-
- <script setup lang="ts">
-// Create 10 slides
-const containerRef = ref(null)
-const slides = ref(Array.from({ length: 10 }))
-
-const swiper = useSwiper(containerRef)
-
-onMounted(() => {
-  // Access Swiper instance
-  // Read more about Swiper instance: https://swiperjs.com/swiper-api#methods--properties
-  console.log(swiper.instance)
-})
-</script>
-
-<template>
-  <ClientOnly>
-    <swiper-container ref="containerRef">
-      <swiper-slide
-        v-for="(slide, idx) in slides"
-        :key="idx"
-        style="background-color: rgb(32, 233, 70); color: white;"
-      >
-        Slide {{ idx + 1 }}
-      </swiper-slide>
-    </swiper-container>
-  </ClientOnly>
-
-  <!-- Go back one slide -->
-  <button @click="swiper.prev()">
-    Prev
-  </button>
-  <!-- Go forward one slide -->
-  <button @click="swiper.next()">
-    Next
-  </button>
-</template>
-
-<style lang="css">
-swiper-slide {
+.no-images {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 18px;
-  height: 20vh;
-  font-size: 4rem;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;
+  justify-content: center;
+  height: 300px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
 }
 </style>

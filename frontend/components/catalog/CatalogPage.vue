@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 
-const productStore = useProductStore();
+const productStore = useProductsStore();
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 

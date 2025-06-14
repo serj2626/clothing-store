@@ -3,11 +3,12 @@ from .models import (
     Category,
     Cart,
     CartItem,
+    Favorite,
     Product,
     ProductVariant,
     ProductImage,
     ProductReview,
-    Favorite,
+    # Favorite,
     Brand,
 )
 from django.db.models import Sum

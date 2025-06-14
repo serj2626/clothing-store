@@ -1,9 +1,9 @@
-import type { IProduct, IproductResponse } from "~/types";
+import type { IProduct, IProductResponse } from "~/types";
 
 import { api } from "~/api";
 import { defineStore } from "pinia";
 
-export const useProductStore = defineStore("product", () => {
+export const useProductsStore = defineStore("products", () => {
   const products = ref<IProduct[]>([]); 
   const error = ref<string | null>(null);
 
@@ -15,7 +15,7 @@ export const useProductStore = defineStore("product", () => {
   async function fetchAllProducts(page: number = 1, page_size: number = 9) {
     const { $api } = useNuxtApp();
     try {
-      const res = await $api<IproductResponse>(api.products.list, {
+      const res = await $api<IProductResponse>(api.products.list, {
         query: {
           page,
           page_size,

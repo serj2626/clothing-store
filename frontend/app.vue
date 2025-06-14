@@ -29,7 +29,7 @@ await useAsyncData<Record<string, IContactsResponse[]>>(
     <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>
-  <BaseSeoMeta />
+  <!-- <BaseSeoMeta /> -->
 </template>
 <style>
 .page-enter-active,

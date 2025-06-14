@@ -1,4 +1,4 @@
-from common.mixins import WebpImageMixin
+from common.mixins import AvatarPreviewMixin, WebpImageMixin
 from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
 from common.validators import validate_image_extension_and_format
 from common.upload_to import dynamic_upload_to
@@ -16,6 +16,7 @@ from common.types import (
     GENDER_TYPE,
     SIZE_TYPE,
 )
+from django.utils.html import format_html
 from common.upload import compress_image
 from users.models import User
 from django.utils import timezone
@@ -92,7 +93,9 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         return reverse("category_detail", kwargs={"slug": self.slug})
 
 
-class Product(BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin):
+class Product(
+    BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin, AvatarPreviewMixin
+):
     """
     Продукт
     """
@@ -140,6 +143,20 @@ class Product(BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin):
         return self.title
 
 
+class ProductDetail(BaseTitle, BaseDescription):
+    """
+    Детали продукта
+    """
+
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="details"
+    )
+
+    class Meta:
+        verbose_name = "Детали"
+        verbose_name_plural = "Детали"
+
+
 class ProductLike(models.Model):
     """
     Лайк товара
@@ -179,10 +196,11 @@ class ProductVariant(models.Model):
         unique_together = ("product", "color", "size")
 
 
-class ProductImage(models.Model, WebpImageMixin):
+class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
     """
     Изображение продукта
     """
+    image_field_name = "image"
 
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images"
@@ -192,6 +210,7 @@ class ProductImage(models.Model, WebpImageMixin):
         validators=[validate_image_extension_and_format],
         upload_to=dynamic_upload_to,
     )
+
 
     class Meta:
         verbose_name = "Изображение товара"
@@ -272,7 +291,10 @@ class Favorite(BaseDate):
     )
 
     class Meta:
-        unique_together = ("user", "product")
+        # unique_together = ("user", "product")
+        unique_together = ("user",)
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранные"
 
 
 class Discount(models.Model):

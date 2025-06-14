@@ -79,4 +79,11 @@ class UserInfoSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "phone", "cart", "orders", "favorites")
+        fields = (
+            "id",
+            "email",
+            "phone",
+            "cart",
+            "orders",
+            "favorites",
+        )

@@ -8,10 +8,17 @@ from .models import (
     Discount,
     ProductLike,
     Brand,
+    ProductDetail,
 )
 from mptt.admin import DraggableMPTTAdmin
 from django.db.models import Sum
 from django.utils.safestring import mark_safe
+from django.utils.html import format_html
+
+
+class ProductDetailInline(admin.TabularInline):
+    model = ProductDetail
+    extra = 1
 
 
 @admin.register(Brand)
@@ -66,6 +73,11 @@ class DiscountAdmin(admin.ModelAdmin):
 class ProductImageLine(admin.TabularInline):
     model = ProductImage
     extra = 1
+    readonly_fields = ("avatar_preview",)
+    fields = (
+        "image",
+        "avatar_preview",
+    )
 
 
 class ProductVariantLine(admin.TabularInline):
@@ -86,7 +98,6 @@ class CategoryAdmin(DraggableMPTTAdmin):
     list_display_links = ("indented_title",)  # по клику на название — редактирование
     prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
-
     def get_image(self, obj):
         if obj.image and obj.parent is None:
             return mark_safe(
@@ -96,14 +107,16 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
     get_image.short_description = "Фото"
 
+
 @admin.register(Product)
 class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
 
     image_field_name = "avatar"
 
-    inlines = [ProductVariantLine, ProductImageLine]
+    inlines = [ProductVariantLine, ProductImageLine, ProductDetailInline]
 
+    readonly_fields = ("avatar_preview",)
     list_display = (
         "get_article",
         "get_title",
@@ -123,9 +136,13 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     fields = (
         ("brand", "gender"),
         ("title", "category"),
-        ("avatar", "description"),
+        (
+            "avatar",
+            "avatar_preview",
+        ),
         ("price", "currency"),
         "is_active",
+        "description",
     )
     save_on_top = True
     list_per_page = 15
@@ -133,12 +150,6 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     list_editable = ("is_active", "price", "currency", "gender", "brand")
     search_fields = ("title", "brand__name", "brand__country")
     ordering = ["category", "price"]
-
-    # def get_brand_name(self, obj):
-    #     return obj.brand.name if obj.brand else "Нет данных"
-
-    # def get_country(self, obj):
-    #     return obj.brand.country if obj.brand else "Нет данных"
 
     def get_count_likes(self, obj):
         return obj.likes.count()

@@ -37,11 +37,30 @@ class AdminImagePreviewMixin:
         image_field = getattr(obj, self.image_field_name, None)
         if image_field and hasattr(image_field, "url"):
             return mark_safe(
-                f'<img src="{image_field.url}" style="border-radius: 50%;" width="50" height="50">'
+                f'<img src="{image_field.url}" style="border-radius: 50%;" width="80" height="80">'
             )
         return "Нет изображения"
 
     get_image.short_description = "Фото"
+
+
+class AvatarPreviewMixin:
+    """
+    Данный миксин отображает превью аватара в админке.
+    Его нужно использовать в модели, у которых есть изображение
+    """
+
+    image_field_name = "avatar"
+
+    def avatar_preview(self):
+        avatar = getattr(self, self.image_field_name, None)
+        if avatar:
+            return format_html(
+                '<img src="{}" style="max-height: 200px;" />', avatar.url
+            )
+        return "Нет изображения"
+
+    avatar_preview.short_description = "Превью аватара"
 
 
 class SingletonAdminInfoMixin:
