@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 TAG = "Аутентификация и Пользователи"
 
 
-
 class UserDetailView(RetrieveAPIView):
     serializer_class = UserInfoSerializer
     permission_classes = [IsAuthenticated]
@@ -33,7 +32,7 @@ class RegisterView(generics.CreateAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                {"message": "Пользователь успешно зарегистрирован"},
+                {"msg": "Пользователь успешно зарегистрирован", "status": "success"},
                 status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

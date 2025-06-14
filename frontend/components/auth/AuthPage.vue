@@ -77,25 +77,15 @@ const handleRegister = async () => {
 <template>
   <div class="auth-page">
     <div class="auth-page__container">
-      <!-- Логотип -->
       <div class="auth-page__auth-logo">
         <h4 class="auth-page__auth-logo-title">ClothCrash</h4>
       </div>
 
       <AuthTabs :is-login-form @toggle-form="toggleForm" />
 
-      <AuthFormLogin
-        v-if="isLoginForm"
-        :is-loading="isLoading"
-        :login-error="loginError"
-      />
+      <AuthFormLogin v-if="isLoginForm" />
 
-      <AuthFormRegister
-        v-else
-        :is-loading="isLoading"
-        :register-error="registerError"
-        @submit="handleRegister"
-      />
+      <AuthFormRegister v-else />
 
       <AuthSocial />
     </div>

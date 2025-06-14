@@ -1,24 +1,58 @@
 <script setup lang="ts">
-defineProps<{
-  isLoading: boolean;
-  registerError: string;
-}>();
+import { api } from "~/api";
+const { $api } = useNuxtApp();
 
-const emit = defineEmits(["submit"]);
+const modalsStore = useModalsStore();
 
-const registerData = reactive({
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface ISubscribeResponse {
+  message: string;
+  status: string;
+}
+
+interface FeedbackForm {
+  email: FormField<string>;
+  phone: FormField<string>;
+  password: FormField<string>;
+  passwordConfirm: FormField<string>;
+}
+
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+  phone: { value: "", error: "", required: true },
+  password: { value: "", error: "", required: true },
+  passwordConfirm: { value: "", error: "", required: true },
 });
+
+async function submit() {
+  try {
+    const res = await $api<ISubscribeResponse>(api.users.register, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+        phone: formData.phone.value,
+        password: formData.password.value,
+        password2: formData.passwordConfirm.value,
+      },
+    });
+    modalsStore.openModal("success");
+    clearForm(formData);
+  } catch (e) {
+    console.log("error", e);
+  }
+}
 </script>
 <template>
-  <form class="auth-form-register" @submit.prevent="emit('submit')">
+  <form class="auth-form-register" @submit.prevent="submit">
     <div class="auth-form-register__form-group">
       <label for="register-email">Email</label>
       <BaseInput
-        v-model="registerData.email"
+        v-model:input-value="formData.email.value"
         radius="8px"
         type="email"
         placeholder="your@email.com"
@@ -27,7 +61,7 @@ const registerData = reactive({
     <div class="auth-form-register__form-group">
       <label for="register-name">Телефон</label>
       <BaseInput
-        v-model="registerData.name"
+        v-model:input-value="formData.phone.value"
         radius="8px"
         type="text"
         placeholder="Ваш номер телефона"
@@ -36,7 +70,7 @@ const registerData = reactive({
     <div class="auth-form-register__form-group">
       <label for="register-password">Пароль</label>
       <BaseInput
-        v-model="registerData.password"
+        v-model:input-value="formData.password.value"
         radius="8px"
         type="password"
         placeholder="••••••••"
@@ -47,25 +81,20 @@ const registerData = reactive({
       <label for="register-confirm">Подтвердите пароль</label>
 
       <BaseInput
-        v-model="registerData.confirmPassword"
+        v-model:input-value="formData.passwordConfirm.value"
         radius="8px"
         type="password"
         placeholder="••••••••"
       />
     </div>
 
-    <button
-      type="submit"
-      class="auth-form-register__auth-btn"
-      :disabled="isLoading"
-    >
-      <span v-if="!isLoading">Зарегистрироваться</span>
-      <span v-else class="auth-form-register__loader"></span>
-    </button>
-
-    <div v-if="registerError" class="auth-form-register__error-message">
-      {{ registerError }}
-    </div>
+    <BaseButton
+      class="account-form-feedback__form-submit"
+      label="Зарегистрироваться"
+      size="lg"
+      radius="8px"
+      style="width: 100%"
+    />
   </form>
 </template>
 <style scoped lang="scss">

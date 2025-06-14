@@ -2,26 +2,40 @@
 import { api } from "~/api";
 const { $api } = useNuxtApp();
 
-defineProps<{
-  isLoading: boolean;
-  loginError: string;
-}>();
+const modalsStore = useModalsStore();
 
-// const emit = defineEmits(["submit"]);
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
 
-const loginData = reactive({
-  email: "",
-  password: "",
+interface ISubscribeResponse {
+  access: string;
+  refresh: string;
+}
+
+interface FeedbackForm {
+  email: FormField<string>;
+  password: FormField<string>;
+}
+
+const formData = reactive<FeedbackForm>({
+  email: { value: "", error: "", required: true },
+  password: { value: "", error: "", required: true },
 });
 
 async function submit() {
   try {
-    const res = await $api(api.users.login, {
+    const res = await $api<ISubscribeResponse>(api.users.login, {
       method: "POST",
-      body: loginData,
+      body: {
+        email: formData.email.value,
+        password: formData.password.value,
+      },
     });
-
-    console.log(res);
+    modalsStore.openModal("success");
+    clearForm(formData);
   } catch (e) {
     console.log("error", e);
   }
@@ -32,8 +46,7 @@ async function submit() {
     <div class="auth-form-login__form-group">
       <label for="login-email">Email</label>
       <BaseInput
-        v-model:input-value="loginData.email"
-        :animate="false"
+        v-model:input-value="formData.email.value"
         radius="8px"
         type="email"
         placeholder="your@email.com"
@@ -44,8 +57,7 @@ async function submit() {
       <label for="login-password">Пароль</label>
 
       <BaseInput
-        v-model:input-value="loginData.password"
-        :animate="false"
+        v-model:input-value="formData.password.value"
         radius="8px"
         type="password"
         placeholder="••••••••"
@@ -55,14 +67,7 @@ async function submit() {
       </NuxtLink>
     </div>
 
-    <button class="auth-form-login__auth-btn" :disabled="isLoading">
-      <span v-if="!isLoading">Войти</span>
-      <span v-else class="auth-form-login__loader"></span>
-    </button>
-
-    <div v-if="loginError" class="auth-form-login__error-message">
-      {{ loginError }}
-    </div>
+    <BaseButton label="Войти" size="lg" radius="8px" style="width: 100%" />
   </form>
 </template>
 <style lang="scss">
