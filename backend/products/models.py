@@ -233,7 +233,7 @@ class Review(BaseID, BaseDescription, BaseDate):
         related_name="reviews",
         verbose_name="Пользователь",
     )
-
+    name = models.CharField("Имя", max_length=100, null=True, blank=True)
     email = models.EmailField("Email")
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
