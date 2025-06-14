@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "seo_config",
     "products",
     "orders",
+    "notifications",
     # "3rd_party",
     "rest_framework",
     "django_redis",

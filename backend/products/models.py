@@ -238,13 +238,6 @@ class Review(BaseID, BaseDescription, BaseDate):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
     )
-    variant = models.ForeignKey(
-        ProductVariant,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="reviews",
-    )
     advantages = models.TextField("Достоинства", blank=True, null=True)
     disadvantages = models.TextField("Недостатки", blank=True, null=True)
     rating = models.PositiveIntegerField(
