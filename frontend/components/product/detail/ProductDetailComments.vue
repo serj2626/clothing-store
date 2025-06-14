@@ -11,8 +11,8 @@ const comments = ref([
     rating: 5,
     text: 'Отличное качество, удобная посадка. Заказала свой обычный размер - подошел идеально.',
     photos: [
-      '/images/product1.jpg',
-      '/images/product2.jpg'
+      '/favorites/one.png',
+      '/favorites/two.png'
     ],
     advantages: 'Качество, посадка, материал',
     disadvantages: 'Нет'
@@ -24,7 +24,7 @@ const comments = ref([
     rating: 4,
     text: 'Хорошая куртка, но цвет немного отличается от фото на сайте. В жизни темнее.',
     photos: [
-      '/images/product3.jpg'
+      '/favorites/three.png'
     ],
     advantages: 'Теплая, удобная',
     disadvantages: 'Цвет отличается'

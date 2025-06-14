@@ -11,7 +11,7 @@ class ProfileLine(admin.TabularInline):
 @admin.register(User)
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "phone", "is_staff", "is_superuser")
+    list_display = ("email", "phone", "is_staff", "is_superuser", "has_profile")
     search_fields = ("email", "phone")
     ordering = ("email",)
     inlines = (ProfileLine,)
@@ -39,3 +39,9 @@ class UserAdmin(UserAdmin):
             },
         ),
     )
+
+    def has_profile(self, obj):
+        return hasattr(obj, "profile")
+
+    has_profile.boolean = True
+    has_profile.short_description = "Профиль есть?"
