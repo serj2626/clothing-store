@@ -51,7 +51,7 @@ import { footerLinks } from "~/assets/data/footer.data";
           transition: all 0.3s ease-in-out;
 
           &:hover {
-            color: teal;
+            color: $accent-dark;
           }
         }
       }
