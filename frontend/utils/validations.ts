@@ -16,7 +16,7 @@ export const validateName = (value: string) =>
     },
     value
   );
-  
+
 export const validateMiddleName = (value: string) =>
   validateCredentials(
     {
@@ -171,7 +171,7 @@ export const validateTextarea = (value: string) => {
   switch (true) {
     case String(value).length === 0:
       return "Поле не может быть пустым";
-      
+
     case String(value).length > maxLength.condition:
       return maxLength.message;
 
@@ -308,6 +308,13 @@ export const validateBirthday = (value: string) => {
   }
 };
 
+export const validateAgree = (value: boolean) => {
+  if (value) {
+    return "";
+  }
+  return "Вы не согласились с условиями пользовательского соглашения";
+};
+
 export const validateAddress = (value: string) => {
   const currentRuleset = {
     pattern: {
@@ -347,6 +354,11 @@ export const validateForm = (formData: TFormData): boolean => {
         }
       } else if (key === "name") {
         formData[key].error = validateName(formData[key].value);
+        if (formData[key].error) {
+          error = true;
+        }
+      } else if (key === "agree") {
+        formData[key].error = validateAgree(formData[key].value);
         if (formData[key].error) {
           error = true;
         }

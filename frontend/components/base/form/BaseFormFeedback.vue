@@ -3,6 +3,12 @@ import { api } from "~/api";
 const { $api } = useNuxtApp();
 
 const modalsStore = useModalsStore();
+let captchaInstance = null;
+
+interface ISubscribeResponse {
+  msg: string;
+  status: string;
+}
 
 interface FormField<T> {
   value: T;
@@ -10,24 +16,24 @@ interface FormField<T> {
   required: boolean;
 }
 
-interface ISubscribeResponse {
-  msg: string;
-  status: string;
-}
-
 interface FeedbackForm {
   message: FormField<string>;
   name: FormField<string>;
   phone: FormField<string>;
+  captcha: FormField<string>;
+  agree: FormField<boolean>;
 }
 
 const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
   phone: { value: "", error: "", required: true },
   message: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
+  agree: { value: false, error: "", required: true },
 });
 
 async function submit() {
+  if (validateForm(formData)) return;
   try {
     const res = await $api<ISubscribeResponse>(api.contacts.feedback, {
       method: "POST",
@@ -73,6 +79,10 @@ async function submit() {
       <BaseInputTextArea
         v-model:input-value="formData.message.value"
         placeholder="Ваше сообщение"
+      />
+      <BaseInputCheckbox
+        v-model:agree-value="formData.agree.value"
+        label="Я даю согласие на обработку персональных данных"
       />
 
       <BaseButton
