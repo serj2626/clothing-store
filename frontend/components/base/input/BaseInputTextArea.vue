@@ -2,6 +2,7 @@
 interface IInputProps {
   placeholder?: string;
   error?: string;
+  radius?: string;
 }
 
 const inputValue = defineModel<string | number>("textareaValue");
@@ -62,8 +63,8 @@ defineProps<IInputProps>();
     min-height: 100px;
     max-height: 200px;
     height: 100px;
-    border-radius: 5px;
-    border: 1px solid #25252584;
+    border-radius: v-bind(radius);
+    border: 1px solid rgba($txt, 0.3);
     transition: all 0.3s ease-in;
 
     &:focus {

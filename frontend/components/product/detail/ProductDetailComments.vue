@@ -146,7 +146,7 @@ const openGallery = (photos, index) => {
         </div>
       </div>
     </div>
-    <PaginationComponent />
+    <BasePaginationComponent />
   </div>
 </template>
 <style scoped lang="scss">

@@ -29,7 +29,7 @@ const { activeModals, isAnyModalOpen } = storeToRefs(modalsStore);
   right: 0;
   left: 0;
   top: 0;
-  z-index: 140;
+  z-index: 110;
   background: rgba(0, 0, 0, 0.47);
 }
 

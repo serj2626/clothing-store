@@ -3,6 +3,7 @@ import { api } from "~/api";
 const { $api } = useNuxtApp();
 
 const modalsStore = useModalsStore();
+let captchaInstance = null;
 
 interface FormField<T> {
   value: T;
@@ -17,10 +18,12 @@ interface ISubscribeResponse {
 
 interface FeedbackForm {
   email: FormField<string>;
+  captcha: FormField<string>;
 }
 
 const formData = reactive<FeedbackForm>({
   email: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
 });
 
 function clearForm() {
@@ -29,18 +32,63 @@ function clearForm() {
 }
 
 async function submit() {
+  console.log("formData", formData);
+  if (!validateForm()) return;
+
   try {
     const res: ISubscribeResponse = await $api(api.contacts.subscription, {
       method: "POST",
       body: {
         email: formData.email.value,
+        "g-recaptcha-response": formData.captcha.value,
       },
     });
-    console.log("asdasdsad", res.msg, res.status);
+
+    console.log("Успешная отправка", res.msg, res.status);
     modalsStore.openModal("success");
     clearForm();
   } catch (e) {
-    console.log("error", e);
+    console.error("Ошибка отправки формы", e);
+    formData.captcha.error = "Ошибка проверки капчи. Попробуйте еще раз.";
+    if (captchaInstance?.reset) {
+      captchaInstance.reset();
+    }
+  }
+}
+
+function validateForm() {
+  let isValid = true;
+
+  if (formData.email.required && !formData.email.value) {
+    formData.email.error = "Поле обязательно для заполнения";
+    isValid = false;
+  } else if (!/^\S+@\S+\.\S+$/.test(formData.email.value)) {
+    formData.email.error = "Введите корректный email";
+    isValid = false;
+  } else {
+    formData.email.error = "";
+  }
+
+  if (formData.captcha.required && !formData.captcha.value) {
+    formData.captcha.error =
+      formData.captcha.error || "Необходимо пройти проверку";
+    isValid = false;
+  } else {
+    formData.captcha.error = "";
+  }
+
+  return isValid;
+}
+
+function captchaHandler(val, eventName) {
+  if (eventName === "success") {
+    formData.captcha.value = val;
+    formData.captcha.error = "";
+  } else if (eventName === "error" || eventName === "expired") {
+    formData.captcha.value = "";
+    formData.captcha.error = "Необходимо пройти антиспам проверку";
+  } else if (eventName === "inited") {
+    captchaInstance = val;
   }
 }
 </script>
@@ -51,9 +99,17 @@ async function submit() {
       <form class="base-form-subscribe__form" @submit.prevent="submit">
         <BaseInput
           v-model:input-value="formData.email.value"
+          :error="formData.email.error"
           radius="5px"
           type="email"
           placeholder="Введите ваш email"
+        />
+        <BaseCaptchaVisible
+          :error="formData.captcha.error"
+          @success="(val) => captchaHandler(val, 'success')"
+          @error="(err) => captchaHandler(err, 'error')"
+          @expired="() => captchaHandler(null, 'expired')"
+          @inited="(val) => captchaHandler(val, 'inited')"
         />
         <BaseButton
           class="base-form-subscribe__form-btn"

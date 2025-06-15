@@ -7,8 +7,8 @@ const { $api } = useNuxtApp();
 export interface IExchangeReturnResponse {
   id: number;
   title: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   description: string;
   text: string;
   terms_processes_items: {

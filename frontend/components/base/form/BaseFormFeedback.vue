@@ -56,7 +56,6 @@ async function submit() {
         <label for="login-email">Имя</label>
         <BaseInput
           v-model:input-value="formData.name.value"
-          radius="8px"
           type="text"
           placeholder="Ваше имя "
         />
@@ -67,7 +66,6 @@ async function submit() {
         <BaseInput
           v-model:input-value="formData.phone.value"
           :animate="false"
-          radius="8px"
           type="text"
           placeholder="8-888-888-88-88"
         />
