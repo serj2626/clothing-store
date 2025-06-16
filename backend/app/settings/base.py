@@ -23,6 +23,10 @@ else:
 CORS_ALLOW_ALL_ORIGINS = True  # или конкретный домен для фронтенда
 
 REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
@@ -30,16 +34,23 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Clothing Store API',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Clothing Store API",
+    "DESCRIPTION": "Your project description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_COOKIE": "refresh_token",  # имя куки
+    "AUTH_COOKIE_SECURE": True,  # HTTPS только!
+    "AUTH_COOKIE_HTTP_ONLY": True,  # JS не может читать
+    "AUTH_COOKIE_PATH": "/api/v1/users/token/refresh/",  # путь куки
+    "AUTH_COOKIE_SAMESITE": "Lax",  # защита CSRF
 }
 
 
@@ -50,8 +61,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django.contrib.sitemaps',
-    'django.contrib.sites',
+    "django.contrib.sitemaps",
+    "django.contrib.sites",
     # my apps
     "users",
     "legal",
@@ -61,6 +72,7 @@ INSTALLED_APPS = [
     "orders",
     "notifications",
     # "3rd_party",
+    "django_filters",
     "rest_framework",
     "django_redis",
     "corsheaders",

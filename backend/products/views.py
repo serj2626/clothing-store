@@ -1,5 +1,9 @@
 # Сторонние библиотеки
 import stripe
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 # Django
 from django.conf import settings
@@ -21,9 +25,19 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
 # Приложения проекта (локальные импорты)
+from .filters import ProductFilter
 from common.pagination import ListResultsSetPagination
 from common.utils import get_client_ip
-from .models import Brand, Cart, CartItem, Category, Favorite, Product, ProductLike
+from .models import (
+    Brand,
+    Cart,
+    CartItem,
+    Category,
+    Favorite,
+    Product,
+    ProductLike,
+    Review,
+)
 from .serializers import (
     BrandSerializer,
     CartSerializer,
@@ -31,6 +45,7 @@ from .serializers import (
     CategoryListSerializer,
     FavoriteSerializer,
     ProductSerializer,
+    ReviewSerializer,
 )
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -133,6 +148,30 @@ class ProductListView(generics.ListAPIView):
         return super().get(request, *args, **kwargs)
 
 
+class ProductExampleListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = ListResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = ProductFilter
+    ordering_fields = ["price", "created_at"]
+    ordering = ["price"]
+
+    @extend_schema(
+        tags=[TAG],
+        summary="Список товаров",
+        parameters=[
+            OpenApiParameter("price_min", OpenApiTypes.NUMBER, description="Цена от"),
+            OpenApiParameter("price_max", OpenApiTypes.NUMBER, description="Цена до"),
+            OpenApiParameter("category", OpenApiTypes.INT, description="ID категории"),
+            OpenApiParameter("brand", OpenApiTypes.INT, description="ID бренда"),
+            OpenApiParameter("gender", OpenApiTypes.STR, description="Пол ('male', 'female', 'unisex')"),
+            OpenApiParameter("ordering", OpenApiTypes.STR, description="Сортировка (например: price, -price)"),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 # кешируем на 5 минут (300 секунд)
 @method_decorator(cache_page(60 * 5), name="get")
 class ProductDetailView(generics.RetrieveAPIView):
@@ -178,6 +217,15 @@ class CartView(APIView):
         item.quantity = quantity
         item.save()
         return Response({"status": "updated"})
+
+
+class ReviewCreateView(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+
+    @extend_schema(tags=[TAG], summary="Добавить отзыв")
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 # import stripe

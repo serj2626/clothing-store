@@ -8,6 +8,7 @@ from .models import (
     ProductVariant,
     ProductImage,
     Review,
+    ReviewPhoto,
     # Favorite,
     Brand,
 )
@@ -151,3 +152,22 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ["items", "created_at", "updated_at"]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор отзыва о товаре
+    """
+
+    class Meta:
+        model = Review
+        fields = (
+            "user",
+            "name",
+            "email",
+            "description",
+            "product",
+            "advantages",
+            "disadvantages",
+            "rating",
+        )

@@ -38,6 +38,35 @@ class RegisterView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @extend_schema(
+#     tags=[TAG],
+#     summary="Получение JWT токена",
+#     description="Возвращает access и refresh токены по email и паролю.",
+#     responses={
+#         200: OpenApiResponse(
+#             response={"access": "string", "refresh": "string"},
+#             description="Успешная аутентификация",
+#         )
+#     },
+# )
+# class CustomTokenObtainPairView(TokenObtainPairView):
+#     pass
+
+
+# @extend_schema(
+#     tags=[TAG],
+#     summary="Обновление JWT токена",
+#     description="Обновляет access токен по действующему refresh токену.",
+#     responses={
+#         200: OpenApiResponse(
+#             response={"access": "string"}, description="Новый access токен"
+#         )
+#     },
+# )
+# class CustomTokenRefreshView(TokenRefreshView):
+#     pass
+
+
 @extend_schema(
     tags=[TAG],
     summary="Получение JWT токена",
@@ -50,7 +79,25 @@ class RegisterView(generics.CreateAPIView):
     },
 )
 class CustomTokenObtainPairView(TokenObtainPairView):
-    pass
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == status.HTTP_200_OK:
+            refresh = response.data.get("refresh")
+            access = response.data.get("access")
+            # Кладем refresh в куку
+            response.set_cookie(
+                key="refresh_token",
+                value=refresh,
+                httponly=True,
+                secure=True,
+                samesite="Lax",
+                path="/api/v1/users/token/refresh/",
+                max_age=7 * 24 * 60 * 60,
+            )
+            # Удаляем refresh из тела, чтобы клиент не видел
+            data = {"access": access}
+            response.data = data
+        return response
 
 
 @extend_schema(
@@ -64,4 +111,31 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     },
 )
 class CustomTokenRefreshView(TokenRefreshView):
-    pass
+    def post(self, request, *args, **kwargs):
+        # Возьмем refresh токен из cookie, а не из тела
+        refresh = request.COOKIES.get("refresh_token")
+        if not refresh:
+            return Response(
+                {"detail": "Refresh token not found."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        request.data["refresh"] = refresh
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == status.HTTP_200_OK:
+            new_refresh = response.data.get("refresh")
+            new_access = response.data.get("access")
+            # Обновляем куку с новым refresh
+            response.set_cookie(
+                key="refresh_token",
+                value=new_refresh,
+                httponly=True,
+                secure=True,
+                samesite="Lax",
+                path="/api/v1/users/token/refresh/",
+                max_age=7 * 24 * 60 * 60,
+            )
+            # Отдаем клиенту только access
+            response.data = {"access": new_access}
+        return response

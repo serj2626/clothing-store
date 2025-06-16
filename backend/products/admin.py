@@ -9,11 +9,31 @@ from .models import (
     ProductLike,
     Brand,
     ProductDetail,
+    Review,
 )
 from mptt.admin import DraggableMPTTAdmin
 from django.db.models import Sum
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    """
+    Review"""
+
+    list_display = (
+        "user",
+        "name",
+        "email",
+        "product",
+        "advantages",
+        "disadvantages",
+        "rating",
+        "is_published",
+        # "likes",
+        # "dislikes",
+    )
 
 
 class ProductDetailInline(admin.TabularInline):
