@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { footerLinks } from "~/assets/data/footer.data";
+import type { ILinkGroup } from "./FooterComponent.vue";
+
+defineProps<{ links: ILinkGroup[] }>();
 </script>
 <template>
   <div class="footer-content">
     <div class="footer-content__list">
       <div
-        v-for="(item, index) in footerLinks"
+        v-for="(item, index) in links"
         :key="index"
         class="footer-content__list-item"
       >
         <p class="footer-content__list-item-link">
-          {{ item.label }}
+          {{ item.name }}
         </p>
         <ul class="footer-content__list-item-children">
           <NuxtLink
-            v-for="child in item.children"
-            :key="child.label"
-            :to="child.link"
+            v-for="child in item.items"
+            :key="child.name"
+            :to="child.url"
             class="footer-content__list-item-children-link"
           >
-            {{ child.label }}
+            {{ child.name }}
           </NuxtLink>
         </ul>
       </div>
@@ -31,8 +33,8 @@ import { footerLinks } from "~/assets/data/footer.data";
   padding-bottom: 55px;
   &__list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
 
     &-item {
       display: flex;

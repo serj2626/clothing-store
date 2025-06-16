@@ -75,3 +75,43 @@ class Footer(models.Model):
     class Meta:
         verbose_name = "Футер"
         verbose_name_plural = "Футер"
+
+
+class FooterLink(models.Model):
+    """
+    Модель ссылок футера
+    """
+
+    footer = models.ForeignKey(
+        Footer, on_delete=models.CASCADE, related_name="links", verbose_name="Футер"
+    )
+    name = models.CharField("Название", max_length=255)
+
+    class Meta:
+        verbose_name = "Ссылка футера"
+        verbose_name_plural = "Ссылки футера"
+
+    def __str__(self):
+        return f"Элемент футера {self.name}"
+
+
+class FooterLinkItem(models.Model):
+    """
+    Модель элементов для ссылок футера
+    """
+
+    link = models.ForeignKey(
+        FooterLink,
+        on_delete=models.CASCADE,
+        related_name="items",
+        verbose_name="Ссылка футера",
+    )
+    name = models.CharField("Название", max_length=255)
+    url = models.CharField("Ссылка", max_length=255)
+
+    class Meta:
+        verbose_name = "Элемент ссылки футера"
+        verbose_name_plural = "Элементы ссылок футера"
+
+    def __str__(self):
+        return f"Элемент футера {self.name}"

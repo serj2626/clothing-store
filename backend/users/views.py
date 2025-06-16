@@ -78,13 +78,13 @@ class RegisterView(generics.CreateAPIView):
         )
     },
 )
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == status.HTTP_200_OK:
             refresh = response.data.get("refresh")
             access = response.data.get("access")
-            # Кладем refresh в куку
             response.set_cookie(
                 key="refresh_token",
                 value=refresh,
@@ -94,7 +94,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 path="/api/v1/users/token/refresh/",
                 max_age=7 * 24 * 60 * 60,
             )
-            # Удаляем refresh из тела, чтобы клиент не видел
             data = {"access": access}
             response.data = data
         return response

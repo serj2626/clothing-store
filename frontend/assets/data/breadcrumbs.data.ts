@@ -71,5 +71,4 @@ export const cookiePageBreadcrumbs: IBreadcrumb[] = [
 export const productDetailPageBreadcrumbs: IBreadcrumb[] = [
   { title: "Главная", url: "/" },
   { title: "Каталог", url: "/catalog" },
-  { title: "Товар", url: "/" },
 ];

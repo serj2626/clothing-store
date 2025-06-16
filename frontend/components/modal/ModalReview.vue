@@ -70,23 +70,6 @@ interface FeedbackForm {
   disadvantages: FormField<string>;
 }
 
-function clearForm() {
-  formData.message.value = "";
-  formData.message.error = "";
-  formData.email.value = "";
-  formData.email.error = "";
-  formData.name.value = "";
-  formData.name.error = "";
-  formData.captcha.value = "";
-  formData.captcha.error = "";
-  formData.rating.value = 5;
-  formData.rating.error = "";
-  formData.advantages.value = "";
-  formData.advantages.error = "";
-  formData.disadvantages.value = "";
-  formData.disadvantages.error = "";
-}
-
 const formData = reactive<FeedbackForm>({
   name: { value: "", error: "", required: true },
   email: { value: "", error: "", required: true },
@@ -96,6 +79,18 @@ const formData = reactive<FeedbackForm>({
   advantages: { value: "", error: "", required: true },
   disadvantages: { value: "", error: "", required: true },
 });
+
+function clearForm() {
+  Object.keys(formData).forEach((key) => {
+    if (formData[key as keyof typeof formData] === "rating") {
+      formData[key as keyof typeof formData].value = 5;
+      formData[key as keyof typeof formData].error = "";
+    } else {
+      formData[key as keyof typeof formData].value = "";
+      formData[key as keyof typeof formData].error = "";
+    }
+  });
+}
 
 async function submit() {
   console.log("formData", formData);
@@ -135,7 +130,6 @@ function captchaHandler(val, eventName) {
 }
 </script>
 <template>
-  {{ formData }}
   <div class="modal-review">
     <form class="modal-content" @submit.prevent="submit">
       <div class="modal-header">

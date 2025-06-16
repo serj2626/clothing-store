@@ -1,5 +1,20 @@
 from django.contrib import admin
-from .models import Contact, Feedback, Footer, Subscription
+from .models import Contact, Feedback, Footer, Subscription, FooterLink, FooterLinkItem
+
+
+class FooterItemLinkInline(admin.TabularInline):
+    model = FooterLinkItem
+    extra = 1
+
+
+@admin.register(FooterLink)
+class FooterLinkAdmin(admin.ModelAdmin):
+    """
+    Админка ссылок футера
+    """
+
+    list_display = ("name",)
+    inlines = [FooterItemLinkInline]
 
 
 @admin.register(Subscription)

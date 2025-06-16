@@ -9,6 +9,9 @@ from .serializers import (
 )
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, response, status
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 
 TAG = "Контакты"
 
@@ -36,6 +39,7 @@ class SubscriptionView(generics.CreateAPIView):
         )
 
 
+@method_decorator(cache_page(60 * 10), name="get")
 class FooterView(BaseSectionViewMixin):
     model = Footer
     serializer_class = FooterSerializer

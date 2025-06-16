@@ -1,5 +1,19 @@
 from rest_framework import serializers
-from .models import Feedback, Contact, Footer, Subscription
+from .models import Feedback, Contact, Footer, Subscription, FooterLink, FooterLinkItem
+
+
+class FooterLinkItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FooterLinkItem
+        fields = ("name", "url")
+
+
+class FooterLinkSerializer(serializers.ModelSerializer):
+    items = FooterLinkItemSerializer(many=True)
+
+    class Meta:
+        model = FooterLink
+        fields = ("name", "items")
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
@@ -17,9 +31,11 @@ class FooterSerializer(serializers.ModelSerializer):
     Сериализатор для футера
     """
 
+    links = FooterLinkSerializer(many=True)
+
     class Meta:
         model = Footer
-        fields = ("site_name", "copyright")
+        fields = ("site_name", "copyright", "links")
 
 
 class ContactSerializer(serializers.ModelSerializer):

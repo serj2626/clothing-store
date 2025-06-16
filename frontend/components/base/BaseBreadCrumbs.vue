@@ -1,19 +1,25 @@
 <script lang="ts" setup>
-interface ILink {
+ export interface ILink {
   title: string;
   url: string;
 }
 
-defineProps<{
+const props = defineProps<{
   breadcrumbs?: ILink[];
+  currentPage?: ILink;
 }>();
+
+const breadcrumbsAll = computed(() => {
+  const base = props.breadcrumbs ?? [];
+  return props.currentPage ? [...base, props.currentPage] : base;
+});
 </script>
 <template>
   <div class="base-bread">
     <ul class="base-bread__links">
       <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
       <NuxtLink
-        v-for="(link, indx) in breadcrumbs"
+        v-for="(link, indx) in breadcrumbsAll"
         :key="indx"
         :to="link.url"
         class="base-bread__links-item"

@@ -5,6 +5,17 @@ const { $api } = useNuxtApp();
 interface IFooterDataResponse {
   site_name: string;
   copyright: string;
+  links: ILinkGroup[];
+}
+
+export interface ILinkGroup {
+  name: string;
+  items: ILinkItem[];
+}
+
+export interface ILinkItem {
+  name: string;
+  url: string;
 }
 const { data: footerData } = useAsyncData<IFooterDataResponse>(
   "footer-info",
@@ -14,7 +25,7 @@ const { data: footerData } = useAsyncData<IFooterDataResponse>(
 <template>
   <footer class="footer-component">
     <div class="container">
-      <FooterContent />
+      <FooterContent v-if="footerData?.links" :links="footerData.links" />
       <p class="footer-component__copyright">
         {{ footerData?.copyright }}
       </p>
