@@ -7,7 +7,7 @@ export interface ICategoryResponse {
   is_active: boolean;
 }
 
-interface IbrandProduct {
+interface IBrandProduct {
   id: string;
   name: string;
   description: string;
@@ -26,9 +26,27 @@ interface IProductVariant {
   size: string;
   quantity: number;
 }
+
+interface IReview {
+  id: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+  name: string;
+  email: string;
+  advantages: string;
+  disadvantages: string;
+  rating: number;
+  is_published: boolean;
+  user: string;
+  product: string;
+  likes?: [];
+  dislikes?: [];
+}
+
 export interface IProduct {
   id: string;
-  brand: null | IbrandProduct;
+  brand: null | IBrandProduct;
   title: string;
   category: string;
   avatar: string;
@@ -38,8 +56,9 @@ export interface IProduct {
   count_likes: number;
   count_reviews: number;
   total_count: number | null;
-  variants: IProductVariant[];
-  images: IProductImage[];
+  variants?: IProductVariant[] | null;
+  images?: IProductImage[] | null;
+  reviews?: IReview[];
 }
 
 export interface IProductResponse {
