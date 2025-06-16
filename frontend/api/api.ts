@@ -36,6 +36,7 @@ export const api = {
     list: "/products/", //Возвращает список всех продуктов
     last: "/products/last-collection/", //Возвращает список последних продуктов
     detail: (id: string) => `/products/${id}`, //Возвращает конкретный продукт
+    createReview: (id: string) => `/products/${id}/create-review`, //Добавить отзыв к продукту
     like: (id: string) => `/products/${id}/like`, //Возвращает конкретный продукт
   },
   users: {

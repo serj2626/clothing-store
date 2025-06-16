@@ -30,7 +30,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="base-input-select" ref="root">
+  <div ref="root" class="base-input-select">
     <button
       class="base-input-select__value"
       :class="{ 'base-input-select__value_open': isOpen }"
@@ -79,7 +79,7 @@ onUnmounted(() => {
     transform: all 0.3s ease-in-out;
 
     &_open {
-      border-color: teal;
+      border-color: $accent;
     }
 
     &-text {
@@ -101,8 +101,8 @@ onUnmounted(() => {
     margin-top: 5px;
     z-index: 100;
     background-color: white;
-    border: 1px solid $bg_footer;
-    border-radius: $btn_radius;
+    border: 1px solid $accent;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 7px;
@@ -113,7 +113,7 @@ onUnmounted(() => {
   &__list-item {
     cursor: pointer;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 2px;
     color: $txt;
 
     &-text {
@@ -121,7 +121,7 @@ onUnmounted(() => {
     }
 
     &:hover {
-      background-color: teal;
+      background-color: $accent-dark;
       color: $white;
     }
   }

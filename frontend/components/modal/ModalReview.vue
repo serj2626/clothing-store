@@ -1,18 +1,18 @@
 <script setup lang="ts">
-const modalsStore = useModalsStore();
-defineProps({
-  productName: {
-    type: String,
-    default: "Футболка хлопковая",
-  },
-});
+import { api } from "~/api";
+const { $api } = useNuxtApp();
 
-const rating = ref(0);
-const name = ref("");
-const email = ref("");
-const review = ref("");
-const advantages = ref("");
-const disadvantages = ref("");
+const modalsStore = useModalsStore();
+
+const {
+  productName = "Футболка хлопковая",
+  productId = "a96ef041-bb6a-44ab-a48d-3faefbb6baba",
+} = defineProps<{
+  productName?: string;
+  productId?: string;
+}>();
+
+let captchaInstance = null;
 const images = ref([]);
 const fileInput = ref(null);
 
@@ -53,40 +53,97 @@ const removeImage = (index) => {
 const getImageUrl = (image) => {
   return image.preview || URL.createObjectURL(image.file);
 };
+
+interface FormField<T> {
+  value: T;
+  error: string;
+  required: boolean;
+}
+
+interface FeedbackForm {
+  message: FormField<string>;
+  email: FormField<string>;
+  name: FormField<string>;
+  captcha: FormField<string>;
+  rating: FormField<number>;
+  advantages: FormField<string>;
+  disadvantages: FormField<string>;
+}
+
+function clearForm() {
+  formData.message.value = "";
+  formData.message.error = "";
+  formData.email.value = "";
+  formData.email.error = "";
+  formData.name.value = "";
+  formData.name.error = "";
+  formData.captcha.value = "";
+  formData.captcha.error = "";
+  formData.rating.value = 5;
+  formData.rating.error = "";
+  formData.advantages.value = "";
+  formData.advantages.error = "";
+  formData.disadvantages.value = "";
+  formData.disadvantages.error = "";
+}
+
+const formData = reactive<FeedbackForm>({
+  name: { value: "", error: "", required: true },
+  email: { value: "", error: "", required: true },
+  message: { value: "", error: "", required: true },
+  captcha: { value: "", error: "", required: true },
+  rating: { value: 5, error: "", required: true },
+  advantages: { value: "", error: "", required: true },
+  disadvantages: { value: "", error: "", required: true },
+});
+
+async function submit() {
+  console.log("formData", formData);
+  // if (validateForm(formData)) return;
+  try {
+    const res = await $api(api.products.createReview(productId), {
+      method: "POST",
+      body: {
+        user: "71e37f71-0008-4bcf-b985-fa7512b08293",
+        name: formData.name.value,
+        email: formData.email.value,
+        description: formData.message.value,
+        product: productId,
+        advantages: formData.advantages.value,
+        disadvantages: formData.disadvantages.value,
+        rating: formData.rating.value,
+      },
+    });
+    console.log("asdasdsad", res);
+    modalsStore.openModal("success");
+    clearForm();
+  } catch (e) {
+    console.log("error", e);
+  }
+}
+
+function captchaHandler(val, eventName) {
+  if (eventName === "success") {
+    formData.captcha.value = val;
+    formData.captcha.error = "";
+  } else if (eventName === "error" || eventName === "expired") {
+    formData.captcha.value = "";
+    formData.captcha.error = "Необходимо пройти антиспам проверку";
+  } else if (eventName === "inited") {
+    captchaInstance = val;
+  }
+}
 </script>
 <template>
+  {{ formData }}
   <div class="modal-review">
-    <div class="modal-content">
+    <form class="modal-content" @submit.prevent="submit">
       <div class="modal-header">
         <h2 class="modal-title">Оставить отзыв</h2>
         <p class="product-name">О товаре: {{ productName }}</p>
       </div>
 
-      <div class="rating-section">
-        <p class="rating-label">Ваша оценка:</p>
-        <div class="stars">
-          <span
-            v-for="star in 5"
-            :key="star"
-            class="star"
-            :class="{ active: star <= rating }"
-            @click="rating = star"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"
-                :fill="star <= rating ? $accent - dark : '#ddd'"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
+      <RatingComponent v-model:rating-value="formData.rating.value" />
 
       <div class="review-form">
         <div class="form-row">
@@ -94,7 +151,7 @@ const getImageUrl = (image) => {
             <label for="name">Ваше имя *</label>
 
             <BaseInput
-              v-model:input-value="name"
+              v-model:input-value="formData.name.value"
               radius="8px"
               placeholder="Иван Иванов"
             />
@@ -104,7 +161,7 @@ const getImageUrl = (image) => {
             <label for="email">Email</label>
 
             <BaseInput
-              v-model:input-value="email"
+              v-model:input-value="formData.email.value"
               radius="8px"
               placeholder="example@mail.com"
             />
@@ -115,18 +172,20 @@ const getImageUrl = (image) => {
           <label for="review">Отзыв *</label>
 
           <BaseInputTextArea
-            v-model:input-value="review"
+            v-model:textarea-value="formData.message.value"
             radius="8px"
             placeholder="Поделитесь впечатлениями о товаре"
           />
-          <span class="char-counter">{{ review.length }}/500</span>
+          <span class="char-counter"
+            >{{ formData.message.value.length }}/500</span
+          >
         </div>
 
         <div class="form-group">
           <label for="advantages">Достоинства</label>
 
           <BaseInputTextArea
-            v-model:input-value="advantages"
+            v-model:textarea-value="formData.advantages.value"
             radius="8px"
             placeholder="Что вам понравилось?"
           />
@@ -136,12 +195,18 @@ const getImageUrl = (image) => {
           <label for="disadvantages">Недостатки</label>
 
           <BaseInputTextArea
-            v-model:input-value="disadvantages"
+            v-model:textarea-value="formData.disadvantages.value"
             radius="8px"
             placeholder="Что можно улучшить?"
           />
         </div>
-
+        <BaseCaptchaVisible
+          :error="formData.captcha.error"
+          @success="(val) => captchaHandler(val, 'success')"
+          @error="(err) => captchaHandler(err, 'error')"
+          @expired="() => captchaHandler(null, 'expired')"
+          @inited="(val) => captchaHandler(val, 'inited')"
+        />
         <div class="image-upload">
           <label>Добавить фото (макс. 3)</label>
           <div class="upload-area" @click="triggerFileInput">
@@ -195,7 +260,6 @@ const getImageUrl = (image) => {
           size="lg"
           radius="8px"
           style="width: 100%"
-          @click="modalsStore.closeModal('review')"
         />
       </div>
       <BaseButtonClose
@@ -204,7 +268,7 @@ const getImageUrl = (image) => {
         :size="30"
         @click="modalsStore.closeModal('review')"
       />
-    </div>
+    </form>
   </div>
 </template>
 <style scoped lang="scss">
@@ -246,40 +310,6 @@ const getImageUrl = (image) => {
   margin: 0;
   font-weight: 500;
   font-size: 1.1rem;
-}
-
-.rating-section {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.rating-label {
-  font-family: $ff_second;
-  color: $txt;
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.stars {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
-.star {
-  cursor: pointer;
-  transition: $default_transition;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &.active {
-    svg path {
-      fill: $accent-dark;
-    }
-  }
 }
 
 .review-form {

@@ -33,22 +33,23 @@ export const useModalsStore = defineStore("modals-store", () => {
   const closeAllModals = () => {
     const headerCatalogMenu = document.getElementById("header-catalog-menu");
 
-    // if (menuIsOpen) {
-    //   headerCatalogMenu?.classList.add("header-catalog-menu_close");
-    //   activeModals.value.clear();
-    //   document && (document.documentElement.style.overflowY = "auto");
-    // }
+    if (menuIsOpen) {
+      headerCatalogMenu?.classList.add("header-catalog-menu_close");
+      activeModals.value.clear();
+      document && (document.documentElement.style.overflowY = "auto");
+    }
   };
 
   const isAnyModalOpen = computed(
     () => activeModals.value && !!activeModals.value.size
   );
-
+  const menuIsOpen = computed(() => activeModals.value.has("menu"));
   return {
     activeModals,
     openModal,
     closeModal,
     closeAllModals,
+    menuIsOpen,
     isAnyModalOpen,
   };
 });

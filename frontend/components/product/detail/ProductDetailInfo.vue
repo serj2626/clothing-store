@@ -11,13 +11,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
         Цвет: Кофе с молоком меланж
       </div>
     </div>
-    <select class="products-detail-info__sizes">
-      <option value="">Выберите размер</option>
-      <option value="">sm</option>
-      <option value="">md</option>
-      <option value="">xl</option>
-      <option value="">2xl</option>
-    </select>
+    <BaseInputSelect placeholder="Выберите размер" :options="['sm', 'md', 'lg']" />
     <div class="products-detail-info__actions">
       <BaseButton
         radius="5px"
@@ -95,8 +89,6 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       color: #c28859;
     }
   }
-  &__sizes {
-  }
   &__actions {
     display: flex;
     align-items: center;
@@ -131,8 +123,6 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
         &-icon {
           color: $accent-dark;
         }
-      }
-      &-content {
       }
     }
   }
