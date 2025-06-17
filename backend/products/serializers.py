@@ -124,6 +124,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             "disadvantages",
             "rating",
             "time_age",
+            "created_at",
+            "updated_at"
         )
 
 
