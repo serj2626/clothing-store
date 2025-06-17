@@ -7,7 +7,8 @@ const productId = Array.isArray(id) ? id[0] : id;
 // const isLoading = ref(false);
 // const error = ref<string | null>(null);
 const storeDetail = useProductDetailStore();
-const { product, loading, reviews } = storeToRefs(storeDetail);
+const { product, loading, reviews, images, variants } =
+  storeToRefs(storeDetail);
 
 // Получаем продукт
 await useAsyncData("product-detail-page-product", () =>
@@ -23,6 +24,16 @@ const currentPage = computed<ILink>(() => ({
   title: product.value?.title ?? "Товар",
   url: `/product/${product.value?.id}`,
 }));
+
+const allImages = computed(() => {
+  if (images.value) {
+    return [
+      ...images.value,
+      { id: images.value.length + 1, image: product.value?.avatar },
+    ];
+  }
+  return product.value?.avatar;
+});
 </script>
 
 <template>
@@ -34,12 +45,15 @@ const currentPage = computed<ILink>(() => ({
       />
       <div v-if="loading">Загрузка...</div>
       <div v-else class="product-detail-page__content">
-        <ProductDetailImages v-if="product" :product="product" />
+        <ProductDetailImages v-if="images" :images="images" />
         <ProductDetailInfo v-if="product" :product="product" />
       </div>
       <ProductDetailComments v-if="reviews" :reviews />
     </div>
   </div>
+  <!-- <pre>
+    {{ allImages }}
+  </pre> -->
 </template>
 
 <style scoped lang="scss">

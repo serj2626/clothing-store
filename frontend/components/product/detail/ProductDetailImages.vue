@@ -4,9 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Thumbs } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/thumbs";
-import type { IProduct } from "~/types";
-
-defineProps<{ product: IProduct }>();
+import type { IProductImage } from "~/types";
 
 const thumbsSwiper = ref<any>(null);
 const mainSwiper = ref<any>(null);
@@ -18,10 +16,16 @@ function setThumbsSwiper(swiper: any) {
 function setMainSwiper(swiper: any) {
   mainSwiper.value = swiper;
 }
+
+defineProps<{
+  images: IProductImage[];
+}>();
 </script>
 
 <template>
-  <div v-if="product.images?.length" class="gallery">
+  <div 
+    v-if="images?.length > 1" 
+    class="gallery">
     <!-- Миниатюры (вертикальные) -->
     <Swiper
       class="gallery-thumbs"
@@ -32,7 +36,7 @@ function setMainSwiper(swiper: any) {
       :modules="[Thumbs]"
       @swiper="setThumbsSwiper"
     >
-      <SwiperSlide v-for="item in product.images" :key="item.id">
+      <SwiperSlide v-for="item in images" :key="item.id">
         <NuxtImg
           v-if="item.image"
           :src="item.image"
@@ -53,7 +57,7 @@ function setMainSwiper(swiper: any) {
       :modules="[Thumbs]"
       @swiper="setMainSwiper"
     >
-      <SwiperSlide v-for="item in product.images" :key="item.id">
+      <SwiperSlide v-for="item in images" :key="item.id">
         <NuxtImg
           v-if="item.image"
           :src="item.image"
@@ -67,7 +71,7 @@ function setMainSwiper(swiper: any) {
   </div>
   <NuxtImg
     v-else
-    :src="product.avatar"
+    :src="images[0]"
     format="webp"
     loading="lazy"
     width="500"

@@ -1,24 +1,9 @@
 <script setup lang="ts">
+import { menuModalLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
 const modalsStore = useModalsStore();
 const closeMenu = ref(false);
-
-interface IModalMenu {
-  title: string;
-  url: string;
-  icon?: string;
-}
-
-const menuModalLinks: IModalMenu[] = [
-  { title: "Главная", url: "/", icon: HeroIcons.home },
-  { title: "Каталог", url: "/catalog", icon: HeroIcons.catalog },
-  { title: "О нас", url: "/about", icon: HeroIcons.about },
-  { title: "Контакты", url: "/contacts", icon: HeroIcons.PHONE },
-  { title: "Личный кабинет", url: "/account", icon: HeroIcons.user },
-  { title: "Избранное", url: "/favorite", icon: HeroIcons.heart },
-  { title: "Корзина", url: "/basket", icon: HeroIcons.basket },
-];
 
 // Обработчик клавиши ESC
 const handleKeydown = (e: KeyboardEvent) => {

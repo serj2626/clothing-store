@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { headerIconLinks, headerLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 const modalsStore = useModalsStore();
 const route = useRoute();
@@ -12,7 +13,6 @@ const searchValue = ref(false);
 watch(
   () => route.name,
   (newVal) => {
-    console.log("route.name changed:", newVal);
     routeName.value = typeof newVal === "string" ? newVal : undefined;
   },
   { immediate: true }
@@ -34,23 +34,15 @@ watch(
         </button>
         <nav class="header-component__wraper-nav">
           <ul class="header-component__wraper-nav-list">
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/"
-              >Главная</NuxtLink
-            >
             <NuxtLink
+              v-for="link in headerLinks"
+              :key="link.name"
               class="header-component__wraper-nav-list-link"
-              to="/catalog"
-              >Каталог</NuxtLink
+              :class="{ active: link.name === routeName }"
+              :to="link.to"
             >
-            <!-- <CurvedLogo /> -->
-            <NuxtLink class="header-component__wraper-nav-list-link" to="/about"
-              >О нас</NuxtLink
-            >
-            <NuxtLink
-              class="header-component__wraper-nav-list-link"
-              to="/contacts"
-              >Контакты</NuxtLink
-            >
+              {{ link.title }}
+            </NuxtLink>
           </ul>
         </nav>
 
@@ -61,23 +53,15 @@ watch(
             size="28"
             @click="searchValue = !searchValue"
           />
-          <NuxtLink to="/account">
+          <NuxtLink
+            v-for="item in headerIconLinks"
+            :key="item.name"
+            :to="item.to"
+          >
             <Icon
               class="header-component__wraper-actions-icon"
-              :name="HeroIcons.user"
-              size="28"
-            />
-          </NuxtLink>
-          <NuxtLink to="/favorite">
-            <Icon
-              class="header-component__wraper-actions-icon"
-              :name="HeroIcons.heart"
-              size="28"
-          /></NuxtLink>
-          <NuxtLink to="/basket">
-            <Icon
-              class="header-component__wraper-actions-icon"
-              :name="HeroIcons.basket"
+              :class="{ active: item.name === routeName }"
+              :name="item.icon"
               size="28"
             />
           </NuxtLink>
@@ -125,9 +109,15 @@ watch(
           display: flex;
         }
         &-link {
-          color: v-bind(color) !important;
+          color: v-bind(color);
           &:hover {
             color: $accent;
+          }
+          &.active {
+            color: $accent;
+            font-weight: bold;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.479),
+              0 2px 3px rgba(0, 0, 0, 0.076), 0 0 10px rgba($accent, 0.4);
           }
         }
       }
@@ -139,9 +129,15 @@ watch(
 
       &-icon {
         @include header_link;
-        font-weight: 700;
+      
         color: v-bind(color);
         cursor: pointer;
+        &.active {
+          color: $accent-dark;
+          font-weight: bold;
+          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.479),
+            0 2px 3px rgba(0, 0, 0, 0.076), 0 0 10px rgba($accent, 0.4);
+        }
       }
     }
 
