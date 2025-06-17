@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IProduct } from "~/types";
+
 defineProps<{
   product: IProduct;
 }>();
+
+const activeIndex = ref<number | null>(null);
+
+function toggleAccordion(id: number): void {
+  activeIndex.value = activeIndex.value === id ? null : id;
+}
 </script>
+
 <template>
   <div class="products-detail-info">
     <p class="products-detail-info__title">{{ product.title }}</p>
@@ -36,90 +44,108 @@ defineProps<{
       />
     </div>
     <p class="products-detail-info__description">Подробности</p>
-    <div
-      v-if="product.details?.length === 0"
-      class="products-detail-info__accordion"
-    >
-      <div>Подробности отсутствуют</div>
+
+    <div v-if="!product.details?.length" class="products-detail-info__empty">
+      Подробности отсутствуют
     </div>
+
     <div v-else class="products-detail-info__accordion">
-      <div
+      <BaseAccordionComponent
         v-for="detail in product.details"
         :key="detail.id"
+        :is-open="activeIndex === detail.id"
         class="products-detail-info__accordion-item"
+        @click="toggleAccordion(detail.id)"
       >
-        <div class="products-detail-info__accordion-item-title">
-          <span class="products-detail-info__accordion-item-title-text">{{
-            detail.title
-          }}</span>
-          <button
-            class="products-detail-info__accordion-item-title-icon"
-            style="flex-shrink: 0"
-          >
-            <Icon style="color: #e0bea2" :name="HeroIcons.DOWN" size="20" />
-          </button>
-        </div>
-        <div class="products-detail-info__accordion-item-content">
-          {{ detail.description }}
-        </div>
-      </div>
+        <template #summary>
+          <div class="products-detail-info__accordion-item-title">
+            <span class="products-detail-info__accordion-item-title-text">
+              {{ detail.title }}
+            </span>
+            <button
+              class="products-detail-info__accordion-item-title-icon"
+              style="flex-shrink: 0"
+            >
+              <Icon style="color: #e0bea2" :name="HeroIcons.DOWN" size="20" />
+            </button>
+          </div>
+        </template>
+        <template #default>
+          <div class="products-detail-info__accordion-item-content">
+            {{ detail.description }}
+          </div>
+        </template>
+      </BaseAccordionComponent>
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
 .products-detail-info {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   &__title {
     font-size: 20px;
   }
+
   &__price {
     font-weight: 700;
   }
+
   &__colors {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
     &-current {
       font-size: 14px;
       color: #c28859;
     }
   }
+
   &__actions {
     display: flex;
     align-items: center;
     gap: 20px;
-    &-basket {
-      background-color: $accent;
-      color: $white;
-      padding-block: 16px;
-      width: 100%;
-    }
-    &-favorite {
-      outline: 1px solid $txt;
-      color: $txt;
-      padding-block: 16px;
-      width: 100%;
-    }
   }
+
+  &__description {
+    font-weight: 700;
+  }
+
+  &__empty {
+    color: rgba(0, 0, 0, 0.5);
+    font-style: italic;
+  }
+
   &__accordion {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+
     &-item {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
       &-title {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        border-radius: 5px;
+
         &-text {
           font-weight: 700;
         }
+
         &-icon {
           color: $accent-dark;
+          background: none;
+          border: none;
+          cursor: pointer;
         }
+      }
+
+      &-content {
+        padding-top: 10px;
       }
     }
   }

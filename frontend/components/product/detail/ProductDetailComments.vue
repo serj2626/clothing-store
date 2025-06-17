@@ -79,17 +79,18 @@ const countReviews = computed(() => {
         <h3 class="product-detail-comments__header-top-title">
           Отзывы о товаре ({{ countReviews }})
         </h3>
-        <BaseButtonWithIcon :icon="HeroIcons.PLUS" label="Написать отзыв" />
-      </div>
-
-      <div class="product-detail-comments__main">
-        <button class="like-btn" :class="{ liked: isLiked }">
+        <button class="like-btn" :class="{ liked: 1 == 1 }">
           <Icon name="ph:heart" class="like-icon" />
           <span class="likes-count"
             >{{ likesCount }} человеку понравился товар</span
           >
         </button>
       </div>
+      <BaseButtonWithIcon
+        :icon="HeroIcons.PLUS"
+        label="Написать отзыв"
+        @click="modalsStore.openModal('review')"
+      />
     </div>
 
     <div v-if="countReviews === 0" class="comments-list">
@@ -223,6 +224,7 @@ const countReviews = computed(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba($txt, 0.1);
@@ -238,11 +240,6 @@ const countReviews = computed(() => {
         margin: 0;
       }
     }
-  }
-
-  &__main {
-    display: flex;
-    align-items: center;
   }
 }
 
