@@ -63,6 +63,19 @@ def list_comments_by_product(request, product_id):
     return Response({"reviews": serializer.data})
 
 
+class ReviewsListByProductView(generics.ListAPIView):
+    pagination_class = ListResultsSetPagination
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        product_id = self.kwargs["product_id"]
+        return Review.objects.filter(product_id=product_id)
+
+    @extend_schema(tags=[TAG], summary="Список комментариев к товару")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
 class CustomPagination(PageNumberPagination):
     page_size = 10  # по умолчанию 10
     page_size_query_param = "page_size"  # можно переопределить из запроса

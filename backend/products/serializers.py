@@ -116,11 +116,11 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = (
             "id",
-            "user",
+            # "user",
             "name",
             "email",
             "description",
-            "product",
+            # "product",
             "advantages",
             "disadvantages",
             "rating",
@@ -148,7 +148,7 @@ class ProductSerializer(serializers.ModelSerializer):
     details = ProductDetailSerializer(many=True, read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
-    reviews = ReviewSerializer(many=True, read_only=True)
+    # reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
     brand = BrandSerializer(read_only=True)
     currency = serializers.CharField(source="get_currency_display")
@@ -172,7 +172,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "count_reviews",
             "total_count",
             "images",
-            "reviews",
+            # "reviews",
             "variants",
             "details",
         )

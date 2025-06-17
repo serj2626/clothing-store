@@ -33,24 +33,28 @@ interface IProductDetails {
   description: string;
 }
 
-interface IReview {
+export interface IReview {
   id: string;
   description: string;
-  created_at: string;
-  updated_at: string;
   name: string;
   email: string;
   advantages: string;
   disadvantages: string;
   rating: number;
   is_published: boolean;
-  user: string;
-  product: string;
   likes?: [];
   dislikes?: [];
   time_age: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface IReviewResponse {
+  current: number;
+  next: null | number;
+  previous: null | number;
+  count: number;
+  results: IReview[];
 }
 
 export interface IProduct {
@@ -67,7 +71,6 @@ export interface IProduct {
   total_count: number | null;
   variants?: IProductVariant[] | null;
   images?: IProductImage[] | null;
-  reviews?: IReview[];
   details?: IProductDetails[];
 }
 

@@ -4,17 +4,20 @@ import type { ILink } from "~/components/base/BaseBreadCrumbs.vue";
 
 const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
+// const isLoading = ref(false);
+// const error = ref<string | null>(null);
+const storeDetail = useProductDetailStore();
+const { product, loading, reviews } = storeToRefs(storeDetail);
 
-const store = useProductDetailStore();
-const { product, loading, reviews } = storeToRefs(store);
+// Получаем продукт
+await useAsyncData("product-detail-page-product", () =>
+  storeDetail.fetchProduct(productId)
+);
 
-onMounted(() => {
-  store.fetchProduct(productId);
-});
-
-onUnmounted(() => {
-  store.clearDataByProductStore();
-});
+// Получаем первую страницу отзывов
+await useAsyncData("product-detail-page-product-reviews", () =>
+  storeDetail.fetchAllReviews(1, 5, productId)
+);
 
 const currentPage = computed<ILink>(() => ({
   title: product.value?.title ?? "Товар",

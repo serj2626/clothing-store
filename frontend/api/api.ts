@@ -3,12 +3,6 @@ export const api = {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  // specialists: {
-  //   list: "/specialists/", //Возвращает всех специалистов
-  //   dropdown: "/specialists/dropdown/", //Список всех специалистов для дропдаунов
-  //   item: (slug: string): string => `/specialists/${slug}`, // Получить конкретный специалиста по слагу
-  // },
-
   legal: {
     policy: "/legal/policy/", //Получает политику
     oferta: "/legal/offerta/", //Получает оферту
@@ -36,6 +30,7 @@ export const api = {
     list: "/products/", //Возвращает список всех продуктов
     last: "/products/last-collection/", //Возвращает список последних продуктов
     detail: (id: string) => `/products/${id}`, //Возвращает конкретный продукт
+    commentsList: (id: string) => `/products/${id}/reviews/list`, //Возвращает список комментарив продукта
     createReview: (id: string) => `/products/${id}/create-review`, //Добавить отзыв к продукту
     like: (id: string) => `/products/${id}/like`, //Возвращает конкретный продукт
   },

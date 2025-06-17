@@ -12,6 +12,7 @@ from .views import (
     BrandListView,
     ReviewCreateView,
     ProductExampleListView,
+    ReviewsListByProductView
 )
 
 urlpatterns = [
@@ -25,7 +26,7 @@ urlpatterns = [
     path("<uuid:pk>/", ProductDetailView.as_view(), name="product_detail"),
     path(
         "<uuid:product_id>/reviews/list",
-        list_comments_by_product,
+        ReviewsListByProductView.as_view(),
         name="product_detail_list_reviews",
     ),
     path(
