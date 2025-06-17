@@ -9,6 +9,7 @@ from .models import (
     ProductImage,
     Review,
     ReviewPhoto,
+    ProductDetail,
     # Favorite,
     Brand,
 )
@@ -63,12 +64,20 @@ class CategoryDetailSerializer(CategoryListSerializer):
 
 
 class BrandSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор бренда
+    """
+
     class Meta:
         model = Brand
         fields = "__all__"
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор варианта товара
+    """
+
     color_name = serializers.CharField(source="get_color_display")
 
     class Meta:
@@ -77,6 +86,9 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор изображения товара
+    """
 
     class Meta:
         model = ProductImage
@@ -84,15 +96,56 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 class ProductReviewSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор отзыва о товаре
+    """
+
     class Meta:
         model = Review
         fields = "__all__"
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор отзыва о товаре
+    """
+
+    time_age = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Review
+        fields = (
+            "user",
+            "name",
+            "email",
+            "description",
+            "product",
+            "advantages",
+            "disadvantages",
+            "rating",
+            "time_age",
+        )
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    """
+    Дополнительные сведения о товаре
+    """
+
+    class Meta:
+        model = ProductDetail
+        fields = ("id", "title", "description")
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор продукта
+    """
+
+    details = ProductDetailSerializer(many=True, read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
-    reviews = ProductReviewSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
     brand = BrandSerializer(read_only=True)
     currency = serializers.CharField(source="get_currency_display")
@@ -111,13 +164,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "currency",
             "is_active",
-            "variants",
-            "images",
-            "reviews",
             "category",
             "count_likes",
             "count_reviews",
             "total_count",
+            "images",
+            "reviews",
+            "variants",
+            "details",
         )
 
     def get_count_likes(self, obj):
@@ -152,22 +206,3 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ["items", "created_at", "updated_at"]
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор отзыва о товаре
-    """
-
-    class Meta:
-        model = Review
-        fields = (
-            "user",
-            "name",
-            "email",
-            "description",
-            "product",
-            "advantages",
-            "disadvantages",
-            "rating",
-        )

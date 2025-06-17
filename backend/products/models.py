@@ -247,13 +247,13 @@ class Review(BaseID, BaseDescription, BaseDate):
     likes = models.ManyToManyField(User, related_name="+", blank=True)
     dislikes = models.ManyToManyField(User, related_name="+", blank=True)
 
-    @property
-    def has_admin_reply(self):
-        return hasattr(self, "admin_reply")
+    # @property
+    # def has_admin_reply(self):
+    #     return hasattr(self, "admin_reply")
 
     @property
     def time_age(self):
-        return timesince(self.created_at)
+        return timesince(self.created_at) + " назад"
 
     class Meta:
         verbose_name = "Отзыв"
