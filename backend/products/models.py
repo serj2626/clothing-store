@@ -93,9 +93,7 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         return reverse("category_detail", kwargs={"slug": self.slug})
 
 
-class Product(
-    BaseID, BaseTitle, BaseDescription, BaseDate, WebpImageMixin, AvatarPreviewMixin
-):
+class Product(BaseID, BaseTitle, BaseDate, WebpImageMixin, AvatarPreviewMixin):
     """
     Продукт
     """

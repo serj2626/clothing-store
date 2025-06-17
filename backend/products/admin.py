@@ -162,7 +162,6 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
         ),
         ("price", "currency"),
         "is_active",
-        "description",
     )
     save_on_top = True
     list_per_page = 15
