@@ -7,10 +7,11 @@ from .views import (
     ProductListView,
     ProductDetailView,
     toggle_product_like,
+    list_comments_by_product,
     CategoryListView,
     BrandListView,
     ReviewCreateView,
-    ProductExampleListView
+    ProductExampleListView,
 )
 
 urlpatterns = [
@@ -22,6 +23,11 @@ urlpatterns = [
         name="product-last-list",
     ),
     path("<uuid:pk>/", ProductDetailView.as_view(), name="product_detail"),
+    path(
+        "<uuid:product_id>/reviews/list",
+        list_comments_by_product,
+        name="product_detail_list_reviews",
+    ),
     path(
         "<uuid:pk>/create-review",
         ReviewCreateView.as_view(),

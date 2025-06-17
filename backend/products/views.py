@@ -47,12 +47,20 @@ from .serializers import (
     ProductSerializer,
     ReviewSerializer,
 )
+from rest_framework.pagination import PageNumberPagination
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
-from rest_framework.pagination import PageNumberPagination
+
+
+@extend_schema(tags=[TAG], summary="Список комментариев к товару")
+@api_view(["GET"])
+def list_comments_by_product(request, product_id):
+    comments = Review.objects.filter(product_id=product_id)
+    serializer = ReviewSerializer(comments, many=True)
+    return Response({"reviews": serializer.data})
 
 
 class CustomPagination(PageNumberPagination):
@@ -165,12 +173,21 @@ class ProductExampleListView(generics.ListAPIView):
             OpenApiParameter("price_max", OpenApiTypes.NUMBER, description="Цена до"),
             OpenApiParameter("category", OpenApiTypes.INT, description="ID категории"),
             OpenApiParameter("brand", OpenApiTypes.INT, description="ID бренда"),
-            OpenApiParameter("gender", OpenApiTypes.STR, description="Пол ('male', 'female', 'unisex')"),
-            OpenApiParameter("ordering", OpenApiTypes.STR, description="Сортировка (например: price, -price)"),
-        ]
+            OpenApiParameter(
+                "gender",
+                OpenApiTypes.STR,
+                description="Пол ('male', 'female', 'unisex')",
+            ),
+            OpenApiParameter(
+                "ordering",
+                OpenApiTypes.STR,
+                description="Сортировка (например: price, -price)",
+            ),
+        ],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
 
 # кешируем на 5 минут (300 секунд)
 @method_decorator(cache_page(60 * 5), name="get")
