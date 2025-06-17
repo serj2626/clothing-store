@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+import type { IProduct } from "~/types";
+defineProps<{
+  product: IProduct;
+}>();
 </script>
 <template>
   <div class="products-detail-info">
-    <p class="products-detail-info__title">Кремовое пальто</p>
-    <p class="products-detail-info__price">3150 руб</p>
+    <p class="products-detail-info__title">{{ product.title }}</p>
+    <p class="products-detail-info__price">
+      {{ product.price }} {{ product.currency }}
+    </p>
     <div class="products-detail-info__colors">
       <div class="products-detail-info__colors-values">asdsadsd</div>
       <div class="products-detail-info__colors-current">
         Цвет: Кофе с молоком меланж
       </div>
     </div>
-    <BaseInputSelect placeholder="Выберите размер" :options="['sm', 'md', 'lg']" />
+    <BaseInputSelect
+      placeholder="Выберите размер"
+      :options="['sm', 'md', 'lg']"
+    />
     <div class="products-detail-info__actions">
       <BaseButton
         radius="5px"
@@ -27,12 +36,22 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
       />
     </div>
     <p class="products-detail-info__description">Подробности</p>
-    <div class="products-detail-info__accordion">
-      <div class="products-detail-info__accordion-item">
+    <div
+      v-if="product.details?.length === 0"
+      class="products-detail-info__accordion"
+    >
+      <div>Подробности отсутствуют</div>
+    </div>
+    <div v-else class="products-detail-info__accordion">
+      <div
+        v-for="detail in product.details"
+        :key="detail.id"
+        class="products-detail-info__accordion-item"
+      >
         <div class="products-detail-info__accordion-item-title">
-          <span class="products-detail-info__accordion-item-title-text"
-            >Обмеры и описание</span
-          >
+          <span class="products-detail-info__accordion-item-title-text">{{
+            detail.title
+          }}</span>
           <button
             class="products-detail-info__accordion-item-title-icon"
             style="flex-shrink: 0"
@@ -41,29 +60,7 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
           </button>
         </div>
         <div class="products-detail-info__accordion-item-content">
-          Состав и уход Состав: 50% Шерсть, 50% Полиэстер Подкладка: 100%
-          Полиэстер Утеплитель: 90% Пух, 10% Перо - Не стирать - Гладить при
-          температуре утюга до 110°C - Не отбеливать - Сухая чистка (химчистка)
-          - Барабанная сушка запрещена
-        </div>
-      </div>
-      <div class="products-detail-info__accordion-item">
-        <div class="products-detail-info__accordion-item-title">
-          <span class="products-detail-info__accordion-item-title-text"
-            >Состав и уход</span
-          >
-          <button
-            class="products-detail-info__accordion-item-title-icon"
-            style="flex-shrink: 0"
-          >
-            <Icon style="color: #e0bea2" :name="HeroIcons.DOWN" size="20" />
-          </button>
-        </div>
-        <div class="products-detail-info__accordion-item-content">
-          Состав и уход Состав: 50% Шерсть, 50% Полиэстер Подкладка: 100%
-          Полиэстер Утеплитель: 90% Пух, 10% Перо - Не стирать - Гладить при
-          температуре утюга до 110°C - Не отбеливать - Сухая чистка (химчистка)
-          - Барабанная сушка запрещена
+          {{ detail.description }}
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ export const useProductDetailStore = defineStore("productDetail", () => {
     count_likes: 0,
     count_reviews: 0,
     total_count: 0,
+    details: [],
   });
   const reviews = ref<IReview[]>([]);
   const loading = ref(false);
@@ -38,6 +39,7 @@ export const useProductDetailStore = defineStore("productDetail", () => {
     product.value.count_likes = data.count_likes;
     product.value.count_reviews = data.count_reviews;
     product.value.total_count = data.total_count;
+    product.value.details = data.details;
   }
 
   const fetchProduct = async (id: string) => {
@@ -67,6 +69,10 @@ export const useProductDetailStore = defineStore("productDetail", () => {
     product.value.count_likes = 0;
     product.value.count_reviews = 0;
     product.value.total_count = 0;
+
+    images.value = [];
+    variants.value = [];
+    reviews.value = [];
   };
 
   return {

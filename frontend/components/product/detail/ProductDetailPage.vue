@@ -6,12 +6,15 @@ const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
 
 const store = useProductDetailStore();
-const { product, loading } = storeToRefs(store);
+const { product, loading, reviews } = storeToRefs(store);
 
 onMounted(() => {
   store.fetchProduct(productId);
 });
 
+onUnmounted(() => {
+  store.clearDataByProductStore();
+});
 
 const currentPage = computed<ILink>(() => ({
   title: product.value?.title ?? "Товар",
@@ -29,9 +32,9 @@ const currentPage = computed<ILink>(() => ({
       <div v-if="loading">Загрузка...</div>
       <div v-else class="product-detail-page__content">
         <ProductDetailImages v-if="product" :product="product" />
-        <ProductDetailInfo />
+        <ProductDetailInfo v-if="product" :product="product" />
       </div>
-      <ProductDetailComments />
+      <ProductDetailComments v-if="reviews" :reviews />
     </div>
   </div>
 </template>

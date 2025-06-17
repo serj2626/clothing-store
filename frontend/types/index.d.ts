@@ -27,6 +27,12 @@ interface IProductVariant {
   quantity: number;
 }
 
+interface IProductDetails {
+  id: number;
+  title: string;
+  description: string;
+}
+
 interface IReview {
   id: string;
   description: string;
@@ -42,6 +48,7 @@ interface IReview {
   product: string;
   likes?: [];
   dislikes?: [];
+  time_age: string;
 }
 
 export interface IProduct {
@@ -59,6 +66,7 @@ export interface IProduct {
   variants?: IProductVariant[] | null;
   images?: IProductImage[] | null;
   reviews?: IReview[];
+  details?: IProductDetails[];
 }
 
 export interface IProductResponse {

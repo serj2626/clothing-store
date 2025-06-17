@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+import type { IReview } from "~/types";
 
 const modalsStore = useModalsStore();
 const likesCount = ref(128);
@@ -62,20 +63,23 @@ const openGallery = (photos, index) => {
   // Здесь будет логика открытия галереи
   console.log("Open gallery at index:", index);
 };
+
+const props = defineProps<{
+  reviews: IReview[];
+}>();
+
+const countReviews = computed(() => {
+  return props.reviews.length;
+});
 </script>
 <template>
   <div class="product-detail-comments">
     <div class="product-detail-comments__header">
       <div class="product-detail-comments__header-top">
         <h3 class="product-detail-comments__header-top-title">
-          Отзывы о товаре
+          Отзывы о товаре ({{ countReviews }})
         </h3>
-        <button
-          class="product-detail-comments__header-top-btn"
-          @click="modalsStore.openModal('review')"
-        >
-          <Icon :name="HeroIcons.PLUS" size="32" />
-        </button>
+        <BaseButtonWithIcon :icon="HeroIcons.PLUS" label="Написать отзыв" />
       </div>
 
       <div class="product-detail-comments__main">
@@ -88,7 +92,7 @@ const openGallery = (photos, index) => {
       </div>
     </div>
 
-    <div class="comments-list">
+    <div v-if="countReviews === 0" class="comments-list">
       <div v-for="comment in comments" :key="comment.id" class="comment-item">
         <div class="comment-user">
           <div class="user-avatar">
@@ -146,6 +150,64 @@ const openGallery = (photos, index) => {
         </div>
       </div>
     </div>
+    <div v="else" class="comments-list">
+      <div v-for="comment in reviews" :key="comment.id" class="comment-item">
+        <div class="comment-user">
+          <div class="user-avatar">
+            <Icon name="ph:user-circle" />
+          </div>
+          <div class="user-info">
+            <span class="user-name">{{ comment.email }}</span>
+            <span class="comment-date">{{ comment.time_age }}</span>
+          </div>
+        </div>
+
+        <div class="comment-rating">
+          <div class="stars">
+            <Icon
+              v-for="star in 5"
+              :key="star"
+              name="ph:star-fill"
+              :class="{ active: star <= comment.rating }"
+            />
+          </div>
+          <span class="rating-value">{{ comment.rating }} из 5</span>
+        </div>
+
+        <div class="comment-text">{{ comment.description }}</div>
+
+        <!-- <div v-if="comment.photos.length" class="comment-photos">
+          <div
+            v-for="(photo, idx) in comment.photos"
+            :key="idx"
+            class="photo-thumb"
+            @click="openGallery(comment.photos, idx)"
+          >
+            <NuxtImg
+              :src="photo"
+              loading="lazy"
+              format="webp"
+              width="100"
+              height="100"
+            />
+          </div>
+        </div> -->
+
+        <div v-if="comment.advantages" class="comment-props">
+          <div class="prop-item advantage">
+            <span class="prop-label">Достоинства:</span>
+            <span class="prop-value">{{ comment.advantages }}</span>
+          </div>
+        </div>
+
+        <div v-if="comment.disadvantages" class="comment-props">
+          <div class="prop-item disadvantage">
+            <span class="prop-label">Недостатки:</span>
+            <span class="prop-value">{{ comment.disadvantages }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <BasePaginationComponent />
   </div>
 </template>
@@ -167,26 +229,13 @@ const openGallery = (photos, index) => {
     &-top {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 20px;
       &-title {
         font-family: $ff_title;
         font-size: 22px;
         font-weight: 700;
         color: $txt;
         margin: 0;
-      }
-      &-btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        color: $accent-dark;
-        font-size: 20px;
-        transition: all 0.3s ease;
-        &:hover {
-          color: $accent;
-          scale: 1.1;
-        }
       }
     }
   }

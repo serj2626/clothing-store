@@ -1,43 +1,46 @@
 <script lang="ts" setup>
-interface IButton {
-  size: "xs" | "sm" | "md" | "lg";
-  color?: "red" | "green" | "gray" | "blue" | "white";
-  view?: "outline" | "fill";
+interface IBaseButton {
+  size?: "xs" | "sm" | "md" | "lg";
+  icon: string;
   label: string;
-  icon?: string;
   disabled?: boolean;
+  radius?: string;
+  color?: string;
 }
 
-defineProps<IButton>();
+const {
+  color = "#d38f56",
+  size = "md",
+  radius = "10px",
+  label,
+} = defineProps<IBaseButton>();
 </script>
 
 <template>
-  <div
+  <button
     :class="[
       'base-button-with-icon',
-      `base-button-with-icon__${color}`,
+      `base-button-with-icon__${size}`,
       { 'base-button-with-icon_disabled': disabled },
     ]"
   >
-    <span
-      class="base-button-with-icon__title"
-      :class="`base-button-with-icon__title_${size}`"
-      >{{ label }}</span
-    >
-    <Icon v-if="icon" size="30" :name="icon" />
-  </div>
+    <Icon class="base-button-with-icon__icon" :name="icon" size="18" />
+    {{ label }}
+  </button>
 </template>
 <style scoped lang="scss">
 .base-button-with-icon {
+  background-color: v-bind(color);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  padding-inline: 10px;
+  color: white;
 
-  border-radius: $btn_radius;
+  user-select: none;
+  border-radius: v-bind(radius);
   border: 1px solid transparent;
-  // transition: all $fast_ease;
+  transition: all 0.3 ease-in-out;
   width: fit-content;
 
   cursor: pointer;
@@ -45,50 +48,21 @@ defineProps<IButton>();
   &:hover {
     opacity: 0.8;
   }
-  &:active {
-    scale: 0.96;
+
+  &__xs {
+    padding: 6px 9px;
   }
 
-  &__red {
-    background-color: $error;
-    color: $white;
-    box-shadow: 0 0 10px rgb(255, 252, 252);
-  }
-  &__green {
-    background-color: green;
-    color: $white;
-  }
-  &__gray {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: $white;
-  }
-  &__blue {
-    background-color: blue;
-    color: $white;
-  }
-  &__white {
-    background-color: white;
-    color: #5c6a70;
-    border: 1px solid #5c6a704f;
-    box-shadow: 0 5px 12px rgba(69, 80, 84, 0.317);
+  &__sm {
+    padding: 6px 12px;
   }
 
-  &__title {
-    &_xs {
-      padding-block: 6px;
-    }
+  &__md {
+    padding: 8px 16px;
+  }
 
-    &_sm {
-      padding-block: 6px;
-    }
-
-    &_md {
-      padding-block: 8px;
-    }
-
-    &_lg {
-      padding-block: 16px;
-    }
+  &__lg {
+    padding: 16px 28px;
   }
 }
 </style>
