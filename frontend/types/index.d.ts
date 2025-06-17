@@ -49,6 +49,8 @@ interface IReview {
   likes?: [];
   dislikes?: [];
   time_age: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IProduct {

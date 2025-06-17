@@ -44,7 +44,12 @@ function toggleAccordion(id: number): void {
       />
     </div>
     <p class="products-detail-info__description">Подробности</p>
-
+    <button class="products-detail-info__likes" :class="{ liked: 1 == 1 }">
+      <Icon name="ph:heart" class="products-detail-info__likes-icon" />
+      <span class="products-detail-info__likes-count"
+        >{{ product.count_likes }} человеку понравился товар</span
+      >
+    </button>
     <div v-if="!product.details?.length" class="products-detail-info__empty">
       Подробности отсутствуют
     </div>
@@ -66,7 +71,13 @@ function toggleAccordion(id: number): void {
               class="products-detail-info__accordion-item-title-icon"
               style="flex-shrink: 0"
             >
-              <Icon style="color: #e0bea2" :name="HeroIcons.DOWN" size="20" />
+              <Icon
+                style="color: #e0bea2"
+                :name="
+                  activeIndex === detail.id ? HeroIcons.UP : HeroIcons.DOWN
+                "
+                size="20"
+              />
             </button>
           </div>
         </template>
@@ -85,6 +96,33 @@ function toggleAccordion(id: number): void {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  &__likes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: $default_transition;
+    font-family: $ff_second;
+    color: $txt;
+
+    &:hover {
+      background: rgba($accent, 0.1);
+    }
+
+    &-count {
+      font-size: 14px;
+      color: rgba($txt, 0.7);
+    }
+    &-icon {
+      font-size: 20px;
+      transition: $default_transition;
+    }
+  }
 
   &__title {
     font-size: 20px;
@@ -124,6 +162,7 @@ function toggleAccordion(id: number): void {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-top: 50px;
 
     &-item {
       &-title {

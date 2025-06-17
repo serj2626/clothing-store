@@ -79,12 +79,6 @@ const countReviews = computed(() => {
         <h3 class="product-detail-comments__header-top-title">
           Отзывы о товаре ({{ countReviews }})
         </h3>
-        <button class="like-btn" :class="{ liked: 1 == 1 }">
-          <Icon name="ph:heart" class="like-icon" />
-          <span class="likes-count"
-            >{{ likesCount }} человеку понравился товар</span
-          >
-        </button>
       </div>
       <BaseButtonWithIcon
         :icon="HeroIcons.PLUS"
@@ -159,7 +153,9 @@ const countReviews = computed(() => {
           </div>
           <div class="user-info">
             <span class="user-name">{{ comment.email }}</span>
-            <span class="comment-date">{{ comment.time_age }}</span>
+            <span class="comment-date"
+              >{{ comment.time_age }} - {{ formatDate(comment.created_at) }}</span
+            >
           </div>
         </div>
 
@@ -242,41 +238,6 @@ const countReviews = computed(() => {
     }
   }
 }
-
-.like-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: $default_transition;
-  font-family: $ff_second;
-  color: $txt;
-
-  &:hover {
-    background: rgba($accent, 0.1);
-  }
-
-  &.liked {
-    .like-icon {
-      color: $error;
-    }
-  }
-}
-
-.like-icon {
-  font-size: 20px;
-  transition: $default_transition;
-}
-
-.likes-count {
-  font-size: 14px;
-  color: rgba($txt, 0.7);
-}
-
 .comment-item {
   padding: 20px 0;
   border-bottom: 1px solid rgba($txt, 0.1);
