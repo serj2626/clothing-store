@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const modalsStore = useModalsStore();
 function goBack() {
   useRouter().back();
 }
@@ -9,11 +10,11 @@ function goBack() {
     <p class="account-logout__text">Вы уверены, что хотите выйти?</p>
     <div class="account-logout__actions">
       <button
-        type="submit"
+        type="button"
         class="account-logout__actions-btn account-logout__actions-btn--yes"
-        @click="goBack"
+        @click="modalsStore.openModal('logout')"
       >
-        Да 
+        Да
       </button>
       <button
         type="button"

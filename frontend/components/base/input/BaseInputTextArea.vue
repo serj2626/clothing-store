@@ -57,7 +57,7 @@ defineProps<IInputProps>();
   &__input {
     resize: vertical;
     border: none;
-    background-color: transparent;
+    background: white;
     padding: 16px 20px;
     width: 100%;
     min-height: 100px;
