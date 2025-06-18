@@ -101,7 +101,7 @@ const closeMenuHandler = () => {
           <div class="modal-menu__footer-actions">
             <button
               class="modal-menu__footer-actions-login"
-              @click="goToLink('/auth')"
+              @click="goToLink('/auth/login')"
             >
               <Icon :name="HeroIcons.user" :size="26" />
             </button>

@@ -45,7 +45,10 @@ export const enum HeroIcons {
   VIDEO = "i-heroicons-outline-video-camera",
   login = "i-heroicons-user-circle",
   register = "i-heroicons-user-plus",
+  LOGOUT = "i-heroicons-arrow-right-start-on-rectangle",
   SUN = "i-heroicons-outline-sun",
   NIGHT = "i-heroicons-outline-moon",
   SETTINGS = "i-heroicons-outline-wrench-screwdriver",
+  EXPAND_SOLID = "i-heroicons-solid-arrows-pointing-out",
+  NARROW = "i-heroicons-outline-arrows-pointing-in",
 }
