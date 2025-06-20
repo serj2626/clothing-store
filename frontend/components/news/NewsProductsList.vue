@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 
 import type { IProduct } from "~/types";
 
-
 defineProps<{ products: IProduct[] }>();
 
 const prevEl = ref<HTMLElement | null>(null);
@@ -80,19 +79,15 @@ const onSlideChange = () => {
   position: relative;
 }
 
-.swiper-wrapper {
-  border-radius: 10px;
-}
-
 .swiper-pagination {
   position: relative;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 32px;
   z-index: 5;
 
   &:deep(.swiper-pagination-bullet) {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     display: inline-block;
     border-radius: 50%;
     background: $txt;

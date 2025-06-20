@@ -20,7 +20,10 @@ else:
     from .dev import *
 
 
-CORS_ALLOW_ALL_ORIGINS = True  # или конкретный домен для фронтенда
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
@@ -46,11 +49,12 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
-    "AUTH_COOKIE": "refresh_token",  # имя куки
-    "AUTH_COOKIE_SECURE": True,  # HTTPS только!
-    "AUTH_COOKIE_HTTP_ONLY": True,  # JS не может читать
-    "AUTH_COOKIE_PATH": "/api/v1/users/token/refresh/",  # путь куки
-    "AUTH_COOKIE_SAMESITE": "Lax",  # защита CSRF
+    "AUTH_COOKIE": "access_token",  # Название cookie для access token
+    "AUTH_COOKIE_DOMAIN": None,  # Домен для cookie
+    "AUTH_COOKIE_SECURE": True,  # Только HTTPS
+    "AUTH_COOKIE_HTTP_ONLY": True,  # HttpOnly cookie
+    "AUTH_COOKIE_PATH": "/",  # Путь cookie
+    "AUTH_COOKIE_SAMESITE": "Lax",  # Защита от CSRF
 }
 
 

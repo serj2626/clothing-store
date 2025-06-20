@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { api } from "~/api";
 const loading = ref(false);
 
+const modalsStore = useModalsStore();
+const { $api } = useNuxtApp();
 interface FormField<T> {
   value: T;
   error: string;
@@ -9,7 +12,7 @@ interface FormField<T> {
 
 interface ISubscribeResponse {
   access: string;
-  refresh: string;
+  refresh?: string;
 }
 
 interface FeedbackForm {
@@ -22,33 +25,24 @@ const formData = reactive<FeedbackForm>({
   password: { value: "", error: "", required: true },
 });
 
-const handleLogin = async () => {
+async function submit() {
   try {
-    loading.value = true;
-    error.value = "";
-
-    // Здесь будет вызов API Django для авторизации
-    // const { data, error: apiError } = await useFetch('/api/auth/login/', {
-    //   method: 'POST',
-    //   body: {
-    //     email: email.value,
-    //     password: password.value
-    //   }
-    // })
-
-    // Временная имитация успешного входа
-    setTimeout(() => {
-      loading.value = false;
-      navigateTo("/account");
-    }, 1000);
-  } catch (err) {
-    error.value = "Неверный email или пароль";
-    loading.value = false;
+    await $api<ISubscribeResponse>(api.users.login, {
+      method: "POST",
+      body: {
+        email: formData.email.value,
+        password: formData.password.value,
+      },
+    });
+    modalsStore.openModal("success");
+    clearForm(formData);
+  } catch (e) {
+    console.log("error", e);
   }
-};
+}
 </script>
 <template>
-  <form class="auth-form-login" @submit.prevent="handleLogin">
+  <form class="auth-form-login" @submit.prevent="submit">
     <div class="auth-form-login__group">
       <label for="email">Email</label>
       <BaseInput

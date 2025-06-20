@@ -12,6 +12,7 @@ class ProfileLine(admin.TabularInline):
 class UserAdmin(UserAdmin):
     model = User
     list_display = ("email", "phone", "is_staff", "is_superuser", "has_profile")
+    # list_display = ("email", "phone", "is_staff", "is_superuser", )
     search_fields = ("email", "phone")
     ordering = ("email",)
     inlines = (ProfileLine,)

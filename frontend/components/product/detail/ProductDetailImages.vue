@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Thumbs } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/thumbs";
-import type { IProductImage } from "~/types";
 
 const thumbsSwiper = ref<any>(null);
 const mainSwiper = ref<any>(null);
@@ -18,14 +17,12 @@ function setMainSwiper(swiper: any) {
 }
 
 defineProps<{
-  images: IProductImage[];
+  images: string | { id: string | number; image: string; }[];
 }>();
 </script>
 
 <template>
-  <div 
-    v-if="images?.length > 1" 
-    class="gallery">
+  <div class="gallery">
     <!-- Миниатюры (вертикальные) -->
     <Swiper
       class="gallery-thumbs"
@@ -69,14 +66,6 @@ defineProps<{
       </SwiperSlide>
     </Swiper>
   </div>
-  <NuxtImg
-    v-else
-    :src="images[0]"
-    format="webp"
-    loading="lazy"
-    width="500"
-    height="500"
-  />
 </template>
 
 <style scoped lang="scss">

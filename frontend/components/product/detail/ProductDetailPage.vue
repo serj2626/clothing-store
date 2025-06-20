@@ -4,8 +4,7 @@ import type { ILink } from "~/components/base/BaseBreadCrumbs.vue";
 
 const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
-// const isLoading = ref(false);
-// const error = ref<string | null>(null);
+
 const storeDetail = useProductDetailStore();
 const { product, loading, reviews, images, variants } =
   storeToRefs(storeDetail);
@@ -26,13 +25,10 @@ const currentPage = computed<ILink>(() => ({
 }));
 
 const allImages = computed(() => {
-  if (images.value) {
-    return [
-      ...images.value,
-      { id: images.value.length + 1, image: product.value?.avatar },
-    ];
-  }
-  return product.value?.avatar;
+  return [
+    ...images.value,
+    { id: images.value.length + 1, image: product.value?.avatar },
+  ];
 });
 </script>
 
@@ -45,15 +41,23 @@ const allImages = computed(() => {
       />
       <div v-if="loading">Загрузка...</div>
       <div v-else class="product-detail-page__content">
-        <ProductDetailImages v-if="images" :images="images" />
-        <ProductDetailInfo v-if="product" :product="product" />
+        <!-- <pre>{{ allImages }}</pre> -->
+        <NuxtImg
+          v-if="images.length === 0"
+          :src="product.avatar"
+          format="webp"
+          lazy="loading"
+        />
+        <Swiper
+          v-else
+          :images
+        />
+        <!-- <ProductDetailImages v-else :images="allImages" />
+        <ProductDetailInfo v-if="product" :product="product" /> -->
       </div>
       <ProductDetailComments v-if="reviews" :reviews />
     </div>
   </div>
-  <!-- <pre>
-    {{ allImages }}
-  </pre> -->
 </template>
 
 <style scoped lang="scss">

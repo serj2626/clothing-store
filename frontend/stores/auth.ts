@@ -1,56 +1,89 @@
-// stores/auth.store.ts
 import { defineStore } from "pinia";
 
-interface IUser {
-  id: string;
-  name: string;
+interface User {
+  id: number;
+  username: string;
   email: string;
 }
 
-interface IAuthToken {
+interface Tokens {
   access: string;
   refresh: string;
 }
-export const useAuthStore = defineStore("auth", () => {
-  const user = ref<IUser | null>(null);
-  const accessToken = useCookie<string | null>("access_token");
-  const refreshToken = useCookie<string | null>("refresh_token");
 
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref<User | null>(null);
+  const accessToken = ref<string | null>(null);
   const isAuthenticated = computed(() => !!accessToken.value);
 
-  const login = async (username: string, password: string) => {
+  // Функция логина
+  async function login(credentials: { username: string; password: string }) {
     try {
-      const { access, refresh } = await $fetch<IAuthToken>("/api/token/", {
+      const data = await $fetch<Tokens & { user: User }>("/auth/login/", {
         method: "POST",
-        body: { username, password },
+        body: credentials,
       });
 
-      accessToken.value = access;
-      refreshToken.value = refresh;
+      // Для случая, если используем не cookies, а localStorage
+      accessToken.value = data.access;
+      user.value = data.user;
 
-      // Получим данные пользователя (если есть такой endpoint)
-      const userData = await $fetch<IUser>("/api/user/", {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      });
-
-      user.value = userData;
-    } catch {
-      throw new Error("Ошибка авторизации");
+      return data;
+    } catch (error) {
+      logout();
+      throw error;
     }
-  };
+  }
 
-  const logout = () => {
-    accessToken.value = null;
-    refreshToken.value = null;
-    user.value = null;
-  };
+  // Функция обновления токена
+  async function refreshToken() {
+    try {
+      const data = await $fetch<Tokens>("/auth/refresh/", {
+        method: "POST",
+      });
+
+      accessToken.value = data.access;
+      return data;
+    } catch (error) {
+      logout();
+      throw error;
+    }
+  }
+
+  // Функция логаута
+  async function logout() {
+    try {
+      await $fetch("/auth/logout/", { method: "POST" });
+    } finally {
+      accessToken.value = null;
+      user.value = null;
+    }
+  }
+
+  // Проверка аутентификации при старте
+  async function init() {
+    try {
+      if (accessToken.value) {
+        await fetchUser();
+      }
+    } catch {
+      logout();
+    }
+  }
+
+  // Получение данных пользователя
+  async function fetchUser() {
+    user.value = await $fetch<User>("/auth/user/");
+  }
 
   return {
     user,
+    accessToken,
     isAuthenticated,
     login,
     logout,
+    refreshToken,
+    fetchUser,
+    init,
   };
 });

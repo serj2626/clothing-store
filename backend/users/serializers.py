@@ -82,7 +82,7 @@ class UserInfoSerializer(ModelSerializer):
     cart = CartSerializer(read_only=True)
     orders = OrderSerializer(many=True, read_only=True)
     favorites = FavoriteSerializer(many=True, read_only=True)
-    profile = ProfileSerializer(read_only=True, many=False)
+    # profile = ProfileSerializer(read_only=True, many=False)
 
     class Meta:
         model = User
@@ -90,7 +90,6 @@ class UserInfoSerializer(ModelSerializer):
             "id",
             "email",
             "phone",
-            "profile",
             "cart",
             "orders",
             "favorites",

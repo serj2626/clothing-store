@@ -17,6 +17,16 @@ from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 
 
+class ProductReviewLine(admin.TabularInline):
+    model = Review
+    extra = 1
+    fieldsets = (
+        (None, {"fields": (("name", "email"), ("rating", "is_published"))}),
+        ("Отзыв", {"fields": ("advantages", "disadvantages", "description")}),
+        ("Оценки", {"fields": ("likes", "dislikes")}),
+    )
+
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     """
@@ -134,7 +144,12 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
 
     image_field_name = "avatar"
 
-    inlines = [ProductVariantLine, ProductImageLine, ProductDetailInline]
+    inlines = [
+        ProductVariantLine,
+        ProductImageLine,
+        ProductDetailInline,
+        ProductReviewLine,
+    ]
 
     readonly_fields = ("avatar_preview",)
     list_display = (

@@ -16,7 +16,7 @@ interface IBrandProduct {
 }
 
 interface IProductImage {
-  id: number;
+  id: number | string;
   image: string;
 }
 

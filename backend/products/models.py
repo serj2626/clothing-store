@@ -209,6 +209,9 @@ class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
         validators=[validate_image_extension_and_format],
         upload_to=dynamic_upload_to,
     )
+    alt = models.CharField(
+        "Описание", max_length=100, default="Описание", blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Изображение товара"
