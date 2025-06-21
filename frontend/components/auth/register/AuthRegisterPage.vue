@@ -2,10 +2,10 @@
 const currentStep = ref(1);
 </script>
 <template>
-  <div class="auth-page">
-    <div class="container auth-page__container">
-      <div class="auth-page__logo">
-        <h1 class="auth-page__logo-text">ClothCrash</h1>
+  <div class="auth-register-page">
+    <div class="container auth-register-page__container">
+      <div class="auth-register-page__logo">
+        <h1 class="auth-register-page__logo-text">ClothCrash</h1>
       </div>
 
       <AuthRegisterProgress
@@ -22,13 +22,8 @@ const currentStep = ref(1);
 </template>
 
 <style lang="scss">
-.auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  height: 100%;
-  padding: 20px;
+.auth-register-page {
+  margin-block: 100px 50px;
   &__container {
     width: 100%;
     max-width: 500px;
@@ -50,13 +45,13 @@ const currentStep = ref(1);
 }
 
 @media (max-width: $tablet) {
-  .auth-page__container {
+  .auth-register-page__container {
     padding: 30px;
   }
 }
 
 @media (max-width: $mobile) {
-  .auth-page__container {
+  .auth-register-page__container {
     padding: 20px;
   }
 }

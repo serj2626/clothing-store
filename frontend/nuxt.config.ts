@@ -11,7 +11,15 @@ export default defineNuxtConfig({
     "nuxt-swiper",
     "@nuxtjs/robots",
     "vue-yandex-maps/nuxt",
+    "@nuxt-alt/auth",
+    "@nuxt-alt/http",
   ],
+  auth: {
+    // Опции аутентификации
+  },
+  http: {
+    // Настройки HTTP-клиента (базовый URL, заголовки и т. д.)
+  },
   icon: {
     customCollections: [
       {

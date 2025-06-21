@@ -6,11 +6,6 @@ const { data: contactsInfo } = useNuxtData("contacts-info");
   <div class="contacts-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="contactsPageBreadcrumbs" />
-      <ContactsMap
-        :map-width="contactsInfo.latitude[0].value"
-        :map-longitude="contactsInfo.longitude[0].value"
-        style="margin-block: 50px"
-      />
       <div class="contacts-page__content">
         <h4 class="contacts-page__content-title">Связаться с нами</h4>
         <div class="contacts-page__content-list">
@@ -54,6 +49,11 @@ const { data: contactsInfo } = useNuxtData("contacts-info");
       </div>
       <BaseFormSubscribe style="margin-inline: auto" />
     </div>
+    <ContactsMap
+      :map-width="contactsInfo.latitude[0].value"
+      :map-longitude="contactsInfo.longitude[0].value"
+      style="margin-block: 50px"
+    />
   </div>
 </template>
 <style scoped lang="scss">

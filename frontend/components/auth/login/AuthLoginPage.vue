@@ -1,20 +1,15 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="auth-page">
-    <div class="container auth-page__container">
-      <h1 class="auth-page__title">Вход в аккаунт</h1>
+  <div class="auth-login-page">
+    <div class="container auth-login-page__container">
+      <h1 class="auth-login-page__title">Вход в аккаунт</h1>
       <AuthFormLogin />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+.auth-login-page {
   &__container {
     width: 100%;
     max-width: 450px;

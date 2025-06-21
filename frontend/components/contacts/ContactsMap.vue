@@ -50,7 +50,7 @@ defineProps({
           },
           showScaleInCopyrights: true,
           behaviors: ['drag', 'dblClick'],
-          theme: 'dark',
+          theme: 'light',
           className: 'base-map__map',
           // camera: {tilt: 45 * (Math.PI / 180), azimuth: 30 * (Math.PI / 180)}
         }"
