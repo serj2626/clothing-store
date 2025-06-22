@@ -88,63 +88,9 @@ const countReviews = computed(() => {
     </div>
 
     <div v-if="countReviews === 0" class="comments-list">
-      <div v-for="comment in comments" :key="comment.id" class="comment-item">
-        <div class="comment-user">
-          <div class="user-avatar">
-            <Icon name="ph:user-circle" />
-          </div>
-          <div class="user-info">
-            <span class="user-name">{{ comment.userName }}</span>
-            <span class="comment-date">{{ comment.date }}</span>
-          </div>
-        </div>
-
-        <div class="comment-rating">
-          <div class="stars">
-            <Icon
-              v-for="star in 5"
-              :key="star"
-              name="ph:star-fill"
-              :class="{ active: star <= comment.rating }"
-            />
-          </div>
-          <span class="rating-value">{{ comment.rating }} из 5</span>
-        </div>
-
-        <div class="comment-text">{{ comment.text }}</div>
-
-        <div v-if="comment.photos.length" class="comment-photos">
-          <div
-            v-for="(photo, idx) in comment.photos"
-            :key="idx"
-            class="photo-thumb"
-            @click="openGallery(comment.photos, idx)"
-          >
-            <NuxtImg
-              :src="photo"
-              loading="lazy"
-              format="webp"
-              width="100"
-              height="100"
-            />
-          </div>
-        </div>
-
-        <div v-if="comment.advantages" class="comment-props">
-          <div class="prop-item advantage">
-            <span class="prop-label">Достоинства:</span>
-            <span class="prop-value">{{ comment.advantages }}</span>
-          </div>
-        </div>
-
-        <div v-if="comment.disadvantages" class="comment-props">
-          <div class="prop-item disadvantage">
-            <span class="prop-label">Недостатки:</span>
-            <span class="prop-value">{{ comment.disadvantages }}</span>
-          </div>
-        </div>
-      </div>
+      <BaseAlert type="reviews" />
     </div>
+
     <div v="else" class="comments-list">
       <div v-for="comment in reviews" :key="comment.id" class="comment-item">
         <div class="comment-user">
@@ -154,7 +100,8 @@ const countReviews = computed(() => {
           <div class="user-info">
             <span class="user-name">{{ comment.email }}</span>
             <span class="comment-date"
-              >{{ comment.time_age }} - {{ formatDate(comment.created_at) }}</span
+              >{{ comment.time_age }} -
+              {{ formatDate(comment.created_at) }}</span
             >
           </div>
         </div>
@@ -205,7 +152,7 @@ const countReviews = computed(() => {
         </div>
       </div>
     </div>
-    <BasePaginationComponent />
+    <BasePaginationComponent v-if="countReviews > 0" />
   </div>
 </template>
 <style scoped lang="scss">

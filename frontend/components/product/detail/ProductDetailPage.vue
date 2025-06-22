@@ -10,9 +10,14 @@ const { product, loading, reviews, images, variants } =
   storeToRefs(storeDetail);
 
 // Получаем продукт
-await useAsyncData("product-detail-page-product", () =>
-  storeDetail.fetchProduct(productId)
-);
+// await callOnce("product-detail-page-product", () =>
+//   storeDetail.fetchProduct(productId)
+// );
+
+
+watchEffect( async () => {
+  await storeDetail.fetchProduct(productId);
+})
 
 // Получаем первую страницу отзывов
 await useAsyncData("product-detail-page-product-reviews", () =>
@@ -41,19 +46,14 @@ const allImages = computed(() => {
       />
       <div v-if="loading">Загрузка...</div>
       <div v-else class="product-detail-page__content">
-        <!-- <pre>{{ allImages }}</pre> -->
         <NuxtImg
           v-if="images.length === 0"
           :src="product.avatar"
           format="webp"
           lazy="loading"
         />
-        <Swiper
-          v-else
-          :images
-        />
-        <!-- <ProductDetailImages v-else :images="allImages" />
-        <ProductDetailInfo v-if="product" :product="product" /> -->
+        <ProductDetailImages v-else :images="allImages" />
+        <ProductDetailInfo v-if="product" :product="product" />
       </div>
       <ProductDetailComments v-if="reviews" :reviews />
     </div>
@@ -66,7 +66,7 @@ const allImages = computed(() => {
     margin-block: 100px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 50px;
   }
 }
 </style>

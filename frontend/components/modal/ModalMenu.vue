@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useThemeStore } from "~/stores/theme";
 import { menuModalLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+
+const theme = useThemeStore;
 
 const modalsStore = useModalsStore();
 const closeMenu = ref(false);
@@ -87,6 +90,7 @@ const closeMenuHandler = () => {
               <a href="#" class="modal-menu__footer-data-social-links-link"
                 >Instagram</a
               >
+              {{ theme }}
               <a href="#" class="modal-menu__footer-data-social-links-link"
                 >Telegram</a
               >
@@ -106,7 +110,7 @@ const closeMenuHandler = () => {
               <Icon :name="HeroIcons.user" :size="26" />
             </button>
             <button class="modal-menu__footer-actions-color">
-              <Icon :name="HeroIcons.NIGHT" :size="26" />
+              <Icon :name="HeroIcons.NIGHT" :size="26" @click="theme = 'dark'" />
             </button>
           </div>
         </div>

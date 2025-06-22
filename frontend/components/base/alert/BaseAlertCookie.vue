@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const cookieConsent = useCookie<boolean>('alfaCookie', {
+const cookieConsent = useCookie<boolean>('store-cookie', {
   default: () => false,
   maxAge: 60 * 120
 })
