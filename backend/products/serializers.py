@@ -105,12 +105,23 @@ class ProductReviewSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ReviewPhotoSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор фотографии отзыва о товаре
+    """
+
+    class Meta:
+        model = ReviewPhoto
+        fields = ("id", "image", "alt")
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     """
     Сериализатор отзыва о товаре
     """
 
     time_age = serializers.ReadOnlyField()
+    photos = ReviewPhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Review
@@ -126,7 +137,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             "rating",
             "time_age",
             "created_at",
-            "updated_at"
+            "updated_at",
+            "photos",
         )
 
 

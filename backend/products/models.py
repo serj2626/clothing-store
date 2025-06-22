@@ -262,6 +262,8 @@ class Review(BaseID, BaseDescription, BaseDate):
         ordering = ["-created_at"]
         unique_together = ["user", "product"]
 
+    def __str__(self):
+        return f"Отзыв от {self.name}"
 
 class ReviewPhoto(BaseDate, WebpImageMixin):
     review = models.ForeignKey(
@@ -271,6 +273,9 @@ class ReviewPhoto(BaseDate, WebpImageMixin):
         "Фотография",
         upload_to=dynamic_upload_to,
         validators=[validate_image_extension_and_format],
+    )
+    alt = models.CharField(
+        "Описание", max_length=100, default="Описание", blank=True, null=True
     )
 
     class Meta:

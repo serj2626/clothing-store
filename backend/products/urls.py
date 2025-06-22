@@ -7,7 +7,6 @@ from .views import (
     ProductListView,
     ProductDetailView,
     toggle_product_like,
-    list_comments_by_product,
     CategoryListView,
     BrandListView,
     ReviewCreateView,

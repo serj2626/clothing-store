@@ -55,13 +55,6 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 TAG = "Товары и Корзина"
 
 
-@extend_schema(tags=[TAG], summary="Список комментариев к товару")
-@api_view(["GET"])
-def list_comments_by_product(request, product_id):
-    comments = Review.objects.filter(product_id=product_id)
-    serializer = ReviewSerializer(comments, many=True)
-    return Response({"reviews": serializer.data})
-
 
 class ReviewsListByProductView(generics.ListAPIView):
     pagination_class = ListResultsSetPagination

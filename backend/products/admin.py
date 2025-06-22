@@ -10,6 +10,7 @@ from .models import (
     Brand,
     ProductDetail,
     Review,
+    ReviewPhoto,
 )
 from mptt.admin import DraggableMPTTAdmin
 from django.db.models import Sum
@@ -27,6 +28,11 @@ class ProductReviewLine(admin.TabularInline):
     )
 
 
+class ReviewPhotoInline(admin.TabularInline):
+    model = ReviewPhoto
+    extra = 1
+
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     """
@@ -41,9 +47,10 @@ class ReviewAdmin(admin.ModelAdmin):
         "disadvantages",
         "rating",
         "is_published",
-        # "likes",
-        # "dislikes",
     )
+    filter_horizontal = ("likes", "dislikes")
+    inlines = [ReviewPhotoInline]
+    save_on_top = True
 
 
 class ProductDetailInline(admin.TabularInline):
