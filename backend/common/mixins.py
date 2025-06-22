@@ -129,3 +129,37 @@ class BaseSectionViewMixin(APIView):
 
         serializer = self.serializer_class(instance)
         return Response(serializer.data)
+
+
+# from PIL import Image
+# from io import BytesIO
+# from django.core.files.base import ContentFile
+# import os
+
+# class WebPImageMixin:
+#     webp_quality = 85  # Можно настраивать
+
+#     def convert_image_to_webp(self, field_name: str):
+#         """
+#         Конвертирует изображение из поля `field_name` в формат WebP и сохраняет его.
+#         """
+#         image_field = getattr(self, field_name)
+
+#         if not image_field:
+#             return
+
+#         # Проверка расширения
+#         ext = os.path.splitext(image_field.name)[1].lower()
+#         if ext == '.webp':
+#             return  # Уже webp
+
+#         img = Image.open(image_field)
+#         if img.mode in ("RGBA", "P"):
+#             img = img.convert("RGB")
+
+#         buffer = BytesIO()
+#         img.save(buffer, format="WEBP", quality=self.webp_quality)
+
+#         # Новый путь
+#         new_name = os.path.splitext(image_field.name)[0] + ".webp"
+#         image_field.save(new_name, ContentFile(buffer.getvalue()), save=False)

@@ -196,7 +196,6 @@ class ProductExampleListView(generics.ListAPIView):
 
 
 # кешируем на 5 минут (300 секунд)
-@method_decorator(cache_page(60 * 5), name="get")
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

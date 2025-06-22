@@ -14,40 +14,40 @@ export default defineNuxtConfig({
     "@nuxt-alt/auth",
     "@nuxt-alt/http",
   ],
-  auth: {
-    strategies: {
-      jwt: {
-        scheme: "refresh",
-        token: {
-          property: "access",
-          maxAge: 60 * 15,
-          cookie: {
-            name: "access_token", // Название куки для access-токена
-            httpOnly: true, // Защита от XSS
-            secure: process.env.NODE_ENV === "production", // HTTPS-only в продакшене
-            sameSite: "lax", // Защита от CSRF
-          },
-        },
-        refreshToken: {
-          property: "refresh",
-          cookie: {
-            name: "refresh_token", // Название куки для refresh-токена
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-          },
-        },
-        endpoints: {
-          login: { url: "/api/token/", method: "post" },
-          refresh: { url: "/api/token/refresh/", method: "post" },
-          user: { url: "/api/users/me/", method: "get" },
-        },
-      },
-    },
-  },
+  // auth: {
+  //   strategies: {
+  //     jwt: {
+  //       scheme: "refresh",
+  //       token: {
+  //         property: "access",
+  //         maxAge: 60 * 15,
+  //         cookie: {
+  //           name: "access_token", // Название куки для access-токена
+  //           httpOnly: true, // Защита от XSS
+  //           secure: process.env.NODE_ENV === "production", // HTTPS-only в продакшене
+  //           sameSite: "lax", // Защита от CSRF
+  //         },
+  //       },
+  //       refreshToken: {
+  //         property: "refresh",
+  //         cookie: {
+  //           name: "refresh_token", // Название куки для refresh-токена
+  //           httpOnly: true,
+  //           secure: process.env.NODE_ENV === "production",
+  //         },
+  //       },
+  //       endpoints: {
+  //         login: { url: "/api/token/", method: "post" },
+  //         refresh: { url: "/api/token/refresh/", method: "post" },
+  //         user: { url: "/api/users/me/", method: "get" },
+  //       },
+  //     },
+  //   },
+  // },
 
-  http: {
-    // Настройки HTTP-клиента (базовый URL, заголовки и т. д.)
-  },
+  // http: {
+  //   // Настройки HTTP-клиента (базовый URL, заголовки и т. д.)
+  // },
   icon: {
     customCollections: [
       {

@@ -91,7 +91,7 @@ const countReviews = computed(() => {
       <BaseAlert type="reviews" />
     </div>
 
-    <div v="else" class="comments-list">
+    <div v-else class="comments-list">
       <div v-for="comment in reviews" :key="comment.id" class="comment-item">
         <div class="comment-user">
           <div class="user-avatar">
@@ -120,7 +120,7 @@ const countReviews = computed(() => {
 
         <div class="comment-text">{{ comment.description }}</div>
 
-        <!-- <div v-if="comment.photos.length" class="comment-photos">
+        <div v-if="comment.photos.length" class="comment-photos">
           <div
             v-for="(photo, idx) in comment.photos"
             :key="idx"
@@ -128,14 +128,15 @@ const countReviews = computed(() => {
             @click="openGallery(comment.photos, idx)"
           >
             <NuxtImg
-              :src="photo"
+              :src="photo.image"
+              :alt="photo.alt"
               loading="lazy"
               format="webp"
               width="100"
               height="100"
             />
           </div>
-        </div> -->
+        </div>
 
         <div v-if="comment.advantages" class="comment-props">
           <div class="prop-item advantage">

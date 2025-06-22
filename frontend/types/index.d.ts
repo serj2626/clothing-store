@@ -33,6 +33,12 @@ interface IProductDetails {
   description: string;
 }
 
+interface IPhotoReview {
+  id: number;
+  alt: string;
+  image: string;
+}
+
 export interface IReview {
   id: string;
   description: string;
@@ -47,6 +53,7 @@ export interface IReview {
   time_age: string;
   created_at: string;
   updated_at: string;
+  photos: IPhotoReview[];
 }
 
 export interface IReviewResponse {

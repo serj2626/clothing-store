@@ -27,12 +27,12 @@ export const api = {
     detail: (slug: string) => `/products/categories/${slug}`, //Возвращает конкретную категорию
   },
   products: {
-    list: "/products/", //Возвращает список всех продуктов
-    last: "/products/last-collection/", //Возвращает список последних продуктов
-    detail: (id: string) => `/products/${id}`, //Возвращает конкретный продукт
-    commentsList: (id: string) => `/products/${id}/reviews/list`, //Возвращает список комментарив продукта
-    createReview: (id: string) => `/products/${id}/create-review`, //Добавить отзыв к продукту
-    like: (id: string) => `/products/${id}/like`, //Возвращает конкретный продукт
+    list: "/products/", // Возвращает список всех продуктов
+    last: "/products/last-collection/", // Возвращает список последних продуктов
+    detail: (id: string) => `/products/${id}`, // Возвращает конкретный продукт
+    commentsList: (id: string) => `/products/${id}/reviews/list`, // Возвращает список комментарив продукта
+    createReview: (id: string) => `/products/${id}/create-review`, // Добавить отзыв к продукту
+    like: (id: string) => `/products/${id}/like/`, // Добавить лайк продукту
   },
   users: {
     login: "/users/login/", // Авторизация пользователя

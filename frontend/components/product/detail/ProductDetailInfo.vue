@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import { api } from "~/api";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IProduct } from "~/types";
 
+const productStoreDetail = useProductDetailStore();
+const error = ref("");
+
+const { $api } = useNuxtApp();
 defineProps<{
   product: IProduct;
 }>();
@@ -11,11 +16,24 @@ const activeIndex = ref<number | null>(null);
 function toggleAccordion(id: number): void {
   activeIndex.value = activeIndex.value === id ? null : id;
 }
+
+async function addLikeByProduct(id: string) {
+  try {
+    await $api(api.products.like(id), { method: "POST" });
+    await productStoreDetail.fetchProduct(id);
+  } catch (e: unknown) {
+    error.value =
+      e instanceof Error ? e.message : "Произошла ошибка при добавлении лайка";
+  }
+}
 </script>
 
 <template>
   <div class="products-detail-info">
     <p class="products-detail-info__title">{{ product.title }}</p>
+    <p class="products-detail-info__brand">
+      {{ product.brand ? product.brand.name : "Без ТМ" }}
+    </p>
     <p class="products-detail-info__price">
       {{ product.price }} {{ product.currency }}
     </p>
@@ -29,7 +47,11 @@ function toggleAccordion(id: number): void {
       placeholder="Выберите размер"
       :options="['sm', 'md', 'lg']"
     />
-    <button class="products-detail-info__likes" :class="{ liked: 1 == 1 }">
+    <button
+      class="products-detail-info__likes"
+      :class="{ liked: 1 == 1 }"
+      @click="addLikeByProduct(product.id)"
+    >
       <Icon name="ph:heart" class="products-detail-info__likes-icon" />
       <span class="products-detail-info__likes-count"
         >{{ product.count_likes }} человеку понравился товар</span

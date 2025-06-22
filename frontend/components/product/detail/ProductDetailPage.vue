@@ -9,17 +9,10 @@ const storeDetail = useProductDetailStore();
 const { product, loading, reviews, images, variants } =
   storeToRefs(storeDetail);
 
-// Получаем продукт
-// await callOnce("product-detail-page-product", () =>
-//   storeDetail.fetchProduct(productId)
-// );
-
-
-watchEffect( async () => {
+watchEffect(async () => {
   await storeDetail.fetchProduct(productId);
-})
-
-// Получаем первую страницу отзывов
+});
+// Получаем отзывы
 await useAsyncData("product-detail-page-product-reviews", () =>
   storeDetail.fetchAllReviews(1, 5, productId)
 );
@@ -44,11 +37,10 @@ const allImages = computed(() => {
         :breadcrumbs="productDetailPageBreadcrumbs"
         :current-page="currentPage"
       />
-      <div v-if="loading">Загрузка...</div>
-      <div v-else class="product-detail-page__content">
+      <div class="product-detail-page__content">
         <NuxtImg
           v-if="images.length === 0"
-          :src="product.avatar"
+          :src="product?.avatar"
           format="webp"
           lazy="loading"
         />

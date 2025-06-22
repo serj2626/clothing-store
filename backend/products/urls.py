@@ -11,7 +11,7 @@ from .views import (
     BrandListView,
     ReviewCreateView,
     ProductExampleListView,
-    ReviewsListByProductView
+    ReviewsListByProductView,
 )
 
 urlpatterns = [
