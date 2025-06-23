@@ -158,6 +158,7 @@ function captchaHandler(val, eventName) {
               v-model:input-value="formData.email.value"
               radius="8px"
               placeholder="example@mail.com"
+              :disabled="true"
             />
           </div>
         </div>

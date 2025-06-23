@@ -165,7 +165,7 @@ const openGallery = (photos, index) => {
       font-size: 14px;
       line-height: 1.4;
       &-label {
-        color: #0a7f41;
+        color: $success;
       }
       &-value {
         color: rgba($txt, 0.8);
@@ -180,7 +180,7 @@ const openGallery = (photos, index) => {
       font-size: 14px;
       line-height: 1.4;
       &-label {
-        color: #d23736;
+        color: $error;
       }
       &-value {
         color: rgba($txt, 0.8);

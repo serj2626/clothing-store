@@ -31,6 +31,7 @@ interface IInputProps {
   type?: TInputTypes;
   radius?: string;
   animate?: boolean;
+  disabled?: boolean;
   // maskOptions?: MaskInputOptions;
 }
 
@@ -54,6 +55,7 @@ const currentType = computed(() =>
       <input
         v-model="inputValue"
         :type="currentType"
+        :disabled="props.disabled"
         class="base-input__input"
         :class="{ 'base-input__input--error': !!error }"
         @focus="isFocused = true"
