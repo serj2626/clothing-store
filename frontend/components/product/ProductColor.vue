@@ -19,9 +19,6 @@ const { color = "#fff", size = "16px" } = defineProps<{
   outline: 1px solid $white;
   outline-offset: -5px;
   cursor: pointer;
-
-  &_shadow {
-    box-shadow: 0 0 2px rgb(0, 0, 0);
-  }
+  border: 1px solid rgba(74, 70, 70, 0.394);
 }
 </style>

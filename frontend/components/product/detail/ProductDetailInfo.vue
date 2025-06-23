@@ -32,16 +32,23 @@ async function addLikeByProduct(id: string) {
 
 <template>
   <div class="products-detail-info">
-    <p class="products-detail-info__title">{{ product.title }}</p>
+    <p class="products-detail-info__title">
+      <span class="title-span">Название: </span>{{ product.title }}
+    </p>
+    <p class="products-detail-info__article">
+      <span class="title-span">Артикул: </span>{{ product.id }}
+    </p>
     <p
       class="products-detail-info__brand"
       :style="{ cursor: product.brand ? 'pointer' : 'default' }"
       @click="product.brand && modalsStore.openModal('brand', product.brand)"
     >
+      <span class="title-span">Торговая марка: </span>
       {{ product.brand ? product.brand.name : "Без ТМ" }}
     </p>
     <p class="products-detail-info__price">
-      {{ product.price }} {{ product.currency }}
+      <span class="title-span">Цена: </span> {{ product.price }}
+      {{ product.currency }}
     </p>
     <div class="products-detail-info__colors">
       <div class="products-detail-info__colors-values">
@@ -171,11 +178,11 @@ async function addLikeByProduct(id: string) {
   }
 
   &__title {
-    font-size: 20px;
+  }
+  &__article {
   }
 
   &__price {
-    font-weight: 700;
   }
 
   &__colors {
@@ -202,6 +209,7 @@ async function addLikeByProduct(id: string) {
 
   &__description {
     font-weight: 700;
+    margin-top: 20px;
   }
 
   &__empty {
@@ -239,5 +247,10 @@ async function addLikeByProduct(id: string) {
       }
     }
   }
+}
+
+.title-span {
+  font-weight: 700;
+  color: rgba($txt, 0.9);
 }
 </style>

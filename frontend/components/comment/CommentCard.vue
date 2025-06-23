@@ -28,7 +28,9 @@ const openGallery = (photos, index) => {
           v-for="star in 5"
           :key="star"
           name="ph:star-fill"
-          :class="{ active: star <= comment.rating }"
+          :class="{
+            'comment-card__rating-stars_active': star <= comment.rating,
+          }"
         />
       </div>
       <span class="comment-card__rating-value">{{ comment.rating }} из 5</span>
@@ -112,13 +114,9 @@ const openGallery = (photos, index) => {
     &-stars {
       display: flex;
       gap: 2px;
-      .icon {
-        font-size: 18px;
-        color: rgba($txt, 0.2);
-
-        &.active {
-          color: $accent-dark;
-        }
+      &_active {
+        // color: rgb(236, 196, 51);
+        color: $accent;
       }
     }
     &-value {
