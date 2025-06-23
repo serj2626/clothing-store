@@ -3,11 +3,13 @@ const { color = "#fff", size = "16px" } = defineProps<{
   color?: string;
   size?: string;
 }>();
+
+const emit = defineEmits(["updated:newColor"]);
 </script>
 <template>
   <div
     class="products-color"
-    :class="{ 'products-color_shadow': color === '#fff' || color === 'white' }"
+    @mouseenter="emit('updated:newColor', color)"
   ></div>
 </template>
 <style scoped lang="scss">

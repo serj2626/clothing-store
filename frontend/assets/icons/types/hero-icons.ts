@@ -46,6 +46,8 @@ export const enum HeroIcons {
   SEND = "i-heroicons-outline-paper-airplane",
   SETTINGS = "i-heroicons-outline-wrench-screwdriver",
   START = "i-heroicons-outline-play",
+  STAR = "i-heroicons-outline-star",
+  STAR_SOLID = "i-heroicons-solid-star",
   SUN = "i-heroicons-outline-sun",
   UP = "i-heroicons-outline-chevron-up",
   USER = "i-heroicons-outline-user",

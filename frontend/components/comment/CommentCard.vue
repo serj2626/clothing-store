@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IReview } from "~/types";
 
 defineProps<{ comment: IReview }>();
@@ -12,7 +13,7 @@ const openGallery = (photos, index) => {
   <div class="comment-card">
     <div class="comment-card__user">
       <div class="comment-card__user-avatar">
-        <Icon name="ph:user-circle" />
+        <Icon :name="HeroIcons.USER_SOLID" size="20" />
       </div>
       <div class="comment-card__user-info">
         <span class="comment-card__user-info-name">{{ comment.email }}</span>
@@ -27,7 +28,8 @@ const openGallery = (photos, index) => {
         <Icon
           v-for="star in 5"
           :key="star"
-          name="ph:star-fill"
+          :name="HeroIcons.STAR_SOLID"
+          size="21"
           :class="{
             'comment-card__rating-stars_active': star <= comment.rating,
           }"

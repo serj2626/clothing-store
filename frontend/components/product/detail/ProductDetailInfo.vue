@@ -7,6 +7,8 @@ const productStoreDetail = useProductDetailStore();
 const modalsStore = useModalsStore();
 const error = ref("");
 
+const currentColor = ref<string>('')
+
 const { $api } = useNuxtApp();
 defineProps<{
   product: IProduct;
@@ -58,10 +60,12 @@ async function addLikeByProduct(id: string) {
           :color="item.color"
           :title="item.color_name"
           size="22px"
+          @updated:new-color="currentColor = item.color_name"
         />
       </div>
       <div class="products-detail-info__colors-current">
-        Цвет: Кофе с молоком меланж
+        <!-- Цвет: Кофе с молоком меланж -->
+        Цвет: {{ currentColor }}
       </div>
     </div>
     <BaseInputSelect

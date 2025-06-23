@@ -37,7 +37,7 @@ const allImages = computed(() => {
         :breadcrumbs="productDetailPageBreadcrumbs"
         :current-page="currentPage"
       />
-      {{ variants }}
+      <!-- {{ variants }} -->
       <div class="product-detail-page__content">
         <NuxtImg
           v-if="images.length === 0"
