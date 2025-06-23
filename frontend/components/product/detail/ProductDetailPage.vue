@@ -48,7 +48,7 @@ const allImages = computed(() => {
         <ProductDetailImages v-else :images="allImages" />
         <ProductDetailInfo v-if="product" :product :variants />
       </div>
-      <ProductDetailComments v-if="reviews" :reviews />
+      <CommentList v-if="reviews" :reviews />
     </div>
   </div>
 </template>
