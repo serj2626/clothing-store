@@ -203,7 +203,11 @@ class ProductDetailView(generics.RetrieveAPIView):
     @extend_schema(tags=[TAG], summary="Детали товара")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
 
 # ===== ИЗБРАННОЕ =====
 class FavoriteView(APIView):

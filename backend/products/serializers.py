@@ -1,10 +1,13 @@
 from rest_framework import serializers
+
+from common.utils import get_client_ip
 from .models import (
     Category,
     Cart,
     CartItem,
     Favorite,
     Product,
+    ProductLike,
     ProductVariant,
     ProductImage,
     Review,
@@ -68,9 +71,14 @@ class BrandSerializer(serializers.ModelSerializer):
     Сериализатор бренда
     """
 
+    country = serializers.SerializerMethodField()
+
     class Meta:
         model = Brand
         fields = "__all__"
+
+    def get_country(self, obj):
+        return obj.get_country_display()
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
@@ -149,7 +157,11 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductDetail
-        fields = ("id", "title", "description")
+        fields = (
+            "id",
+            "title",
+            "description",
+        )
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -157,6 +169,7 @@ class ProductSerializer(serializers.ModelSerializer):
     Сериализатор продукта
     """
 
+    liked = serializers.SerializerMethodField()
     details = ProductDetailSerializer(many=True, read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
@@ -187,6 +200,7 @@ class ProductSerializer(serializers.ModelSerializer):
             # "reviews",
             "variants",
             "details",
+            "liked",
         )
 
     def get_count_likes(self, obj):
@@ -197,6 +211,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_total_count(self, obj):
         return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
+
+    def get_liked(self, obj):
+        request = self.context.get("request")
+        if not request:
+            return False
+        ip = get_client_ip(request)
+        return ProductLike.objects.filter(product=obj, ip_address=ip).exists()
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
