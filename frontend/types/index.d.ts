@@ -79,6 +79,7 @@ export interface IProduct {
   variants?: IProductVariant[] | null;
   images?: IProductImage[] | null;
   details?: IProductDetails[];
+  liked: boolean;
 }
 
 export interface IProductResponse {

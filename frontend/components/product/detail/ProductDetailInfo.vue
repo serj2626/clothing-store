@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import type { IProduct } from "~/types";
+import type { IProduct, IProductVariant } from "~/types";
 
 const productStoreDetail = useProductDetailStore();
+const modalsStore = useModalsStore();
 const error = ref("");
 
 const { $api } = useNuxtApp();
 defineProps<{
   product: IProduct;
+  variants: IProductVariant[];
 }>();
 
 const activeIndex = ref<number | null>(null);
@@ -31,14 +33,26 @@ async function addLikeByProduct(id: string) {
 <template>
   <div class="products-detail-info">
     <p class="products-detail-info__title">{{ product.title }}</p>
-    <p class="products-detail-info__brand">
+    <p
+      class="products-detail-info__brand"
+      :style="{ cursor: product.brand ? 'pointer' : 'default' }"
+      @click="product.brand && modalsStore.openModal('brand', product.brand)"
+    >
       {{ product.brand ? product.brand.name : "Без ТМ" }}
     </p>
     <p class="products-detail-info__price">
       {{ product.price }} {{ product.currency }}
     </p>
     <div class="products-detail-info__colors">
-      <div class="products-detail-info__colors-values">asdsadsd</div>
+      <div class="products-detail-info__colors-values">
+        <ProductColor
+          v-for="item in variants"
+          :key="item.color"
+          :color="item.color"
+          :title="item.color_name"
+          size="22px"
+        />
+      </div>
       <div class="products-detail-info__colors-current">
         Цвет: Кофе с молоком меланж
       </div>
@@ -49,12 +63,16 @@ async function addLikeByProduct(id: string) {
     />
     <button
       class="products-detail-info__likes"
-      :class="{ liked: 1 == 1 }"
+      :class="{ 'products-detail-info__likes_active': product.liked }"
       @click="addLikeByProduct(product.id)"
     >
-      <Icon name="ph:heart" class="products-detail-info__likes-icon" />
+      <Icon
+        :name="HeroIcons.HEART_SOLID"
+        class="products-detail-info__likes-icon"
+      />
       <span class="products-detail-info__likes-count"
-        >{{ product.count_likes }} человеку понравился товар</span
+        >{{ product.count_likes }} человеку понравился товар
+        {{ product.liked }}</span
       >
     </button>
     <div class="products-detail-info__actions">
@@ -137,12 +155,17 @@ async function addLikeByProduct(id: string) {
       background: rgba($accent, 0.1);
     }
 
+    &_active {
+      color: red;
+    }
+
     &-count {
       font-size: 14px;
       color: rgba($txt, 0.7);
     }
     &-icon {
       font-size: 20px;
+      background-color: red;
       transition: $default_transition;
     }
   }
@@ -159,6 +182,11 @@ async function addLikeByProduct(id: string) {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    &-values {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
     &-current {
       font-size: 14px;

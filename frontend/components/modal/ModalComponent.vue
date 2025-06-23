@@ -7,6 +7,7 @@
       @click.self="modalsStore.closeAllModals()"
     >
       <LazyModalSuccess v-if="activeModals.has('success')" key="success" />
+      <LazyModalBrandInfo v-if="activeModals.has('brand')" key="brand" />
       <LazyModalLogout v-if="activeModals.has('logout')" key="logout" />
       <LazyModalReview v-if="activeModals.has('review')" key="review" />
       <LazyModalMenu v-if="activeModals.has('menu')" key="menu" />

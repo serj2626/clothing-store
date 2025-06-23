@@ -6,12 +6,12 @@ const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
 
 const storeDetail = useProductDetailStore();
-const { product, loading, reviews, images, variants } =
-  storeToRefs(storeDetail);
+const { product, reviews, images, variants } = storeToRefs(storeDetail);
 
 watchEffect(async () => {
   await storeDetail.fetchProduct(productId);
 });
+
 // Получаем отзывы
 await useAsyncData("product-detail-page-product-reviews", () =>
   storeDetail.fetchAllReviews(1, 5, productId)
@@ -37,6 +37,7 @@ const allImages = computed(() => {
         :breadcrumbs="productDetailPageBreadcrumbs"
         :current-page="currentPage"
       />
+      {{ variants }}
       <div class="product-detail-page__content">
         <NuxtImg
           v-if="images.length === 0"
@@ -45,7 +46,7 @@ const allImages = computed(() => {
           lazy="loading"
         />
         <ProductDetailImages v-else :images="allImages" />
-        <ProductDetailInfo v-if="product" :product="product" />
+        <ProductDetailInfo v-if="product" :product :variants />
       </div>
       <ProductDetailComments v-if="reviews" :reviews />
     </div>

@@ -23,6 +23,7 @@ export const useProductDetailStore = defineStore("productDetail", () => {
     count_reviews: 0,
     total_count: 0,
     details: [],
+    liked: false,
   });
 
   // LOADING

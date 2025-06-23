@@ -1,5 +1,6 @@
 export type ModalItem =
   | "menu"
+  | "brand"
   | "logout"
   | "success"
   | "deleteProduct"

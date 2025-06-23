@@ -10,6 +10,7 @@
 
 <style scoped lang="scss">
 .auth-login-page {
+  margin-block: 100px;
   &__container {
     width: 100%;
     max-width: 450px;
