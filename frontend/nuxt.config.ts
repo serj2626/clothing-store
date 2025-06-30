@@ -13,131 +13,13 @@ export default defineNuxtConfig({
     "vue-yandex-maps/nuxt",
     "@nuxt-alt/auth",
     "@nuxt-alt/http",
+    "unplugin-icons/nuxt",
   ],
-  auth: {
-    strategies: {
-      local: {
-        token: {
-          property: "access",
-          type: "Bearer",
-          name: "Authorization",
-          global: true,
-          required: true,
-        },
-        refreshToken: {
-          property: "refresh",
-          data: "refresh", // поле, отправляемое в body
-          maxAge: 60 * 60 * 24 * 7, // неделя
-        },
-        user: {
-          property: false, // если /me или /user не возвращает данные — false
-        },
-        endpoints: {
-          login: { url: "/api/token/", method: "post" },
-          refresh: { url: "/api/token/refresh/", method: "post" },
-          user: false,
-          logout: false, // можно настроить ручной вызов
-        },
-        cookie: {
-          name: "auth._token.local",
-          options: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            path: "/",
-          },
-        },
-        autoLogout: true,
-      },
-    },
-    redirect: {
-      login: "/login",
-      logout: "/",
-      home: "/dashboard",
-    },
-  },
-  // auth: {
-  //   enableMiddleware: true,
-  //   globalMiddleware: false,
-  //   stores: {
-  //     pinia: { enabled: true, namespace: "auth" },
-  //   },
-  //   strategies: {
-  //     local: {
-  //       token: {
-  //         property: "access",
-  //         type: "Bearer",
-  //         global: true,
-  //       },
-  //       refreshToken: {
-  //         property: "refresh",
-  //         data: "refresh",
-  //         maxAge: 60 * 60 * 24 * 7,
-  //       },
-  //       user: {
-  //         property: false,
-  //         autoFetch: true,
-  //       },
-  //       endpoints: {
-  //         login: { url: "/users/login", method: "post" },
-  //         refresh: { url: "/users/refresh", method: "post" },
-  //         user: { url: "/users/detail/info/", method: "get" },
-  //         logout: { url: "/users/logout", method: "post" },
-  //       },
-  //     },
-  //   },
-  // },
-  // http: {
-  //   baseURL: process.env.API_URL || "http://localhost:8000",
-  // },
-  // auth: {
-  //   strategies: {
-  //     jwt: {
-  //       scheme: "refresh",
-  //       token: {
-  //         property: "access",
-  //         maxAge: 60 * 15,
-  //         cookie: {
-  //           name: "access_token", // Название куки для access-токена
-  //           httpOnly: true, // Защита от XSS
-  //           secure: process.env.NODE_ENV === "production", // HTTPS-only в продакшене
-  //           sameSite: "lax", // Защита от CSRF
-  //         },
-  //       },
-  //       refreshToken: {
-  //         property: "refresh",
-  //         cookie: {
-  //           name: "refresh_token", // Название куки для refresh-токена
-  //           httpOnly: true,
-  //           secure: process.env.NODE_ENV === "production",
-  //         },
-  //       },
-  //       endpoints: {
-  //         login: { url: "/api/token/", method: "post" },
-  //         refresh: { url: "/api/token/refresh/", method: "post" },
-  //         user: { url: "/api/users/me/", method: "get" },
-  //       },
-  //     },
-  //   },
-  // },
-
-  // http: {
-  //   // Настройки HTTP-клиента (базовый URL, заголовки и т. д.)
-  // },
   icon: {
     customCollections: [
-      {
-        prefix: "social",
-        dir: "./assets/icons/social",
-      },
-      {
-        prefix: "actions",
-        dir: "./assets/icons/actions",
-      },
-      {
-        prefix: "conditions",
-        dir: "./assets/icons/conditions",
-      },
+      { prefix: "social", dir: "./assets/icons/social" },
+      { prefix: "actions", dir: "./assets/icons/actions" },
+      { prefix: "conditions", dir: "./assets/icons/conditions" },
     ],
   },
   pinia: {

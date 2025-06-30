@@ -36,9 +36,10 @@ export const api = {
   },
   users: {
     login: "/users/login/", // Авторизация пользователя
+    logout: "/users/logout/", // Выход пользователя
     register: "/users/register/", // Регистрация пользователя
     refresh: "/users/refresh/", // Обновление токена
-    detail: "/users/detail/info", //Возвращает конкретного пользователя
+    detail: "/users/me/", // Возвращает конкретного пользователя
   },
   seo: {
     url: (url: string = "") => `/seo/${url}`, //Возвращает сео для конкретной страницы

@@ -110,6 +110,7 @@ const mapTheme = {
               <Icon 
                 name="fluent:location-28-filled" 
                 class="marker-icon" 
+                size="50"
               />
               <div class="pulse-effect"></div>
             </div>
@@ -145,7 +146,6 @@ const mapTheme = {
 
   &__marker {
     position: relative;
-    font-size: 2.5rem;
     color: #00fffc;
     filter: 
       drop-shadow(0 0 8px #00fffc80)
@@ -182,7 +182,7 @@ const mapTheme = {
     opacity: 0;
   }
   100% {
-    transform: scale(1.9);
+    transform: scale(3);
     opacity: 0;
   }
 }

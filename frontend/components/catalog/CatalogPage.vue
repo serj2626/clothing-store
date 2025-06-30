@@ -37,7 +37,7 @@ const loadMore = async () => {
     <template v-else>
       <div class="container">
         <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
-        <div class="catalog-layout">
+        <!-- <div class="catalog-layout">
           <div class="catalog-sidebar">
             <CatalogCategories />
           </div>
@@ -52,7 +52,8 @@ const loadMore = async () => {
               Loading more products...
             </div>
           </div>
-        </div>
+        </div> -->
+        {{ productStore.products[0] }}
       </div>
     </template>
   </div>

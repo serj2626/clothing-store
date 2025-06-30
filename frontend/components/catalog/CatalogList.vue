@@ -21,6 +21,7 @@ defineProps<{ products: IProduct[] }>();
       :total_count="product.total_count"
       :brand="product.brand"
       :images="product?.images"
+      :liked="product.liked"
     />
   </div>
 </template>

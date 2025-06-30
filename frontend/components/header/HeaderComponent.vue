@@ -29,7 +29,8 @@ watch(
           <Icon
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"
-            size="40"
+            size="50"
+            :style="{ color: routeName === 'index' ? '#d38f56' : '#000' }"
           />
         </button>
         <nav class="header-component__wraper-nav">
@@ -91,15 +92,18 @@ watch(
 
   background-color: transparent;
   width: 100%;
-  padding-block: 25px;
-  // background-color: rgba(255, 0, 0, 0.487);
+  padding-block: 35px;
 
   &__wraper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
     &-nav {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       &-list {
         list-style: none;
         display: none;
@@ -126,10 +130,11 @@ watch(
     &-actions {
       display: flex;
       gap: 15px;
+      margin-left: auto;
 
       &-icon {
         @include header_link;
-      
+
         color: v-bind(color);
         cursor: pointer;
         &.active {
@@ -143,6 +148,9 @@ watch(
 
     &-logo {
       @include header_link;
+      position: fixed;
+      top: 26px;
+      left: 300px;
       &-icon {
         cursor: pointer;
         color: v-bind(color);
