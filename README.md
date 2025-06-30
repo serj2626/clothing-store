@@ -30,18 +30,27 @@
 - Vue 3 + Composition API
 - Pinia – управление состоянием (корзина, избранное)
 - @nuxtjs/sitemap – генерация `sitemap.xml`
-- `useSeoMeta`, `useHead` – динамические мета-теги
+- UseSeoMeta, UseHead – динамические мета-теги
 - SASS – стилизация
 - Yandex.Maps – карты
 - Swiper – слайдеры
 - Google reCAPTCHA – защита от спама
 - REplain bot - онлайн консультант
+- ThemeSwitcher – темная тема
+- @nuxt-alt/auth – аутентификация и авторизация
+
+### DevOps
+
+- Docker
+- Docker Compose
+- Nginx
 
 ---
 
 ## 📂 Структура проекта
 
 ### Django (backend)
+
 ```
 backend/
 ├── config/               # Настройки Django
@@ -56,6 +65,7 @@ backend/
 ```
 
 ### Nuxt 3 (frontend)
+
 ```
 frontend/
 ├── components/
@@ -73,6 +83,7 @@ frontend/
 ## 🔧 Установка и запуск
 
 ### 1. Backend (Django)
+
 ```bash
 cd backend
 python3 -m venv venv
@@ -87,6 +98,7 @@ python manage.py runserver
 - Админка: [http://localhost:8000/admin/](http://localhost:8000/admin/)
 
 ### 2. Frontend (Nuxt 3)
+
 ```bash
 cd frontend
 npm install
@@ -109,6 +121,7 @@ SEO модель в Django хранит:
 - `json_ld` (структурированные данные)
 
 ### 2. Динамические теги в Nuxt 3
+
 ```ts
 useSeoMeta({
   title: data.value?.title,
@@ -124,10 +137,21 @@ useHead({
 ### 3. Sitemap (Django API + Nuxt Sitemap)
 
 Django API (`/api/sitemap/`) отдает:
+
 ```json
 [
-  { "slug": "home", "priority": 1.0, "changefreq": "daily", "lastmod": "2024-06-01" },
-  { "slug": "products", "priority": 0.8, "changefreq": "weekly", "lastmod": "2024-05-28" }
+  {
+    "slug": "home",
+    "priority": 1.0,
+    "changefreq": "daily",
+    "lastmod": "2024-06-01"
+  },
+  {
+    "slug": "products",
+    "priority": 0.8,
+    "changefreq": "weekly",
+    "lastmod": "2024-05-28"
+  }
 ]
 ```
 
@@ -138,6 +162,7 @@ Nuxt `@nuxtjs/sitemap` генерирует `sitemap.xml` автоматичес
 ## 🛒 Корзина и заказы
 
 ### Pinia (хранилище)
+
 ```ts
 const cartStore = useCartStore();
 cartStore.addToCart(product);
