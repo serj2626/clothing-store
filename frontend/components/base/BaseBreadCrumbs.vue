@@ -1,5 +1,5 @@
 <script lang="ts" setup>
- export interface ILink {
+export interface ILink {
   title: string;
   url: string;
 }
@@ -15,14 +15,14 @@ const breadcrumbsAll = computed(() => {
 });
 </script>
 <template>
-  <div class="base-bread">
-    <ul class="base-bread__links">
-      <NuxtLink class="base-bread__links-back" to="/">Назад</NuxtLink>
+  <div class="base-bread-crumbs">
+    <ul class="base-bread-crumbs__links">
+      <NuxtLink class="base-bread-crumbs__links-back" to="/">Назад</NuxtLink>
       <NuxtLink
         v-for="(link, indx) in breadcrumbsAll"
         :key="indx"
         :to="link.url"
-        class="base-bread__links-item"
+        class="base-bread-crumbs__links-item"
       >
         {{ link.title }}
       </NuxtLink>
@@ -30,7 +30,7 @@ const breadcrumbsAll = computed(() => {
   </div>
 </template>
 <style scoped lang="scss">
-.base-bread {
+.base-bread-crumbs {
   margin-top: 100px;
   &__links {
     display: none;
@@ -40,18 +40,10 @@ const breadcrumbsAll = computed(() => {
     @include mediaMobile {
       display: flex;
     }
-    // &::after {
-    //   content: "";
-    //   position: absolute;
-    //   bottom: -10px;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 1px;
-    //   background-color: #6058583d;
-    // }
+
     &-item {
       cursor: pointer;
-      color: $txt;
+      color: var(--color-text);
       display: inline-block;
       &:not(:last-child)::after {
         content: ">";
@@ -62,7 +54,7 @@ const breadcrumbsAll = computed(() => {
 
       &:last-child {
         pointer-events: none;
-        color: $txt;
+        color: var(--color-text);
         opacity: 0.7;
         cursor: default;
       }

@@ -48,7 +48,7 @@ defineProps<{ links: ILinkGroup[] }>();
         &-link {
           font-size: 16px;
           font-weight: 200;
-          color: #252525;
+          color: var(--color-text);
           opacity: 0.8;
           transition: all 0.3s ease-in-out;
 
@@ -61,7 +61,7 @@ defineProps<{ links: ILinkGroup[] }>();
       &-link {
         font-size: 20px;
         font-weight: 300;
-        color: #252525;
+        color: var(--color-accent);
       }
     }
   }

@@ -7,7 +7,7 @@ const productStoreDetail = useProductDetailStore();
 const modalsStore = useModalsStore();
 const error = ref("");
 
-const currentColor = ref<string>('')
+const currentColor = ref<string>("");
 
 const { $api } = useNuxtApp();
 defineProps<{
@@ -93,10 +93,11 @@ async function addLikeByProduct(id: string) {
         size="lg"
         style="width: 100%"
       />
-      <BaseButtonOutline
+      <BaseButton
         radius="5px"
         label="В ИЗБРАННОЕ"
         size="lg"
+        :outline="true"
         style="width: 100%"
       />
     </div>

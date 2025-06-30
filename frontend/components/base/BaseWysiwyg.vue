@@ -11,7 +11,7 @@ defineProps({
 </template>
 <style lang="scss" scoped>
 .wysiwyg-component {
-  color: #2e2e2e;
+  color: var(--color-wysiwyg);
   font-size: 14px;
   margin-block: 40px;
   @include mediaTablet {

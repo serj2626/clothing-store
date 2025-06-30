@@ -1,18 +1,34 @@
+type Theme = "light" | "dark";
+
 export const useTheme = () => {
-  const theme = useState<"light" | "dark">("theme", () => "light");
+  const theme = useState<Theme>("theme", () => "light");
+
+  const applyTheme = (value: Theme) => {
+    document.documentElement.setAttribute("data-theme", value);
+    localStorage.setItem("theme", value);
+  };
 
   const toggleTheme = () => {
     theme.value = theme.value === "light" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", theme.value);
+    applyTheme(theme.value);
   };
 
-  const setTheme = (value: "light" | "dark") => {
+  const setTheme = (value: Theme) => {
     theme.value = value;
-    document.documentElement.setAttribute("data-theme", value);
+    applyTheme(value);
   };
 
   onMounted(() => {
-    document.documentElement.setAttribute("data-theme", theme.value);
+    const saved = localStorage.getItem("theme") as Theme | null;
+    if (saved === "light" || saved === "dark") {
+      setTheme(saved);
+    } else {
+      // Автовыбор по системной теме
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setTheme(prefersDark ? "dark" : "light");
+    }
   });
 
   return { theme, toggleTheme, setTheme };

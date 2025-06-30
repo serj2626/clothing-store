@@ -88,7 +88,8 @@ const modules = [Autoplay, Navigation, Pagination];
 
   &__title {
     margin-block: 100px 50px;
-    color: #252525;
+    // color: #252525;
+    color: var(--color-section-title);
     font-size: 36px;
     font-weight: 300;
     text-align: center;

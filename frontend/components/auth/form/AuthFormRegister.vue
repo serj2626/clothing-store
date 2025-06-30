@@ -248,11 +248,12 @@ async function submit() {
       </div>
 
       <div class="auth-form-register__actions">
-        <BaseButtonOutline
+        <BaseButton
           label="Назад"
           size="lg"
           radius="8px"
           style="width: 100%"
+          :outline="true"
           @click="emit('update:currentStep', 1)"
         />
         <BaseButton

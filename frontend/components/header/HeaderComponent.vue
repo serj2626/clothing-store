@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { headerIconLinks, headerLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
+
 const modalsStore = useModalsStore();
 const route = useRoute();
 const color = computed(() => {
@@ -30,7 +31,7 @@ watch(
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"
             size="50"
-            :style="{ color: routeName === 'index' ? '#d38f56' : '#000' }"
+   
           />
         </button>
         <nav class="header-component__wraper-nav">
@@ -113,7 +114,8 @@ watch(
           display: flex;
         }
         &-link {
-          color: v-bind(color);
+          // color: v-bind(color);
+          color: var(--color-header-link);
           &:hover {
             color: $accent;
           }
@@ -135,7 +137,8 @@ watch(
       &-icon {
         @include header_link;
 
-        color: v-bind(color);
+        // color: v-bind(color);
+        color: var(--color-header-link);
         cursor: pointer;
         &.active {
           color: $accent-dark;
@@ -150,10 +153,10 @@ watch(
       @include header_link;
       position: fixed;
       top: 26px;
-      left: 300px;
+      left: 100px;
       &-icon {
         cursor: pointer;
-        color: v-bind(color);
+        color: var(--color-header-link);
         font-weight: 900;
       }
     }

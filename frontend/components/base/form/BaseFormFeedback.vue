@@ -106,7 +106,7 @@ async function submit() {
   margin-inline: auto;
   &__title {
     font-size: 24px;
-    color: $txt;
+    color: var(--color-section-title);
     font-weight: 500;
   }
 

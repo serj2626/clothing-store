@@ -90,9 +90,9 @@ async function submit() {
     </div>
     <BaseButton label="Войти" size="lg" radius="8px" style="width: 100%" />
 
-    <div class="auth-footer">
-      <span>Ещё нет аккаунта?</span>
-      <NuxtLink to="/auth/register" class="auth-form-login__link">
+    <div class="auth-form-login__footer">
+      <span class="auth-form-login__footer-text">Ещё нет аккаунта?</span>
+      <NuxtLink to="/auth/register" class="auth-form-login__footer-link">
         Зарегистрироваться
       </NuxtLink>
     </div>
@@ -124,14 +124,19 @@ async function submit() {
       text-decoration: underline;
     }
   }
-  &__link {
-    color: $accent-dark;
-    text-decoration: none;
-    font-weight: 600;
-    transition: $default_transition;
+  &__footer {
+    &-text {
+      color: $txt;
+    }
+    &-link {
+      color: $accent-dark;
+      text-decoration: none;
+      font-weight: 600;
+      transition: $default_transition;
 
-    &:hover {
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

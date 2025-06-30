@@ -36,8 +36,8 @@ const { data: footerData } = useAsyncData<IFooterDataResponse>(
 .footer-component {
   &__copyright {
     font-weight: 200;
-    color: $black;
-    opacity: 0.8;
+    color: var(--color-section-title);
+    opacity: 0.9;
     text-align: center;
     padding-bottom: 10px;
   }

@@ -28,8 +28,8 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .scroll-to-top {
   position: fixed;
-  bottom: 100px;
-  right: 32px;
+  bottom: 30px;
+  left: 32px;
   padding: 10px;
   display: flex;
   flex-direction: column;

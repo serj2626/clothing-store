@@ -135,7 +135,7 @@ function captchaHandler(val, eventName) {
 
   &__title {
     text-align: center;
-    color: #252525;
+    color: var(--color-section-title);
     font-size: 36px;
     font-weight: 300;
     margin-bottom: 50px;
@@ -176,11 +176,11 @@ function captchaHandler(val, eventName) {
     &-text {
       text-align: center;
       font-size: 16px;
-      color: #252525;
+      color: var(--color-text);
       font-weight: 200;
 
       &-link {
-        color: blue;
+        color: rgb(91, 91, 247);
       }
     }
   }
