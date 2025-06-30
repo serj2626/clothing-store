@@ -4,8 +4,8 @@ import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
 const modalsStore = useModalsStore();
 const route = useRoute();
-const color = computed(() => {
-  return route.name === "index" ? "#fff" : "#252525";
+const isHomePage = computed(() => {
+  return route.name === "index";
 });
 
 const routeName = ref<string | undefined>("");
@@ -31,7 +31,6 @@ watch(
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"
             size="50"
-   
           />
         </button>
         <nav class="header-component__wraper-nav">
@@ -42,6 +41,7 @@ watch(
               class="header-component__wraper-nav-list-link"
               :class="{ active: link.name === routeName }"
               :to="link.to"
+              :style="{ color: isHomePage ? '#fff' : '' }"
             >
               {{ link.title }}
             </NuxtLink>

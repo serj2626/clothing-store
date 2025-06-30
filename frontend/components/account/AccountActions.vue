@@ -14,34 +14,34 @@ const tabs = {
 </script>
 <template>
   <div class="account-actions">
-    <button
+    <BaseButton
       class="account-actions__btn"
+      radius="0"
+      label=" История заказов"
       :class="{ 'account-actions__btn_active': currentComponent === 'one' }"
       @click="currentComponent = 'one'"
-    >
-      История заказов
-    </button>
-    <button
+    />
+    <BaseButton
       class="account-actions__btn"
+      radius="0"
+      label="Личные данные"
       :class="{ 'account-actions__btn_active': currentComponent === 'two' }"
       @click="currentComponent = 'two'"
-    >
-      Личные данные
-    </button>
-    <button
+    />
+    <BaseButton
       class="account-actions__btn"
+      radius="0"
+      label="Обратная связь"
       :class="{ 'account-actions__btn_active': currentComponent === 'three' }"
       @click="currentComponent = 'three'"
-    >
-      Обратная связь
-    </button>
-    <button
+    />
+    <BaseButton
       class="account-actions__btn"
+      radius="0"
+      label="Выйти"
       :class="{ 'account-actions__btn_active': currentComponent === 'four' }"
       @click="currentComponent = 'four'"
-    >
-      Выйти
-    </button>
+    />
   </div>
   <Transition name="fade" mode="out-in">
     <keep-alive>
@@ -56,8 +56,8 @@ const tabs = {
   display: flex;
   width: 100%;
   align-items: center;
-  border-bottom: 1px solid #6058583d;
-  border-top: 1px solid #6058583d;
+  border-bottom: 1px solid var(--color-account-actions-border);
+  border-top: 1px solid var(--color-account-actions-border);
   justify-content: center;
 
   &__btn {

@@ -38,6 +38,7 @@ $desktop: 1440px;
   --color-section-title: var(--color-text);
   --color-wysiwyg: #2e2e2e;
   --color-header-link: var(--color-text);
+  --color-account-actions-border: #6058583d;
 }
 
 [data-theme="dark"] {
@@ -50,4 +51,5 @@ $desktop: 1440px;
   --color-section-title: var(--color-accent);
   --color-wysiwyg: var(--color-white-light);
   --color-header-link: var(--color-white);
+  --color-account-actions-border: var(--color-text);
 }
