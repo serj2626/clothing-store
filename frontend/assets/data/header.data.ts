@@ -22,17 +22,17 @@ interface IHeaderIconLink {
 export const headerIconLinks: IHeaderIconLink[] = [
   {
     name: "account",
-    icon: HeroIcons.user,
+    icon: HeroIcons.USER_SOLID,
     to: "/account",
   },
   {
     name: "favorite",
-    icon: HeroIcons.heart,
+    icon: HeroIcons.HEART_SOLID,
     to: "/favorite",
   },
   {
     name: "basket",
-    icon: HeroIcons.basket,
+    icon: HeroIcons.BASKET,
     to: "/basket",
   },
 ];
@@ -44,11 +44,11 @@ interface IModalMenu {
 }
 
 export const menuModalLinks: IModalMenu[] = [
-  { title: "Главная", url: "/", icon: HeroIcons.home },
-  { title: "Каталог", url: "/catalog", icon: HeroIcons.catalog },
-  { title: "О нас", url: "/about", icon: HeroIcons.about },
-  { title: "Контакты", url: "/contacts", icon: HeroIcons.PHONE },
-  { title: "Личный кабинет", url: "/account", icon: HeroIcons.user },
-  { title: "Избранное", url: "/favorite", icon: HeroIcons.heart },
-  { title: "Корзина", url: "/basket", icon: HeroIcons.basket },
+  { title: "Главная", url: "/", icon: HeroIcons.HOME_SOLID },
+  { title: "Каталог", url: "/catalog", icon: HeroIcons.CATALOG_SOLID },
+  { title: "О нас", url: "/about", icon: HeroIcons.ABOUT_SOLID },
+  { title: "Контакты", url: "/contacts", icon: HeroIcons.PHONE_SOLID },
+  { title: "Личный кабинет", url: "/account", icon: HeroIcons.USER_SOLID },
+  { title: "Избранное", url: "/favorite", icon: HeroIcons.HEART_SOLID },
+  { title: "Корзина", url: "/basket", icon: HeroIcons.BASKET },
 ];

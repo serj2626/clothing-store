@@ -44,17 +44,32 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#     "ROTATE_REFRESH_TOKENS": True,
+#     "BLACKLIST_AFTER_ROTATION": True,
+#     "AUTH_COOKIE": "access_token",  # Название cookie для access token
+#     "AUTH_COOKIE_DOMAIN": None,  # Домен для cookie
+#     "AUTH_COOKIE_SECURE": True,  # Только HTTPS
+#     "AUTH_COOKIE_HTTP_ONLY": True,  # HttpOnly cookie
+#     "AUTH_COOKIE_PATH": "/",  # Путь cookie
+#     "AUTH_COOKIE_SAMESITE": "Lax",  # Защита от CSRF
+# }
+
+
 SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
-    "AUTH_COOKIE": "access_token",  # Название cookie для access token
-    "AUTH_COOKIE_DOMAIN": None,  # Домен для cookie
-    "AUTH_COOKIE_SECURE": True,  # Только HTTPS
-    "AUTH_COOKIE_HTTP_ONLY": True,  # HttpOnly cookie
-    "AUTH_COOKIE_PATH": "/",  # Путь cookie
-    "AUTH_COOKIE_SAMESITE": "Lax",  # Защита от CSRF
+    "AUTH_COOKIE": "access_token_store",  # имя cookie
+    "AUTH_COOKIE_REFRESH": "refresh_token_store",
+    "AUTH_COOKIE_SECURE": False,  # True на проде
+    "AUTH_COOKIE_HTTP_ONLY": True,
+    "AUTH_COOKIE_PATH": "/",
+    "AUTH_COOKIE_SAMESITE": "Lax",
 }
 
 

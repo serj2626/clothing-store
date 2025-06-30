@@ -63,7 +63,32 @@ class RegisterView(generics.CreateAPIView):
     },
 )
 class CustomTokenObtainPairView(TokenObtainPairView):
-    pass
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        refresh = response.data.get("refresh")
+        access = response.data.get("access")
+
+        response.data = {"msg": "Авторизация прошла успешно"}
+
+        response.set_cookie(
+            key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+            value=access,
+            httponly=True,
+            secure=False,  # True на проде
+            samesite="Lax",
+            path="/",
+        )
+
+        response.set_cookie(
+            key="refresh_token",
+            value=refresh,
+            httponly=True,
+            secure=False,
+            samesite="Lax",
+            path="/",
+        )
+        return response
 
 
 @extend_schema(
@@ -77,7 +102,22 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     },
 )
 class CustomTokenRefreshView(TokenRefreshView):
-    pass
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        access = response.data.get("access")
+        response.data = {"detail": "Токен обновлён"}
+
+        response.set_cookie(
+            key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+            value=access,
+            httponly=True,
+            secure=False,
+            samesite="Lax",
+            path="/",
+        )
+
+        return response
 
 
 # @extend_schema(

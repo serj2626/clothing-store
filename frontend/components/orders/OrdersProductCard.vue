@@ -15,8 +15,8 @@
         <p class="orders-product-card__product-info-title">Кремовое пальто</p>
       </div>
     </div>
-    <ProductsColor color="black" />
-    <ProductsColor color="#e0bea2" />
+    <ProductColor color="black" />
+    <ProductColor color="#e0bea2" />
     <select class="orders-product-card__size">
       <option value="S">S</option>
       <option value="M">M</option>

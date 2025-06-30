@@ -1,48 +1,8 @@
-// export default defineNuxtPlugin(() => {
-//   const { accessToken, refreshToken } = useAuth();
-
-//   const config = useRuntimeConfig();
-//   const apiFetch = $fetch.create({
-//     baseURL: config.public.apiUrl,
-//     async onRequest({ options }) {
-//       // Добавляем access токен в заголовки
-//       if (accessToken.value) {
-//         options.headers = {
-//           ...options.headers,
-//           Authorization: `Bearer ${accessToken.value}`,
-//         };
-//       }
-//     },
-//     onResponse({ response }) {},
-//     async onResponseError({ response }) {
-//       if (response.status === 401 && accessToken.value) {
-//         try {
-//           await refreshToken();
-//           return $fetch(response.url, {
-//             method: response._data.config?.method,
-//             body: response._data.config?.data,
-//             headers: {
-//               Authorization: `Bearer ${accessToken.value}`,
-//             },
-//           });
-//         } catch {
-//           await logout();
-//         }
-//       }
-//     },
-//   });
-//   // Expose to useNuxtApp().$apiFetch
-//   return {
-//     provide: {
-//       api: apiFetch,
-//     },
-//   };
-// });
-
 // Создание Nuxt.js плагина с помощью defineNuxtPlugin
 export default defineNuxtPlugin(() => {
   // Получаем runtime конфиг приложения (переменные из nuxt.config.ts)
   const config = useRuntimeConfig();
+  const auth = useAuthStore();
 
   // Создаем кастомный экземпляр $fetch с настройками
   const apiFetch = $fetch.create({
@@ -55,8 +15,19 @@ export default defineNuxtPlugin(() => {
       // options.baseURL = import.meta.server ? config.ssrApiUrl : config.public.browserApiUrl
 
       // Логирование запросов в debug режиме
-      if (config.public.debug) {
+      if (config.public.isDebug) {
         console.log("making req", options.baseURL, request.toString());
+      }
+
+      // Получаем access-токен из хранилища (Pinia, localStorage и т.д.)
+      const token = auth.accessToken; // или: useCookie('access_token').value
+
+      // Добавляем Bearer Token в заголовки, если он есть
+      if (token) {
+        options.headers = {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+        };
       }
     },
 

@@ -107,7 +107,7 @@ const closeMenuHandler = () => {
               class="modal-menu__footer-actions-login"
               @click="goToLink('/auth/login')"
             >
-              <Icon :name="HeroIcons.user" :size="26" />
+              <Icon :name="HeroIcons.USER_OUTLINE" :size="26" />
             </button>
             <button class="modal-menu__footer-actions-color">
               <Icon :name="HeroIcons.NIGHT" :size="26" @click="theme = 'dark'" />

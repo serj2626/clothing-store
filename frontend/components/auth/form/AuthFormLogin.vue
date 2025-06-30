@@ -2,6 +2,8 @@
 import { api } from "~/api";
 const loading = ref(false);
 
+const { login } = useAuth();
+
 const modalsStore = useModalsStore();
 const { $api } = useNuxtApp();
 interface FormField<T> {
@@ -25,10 +27,27 @@ const formData = reactive<FeedbackForm>({
   password: { value: "", error: "", required: true },
 });
 
+// async function submit() {
+//   try {
+//     await $api<ISubscribeResponse>(api.users.login, {
+//       method: "POST",
+//       body: {
+//         email: formData.email.value,
+//         password: formData.password.value,
+//       },
+//     });
+//     modalsStore.openModal("success");
+//     clearForm(formData);
+//   } catch (e) {
+//     console.log("error", e);
+//   }
+// }
+
 async function submit() {
+  console.log("formData", formData);
   try {
-    await $api<ISubscribeResponse>(api.users.login, {
-      method: "POST",
+    await login({
+      strategy: "local",
       body: {
         email: formData.email.value,
         password: formData.password.value,

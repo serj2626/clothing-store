@@ -23,7 +23,8 @@
     "nuxt-swiper": "^2.0.1",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1",
-    "vue-yandex-maps": "^2.1.9"
+    "vue-yandex-maps": "^2.1.9",
+    "maska": "^3.0.0"
   },
   "devDependencies": {
     "sass": "^1.89.1"
