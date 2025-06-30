@@ -24,3 +24,23 @@ $mobile: 375px;
 $tablet: 768px;
 $laptop: 1024px;
 $desktop: 1440px;
+
+:root {
+  --color-bg: #fff;
+  --color-text: #252525;
+  --color-accent: #e0bea2;
+  --color-accent-dark: #d38f56;
+  --color-error: #f00;
+  --color-success: #0a7f41;
+  --color-white: #fff;
+  --color-black: #000;
+}
+
+[data-theme="dark"] {
+  --color-bg: #121212;
+  --color-text: #ffffff;
+  --color-accent: #cca88a;
+  --color-accent-dark: #a86e3f;
+  --color-error: #ff6b6b;
+  --color-success: #28a745;
+}

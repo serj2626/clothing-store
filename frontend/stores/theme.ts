@@ -1,1 +1,0 @@
-export const useThemeStore = useState("theme", () => "light");

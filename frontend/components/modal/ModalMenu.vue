@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useThemeStore } from "~/stores/theme";
 import { menuModalLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-
-const theme = useThemeStore;
+const { toggleTheme, theme } = useTheme();
 
 const modalsStore = useModalsStore();
 const closeMenu = ref(false);
@@ -109,8 +107,11 @@ const closeMenuHandler = () => {
             >
               <Icon :name="HeroIcons.USER_OUTLINE" :size="26" />
             </button>
-            <button class="modal-menu__footer-actions-color">
-              <Icon :name="HeroIcons.NIGHT" :size="26" @click="theme = 'dark'" />
+            <button
+              class="modal-menu__footer-actions-color"
+              @click="toggleTheme"
+            > 
+              <Icon :name="HeroIcons.NIGHT" :size="26" />
             </button>
           </div>
         </div>
