@@ -18,7 +18,10 @@ const { data: productNewsCollection } = await useAsyncData<IProduct[]>(
       <div class="news-page__content">
         <h2 class="news-page__content-title">Новые коллекции</h2>
       </div>
-      <NewsProductsList :products="productNewsCollection" />
+      <NewsProductsList
+        v-if="productNewsCollection"
+        :products="productNewsCollection"
+      />
       <BaseFormSubscribe />
     </div>
   </div>

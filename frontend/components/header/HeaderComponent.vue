@@ -53,6 +53,7 @@ watch(
             class="header-component__wraper-actions-icon"
             :name="HeroIcons.SEARCH_SOLID"
             size="28"
+            :style="{ color: isHomePage ? '#fff' : '' }"
             @click="searchValue = !searchValue"
           />
           <NuxtLink
@@ -63,6 +64,7 @@ watch(
             <Icon
               class="header-component__wraper-actions-icon"
               :class="{ active: item.name === routeName }"
+              :style="{ color: isHomePage ? '#fff' : '' }"
               :name="item.icon"
               size="28"
             />

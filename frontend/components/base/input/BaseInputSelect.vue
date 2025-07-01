@@ -84,6 +84,7 @@ onUnmounted(() => {
 
     &-text {
       font-size: 14px;
+      color: $txt;
     }
     &-icon {
       transition: rotate 0.3s ease-in-out;

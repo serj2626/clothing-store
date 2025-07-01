@@ -50,6 +50,11 @@ const {
     background-color: transparent;
     border: 1px solid v-bind(color);
     color: v-bind(color);
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background-color: v-bind(color);
+      color: white;
+    }
   }
 
   &:hover {

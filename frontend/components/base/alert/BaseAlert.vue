@@ -80,9 +80,6 @@ const alertConfig = computed(() => {
   justify-content: center;
   text-align: center;
   padding: 2rem;
-  border-radius: 12px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
   max-width: 500px;
   margin: 0 auto;
 
@@ -108,7 +105,7 @@ const alertConfig = computed(() => {
 
   &__description {
     font-size: 1rem;
-    color: var(--color-text-soft);
+   color: var(--color-text);
     margin: 0;
     line-height: 1.5;
   }

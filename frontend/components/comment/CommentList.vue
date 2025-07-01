@@ -39,10 +39,9 @@ const countReviews = computed(() => {
 </template>
 <style scoped lang="scss">
 .comment-list {
-  background: $white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-reviews-list);
   margin-bottom: 100px;
 
   &__header {
@@ -58,10 +57,9 @@ const countReviews = computed(() => {
       align-items: center;
       gap: 20px;
       &-title {
-        font-family: $ff_title;
         font-size: 22px;
         font-weight: 700;
-        color: $txt;
+        color: var(--color-section-title);
         margin: 0;
       }
     }

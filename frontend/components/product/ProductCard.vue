@@ -27,7 +27,7 @@ function sliceTitle(title: string) {
     <article class="products-card">
       <div class="products-card__image">
         <button class="products-card__image-icon">
-          <Icon :name="HeroIcons.HEART" size="24" />
+          <Icon :name="HeroIcons.HEART_SOLID" size="24" />
         </button>
         <NuxtImg
           v-if="!avatar"

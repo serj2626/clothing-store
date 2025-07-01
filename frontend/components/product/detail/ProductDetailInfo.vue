@@ -173,7 +173,7 @@ async function addLikeByProduct(id: string) {
 
     &-count {
       font-size: 14px;
-      color: rgba($txt, 0.7);
+      color: var(--color-text);
     }
     &-icon {
       font-size: 20px;
@@ -218,7 +218,7 @@ async function addLikeByProduct(id: string) {
   }
 
   &__empty {
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--color-text);
     font-style: italic;
   }
 
@@ -256,6 +256,6 @@ async function addLikeByProduct(id: string) {
 
 .title-span {
   font-weight: 700;
-  color: rgba($txt, 0.9);
+  color: var(--color-section-title);
 }
 </style>

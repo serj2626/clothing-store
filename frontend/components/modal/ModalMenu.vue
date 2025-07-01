@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { menuModalLinks } from "~/assets/data/header.data";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-const { toggleTheme } = useTheme();
+const { toggleTheme, theme } = useTheme();
 
 const modalsStore = useModalsStore();
 const closeMenu = ref(false);
@@ -110,7 +110,10 @@ const closeMenuHandler = () => {
               class="modal-menu__footer-actions-color"
               @click="toggleTheme"
             >
-              <Icon :name="HeroIcons.NIGHT" :size="26" />
+              <Icon
+                :name="theme === 'dark' ? HeroIcons.SUN : HeroIcons.NIGHT"
+                :size="26"
+              />
             </button>
           </div>
         </div>
