@@ -73,7 +73,6 @@
 @mixin form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 @mixin transition($property: all, $duration: 0.3s, $easing: ease-in) {

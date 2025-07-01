@@ -114,9 +114,8 @@ async function submit() {
   }
   &__forgot-passwor {
     align-self: flex-end;
-    font-family: $ff_second;
     font-size: 12px;
-    color: $accent-dark;
+    color: $accent !important;
     text-decoration: none;
     transition: $default_transition;
 
