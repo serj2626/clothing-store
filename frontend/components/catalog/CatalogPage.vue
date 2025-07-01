@@ -16,8 +16,12 @@ const loadProducts = async (page: number) => {
   try {
     isLoading.value = true;
     await productStore.fetchAllProducts(page);
-  } catch (e: any) {
-    error.value = e.message;
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      error.value = e.message;
+    } else {
+      error.value = "Ошибка получения товаров";
+    }
   } finally {
     isLoading.value = false;
   }
@@ -37,7 +41,7 @@ const loadMore = async () => {
     <template v-else>
       <div class="container">
         <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
-        <!-- <div class="catalog-layout">
+        <div class="catalog-layout">
           <div class="catalog-sidebar">
             <CatalogCategories />
           </div>
@@ -52,8 +56,8 @@ const loadMore = async () => {
               Loading more products...
             </div>
           </div>
-        </div> -->
-        {{ productStore.products[0] }}
+        </div>
+        <!-- {{ productStore.products[0] }} -->
       </div>
     </template>
   </div>

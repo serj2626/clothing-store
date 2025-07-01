@@ -31,6 +31,7 @@ watch(
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"
             size="50"
+            :style="{ color: isHomePage ? '#cca88a' : '' }"
           />
         </button>
         <nav class="header-component__wraper-nav">

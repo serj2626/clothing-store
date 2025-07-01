@@ -108,7 +108,7 @@ async function addLikeByProduct(id: string) {
     </div>
 
     <div v-else class="products-detail-info__accordion">
-      <BaseAccordionComponent
+      <BaseAccordion
         v-for="detail in product.details"
         :key="detail.id"
         :is-open="activeIndex === detail.id"
@@ -129,7 +129,7 @@ async function addLikeByProduct(id: string) {
                 :name="
                   activeIndex === detail.id ? HeroIcons.UP : HeroIcons.DOWN
                 "
-                size="20"
+                size="25"
               />
             </button>
           </div>
@@ -139,7 +139,7 @@ async function addLikeByProduct(id: string) {
             {{ detail.description }}
           </div>
         </template>
-      </BaseAccordionComponent>
+      </BaseAccordion>
     </div>
   </div>
 </template>
@@ -181,15 +181,6 @@ async function addLikeByProduct(id: string) {
       transition: $default_transition;
     }
   }
-
-  &__title {
-  }
-  &__article {
-  }
-
-  &__price {
-  }
-
   &__colors {
     display: flex;
     flex-direction: column;
@@ -225,7 +216,7 @@ async function addLikeByProduct(id: string) {
   &__accordion {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 15px;
     margin-top: 20px;
 
     &-item {
@@ -237,6 +228,7 @@ async function addLikeByProduct(id: string) {
 
         &-text {
           font-weight: 700;
+          color: var(--color-section-title);
         }
 
         &-icon {
@@ -249,6 +241,7 @@ async function addLikeByProduct(id: string) {
 
       &-content {
         padding-top: 10px;
+        color: var(--color-text);
       }
     }
   }

@@ -124,9 +124,8 @@ async function submit() {
       gap: 8px;
 
       label {
-        font-family: $ff_second;
         font-size: 14px;
-        color: $txt;
+        color: var(--color-text);
         font-weight: 500;
       }
     }

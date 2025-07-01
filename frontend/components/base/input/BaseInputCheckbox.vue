@@ -8,33 +8,29 @@ const agreeValue = defineModel<boolean>("agreeValue");
 </script>
 
 <template>
-  <div 
-    class="brand-checkbox"
+  <div
+    class="base-input-checkbox"
     :class="{ 'is-checked': agreeValue, 'is-disabled': disabled }"
   >
     <input
       id="brand-check"
       v-model="agreeValue"
       type="checkbox"
-      class="brand-checkbox__input"
+      class="base-input-checkbox__input"
       :disabled="disabled"
     />
-    <label for="brand-check" class="brand-checkbox__label">
-      <span class="brand-checkbox__checkmark">
-        <svg 
-          width="15" 
-          height="14" 
+    <label for="brand-check" class="base-input-checkbox__label">
+      <span class="base-input-checkbox__checkmark">
+        <svg
+          width="15"
+          height="14"
           viewBox="0 0 12 10"
-          class="brand-checkbox__checkmark-icon"
+          class="base-input-checkbox__checkmark-icon"
         >
-          <path 
-            d="M1 5L4.5 8.5L11 1" 
-            stroke-width="2" 
-            stroke-linecap="round"
-          />
+          <path d="M1 5L4.5 8.5L11 1" stroke-width="2" stroke-linecap="round" />
         </svg>
       </span>
-      <span class="brand-checkbox__text">
+      <span class="base-input-checkbox__text">
         {{ label }}
       </span>
     </label>
@@ -42,22 +38,12 @@ const agreeValue = defineModel<boolean>("agreeValue");
 </template>
 
 <style lang="scss" scoped>
-.brand-checkbox {
-  --primary: #{$accent};
-  --primary-hover: #{$accent-dark};
-  --border: #{rgba($txt, 0.3)};
-  --border-hover: #{rgba($txt, 0.5)};
-  --background: #{$white};
-  --disabled: #{rgba($txt, 0.1)};
-  --disabled-text: #{rgba($txt, 0.5)};
-  --transition: #{$default_transition};
-
+.base-input-checkbox {
   display: inline-flex;
   align-items: center;
   position: relative;
   cursor: pointer;
   user-select: none;
-  font-family: $ff_second;
   margin-bottom: 10px;
 
   &__input {
@@ -66,9 +52,9 @@ const agreeValue = defineModel<boolean>("agreeValue");
     height: 0;
     width: 0;
 
-    &:focus-visible ~ .brand-checkbox__label .brand-checkbox__checkmark {
+    &:focus-visible ~ .base-input-checkbox__label .base-input-checkbox__checkmark {
       box-shadow: 0 0 0 3px rgba($accent, 0.2);
-      border-color: var(--primary);
+      border-color: $accent;
     }
   }
 
@@ -85,14 +71,14 @@ const agreeValue = defineModel<boolean>("agreeValue");
     justify-content: center;
     width: 25px;
     height: 25px;
-    border: 1px solid var(--border);
+    border: 1px solid $accent;
     border-radius: 4px;
-    background-color: var(--background);
+    background-color: orange;
     transition: var(--transition);
     flex-shrink: 0;
 
-    .brand-checkbox:hover & {
-      border-color: var(--border-hover);
+    .base-input-checkbox:hover & {
+      border-color: blue;
     }
 
     .is-checked & {
@@ -116,16 +102,14 @@ const agreeValue = defineModel<boolean>("agreeValue");
     .is-checked & {
       opacity: 1;
       stroke-dashoffset: 0;
-      transition: 
-        opacity 0.1s ease,
-        stroke-dashoffset 0.3s $default_cubic;
+      transition: opacity 0.1s ease, stroke-dashoffset 0.3s $default_cubic;
     }
   }
 
   &__text {
     font-size: 15px;
     line-height: 1.4;
-    color: $txt;
+    color: var(--color-text);
     transition: var(--transition);
     font-weight: 400;
 
@@ -140,7 +124,7 @@ const agreeValue = defineModel<boolean>("agreeValue");
 
   @media (hover: hover) {
     &:hover:not(.is-disabled) {
-      .brand-checkbox__checkmark:not(.is-checked) {
+      .base-input-checkbox__checkmark:not(.is-checked) {
         border-color: $accent-dark;
       }
     }

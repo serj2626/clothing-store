@@ -46,7 +46,6 @@
   margin-block: #{$margin}px;
 }
 
-
 @mixin btn_close_form {
   position: absolute;
   top: 10px;
@@ -56,7 +55,6 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  // transition: all $fast_ease;
   color: $bg_footer;
 
   &:active {
@@ -72,10 +70,12 @@
   text-overflow: ellipsis;
 }
 
-
-
 @mixin form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+@mixin transition($property: all, $duration: 0.3s, $easing: ease-in) {
+  transition: $property $duration $easing;
 }

@@ -39,6 +39,7 @@ $desktop: 1440px;
   --color-wysiwyg: #2e2e2e;
   --color-header-link: var(--color-text);
   --color-account-actions-border: #6058583d;
+  --bg-color-accordion: var(--color-white-light);
 
   --shadow-reviews-list: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -54,6 +55,7 @@ $desktop: 1440px;
   --color-wysiwyg: var(--color-white-light);
   --color-header-link: var(--color-white);
   --color-account-actions-border: var(--color-text);
+  --bg-color-accordion: transparent;
 
   --shadow-reviews-list: 0 1px 3px #e0bea24d, 0 -1px 3px #e0bea24d;
 }

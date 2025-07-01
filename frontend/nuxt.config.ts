@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
@@ -15,6 +14,34 @@ export default defineNuxtConfig({
     "@nuxt-alt/http",
     "unplugin-icons/nuxt",
   ],
+  auth: {
+    strategies: {
+      local: {
+        token: false, // 💥 отключаем полностью!
+        refreshToken: false,
+        user: {
+          property: null,
+        },
+        endpoints: {
+          login: { url: "/login/", method: "post" },
+          refresh: { url: "/token/refresh/", method: "post" },
+          logout: { url: "/logout/", method: "post" },
+          user: { url: "/me/", method: "get" },
+        },
+      },
+    },
+    watchLoggedIn: true,
+    redirect: {
+      login: "/login",
+      logout: "/",
+      home: "/",
+    },
+  },
+  http: {
+    baseURL: process.env.NUXT_PUBLIC_API_URL,
+    credentials: true, // 💡 обязательно, чтобы куки шли с каждым запросом
+  },
+
   icon: {
     customCollections: [
       { prefix: "social", dir: "./assets/icons/social" },
@@ -82,12 +109,6 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    // server: {
-    //   hmr: {
-    //     protocol: 'ws',
-    //     host: process.env.DOMAIN
-    //   },
-    // },
     vue: {
       script: {
         defineModel: true,
