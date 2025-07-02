@@ -2,7 +2,6 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IProduct } from "~/types";
 
-
 const props = defineProps<IProduct>();
 
 const allColors = computed(() => {
@@ -71,9 +70,9 @@ function sliceTitle(title: string) {
 .products-card {
   overflow: hidden;
   border-radius: $btn_radius;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  height: 100%; // Добавляем высоту 100%
-  display: flex; // Используем flexbox
+  box-shadow: var(--shadow-product-card);
+  height: 100%;
+  display: flex;
   flex-direction: column;
 
   &__info {
@@ -85,13 +84,13 @@ function sliceTitle(title: string) {
     flex-grow: 1;
     &-price {
       font-weight: 700;
-      color: $txt;
+      color: var(--color-text);
     }
     &-sizes {
       opacity: 0.5;
     }
     &-title {
-      color: $txt;
+      color: var(--color-text);
     }
     &-colors {
       display: flex;
@@ -103,10 +102,10 @@ function sliceTitle(title: string) {
       font-weight: 600;
     }
     &-brand-yes {
-      color: $txt;
+      color: var(--color-text);
     }
     &-brand-no {
-      color: $txt;
+      color: var(--color-text);
     }
   }
 

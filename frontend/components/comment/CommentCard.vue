@@ -96,15 +96,13 @@ const openGallery = (photos, index) => {
       display: flex;
       flex-direction: column;
       &-name {
-        font-family: $ff_second;
         font-weight: 500;
         font-size: 15px;
-        color: $txt;
+        color: var(--color-text);
       }
       &-date {
-        font-family: $ff_second;
         font-size: 13px;
-        color: rgba($txt, 0.5);
+        color: var(--color-text);
       }
     }
   }
@@ -119,10 +117,10 @@ const openGallery = (photos, index) => {
       &_active {
         // color: rgb(236, 196, 51);
         color: $accent;
+        background-color: $accent;
       }
     }
     &-value {
-      font-family: $ff_second;
       font-size: 14px;
       color: rgba($txt, 0.7);
     }
@@ -130,7 +128,7 @@ const openGallery = (photos, index) => {
   &__text {
     font-size: 15px;
     line-height: 1.5;
-    color: $txt;
+    color: var(--color-text);
     margin-bottom: 16px;
   }
   &__photos {
@@ -168,7 +166,7 @@ const openGallery = (photos, index) => {
         color: $success;
       }
       &-value {
-        color: rgba($txt, 0.8);
+        color: var(--color-text);
       }
     }
   }
@@ -183,7 +181,7 @@ const openGallery = (photos, index) => {
         color: $error;
       }
       &-value {
-        color: rgba($txt, 0.8);
+        color: var(--color-text);
       }
     }
   }

@@ -14,32 +14,49 @@ export default defineNuxtConfig({
     "@nuxt-alt/http",
     "unplugin-icons/nuxt",
   ],
+
   auth: {
     strategies: {
-      local: {
-        token: false, // 💥 отключаем полностью!
-        refreshToken: false,
-        user: {
-          property: null,
+      cookie: {
+        token: {
+          property: "access",
+          maxAge: 300, // 5 минут
+          type: "Bearer",
+        },
+        refreshToken: {
+          property: "refresh",
+          data: "refresh",
+          maxAge: 604800, // 7 дней
         },
         endpoints: {
-          login: { url: "/login/", method: "post" },
-          refresh: { url: "/token/refresh/", method: "post" },
-          logout: { url: "/logout/", method: "post" },
-          user: { url: "/me/", method: "get" },
+          login: { url: "/api/v1/users/login/", method: "post" },
+          refresh: { url: "/api/v1/users/token/refresh/", method: "post" },
+          logout: { url: "/api/v1/users/logout/", method: "post" },
+          user: { url: "/api/v1/users/me/", method: "get" },
+        },
+        user: {
+          property: false, // `user` из ответа API будет корневым объектом
         },
       },
     },
-    watchLoggedIn: true,
     redirect: {
       login: "/login",
       logout: "/",
       home: "/",
     },
+    cookie: {
+      prefix: "auth.",
+      options: {
+        path: "/",
+        secure: false, // True в production (HTTPS)
+      },
+    },
   },
+
   http: {
-    baseURL: process.env.NUXT_PUBLIC_API_URL,
-    credentials: true, // 💡 обязательно, чтобы куки шли с каждым запросом
+    baseURL: "http://localhost:8000", // Django-сервер
+    credentials: "include", // Для отправки кук
+    browserBaseURL: "http://localhost:8000",
   },
 
   icon: {

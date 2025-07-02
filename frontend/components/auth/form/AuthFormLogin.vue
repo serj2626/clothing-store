@@ -47,7 +47,6 @@ async function submit() {
   console.log("formData", formData);
   try {
     await login({
-      strategy: "local",
       body: {
         email: formData.email.value,
         password: formData.password.value,
