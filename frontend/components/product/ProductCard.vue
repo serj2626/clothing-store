@@ -22,52 +22,52 @@ function sliceTitle(title: string) {
 }
 </script>
 <template>
-  <NuxtLink :to="`/products/${id}`">
-    <article class="products-card">
-      <div class="products-card__image">
-        <button class="products-card__image-icon">
+  <NuxtLink class="card" :to="`/products/${id}`">
+    <article class="product-card">
+      <div class="product-card__image">
+        <button class="product-card__image-icon">
           <Icon :name="HeroIcons.HEART_SOLID" size="24" />
         </button>
         <NuxtImg
           v-if="!avatar"
           format="webp"
           loading="lazy"
-          class="products-card__image-item"
+          class="product-card__image-item"
           src="favorites/one.png"
         />
         <NuxtImg
           v-else
           format="webp"
           loading="lazy"
-          class="products-card__image-item"
+          class="product-card__image-item"
           :src="avatar"
           :alt="title"
         />
       </div>
 
-      <div class="products-card__info">
-        <div class="products-card__info-title">{{ sliceTitle(title) }}</div>
-        <div class="products-card__info-price">
+      <div class="product-card__info">
+        <div class="product-card__info-title">{{ sliceTitle(title) }}</div>
+        <div class="product-card__info-price">
           {{ formatNumberCustom(+price) }} {{ currency }}
         </div>
-        <div v-if="total_count" class="products-card__info-colors">
+        <div v-if="total_count" class="product-card__info-colors">
           <ProductColor
             v-for="color in allColors"
             :key="color"
             :color="color"
           />
         </div>
-        <div v-else class="products-card__info-total">Нет в наличии</div>
-        <div v-if="brand" class="products-card__info-brand-yes">
+        <div v-else class="product-card__info-total">Нет в наличии</div>
+        <div v-if="brand" class="product-card__info-brand-yes">
           {{ brand.name }}
         </div>
-        <div v-else class="products-card__info-brand-no">Без ТМ</div>
+        <div v-else class="product-card__info-brand-no">Без ТМ</div>
       </div>
     </article>
   </NuxtLink>
 </template>
 <style scoped lang="scss">
-.products-card {
+.product-card {
   overflow: hidden;
   border-radius: $btn_radius;
   box-shadow: var(--shadow-product-card);
@@ -133,8 +133,8 @@ function sliceTitle(title: string) {
     &-item {
       width: 100%;
       height: 100%;
-      object-fit: contain; // Масштабирует изображение, сохраняя пропорции
-      object-position: center; // Центрирует изображение
+      object-fit:  contain;
+      object-position: center;
     }
   }
 }

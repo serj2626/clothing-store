@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IProduct } from '~/types';
+import type { IProduct } from "~/types";
 
 defineProps<{ products: IProduct[] }>();
 </script>
@@ -25,11 +25,32 @@ defineProps<{ products: IProduct[] }>();
     />
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss">
 .catalog-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  align-items: stretch; // Это важно - растягиваем элементы по высоте
+  align-items: stretch;
+
+  // &:has(.card:hover) {
+  //   .card {
+  //     opacity: 0.8;
+  //     transform: none;
+  //     transition: all 0.6s ease;
+  //   }
+
+  //   .card:hover {
+  //     opacity: 1;
+  //     transform: translateY(-10px);
+  //   }
+  // }
+
+  @media (max-width: $tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $mobile) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>

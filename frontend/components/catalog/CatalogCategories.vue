@@ -18,31 +18,31 @@ const toggleCategory = (categoryId: string) => {
 </script>
 
 <template>
-  <aside class="catalog-nav">
-    <h2 class="catalog-nav__title">Категории</h2>
+  <aside class="catalog-categories">
+    <h2 class="catalog-categories__title">Категории</h2>
 
-    <ul class="catalog-nav__list">
+    <ul class="catalog-categories__list">
       <li
         v-for="category in allCategories"
         :key="category.id"
-        class="catalog-nav__item"
+        class="catalog-categories__item"
         :class="{
-          'catalog-nav__item--opened': currentCategoryId === category.id,
-          'catalog-nav__item--has-children': category.children?.length,
+          'catalog-categories__item--opened': currentCategoryId === category.id,
+          'catalog-categories__item--has-children': category.children?.length,
         }"
       >
-        <div class="catalog-nav__parent" @click="toggleCategory(category.id)">
-          <NuxtLink class="catalog-nav__link">
+        <div class="catalog-categories__parent" @click="toggleCategory(category.id)">
+          <NuxtLink class="catalog-categories__link">
             {{ category.name }}
           </NuxtLink>
 
           <button
             v-if="category.children?.length"
-            class="catalog-nav__toggle"
+            class="catalog-categories__toggle"
             aria-label="Toggle subcategories"
           >
             <Icon
-              class="catalog-nav__toggle-icon"
+              class="catalog-categories__toggle-icon"
               :name="
                 currentCategoryId === category.id
                   ? HeroIcons.UP
@@ -53,17 +53,17 @@ const toggleCategory = (categoryId: string) => {
           </button>
         </div>
 
-        <Transition name="catalog-nav">
+        <Transition name="catalog-categories">
           <ul
             v-if="category.children && currentCategoryId === category.id"
-            class="catalog-nav__sublist"
+            class="catalog-categories__sublist"
           >
             <li
               v-for="child in category.children"
               :key="child.id"
-              class="catalog-nav__subitem"
+              class="catalog-categories__subitem"
             >
-              <NuxtLink class="catalog-nav__sublink">
+              <NuxtLink class="catalog-categories__sublink">
                 {{ child.name }}
               </NuxtLink>
             </li>
@@ -75,7 +75,7 @@ const toggleCategory = (categoryId: string) => {
 </template>
 
 <style scoped lang="scss">
-.catalog-nav {
+.catalog-categories {
   position: sticky;
   top: 60px;
   padding: 16px;
@@ -87,7 +87,7 @@ const toggleCategory = (categoryId: string) => {
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0 0 1.5rem;
-    color: $txt;
+    color:var(--color-section-title);
   }
 
   &__list {
@@ -186,21 +186,21 @@ const toggleCategory = (categoryId: string) => {
   }
 }
 
-.catalog-nav-enter-active,
-.catalog-nav-leave-active {
+.catalog-categories-enter-active,
+.catalog-categories-leave-active {
   transition: all 0.5s ease;
   overflow: hidden;
 }
 
-.catalog-nav-enter-from,
-.catalog-nav-leave-to {
+.catalog-categories-enter-from,
+.catalog-categories-leave-to {
   opacity: 0;
   transform: translateY(-60px);
   max-height: 0;
 }
 
-.catalog-nav-enter-to,
-.catalog-nav-leave-from {
+.catalog-categories-enter-to,
+.catalog-categories-leave-from {
   opacity: 1;
   transform: translateY(0);
   max-height: 500px;

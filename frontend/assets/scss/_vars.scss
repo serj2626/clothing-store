@@ -19,6 +19,7 @@ $default_cubic: cubic-bezier(0.4, 0, 0.2, 1);
 $default_transition: 0.3s $default_cubic;
 
 $btn_radius: 10px;
+$btn_bg: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
 // Breakpoints
 $mobile: 375px;
 $tablet: 768px;
@@ -26,7 +27,7 @@ $laptop: 1024px;
 $desktop: 1440px;
 
 :root {
-  --color-bg: #fff;
+  --color-bg: #f5f5f5;
   --color-text: #252525;
   --color-accent: #e0bea2;
   --color-accent-dark: #d38f56;
@@ -44,6 +45,8 @@ $desktop: 1440px;
 
   --shadow-reviews-list: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-product-card: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  --review-card-border-bottom: 1px solid #2525251c;
 }
 
 [data-theme="dark"] {
@@ -62,4 +65,6 @@ $desktop: 1440px;
 
   --shadow-reviews-list: 0 1px 3px #e0bea24d, 0 -1px 3px #e0bea24d;
   --shadow-product-card: 0 0 10px #cca88a6d;
+
+  --review-card-border-bottom: 1px solid #cca88a49;
 }

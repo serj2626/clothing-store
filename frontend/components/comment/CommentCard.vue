@@ -80,7 +80,7 @@ const openGallery = (photos, index) => {
 <style scoped lang="scss">
 .comment-card {
   padding: 20px 0;
-  border-bottom: 1px solid rgba($txt, 0.1);
+  border-bottom: var(--review-card-border-bottom);
   &__user {
     display: flex;
     align-items: center;
