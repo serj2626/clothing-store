@@ -1,0 +1,13 @@
+-r base.txt
+autoflake==2.3.1
+black==24.8.0
+django-extensions==3.2.3
+flake8==7.1.1
+isort==5.13.2
+mccabe==0.7.0
+mypy_extensions==1.1.0
+ipython==8.14.0
+pathspec==0.12.1
+pycodestyle==2.12.1
+pyflakes==3.2.0
+tomli==2.2.1

@@ -7,7 +7,14 @@ from django.utils.timesince import timesince
 from mptt.models import MPTTModel, TreeForeignKey
 
 from common.mixins import AvatarPreviewMixin, WebpImageMixin
-from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
+from common.models import (
+    BaseContent,
+    BaseDate,
+    BaseDescription,
+    BaseID,
+    BaseName,
+    BaseTitle,
+)
 from common.types import (
     COLORS_TYPE,
     COUNTRY_TYPE,
@@ -57,7 +64,9 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     Категория товаров
     """
 
-    slug = models.SlugField("URL", max_length=100, unique=True, blank=True, null=True)
+    slug = models.SlugField(
+        "URL", max_length=100, unique=True, blank=True, null=True
+    )
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -91,7 +100,14 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         return reverse("category_detail", kwargs={"slug": self.slug})
 
 
-class Product(BaseID, BaseTitle, BaseDate, WebpImageMixin, AvatarPreviewMixin):
+class Product(
+    BaseID,
+    BaseTitle,
+    BaseDate,
+    BaseContent,
+    WebpImageMixin,
+    AvatarPreviewMixin,
+):
     """
     Продукт
     """
@@ -114,19 +130,16 @@ class Product(BaseID, BaseTitle, BaseDate, WebpImageMixin, AvatarPreviewMixin):
         related_name="products",
         verbose_name="Категория",
     )
-    gender = models.CharField("Пол", max_length=6, choices=GENDER_TYPE, default="male")
-    avatar = models.ImageField(
-        "Изображение",
-        validators=[validate_image_extension_and_format],
-        upload_to=dynamic_upload_to,
-        null=True,
-        blank=True,
-    )
-    price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
-    currency = models.CharField(
-        "Валюта", max_length=3, choices=CURRENCY_TYPE, default="RUB"
+    gender = models.CharField(
+        "Пол", max_length=6, choices=GENDER_TYPE, default="male"
     )
     is_active = models.BooleanField("Активен", default=True)
+    sku = models.CharField(
+        "артикул", max_length=100, null=True, blank=True, unique=True
+    )
+
+    def creating_sku(self):
+        self.sku = f"product-{self.pk}"
 
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"pk": self.pk})
@@ -139,30 +152,21 @@ class Product(BaseID, BaseTitle, BaseDate, WebpImageMixin, AvatarPreviewMixin):
         return self.title
 
 
-class ProductDetail(BaseTitle, BaseDescription):
-    """
-    Детали продукта
-    """
-
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="details"
-    )
-
-    class Meta:
-        verbose_name = "Детали"
-        verbose_name_plural = "Детали"
-
-
 class ProductLike(models.Model):
     """
     Лайк товара
     """
 
     product = models.ForeignKey(
-        "Product", on_delete=models.CASCADE, related_name="likes", verbose_name="Товар"
+        "Product",
+        on_delete=models.CASCADE,
+        related_name="likes",
+        verbose_name="Товар",
     )
     ip_address = models.GenericIPAddressField("IP", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
 
     class Meta:
         unique_together = ("product", "ip_address")  # один лайк с одного IP
@@ -181,9 +185,11 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="variants"
     )
+    price = models.DecimalField(
+        "Цена", max_digits=10, decimal_places=2, default=0
+    )
     color = models.CharField("Цвет", max_length=50, choices=COLORS_TYPE)
     size = models.CharField("Размер", max_length=10, choices=SIZE_TYPE)
-    # gender = models.CharField("Пол", max_length=10, choices=GENDER_TYPE)
     quantity = models.PositiveIntegerField("Количество на складе", default=0)
 
     class Meta:
@@ -266,7 +272,10 @@ class Review(BaseID, BaseDescription, BaseDate):
 
 class ReviewPhoto(BaseDate, WebpImageMixin):
     review = models.ForeignKey(
-        Review, on_delete=models.CASCADE, related_name="photos", verbose_name="Отзыв"
+        Review,
+        on_delete=models.CASCADE,
+        related_name="photos",
+        verbose_name="Отзыв",
     )
     image = models.ImageField(
         "Фотография",
@@ -291,19 +300,21 @@ class CompanyReply(BaseID, BaseDescription, BaseDate):
     Только пользователи с правами администратора (компания) могут создавать ответы
     """
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="replies")
+    review = models.ForeignKey(
+        Review, on_delete=models.CASCADE, related_name="replies"
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        limit_choices_to={
-            "is_staff": True
-        },  # Ограничиваем авторов только staff-пользователями
+        limit_choices_to={"is_staff": True},
         verbose_name="Автор (компания)",
     )
 
     def save(self, *args, **kwargs):
         if not self.author.is_staff:
-            raise PermissionError("Только сотрудники компании могут отвечать на отзывы")
+            raise PermissionError(
+                "Только сотрудники компании могут отвечать на отзывы"
+            )
         super().save(*args, **kwargs)
 
     class Meta:
@@ -323,7 +334,9 @@ class Favorite(BaseDate):
     Избранное
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="favorites"
+    )
     product = models.ForeignKey(
         "Product", on_delete=models.CASCADE, related_name="Favoriteed_by"
     )
@@ -349,13 +362,21 @@ class Discount(models.Model):
 
     amount = models.DecimalField("Скидка в %", max_digits=5, decimal_places=2)
     start_date = models.DateTimeField("Начало действия", default=timezone.now)
-    end_date = models.DateTimeField("Окончание действия", null=True, blank=True)
+    end_date = models.DateTimeField(
+        "Окончание действия", null=True, blank=True
+    )
     is_active = models.BooleanField("Активна", default=True)
     products = models.ManyToManyField(
-        "Product", blank=True, related_name="discounts", verbose_name="Продукты"
+        "Product",
+        blank=True,
+        related_name="discounts",
+        verbose_name="Продукты",
     )
     categories = models.ManyToManyField(
-        "Category", blank=True, related_name="discounts", verbose_name="Категории"
+        "Category",
+        blank=True,
+        related_name="discounts",
+        verbose_name="Категории",
     )
 
     class Meta:
@@ -380,7 +401,10 @@ class Cart(BaseID, BaseDate):
     """
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Пользователь", related_name="cart"
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="cart",
     )
 
     class Meta:
@@ -397,7 +421,10 @@ class CartItem(BaseID):
     """
 
     cart = models.ForeignKey(
-        Cart, on_delete=models.CASCADE, related_name="items", verbose_name="Корзина"
+        Cart,
+        on_delete=models.CASCADE,
+        related_name="items",
+        verbose_name="Корзина",
     )
     product = models.ForeignKey(
         Product,
@@ -405,7 +432,9 @@ class CartItem(BaseID):
         verbose_name="Товар",
         related_name="products",
     )
-    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+    quantity = models.PositiveIntegerField(
+        default=1, verbose_name="Количество"
+    )
 
     class Meta:
         verbose_name = "Позиция в корзине"
