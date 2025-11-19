@@ -1,11 +1,9 @@
+from django.core.exceptions import MultipleObjectsReturned
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from PIL import Image
-import io
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from django.core.exceptions import MultipleObjectsReturned
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from common.upload import compress_image
 

@@ -1,13 +1,13 @@
-from rest_framework.generics import RetrieveAPIView
-from .serializers import SEOSerializer, RobotsTxtSerializer, SitemapItemSerializer
-from drf_spectacular.utils import extend_schema
 from django.http import HttpResponse
-from rest_framework import generics
-from rest_framework.response import Response
-from .models import SEO, RobotsTxt, SitemapItem
-from drf_spectacular.openapi import OpenApiResponse
 from django.template.loader import render_to_string
+from drf_spectacular.openapi import OpenApiResponse
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.response import Response
 
+from .models import SEO, RobotsTxt, SitemapItem
+from .serializers import RobotsTxtSerializer, SEOSerializer, SitemapItemSerializer
 
 TAG = "Настройки SEO и Конфигурация"
 

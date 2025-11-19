@@ -14,49 +14,27 @@ export default defineNuxtConfig({
     "@nuxt-alt/http",
     "unplugin-icons/nuxt",
   ],
-
   auth: {
+    defaultStrategy: "django",
+    globalMiddleware: false,
     strategies: {
-      cookie: {
-        token: {
-          property: "access",
-          maxAge: 300, // 5 минут
-          type: "Bearer",
-        },
-        refreshToken: {
-          property: "refresh",
-          data: "refresh",
-          maxAge: 604800, // 7 дней
+      django: {
+        scheme: "cookie", // Говорим: мы используем куки
+        cookie: {
+          name: "access_token_store", // имя из Django
         },
         endpoints: {
-          login: { url: "/api/v1/users/login/", method: "post" },
-          refresh: { url: "/api/v1/users/token/refresh/", method: "post" },
-          logout: { url: "/api/v1/users/logout/", method: "post" },
-          user: { url: "/api/v1/users/me/", method: "get" },
+          login: { url: "/users/login/", method: "post" },
+          logout: { url: "/users/logout/", method: "post" },
+          user: { url: "/users/me/", method: "get" },
         },
-        user: {
-          property: false, // `user` из ответа API будет корневым объектом
-        },
-      },
-    },
-    redirect: {
-      login: "/login",
-      logout: "/",
-      home: "/",
-    },
-    cookie: {
-      prefix: "auth.",
-      options: {
-        path: "/",
-        secure: false, // True в production (HTTPS)
       },
     },
   },
 
   http: {
-    baseURL: "http://localhost:8000", // Django-сервер
-    credentials: "include", // Для отправки кук
-    browserBaseURL: "http://localhost:8000",
+    baseURL: "http://127.0.0.1:8000/api/v1",
+    credentials: "include",
   },
 
   icon: {

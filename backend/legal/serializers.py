@@ -1,10 +1,11 @@
 from rest_framework import serializers
+
 from .models import (
+    About,
     CookiePolicy,
+    ExchangeAndReturnPage,
     Offerta,
     Policy,
-    About,
-    ExchangeAndReturnPage,
     TermsProcessItem,
 )
 

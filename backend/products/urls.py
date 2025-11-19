@@ -2,16 +2,15 @@ from django.urls import path
 
 # from .views import create_checkout_session
 from .views import (
+    BrandListView,
     CategoryDetailView,
+    CategoryListView,
+    ProductDetailView,
     ProductLastCollectionView,
     ProductListView,
-    ProductDetailView,
-    toggle_product_like,
-    CategoryListView,
-    BrandListView,
     ReviewCreateView,
-    ProductExampleListView,
     ReviewsListByProductView,
+    toggle_product_like,
 )
 
 urlpatterns = [

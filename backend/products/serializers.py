@@ -1,22 +1,22 @@
+from django.db.models import Sum
 from rest_framework import serializers
 
 from common.utils import get_client_ip
-from .models import (
-    Category,
+
+from .models import (  # Favorite,
+    Brand,
     Cart,
     CartItem,
+    Category,
     Favorite,
     Product,
+    ProductDetail,
+    ProductImage,
     ProductLike,
     ProductVariant,
-    ProductImage,
     Review,
     ReviewPhoto,
-    ProductDetail,
-    # Favorite,
-    Brand,
 )
-from django.db.models import Sum
 
 
 class RecursiveSerializer(serializers.Serializer):

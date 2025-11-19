@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Contact, Feedback, Footer, Subscription, FooterLink, FooterLinkItem
+
+from .models import Contact, Feedback, Footer, FooterLink, FooterLinkItem, Subscription
 
 
 class FooterItemLinkInline(admin.TabularInline):

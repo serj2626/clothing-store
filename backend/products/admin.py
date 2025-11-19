@@ -1,21 +1,22 @@
 from django.contrib import admin
+from django.db.models import Sum
+from django.utils.safestring import mark_safe
+from mptt.admin import DraggableMPTTAdmin
+
 from common.mixins import AdminImagePreviewMixin, AdminShortDescriptionMixin
+
 from .models import (
-    ProductVariant,
-    ProductImage,
-    Product,
+    Brand,
     Category,
     Discount,
-    ProductLike,
-    Brand,
+    Product,
     ProductDetail,
+    ProductImage,
+    ProductLike,
+    ProductVariant,
     Review,
     ReviewPhoto,
 )
-from mptt.admin import DraggableMPTTAdmin
-from django.db.models import Sum
-from django.utils.safestring import mark_safe
-from django.utils.html import format_html
 
 
 class ProductReviewLine(admin.TabularInline):

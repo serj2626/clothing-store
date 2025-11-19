@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Feedback, Contact, Footer, Subscription, FooterLink, FooterLinkItem
+
+from .models import Contact, Feedback, Footer, FooterLink, FooterLinkItem, Subscription
 
 
 class FooterLinkItemSerializer(serializers.ModelSerializer):

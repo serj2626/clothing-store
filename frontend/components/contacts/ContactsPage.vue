@@ -52,7 +52,6 @@ const { data: contactsInfo } = useNuxtData("contacts-info");
     <ContactsMap
       :map-width="contactsInfo.latitude[0].value"
       :map-longitude="contactsInfo.longitude[0].value"
-      style="margin-block: 50px"
     />
   </div>
 </template>

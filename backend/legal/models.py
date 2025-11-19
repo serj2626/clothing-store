@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
+
+from common.models import BaseContent, BaseDate, BaseID, BaseTitle
 from common.types import POST_CATEGORY_TYPES
-from common.models import BaseContent, BaseID, BaseTitle, BaseDate
 
 
 class Offerta(BaseTitle, BaseContent):

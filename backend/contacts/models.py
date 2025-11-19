@@ -1,4 +1,5 @@
 from django.db import models
+
 from common.models import BaseDate
 from common.types import CONTACTS_TYPE
 

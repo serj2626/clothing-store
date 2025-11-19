@@ -1,5 +1,10 @@
-from rest_framework import generics, status, response
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics, response, status
+
 from common.mixins import BaseSectionViewMixin
+
 from .models import Contact, Feedback, Footer, Subscription
 from .serializers import (
     ContactSerializer,
@@ -7,11 +12,6 @@ from .serializers import (
     FooterSerializer,
     SubscriptionSerializer,
 )
-from drf_spectacular.utils import extend_schema
-from rest_framework import generics, response, status
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-
 
 TAG = "Контакты"
 

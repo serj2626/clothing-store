@@ -1,8 +1,9 @@
-from django.db import models
 import uuid
-from django_ckeditor_5.fields import CKEditor5Field
-from django.core.validators import MinValueValidator, MaxValueValidator
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.timesince import timesince
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class BaseID(models.Model):
@@ -24,6 +25,7 @@ class BaseTitle(models.Model):
 
     class Meta:
         abstract = True
+
 
 class BaseName(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")

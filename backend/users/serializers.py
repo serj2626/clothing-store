@@ -1,16 +1,18 @@
+import re
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.validators import validate_email
 from rest_framework.serializers import (
-    ModelSerializer,
     CharField,
     EmailField,
+    ModelSerializer,
     ValidationError,
 )
-import re
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError as DjangoValidationError
 
 from orders.serializers import OrderSerializer
 from products.serializers import CartSerializer, FavoriteSerializer
+
 from .models import Profile
 
 User = get_user_model()

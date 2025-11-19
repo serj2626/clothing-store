@@ -1,25 +1,25 @@
 from django.contrib import admin
 
 from common.mixins import SingletonAdminInfoMixin
+
 from .models import (
     About,
-    Offerta,
-    Policy,
     CookiePolicy,
+    ExchangeAndReturnPage,
+    Offerta,
     PaymentAndDeliveryPage,
     PaymentVariant,
     PaymentVariantValues,
-    DeliveryVariant,
-    DeliveryVariantValues,
-    ExchangeAndReturnPage,
+    Policy,
     TermsProcessItem,
 )
+
 
 class TermsProcessItemInline(admin.TabularInline):
     """
     Админка пунктов процесса заказа
     """
-    
+
     model = TermsProcessItem
     extra = 3
 

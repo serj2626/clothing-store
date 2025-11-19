@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import SEO, RobotsTxt
 from django.utils.html import format_html
+
+from .models import SEO, RobotsTxt
 
 
 @admin.register(SEO)
@@ -80,17 +81,15 @@ from django.utils.safestring import mark_safe
 class RobotsTxtAdmin(admin.ModelAdmin):
     list_display = ("__str__", "is_active", "preview_link")
     readonly_fields = ("preview",)
-    fieldsets = (
-        (None, {
-            "fields": ("content", "is_active", "preview")
-        }),
-    )
+    fieldsets = ((None, {"fields": ("content", "is_active", "preview")}),)
 
     def preview(self, obj):
         if not obj.pk:
             return "Сначала сохраните файл, чтобы просмотреть."
         url = "/robots.txt"
-        return mark_safe(f'<iframe src="{url}" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>')
+        return mark_safe(
+            f'<iframe src="{url}" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>'
+        )
 
     preview.short_description = "Предпросмотр robots.txt"
 

@@ -44,9 +44,15 @@ const formData = reactive<FeedbackForm>({
 // }
 
 async function submit() {
-  console.log("formData", formData);
+  const auth = useAuth(); // безопасно
+
+  if (!auth) {
+    console.error("Auth plugin is not initialized");
+    return;
+  }
+
   try {
-    await login({
+    await auth.login({
       body: {
         email: formData.email.value,
         password: formData.password.value,
@@ -55,9 +61,25 @@ async function submit() {
     modalsStore.openModal("success");
     clearForm(formData);
   } catch (e) {
-    console.log("error", e);
+    console.error("Login error:", e);
   }
 }
+
+// async function submit() {
+//   console.log("formData", formData);
+//   try {
+//     await login({
+//       body: {
+//         email: formData.email.value,
+//         password: formData.password.value,
+//       },
+//     });
+//     modalsStore.openModal("success");
+//     clearForm(formData);
+//   } catch (e) {
+//     console.log("error", e);
+//   }
+// }
 </script>
 <template>
   <form class="auth-form-login" @submit.prevent="submit">
@@ -87,7 +109,7 @@ async function submit() {
         Забыли пароль?
       </NuxtLink>
     </div>
-    <BaseButton label="Войти" size="lg" radius="8px" style="width: 100%" />
+    <BaseButton type="submit" label="Войти" size="lg" radius="8px" style="width: 100%" />
 
     <div class="auth-form-login__footer">
       <span class="auth-form-login__footer-text">Ещё нет аккаунта?</span>

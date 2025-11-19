@@ -5,8 +5,8 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
+
 from common.models import BaseDate, BaseID
-from django.core.mail import send_mail
 
 
 class UserManager(BaseUserManager):

@@ -1,33 +1,30 @@
 # Сторонние библиотеки
 import stripe
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import OpenApiParameter
-from drf_spectacular.types import OpenApiTypes
 
 # Django
 from django.conf import settings
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.decorators.http import require_POST
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+
+# DRF Spectacular
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 
 # Django REST Framework
-from rest_framework import generics
+from rest_framework import filters, generics
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# DRF Spectacular
-from drf_spectacular.utils import extend_schema
+from common.pagination import ListResultsSetPagination
+from common.utils import get_client_ip
 
 # Приложения проекта (локальные импорты)
 from .filters import ProductFilter
-from common.pagination import ListResultsSetPagination
-from common.utils import get_client_ip
 from .models import (
     Brand,
     Cart,
@@ -47,13 +44,11 @@ from .serializers import (
     ProductSerializer,
     ReviewSerializer,
 )
-from rest_framework.pagination import PageNumberPagination
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 TAG = "Товары и Корзина"
-
 
 
 class ReviewsListByProductView(generics.ListAPIView):
@@ -203,11 +198,12 @@ class ProductDetailView(generics.RetrieveAPIView):
     @extend_schema(tags=[TAG], summary="Детали товара")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-    
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context["request"] = self.request
         return context
+
 
 # ===== ИЗБРАННОЕ =====
 class FavoriteView(APIView):

@@ -18,6 +18,14 @@
   }
 }
 
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+}
+
+
 body {
   font-family: "Raleway", $ff_main, $ff_second, sans-serif;
   font-size: 16px;

@@ -1,10 +1,9 @@
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
-from common.models import BaseDate, BaseID, BaseTitle
-from products.models import Product
-from django.contrib.auth import get_user_model
 
+from common.models import BaseID
+from products.models import Product
 
 User = get_user_model()
 

@@ -1,12 +1,12 @@
-from django.db import models
 import os
-from django.utils import timezone
-from django.core.exceptions import ValidationError
 from io import BytesIO
-from PIL import Image
+
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from django.contrib.sitemaps import Sitemap
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.utils import timezone
+from PIL import Image
 
 # from .models import Article
 

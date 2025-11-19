@@ -1,14 +1,13 @@
+import stripe
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.timesince import timesince
+from mptt.models import MPTTModel, TreeForeignKey
+
 from common.mixins import AvatarPreviewMixin, WebpImageMixin
 from common.models import BaseDate, BaseDescription, BaseID, BaseName, BaseTitle
-from common.validators import validate_image_extension_and_format
-from common.upload_to import dynamic_upload_to
-import stripe
-from django.urls import reverse
-from common.utils import get_client_ip
-from mptt.models import MPTTModel, TreeForeignKey
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils.timesince import timesince
 from common.types import (
     COLORS_TYPE,
     COUNTRY_TYPE,
@@ -16,10 +15,9 @@ from common.types import (
     GENDER_TYPE,
     SIZE_TYPE,
 )
-from django.utils.html import format_html
-from common.upload import compress_image
+from common.upload_to import dynamic_upload_to
+from common.validators import validate_image_extension_and_format
 from users.models import User
-from django.utils import timezone
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_key = "sasdadasdasdasdasdasdasd"
@@ -264,6 +262,7 @@ class Review(BaseID, BaseDescription, BaseDate):
 
     def __str__(self):
         return f"Отзыв от {self.name}"
+
 
 class ReviewPhoto(BaseDate, WebpImageMixin):
     review = models.ForeignKey(

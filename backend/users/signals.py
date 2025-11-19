@@ -1,7 +1,7 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from .models import Profile, User
 
+from .models import Profile, User
 
 # @receiver(post_save, sender=User)
 # def create_or_update_profile(sender, instance, created, **kwargs):
