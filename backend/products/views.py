@@ -23,26 +23,20 @@ from rest_framework.views import APIView
 from common.pagination import ListResultsSetPagination
 from common.utils import get_client_ip
 
-
 from .filters import ProductFilter
-from .models import (
+from .models import (  # Cart,; CartItem,; Review,
     Brand,
-    # Cart,
-    # CartItem,
     Category,
     Favorite,
     Product,
     ProductLike,
-    # Review,
 )
-from .serializers import (
+from .serializers import (  # CartSerializer,; ReviewSerializer,
     BrandSerializer,
-    # CartSerializer,
     CategoryDetailSerializer,
     CategoryListSerializer,
     FavoriteSerializer,
     ProductSerializer,
-    # ReviewSerializer,
 )
 
 stripe.api_key = settings.STRIPE_SECRET_KEY

@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.db.models import Sum
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from mptt.admin import DraggableMPTTAdmin
-from django.utils.html import format_html
+
 from common.mixins import (
     AdminImagePreviewMixin,
     AdminShortDescriptionMixin,
@@ -14,11 +14,10 @@ from .models import (
     Category,
     Discount,
     Product,
+    ProductColor,
     ProductLike,
     ProductVariant,
-    ProductColor,
 )
-
 
 # class ProductReviewLine(admin.TabularInline):
 #     model = Review
@@ -73,9 +72,7 @@ class ProductColorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Brand)
-class BrandAdmin(
-    AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin
-):
+class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin):
     """
     Админка брендов
     """
@@ -131,20 +128,19 @@ class DiscountAdmin(admin.ModelAdmin):
 #     model = ProductVariant
 #     extra = 1
 
+
 class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
     model = ProductVariant
     extra = 1
     image_field_name = "image"
 
-    readonly_fields = ("avatar_preview", )
+    readonly_fields = ("avatar_preview",)
     fields = ("color", "size", "price", "quantity", "image", "avatar_preview")
 
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-    mptt_indent_field = (
-        "name"  # поле, по которому делается отступ для вложенности
-    )
+    mptt_indent_field = "name"  # поле, по которому делается отступ для вложенности
     list_display = (
         "tree_actions",  # стрелочки для раскрытия/сворачивания дерева
         "indented_title",  # название с отступом
@@ -152,9 +148,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
         'slug',
         "get_image",
     )
-    list_display_links = (
-        "indented_title",
-    )  # по клику на название — редактирование
+    list_display_links = ("indented_title",)  # по клику на название — редактирование
     prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
     def get_image(self, obj):
@@ -193,7 +187,7 @@ class ProductAdmin(AvatarPreviewMixin, admin.ModelAdmin):
         "sku",
         "is_active",
         "avatar",
-        'avatar_preview'
+        'avatar_preview',
     )
     save_on_top = True
     list_per_page = 15

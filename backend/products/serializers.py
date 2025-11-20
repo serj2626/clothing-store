@@ -1,7 +1,7 @@
 from django.db.models import Sum
 from rest_framework import serializers
-from common.utils import RelativeOnlyImageField
-from common.utils import get_client_ip
+
+from common.utils import RelativeOnlyImageField, get_client_ip
 
 from .models import (  # Favorite,
     Brand,

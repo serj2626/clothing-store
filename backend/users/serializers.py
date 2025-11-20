@@ -11,9 +11,11 @@ from rest_framework.serializers import (
 )
 
 from orders.serializers import OrderSerializer
-# from products.serializers import CartSerializer, FavoriteSerializer
 
 from .models import Profile
+
+# from products.serializers import CartSerializer, FavoriteSerializer
+
 
 User = get_user_model()
 

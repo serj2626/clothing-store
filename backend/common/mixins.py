@@ -42,7 +42,6 @@ class AdminImagePreviewMixin:
     get_image.short_description = "Фото"
 
 
-
 class AvatarPreviewMixin:
     image_field_name = "avatar"
 
@@ -52,11 +51,12 @@ class AvatarPreviewMixin:
         if image:
             return format_html(
                 '<img src="{}" style="max-height: 60px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);" />',
-                image.url
+                image.url,
             )
         return "Нет изображения"
 
     avatar_preview.short_description = "Превью"
+
 
 class SingletonAdminInfoMixin:
     """

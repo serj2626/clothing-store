@@ -1,7 +1,10 @@
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+
 from orders.models import Cart
+
 from .models import Profile, User
+
 
 @receiver(post_save, sender=User)
 def create_or_update_profile(sender, instance, created, **kwargs):
