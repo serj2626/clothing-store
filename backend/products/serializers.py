@@ -1,6 +1,6 @@
 from django.db.models import Sum
 from rest_framework import serializers
-
+from common.utils import RelativeOnlyImageField
 from common.utils import get_client_ip
 
 from .models import (  # Favorite,
@@ -23,23 +23,11 @@ class RecursiveSerializer(serializers.Serializer):
 
 class CategoryListSerializer(serializers.ModelSerializer):
     children = RecursiveSerializer(many=True, read_only=True)
-    # image = serializers.SerializerMethodField()
+    image = RelativeOnlyImageField()
 
     class Meta:
         model = Category
         fields = ("id", "name", "slug", "image", "children", "is_active")
-
-    # def get_image(self, obj):
-    #     if obj.image:
-    #         return {
-    #             "original": obj.image.url,
-    #             "webp": (
-    #                 obj.image_webp.url
-    #                 if hasattr(obj, "image_webp") and obj.image_webp
-    #                 else None
-    #             ),
-    #         }
-    #     return None
 
 
 class CategoryDetailSerializer(CategoryListSerializer):
@@ -66,6 +54,7 @@ class BrandSerializer(serializers.ModelSerializer):
     """
 
     country = serializers.SerializerMethodField()
+    image = RelativeOnlyImageField()
 
     class Meta:
         model = Brand
@@ -80,13 +69,25 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     Сериализатор варианта товара
     """
 
-    # color_name = serializers.CharField(source="get_color_display")
+    color = serializers.CharField(source="color.title")
+    color_code = serializers.CharField(source="color.color")
+    status = serializers.SerializerMethodField()
+    image = RelativeOnlyImageField()
+
+    def get_status(self, obj):
+        return 'В наличии' if obj.quantity > 0 else 'Нет в наличии'
 
     class Meta:
         model = ProductVariant
-        fields = ("color", "size", "quantity", "price")
-
-
+        fields = (
+            "color",
+            "color_code",
+            "size",
+            "quantity",
+            'status',
+            "image",
+            "price",
+        )
 
 
 # class ProductReviewSerializer(serializers.ModelSerializer):
@@ -146,10 +147,10 @@ class ProductSerializer(serializers.ModelSerializer):
     # reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
     brand = BrandSerializer(read_only=True)
-    currency = serializers.CharField(source="get_currency_display")
     count_likes = serializers.SerializerMethodField()
     count_reviews = serializers.SerializerMethodField()
     total_count = serializers.SerializerMethodField()
+    avatar = RelativeOnlyImageField()
 
     class Meta:
         model = Product
@@ -159,8 +160,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "title",
             "category",
             "avatar",
-            "price",
-            "currency",
             "is_active",
             "category",
             "count_likes",
@@ -168,7 +167,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "total_count",
             # "reviews",
             "variants",
-            "details",
             "liked",
         )
 

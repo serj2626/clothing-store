@@ -96,7 +96,7 @@ class Profile(BaseID, BaseDate):
     first_name = models.CharField("Имя", max_length=50, null=True, blank=True)
     last_name = models.CharField("Фамилия", max_length=50, null=True, blank=True)
     city = models.CharField("Город", max_length=50, null=True, blank=True)
-    street = models.CharField("Улица", max_length=50, null=True, blank=True)
+    address = models.CharField("Адрес", max_length=50, null=True, blank=True)
 
     class Meta:
         verbose_name = "Профиль"

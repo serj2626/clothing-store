@@ -4,6 +4,17 @@ from django.contrib.auth.admin import UserAdmin
 from .models import Profile, User
 
 
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    '''Admin View for'''
+
+    list_display = (
+        'user',
+        'first_name',
+        'last_name',
+    )
+
+
 class ProfileLine(admin.TabularInline):
     model = Profile
     extra = 0
@@ -12,7 +23,13 @@ class ProfileLine(admin.TabularInline):
 @admin.register(User)
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "phone", "is_staff", "is_superuser", "has_profile")
+    list_display = (
+        "email",
+        "phone",
+        "is_staff",
+        "is_superuser",
+        "has_profile",
+    )
     # list_display = ("email", "phone", "is_staff", "is_superuser", )
     search_fields = ("email", "phone")
     ordering = ("email",)
@@ -21,7 +38,14 @@ class UserAdmin(UserAdmin):
         (None, {"fields": ("email", "phone", "password")}),
         (
             "Permissions",
-            {"fields": ("is_staff", "is_superuser", "groups", "user_permissions")},
+            {
+                "fields": (
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
         ),
         ("Important dates", {"fields": ("last_login",)}),
     )

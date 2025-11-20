@@ -1,0 +1,199 @@
+[
+  {
+    "model": "seo.seo",
+    "pk": 1,
+    "fields": {
+      "slug": "about",
+      "title": "О компании",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "О компании – AlfaSMS",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными.",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.086Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 2,
+    "fields": {
+      "slug": "policy",
+      "title": "Политика конфиденциальности",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными.",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.091Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 3,
+    "fields": {
+      "slug": "offerta",
+      "title": "Оферта",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Оферта",
+      "og_description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.091Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 4,
+    "fields": {
+      "slug": "cookies",
+      "title": "Политика использования cookies",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Контакты",
+      "og_description": "Мы делаем рассылки быстрыми и эффективными.",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.089Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 5,
+    "fields": {
+      "slug": "home",
+      "title": "Главная страница",
+      "description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Главная страница",
+      "og_description": "Узнайте подробнее о нашей платформе SMS-рассылок.",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.090Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 6,
+    "fields": {
+      "slug": "posts",
+      "title": "Посты и новости",
+      "description": "Будь в курсе наших новостей.",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл,пост,посты",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Тарифы Email-рассылок",
+      "og_description": "Узнайте о наших тарифах.",
+      "og_image": "",
+      "priority": "0.8",
+      "changefreq": "daily",
+      "lastmod": "2025-08-20T12:19:07.740Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 7,
+    "fields": {
+      "slug": "services",
+      "title": "Услуги",
+      "description": "Услуги компании",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Услуги",
+      "og_description": "Услуги компании",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.092Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 8,
+    "fields": {
+      "slug": "contacts",
+      "title": "Контакты",
+      "description": "Контакты",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "Контакты",
+      "og_description": "Контакты",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:13.088Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 9,
+    "fields": {
+      "slug": "documents",
+      "title": "Документы",
+      "description": "",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "",
+      "og_description": "",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:26:23.188Z"
+    }
+  },
+  {
+    "model": "seo.seo",
+    "pk": 10,
+    "fields": {
+      "slug": "catalog",
+      "title": "Каталог",
+      "description": "Каталог товаров",
+      "keywords": "металлопрокат, купить металл, арматура, трубы, листовой металл,каталог товаров,каталог",
+      "canonical_url": null,
+      "noindex": false,
+      "nofollow": false,
+      "og_title": "",
+      "og_description": "",
+      "og_image": "",
+      "priority": "0.5",
+      "changefreq": "weekly",
+      "lastmod": "2025-08-15T16:45:15.499Z"
+    }
+  },
+  {
+    "model": "seo.robotstxt",
+    "pk": 1,
+    "fields": {
+      "text": "User-agent: *\r\nDisallow: /admin/\r\nAllow: /\r\nSitemap: https://example.com/sitemap.xml"
+    }
+  }
+]
