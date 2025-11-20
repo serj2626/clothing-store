@@ -23,26 +23,26 @@ from rest_framework.views import APIView
 from common.pagination import ListResultsSetPagination
 from common.utils import get_client_ip
 
-# Приложения проекта (локальные импорты)
+
 from .filters import ProductFilter
 from .models import (
     Brand,
-    Cart,
-    CartItem,
+    # Cart,
+    # CartItem,
     Category,
     Favorite,
     Product,
     ProductLike,
-    Review,
+    # Review,
 )
 from .serializers import (
     BrandSerializer,
-    CartSerializer,
+    # CartSerializer,
     CategoryDetailSerializer,
     CategoryListSerializer,
     FavoriteSerializer,
     ProductSerializer,
-    ReviewSerializer,
+    # ReviewSerializer,
 )
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -51,17 +51,17 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 TAG = "Товары и Корзина"
 
 
-class ReviewsListByProductView(generics.ListAPIView):
-    pagination_class = ListResultsSetPagination
-    serializer_class = ReviewSerializer
+# class ReviewsListByProductView(generics.ListAPIView):
+#     pagination_class = ListResultsSetPagination
+#     serializer_class = ReviewSerializer
 
-    def get_queryset(self):
-        product_id = self.kwargs["product_id"]
-        return Review.objects.filter(product_id=product_id)
+#     def get_queryset(self):
+#         product_id = self.kwargs["product_id"]
+#         return Review.objects.filter(product_id=product_id)
 
-    @extend_schema(tags=[TAG], summary="Список комментариев к товару")
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+#     @extend_schema(tags=[TAG], summary="Список комментариев к товару")
+#     def get(self, request, *args, **kwargs):
+#         return super().get(request, *args, **kwargs)
 
 
 class CustomPagination(PageNumberPagination):
@@ -222,32 +222,32 @@ class FavoriteView(APIView):
 
 
 # ===== КОРЗИНА =====
-class CartView(APIView):
-    permission_classes = [IsAuthenticated]
+# class CartView(APIView):
+#     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        data = CartSerializer(cart).data
-        return Response(data)
+#     def get(self, request):
+#         cart, _ = Cart.objects.get_or_create(user=request.user)
+#         data = CartSerializer(cart).data
+#         return Response(data)
 
-    def post(self, request):
-        product_id = request.data.get("product_id")
-        quantity = int(request.data.get("quantity", 1))
-        product = get_object_or_404(Product, id=product_id)
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        item, _ = CartItem.objects.get_or_create(cart=cart, product=product)
-        item.quantity = quantity
-        item.save()
-        return Response({"status": "updated"})
+#     def post(self, request):
+#         product_id = request.data.get("product_id")
+#         quantity = int(request.data.get("quantity", 1))
+#         product = get_object_or_404(Product, id=product_id)
+#         cart, _ = Cart.objects.get_or_create(user=request.user)
+#         item, _ = CartItem.objects.get_or_create(cart=cart, product=product)
+#         item.quantity = quantity
+#         item.save()
+#         return Response({"status": "updated"})
 
 
-class ReviewCreateView(generics.CreateAPIView):
-    serializer_class = ReviewSerializer
-    queryset = Review.objects.all()
+# class ReviewCreateView(generics.CreateAPIView):
+#     serializer_class = ReviewSerializer
+#     queryset = Review.objects.all()
 
-    @extend_schema(tags=[TAG], summary="Добавить отзыв")
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+#     @extend_schema(tags=[TAG], summary="Добавить отзыв")
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
 
 
 # import stripe

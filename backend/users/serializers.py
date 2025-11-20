@@ -11,7 +11,7 @@ from rest_framework.serializers import (
 )
 
 from orders.serializers import OrderSerializer
-from products.serializers import CartSerializer, FavoriteSerializer
+# from products.serializers import CartSerializer, FavoriteSerializer
 
 from .models import Profile
 
@@ -81,9 +81,9 @@ class RegisterSerializer(ModelSerializer):
 
 
 class UserInfoSerializer(ModelSerializer):
-    cart = CartSerializer(read_only=True)
+    # cart = CartSerializer(read_only=True)
     orders = OrderSerializer(many=True, read_only=True)
-    favorites = FavoriteSerializer(many=True, read_only=True)
+    # favorites = FavoriteSerializer(many=True, read_only=True)
     # profile = ProfileSerializer(read_only=True, many=False)
 
     class Meta:

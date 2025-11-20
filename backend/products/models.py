@@ -1,12 +1,14 @@
 import stripe
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.timesince import timesince
 from mptt.models import MPTTModel, TreeForeignKey
+from transliterate import slugify as ru_slugify
 
-from common.mixins import AvatarPreviewMixin, WebpImageMixin
+from .utils.upload_to import get_path_for_product
+from common.mixins import WebpImageMixin
 from common.models import (
     BaseContent,
     BaseDate,
@@ -15,16 +17,13 @@ from common.models import (
     BaseName,
     BaseTitle,
 )
-from common.types import (
-    COLORS_TYPE,
-    COUNTRY_TYPE,
-    CURRENCY_TYPE,
-    GENDER_TYPE,
-    SIZE_TYPE,
-)
+from common.types import COUNTRY_TYPE, GENDER_TYPE, SIZE_TYPE
+from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
 from common.validators import validate_image_extension_and_format
 from users.models import User
+
+from .utils.validators import validate_file_size, validate_image_size
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_key = "sasdadasdasdasdasdasdasd"
@@ -50,10 +49,18 @@ class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
         null=True,
         blank=True,
     )
+    slug = models.SlugField(
+        "URL", max_length=100, unique=True, blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Бренд"
         verbose_name_plural = "Бренды"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = ru_slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} - {self.get_country_display()}"
@@ -65,7 +72,7 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     """
 
     slug = models.SlugField(
-        "URL", max_length=100, unique=True, blank=True, null=True
+        "слаг", max_length=100, unique=True, blank=True, null=True
     )
     parent = TreeForeignKey(
         "self",
@@ -77,8 +84,14 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     )
     image = models.ImageField(
         "Изображение",
-        validators=[validate_image_extension_and_format],
-        upload_to=dynamic_upload_to,
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
+            validate_image_size,
+            validate_file_size,
+        ],
+        upload_to='categories/',
         null=True,
         blank=True,
     )
@@ -93,6 +106,13 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = ru_slugify(self.name)
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -100,19 +120,45 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         return reverse("category_detail", kwargs={"slug": self.slug})
 
 
+class ProductColor(BaseTitle):
+    """
+    Цвет продукта
+    """
+
+    color = models.CharField(
+        "Цвет",
+        max_length=100,
+        default="#000000",
+        unique=True,
+        help_text='цвета бери тут: https://htmlcolors.com/google-color-picker',
+    )
+
+    def clean(self):
+        if not (
+            self.color.startswith("#")
+            or self.color.startswith("rgb")
+            or self.color.startswith("rgba")
+        ):
+            raise ValidationError("Цвет должен начинаться с # или с rgb/rgba")
+
+    class Meta:
+        verbose_name = "Цвет продукта"
+        verbose_name_plural = "Цвета продуктов"
+        unique_together = ("title",)
+
+    def __str__(self):
+        return self.title
+
+
 class Product(
     BaseID,
     BaseTitle,
     BaseDate,
     BaseContent,
-    WebpImageMixin,
-    AvatarPreviewMixin,
 ):
     """
     Продукт
     """
-
-    image_field_name = "avatar"
 
     brand = models.ForeignKey(
         Brand,
@@ -131,15 +177,37 @@ class Product(
         verbose_name="Категория",
     )
     gender = models.CharField(
-        "Пол", max_length=6, choices=GENDER_TYPE, default="male"
+        "Пол", max_length=6, choices=GENDER_TYPE, default="M"
     )
     is_active = models.BooleanField("Активен", default=True)
     sku = models.CharField(
         "артикул", max_length=100, null=True, blank=True, unique=True
     )
+    avatar = models.ImageField(
+        upload_to=get_path_for_product,
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
+            validate_image_size,
+            validate_file_size,
+        ],
+        null=True,
+        blank=True,
+    )
 
-    def creating_sku(self):
-        self.sku = f"product-{self.pk}"
+    @property
+    def count(self):
+        return self.__class__.objects.count()
+
+    def generate_sku(self):
+        brand_code = (self.brand.name[:2] if self.brand else "NON").upper()
+        cat_code = (
+            ru_slugify(self.category.name[:2]) if self.category else "GEN"
+        ).upper()
+        gender_code = (self.gender if self.gender else "U").upper()
+        id_code = f"{str(self.id)[-4:].upper()}{self.count}"
+        return f"{brand_code}-{cat_code}-{gender_code}-{id_code}"
 
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"pk": self.pk})
@@ -188,145 +256,33 @@ class ProductVariant(models.Model):
     price = models.DecimalField(
         "Цена", max_digits=10, decimal_places=2, default=0
     )
-    color = models.CharField("Цвет", max_length=50, choices=COLORS_TYPE)
+    color = models.ForeignKey(
+        ProductColor, on_delete=models.SET_NULL, null=True, blank=True
+    )
     size = models.CharField("Размер", max_length=10, choices=SIZE_TYPE)
     quantity = models.PositiveIntegerField("Количество на складе", default=0)
+    image = models.ImageField(
+        upload_to="products/",
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
+            validate_image_size,
+            validate_file_size,
+        ],
+        null=True,
+        blank=True,
+    )
+
+    # def save(self, *args, **kwargs):
+    #     if self.image:
+    #         self.image = compress_image(self.image)
+    #     super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Вариант товара"
         verbose_name_plural = "Варианты товара"
         unique_together = ("product", "color", "size")
-
-
-class ProductImage(models.Model, WebpImageMixin, AvatarPreviewMixin):
-    """
-    Изображение продукта
-    """
-
-    image_field_name = "image"
-
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="images"
-    )
-    image = models.ImageField(
-        "Изображение",
-        validators=[validate_image_extension_and_format],
-        upload_to=dynamic_upload_to,
-    )
-    alt = models.CharField(
-        "Описание", max_length=100, default="Описание", blank=True, null=True
-    )
-
-    class Meta:
-        verbose_name = "Изображение товара"
-        verbose_name_plural = "Изображения товара"
-
-    def __str__(self):
-        return self.product.title
-
-
-class Review(BaseID, BaseDescription, BaseDate):
-    """
-    Отзыв продукта
-    """
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="reviews",
-        verbose_name="Пользователь",
-    )
-    name = models.CharField("Имя", max_length=100, null=True, blank=True)
-    email = models.EmailField("Email")
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="reviews"
-    )
-    advantages = models.TextField("Достоинства", blank=True, null=True)
-    disadvantages = models.TextField("Недостатки", blank=True, null=True)
-    rating = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    is_published = models.BooleanField("Опубликован", default=False)
-    likes = models.ManyToManyField(User, related_name="+", blank=True)
-    dislikes = models.ManyToManyField(User, related_name="+", blank=True)
-
-    # @property
-    # def has_admin_reply(self):
-    #     return hasattr(self, "admin_reply")
-
-    @property
-    def time_age(self):
-        return timesince(self.created_at) + " назад"
-
-    class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
-        ordering = ["-created_at"]
-        unique_together = ["user", "product"]
-
-    def __str__(self):
-        return f"Отзыв от {self.name}"
-
-
-class ReviewPhoto(BaseDate, WebpImageMixin):
-    review = models.ForeignKey(
-        Review,
-        on_delete=models.CASCADE,
-        related_name="photos",
-        verbose_name="Отзыв",
-    )
-    image = models.ImageField(
-        "Фотография",
-        upload_to=dynamic_upload_to,
-        validators=[validate_image_extension_and_format],
-    )
-    alt = models.CharField(
-        "Описание", max_length=100, default="Описание", blank=True, null=True
-    )
-
-    class Meta:
-        verbose_name = "Фотография отзыва"
-        verbose_name_plural = "Фотографии отзывов"
-
-    def __str__(self):
-        return f"Фото для отзыва #{self.review.id}"
-
-
-class CompanyReply(BaseID, BaseDescription, BaseDate):
-    """
-    Ответ компании на отзыв продукта
-    Только пользователи с правами администратора (компания) могут создавать ответы
-    """
-
-    review = models.ForeignKey(
-        Review, on_delete=models.CASCADE, related_name="replies"
-    )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        limit_choices_to={"is_staff": True},
-        verbose_name="Автор (компания)",
-    )
-
-    def save(self, *args, **kwargs):
-        if not self.author.is_staff:
-            raise PermissionError(
-                "Только сотрудники компании могут отвечать на отзывы"
-            )
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Ответ компании"
-        verbose_name_plural = "Ответы компании"
-        permissions = [
-            ("can_reply_to_reviews", "Может отвечать на отзывы"),
-        ]
-
-    @property
-    def time_age(self):
-        return timesince(self.created_timestamp)
 
 
 class Favorite(BaseDate):
@@ -338,9 +294,6 @@ class Favorite(BaseDate):
         User, on_delete=models.CASCADE, related_name="favorites"
     )
     product = models.ForeignKey(
-        "Product", on_delete=models.CASCADE, related_name="Favoriteed_by"
-    )
-    variant = models.ForeignKey(
         ProductVariant,
         on_delete=models.SET_NULL,
         null=True,
@@ -393,66 +346,3 @@ class Discount(models.Model):
             and self.start_date <= now
             and (self.end_date is None or now <= self.end_date)
         )
-
-
-class Cart(BaseID, BaseDate):
-    """
-    Корзина
-    """
-
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        related_name="cart",
-    )
-
-    class Meta:
-        verbose_name = "Корзина"
-        verbose_name_plural = "Корзины"
-
-    def __str__(self):
-        return f"Корзина пользователя {self.user}"
-
-
-class CartItem(BaseID):
-    """
-    Позиция в корзине
-    """
-
-    cart = models.ForeignKey(
-        Cart,
-        on_delete=models.CASCADE,
-        related_name="items",
-        verbose_name="Корзина",
-    )
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        verbose_name="Товар",
-        related_name="products",
-    )
-    quantity = models.PositiveIntegerField(
-        default=1, verbose_name="Количество"
-    )
-
-    class Meta:
-        verbose_name = "Позиция в корзине"
-        verbose_name_plural = "Позиции в корзине"
-
-    def __str__(self):
-        return f"Товар {self.product} в корзине {self.cart}"
-
-    @classmethod
-    def add_or_update(cls, cart, product, quantity=1):
-        """
-        Добавляет товар в корзину или обновляет количество, если товар уже есть.
-        """
-
-        item, created = cls.objects.get_or_create(
-            cart=cart, product=product, defaults={"quantity": quantity}
-        )
-        if not created:
-            item.quantity += quantity
-            item.save()
-        return item

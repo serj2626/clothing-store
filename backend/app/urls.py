@@ -9,7 +9,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from .sitemap import CategorySitemap, ProductSitemap, SEOSitemap
-from seo_config.views import robots_txt_view
+from seo.views import robots_txt_view
 
 
 sitemaps = {
@@ -38,8 +38,8 @@ urlpatterns = [
     path("api/v1/products/", include("products.urls")),
     path("api/v1/legal/", include("legal.urls")),
     path("api/v1/contacts/", include("contacts.urls")),
-    path("api/v1/orders/", include("orders.urls")),
-    path("api/v1/seo/", include("seo_config.urls")),
+    # path("api/v1/orders/", include("orders.urls")),
+    path("api/v1/seo/", include("seo.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django-sitemap"),
 ]
 

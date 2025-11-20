@@ -8,8 +8,8 @@ from .views import (
     ProductDetailView,
     ProductLastCollectionView,
     ProductListView,
-    ReviewCreateView,
-    ReviewsListByProductView,
+    # ReviewCreateView,
+    # ReviewsListByProductView,
     toggle_product_like,
 )
 
@@ -22,16 +22,16 @@ urlpatterns = [
         name="product-last-list",
     ),
     path("<uuid:pk>/", ProductDetailView.as_view(), name="product_detail"),
-    path(
-        "<uuid:product_id>/reviews/list",
-        ReviewsListByProductView.as_view(),
-        name="product_detail_list_reviews",
-    ),
-    path(
-        "<uuid:pk>/create-review",
-        ReviewCreateView.as_view(),
-        name="product_detail_create_review",
-    ),
+    # path(
+    #     "<uuid:product_id>/reviews/list",
+    #     ReviewsListByProductView.as_view(),
+    #     name="product_detail_list_reviews",
+    # ),
+    # path(
+    #     "<uuid:pk>/create-review",
+    #     ReviewCreateView.as_view(),
+    #     name="product_detail_create_review",
+    # ),
     path("<uuid:product_id>/like/", toggle_product_like, name="product_like"),
     path("categories/", CategoryListView.as_view(), name="category_list"),
     path(

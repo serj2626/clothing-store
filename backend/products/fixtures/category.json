@@ -1,0 +1,242 @@
+[
+  {
+    "model": "products.category",
+    "pk": "1ae81322-5f9c-4971-b07b-d83d94c368a0",
+    "fields": {
+      "name": "Обувь",
+      "slug": "obuv-woman",
+      "parent": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+      "image": "",
+      "is_active": true,
+      "lft": 10,
+      "rght": 11,
+      "tree_id": 2,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "23c9ac11-153e-4382-8748-b3a08ea5d26f",
+    "fields": {
+      "name": "Нижняя одежда",
+      "slug": "nizhnyaya-odezhda",
+      "parent": "f1260f81-f16d-4bd0-8ffa-49dc2b4bd268",
+      "image": "",
+      "is_active": true,
+      "lft": 6,
+      "rght": 7,
+      "tree_id": 3,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "3ad8f3d6-b336-46ed-a783-b074b02caf1a",
+    "fields": {
+      "name": "Верхняя одежда",
+      "slug": "verhnyaya-odezhda",
+      "parent": "f1260f81-f16d-4bd0-8ffa-49dc2b4bd268",
+      "image": "",
+      "is_active": true,
+      "lft": 2,
+      "rght": 3,
+      "tree_id": 3,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "3fe68d0e-3c8c-4873-b386-935e48caefec",
+    "fields": {
+      "name": "Головной убор",
+      "slug": "golovnoj",
+      "parent": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+      "image": "",
+      "is_active": true,
+      "lft": 4,
+      "rght": 5,
+      "tree_id": 2,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "67657f03-df8c-407a-89ec-6f0138f22fa5",
+    "fields": {
+      "name": "Верхняя одежда",
+      "slug": "verhnyaya",
+      "parent": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+      "image": "",
+      "is_active": true,
+      "lft": 2,
+      "rght": 3,
+      "tree_id": 2,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "6c7b3521-f696-400c-ba67-68cf57ceed99",
+    "fields": {
+      "name": "Нижняя одежда",
+      "slug": "nizhnyaya",
+      "parent": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+      "image": "",
+      "is_active": true,
+      "lft": 8,
+      "rght": 9,
+      "tree_id": 2,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "6d9cf7ce-1bf5-4235-bbb5-6192c148bce8",
+    "fields": {
+      "name": "Обувь",
+      "slug": "obuv",
+      "parent": "f1260f81-f16d-4bd0-8ffa-49dc2b4bd268",
+      "image": "",
+      "is_active": true,
+      "lft": 8,
+      "rght": 9,
+      "tree_id": 3,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "7bc0040c-b919-447a-955a-27640ab85bbe",
+    "fields": {
+      "name": "Обувь",
+      "slug": "obuv-child",
+      "parent": "a13b6d3b-9476-4d28-a1d4-4347681bb963",
+      "image": "",
+      "is_active": true,
+      "lft": 4,
+      "rght": 5,
+      "tree_id": 1,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "a13b6d3b-9476-4d28-a1d4-4347681bb963",
+    "fields": {
+      "name": "Детская одежда",
+      "slug": "detskaya-odezhda",
+      "parent": null,
+      "image": "uploads/category/2025/06/ee74e7aeef08432b99fd95a65f677159.webp",
+      "is_active": true,
+      "lft": 1,
+      "rght": 6,
+      "tree_id": 1,
+      "level": 0
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "abe6222b-187e-4aa4-8a61-556d8dd28c7e",
+    "fields": {
+      "name": "accessories",
+      "slug": "accessories",
+      "parent": "be278043-48b9-4835-bd4c-210a3f7eecc5",
+      "image": "",
+      "is_active": true,
+      "lft": 2,
+      "rght": 3,
+      "tree_id": 4,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "b4c7a02e-599e-45e8-9051-a88eba692f2c",
+    "fields": {
+      "name": "Головной убор",
+      "slug": "golovnoj-ubor",
+      "parent": "f1260f81-f16d-4bd0-8ffa-49dc2b4bd268",
+      "image": "",
+      "is_active": true,
+      "lft": 4,
+      "rght": 5,
+      "tree_id": 3,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "ba3fe204-3459-442a-b4fd-137d0a552de4",
+    "fields": {
+      "name": "Нижнее белье",
+      "slug": "nizhnee-bele",
+      "parent": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+      "image": "",
+      "is_active": true,
+      "lft": 6,
+      "rght": 7,
+      "tree_id": 2,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "be278043-48b9-4835-bd4c-210a3f7eecc5",
+    "fields": {
+      "name": "Прочие",
+      "slug": "prochie",
+      "parent": null,
+      "image": "uploads/category/2025/06/4f2f3fd5e2b3403caafa20d2d62597c3.webp",
+      "is_active": true,
+      "lft": 1,
+      "rght": 4,
+      "tree_id": 4,
+      "level": 0
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "e8a47b13-bdf6-4cfc-ab53-c74bfdecd80f",
+    "fields": {
+      "name": "Головной убор",
+      "slug": "golovnoj-ubor-deti",
+      "parent": "a13b6d3b-9476-4d28-a1d4-4347681bb963",
+      "image": "",
+      "is_active": true,
+      "lft": 2,
+      "rght": 3,
+      "tree_id": 1,
+      "level": 1
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "f1260f81-f16d-4bd0-8ffa-49dc2b4bd268",
+    "fields": {
+      "name": "Мужская одежда",
+      "slug": "muzhskaya-odezhda",
+      "parent": null,
+      "image": "uploads/category/2025/06/687db5fcc8f14a9db9648b4c16041536.jpeg",
+      "is_active": true,
+      "lft": 1,
+      "rght": 10,
+      "tree_id": 3,
+      "level": 0
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": "f94a6669-8532-4108-bdcb-3a8914c223ed",
+    "fields": {
+      "name": "Женская одежда",
+      "slug": "zhenskaya-odezhda",
+      "parent": null,
+      "image": "uploads/category/2025/06/843fa5d34fe0427daac100cdc6685dc0.jpg",
+      "is_active": true,
+      "lft": 1,
+      "rght": 12,
+      "tree_id": 2,
+      "level": 0
+    }
+  }
+]

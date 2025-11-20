@@ -2,65 +2,80 @@ from django.contrib import admin
 from django.db.models import Sum
 from django.utils.safestring import mark_safe
 from mptt.admin import DraggableMPTTAdmin
-
-from common.mixins import AdminImagePreviewMixin, AdminShortDescriptionMixin
+from django.utils.html import format_html
+from common.mixins import (
+    AdminImagePreviewMixin,
+    AdminShortDescriptionMixin,
+    AvatarPreviewMixin,
+)
 
 from .models import (
     Brand,
     Category,
     Discount,
     Product,
-    ProductDetail,
-    ProductImage,
     ProductLike,
     ProductVariant,
-    Review,
-    ReviewPhoto,
+    ProductColor,
 )
 
 
-class ProductReviewLine(admin.TabularInline):
-    model = Review
-    extra = 1
-    fieldsets = (
-        (None, {"fields": (("name", "email"), ("rating", "is_published"))}),
-        ("Отзыв", {"fields": ("advantages", "disadvantages", "description")}),
-        ("Оценки", {"fields": ("likes", "dislikes")}),
-    )
+# class ProductReviewLine(admin.TabularInline):
+#     model = Review
+#     extra = 1
+#     fieldsets = (
+#         (None, {"fields": (("name", "email"), ("rating", "is_published"))}),
+#         ("Отзыв", {"fields": ("advantages", "disadvantages", "description")}),
+#         ("Оценки", {"fields": ("likes", "dislikes")}),
+#     )
 
 
-class ReviewPhotoInline(admin.TabularInline):
-    model = ReviewPhoto
-    extra = 1
+# class ReviewPhotoInline(admin.TabularInline):
+#     model = ReviewPhoto
+#     extra = 1
 
 
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    """
-    Review"""
+# @admin.register(Review)
+# class ReviewAdmin(admin.ModelAdmin):
+#     """
+#     Review"""
 
-    list_display = (
-        "user",
-        "name",
-        "email",
-        "product",
-        "advantages",
-        "disadvantages",
-        "rating",
-        "is_published",
-    )
-    filter_horizontal = ("likes", "dislikes")
-    inlines = [ReviewPhotoInline]
-    save_on_top = True
+#     list_display = (
+#         "user",
+#         "name",
+#         "email",
+#         "product",
+#         "advantages",
+#         "disadvantages",
+#         "rating",
+#         "is_published",
+#     )
+#     filter_horizontal = ("likes", "dislikes")
+#     inlines = [ReviewPhotoInline]
+#     save_on_top = True
 
 
-class ProductDetailInline(admin.TabularInline):
-    model = ProductDetail
-    extra = 1
+@admin.register(ProductColor)
+class ProductColorAdmin(admin.ModelAdmin):
+    '''Admin View for ProductColor'''
+
+    list_display = ("title", "color", "color_preview")
+
+    def color_preview(self, obj):
+        if obj.color:
+            return format_html(
+                '<div style="background-color: {}; width: 30px; height: 30px; border-radius: 50%; display: inline-block;box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);"></div>',
+                obj.color,
+            )
+        return "-"
+
+    color_preview.short_description = "Предпросмотр цвета"
 
 
 @admin.register(Brand)
-class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin):
+class BrandAdmin(
+    AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin
+):
     """
     Админка брендов
     """
@@ -69,8 +84,12 @@ class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.Model
         "name",
         "country",
         "get_description",
+        "slug",
         "get_image",
     )
+    search_fields = ("name", "country")
+
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(ProductLike)
@@ -108,16 +127,6 @@ class DiscountAdmin(admin.ModelAdmin):
     filter_horizontal = ("products", "categories")
 
 
-class ProductImageLine(admin.TabularInline):
-    model = ProductImage
-    extra = 1
-    readonly_fields = ("avatar_preview",)
-    fields = (
-        "image",
-        "avatar_preview",
-    )
-
-
 class ProductVariantLine(admin.TabularInline):
     model = ProductVariant
     extra = 1
@@ -125,15 +134,19 @@ class ProductVariantLine(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-    mptt_indent_field = "name"  # поле, по которому делается отступ для вложенности
+    mptt_indent_field = (
+        "name"  # поле, по которому делается отступ для вложенности
+    )
     list_display = (
         "tree_actions",  # стрелочки для раскрытия/сворачивания дерева
         "indented_title",  # название с отступом
-        "slug",
         "is_active",
+        'slug',
         "get_image",
     )
-    list_display_links = ("indented_title",)  # по клику на название — редактирование
+    list_display_links = (
+        "indented_title",
+    )  # по клику на название — редактирование
     prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
     def get_image(self, obj):
@@ -147,51 +160,39 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     """Админка товаров"""
-
-    image_field_name = "avatar"
 
     inlines = [
         ProductVariantLine,
-        ProductImageLine,
-        ProductDetailInline,
-        ProductReviewLine,
     ]
-
-    readonly_fields = ("avatar_preview",)
     list_display = (
-        "get_article",
+        "sku",
         "get_title",
         "brand",
-        # "get_brand_name",
-        # "get_country",
         "gender",
         "category",
-        "price",
-        "currency",
         "is_active",
         "get_count_likes",
         "get_count_reviews",
-        "get_count",
-        "get_image",
+        # "get_count",
     )
     fields = (
         ("brand", "gender"),
         ("title", "category"),
-        (
-            "avatar",
-            "avatar_preview",
-        ),
-        ("price", "currency"),
+        "sku",
         "is_active",
+        "avatar",
     )
     save_on_top = True
     list_per_page = 15
-    list_filter = ("brand", "category", "currency")
-    list_editable = ("is_active", "price", "currency", "gender", "brand")
-    search_fields = ("title", "brand__name", "brand__country")
-    ordering = ["category", "price"]
+    list_filter = (
+        "brand",
+        "category",
+    )
+    list_editable = ("is_active", "gender", "brand")
+    search_fields = ('sku', "title", "brand__name", "brand__country")
+    ordering = ["category"]
 
     def get_count_likes(self, obj):
         return obj.likes.count()
@@ -202,14 +203,10 @@ class ProductAdmin(AdminImagePreviewMixin, admin.ModelAdmin):
     def get_count_reviews(self, obj):
         return obj.reviews.count() if obj.reviews else 0
 
-    def get_article(self, obj):
-        return str(obj.id)[:8]
-
-    def get_count(self, obj):
-        return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
+    # def get_count(self, obj):
+    #     return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
 
     get_count_likes.short_description = "Лайки"
     get_count_reviews.short_description = "Отзывы"
-    get_count.short_description = "Количество"
+    # get_count.short_description = "Количество"
     get_title.short_description = "Название"
-    get_article.short_description = "Артикул"

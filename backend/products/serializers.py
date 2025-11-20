@@ -5,17 +5,11 @@ from common.utils import get_client_ip
 
 from .models import (  # Favorite,
     Brand,
-    Cart,
-    CartItem,
     Category,
     Favorite,
     Product,
-    ProductDetail,
-    ProductImage,
     ProductLike,
     ProductVariant,
-    Review,
-    ReviewPhoto,
 )
 
 
@@ -86,82 +80,60 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     Сериализатор варианта товара
     """
 
-    color_name = serializers.CharField(source="get_color_display")
+    # color_name = serializers.CharField(source="get_color_display")
 
     class Meta:
         model = ProductVariant
-        fields = ("color", "color_name", "size", "quantity")
+        fields = ("color", "size", "quantity", "price")
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор изображения товара
-    """
-
-    class Meta:
-        model = ProductImage
-        fields = ("id", "image")
 
 
-class ProductReviewSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор отзыва о товаре
-    """
+# class ProductReviewSerializer(serializers.ModelSerializer):
+#     """
+#     Сериализатор отзыва о товаре
+#     """
 
-    class Meta:
-        model = Review
-        fields = "__all__"
-
-
-class ReviewPhotoSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор фотографии отзыва о товаре
-    """
-
-    class Meta:
-        model = ReviewPhoto
-        fields = ("id", "image", "alt")
+#     class Meta:
+#         model = Review
+#         fields = "__all__"
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор отзыва о товаре
-    """
+# class ReviewPhotoSerializer(serializers.ModelSerializer):
+#     """
+#     Сериализатор фотографии отзыва о товаре
+#     """
 
-    time_age = serializers.ReadOnlyField()
-    photos = ReviewPhotoSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Review
-        fields = (
-            "id",
-            # "user",
-            "name",
-            "email",
-            "description",
-            # "product",
-            "advantages",
-            "disadvantages",
-            "rating",
-            "time_age",
-            "created_at",
-            "updated_at",
-            "photos",
-        )
+#     class Meta:
+#         model = ReviewPhoto
+#         fields = ("id", "image", "alt")
 
 
-class ProductDetailSerializer(serializers.ModelSerializer):
-    """
-    Дополнительные сведения о товаре
-    """
+# class ReviewSerializer(serializers.ModelSerializer):
+#     """
+#     Сериализатор отзыва о товаре
+#     """
 
-    class Meta:
-        model = ProductDetail
-        fields = (
-            "id",
-            "title",
-            "description",
-        )
+#     time_age = serializers.ReadOnlyField()
+#     photos = ReviewPhotoSerializer(many=True, read_only=True)
+
+#     class Meta:
+#         model = Review
+#         fields = (
+#             "id",
+#             # "user",
+#             "name",
+#             "email",
+#             "description",
+#             # "product",
+#             "advantages",
+#             "disadvantages",
+#             "rating",
+#             "time_age",
+#             "created_at",
+#             "updated_at",
+#             "photos",
+#         )
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -170,9 +142,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """
 
     liked = serializers.SerializerMethodField()
-    details = ProductDetailSerializer(many=True, read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
-    images = ProductImageSerializer(many=True, read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
     brand = BrandSerializer(read_only=True)
@@ -196,7 +166,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "count_likes",
             "count_reviews",
             "total_count",
-            "images",
             # "reviews",
             "variants",
             "details",
@@ -228,17 +197,17 @@ class FavoriteSerializer(serializers.ModelSerializer):
         fields = ["id", "product"]
 
 
-class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+# class CartItemSerializer(serializers.ModelSerializer):
+#     product = ProductSerializer(read_only=True)
 
-    class Meta:
-        model = CartItem
-        fields = ["id", "product", "quantity"]
+#     class Meta:
+#         model = CartItem
+#         fields = ["id", "product", "quantity"]
 
 
-class CartSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True, read_only=True)
+# class CartSerializer(serializers.ModelSerializer):
+#     items = CartItemSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Cart
-        fields = ["items", "created_at", "updated_at"]
+#     class Meta:
+#         model = Cart
+#         fields = ["items", "created_at", "updated_at"]

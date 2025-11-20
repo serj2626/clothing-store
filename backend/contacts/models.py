@@ -4,6 +4,27 @@ from common.models import BaseDate
 from common.types import CONTACTS_TYPE
 
 
+class FAQ(models.Model):
+    """
+    Модель вопросов и ответов
+    """
+
+    question = models.TextField("Вопрос")
+    answer = models.TextField(
+        max_length=1000,
+        verbose_name="Ответ",
+        default="Здравствуйте",
+        help_text="Максимум 1000 символов",
+    )
+
+    class Meta:
+        verbose_name = "Вопрос и ответ"
+        verbose_name_plural = "Вопросы и ответы"
+
+    def __str__(self):
+        return f"Вопрос {self.question}"
+
+
 class Contact(models.Model):
     """
     Модель контактов
@@ -67,7 +88,9 @@ class Footer(models.Model):
         max_length=100, default="AlfaSms", verbose_name="Название сайта"
     )
     copyright = models.CharField(
-        "Копирайт", max_length=255, default="© 2025 DVFitness. All rights reserved."
+        "Копирайт",
+        max_length=255,
+        default="© 2025 DVFitness. All rights reserved.",
     )
 
     def __str__(self):
@@ -84,7 +107,10 @@ class FooterLink(models.Model):
     """
 
     footer = models.ForeignKey(
-        Footer, on_delete=models.CASCADE, related_name="links", verbose_name="Футер"
+        Footer,
+        on_delete=models.CASCADE,
+        related_name="links",
+        verbose_name="Футер",
     )
     name = models.CharField("Название", max_length=255)
 

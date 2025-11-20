@@ -1,0 +1,101 @@
+[
+  {
+    "model": "products.brand",
+    "pk": "027d9d70-ea57-4ac2-bc01-f693760d8bdb",
+    "fields": {
+      "name": "STARKOFF",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "starkoff"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "0b8df044-5da2-4596-8029-7a8843188a93",
+    "fields": {
+      "name": "Strobbs",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "strobbs"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "17cac0a3-216c-4c62-96ab-3460db54574d",
+    "fields": {
+      "name": "Paul&Shark",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "paulshark"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "2df06735-0dd6-465d-bb7e-f17b0cb51e3b",
+    "fields": {
+      "name": "Feniks Stitch",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "feniks-stitch"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "45d5b524-32fe-43eb-84a8-6c3b85a49662",
+    "fields": {
+      "name": "Knit",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "knit"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "742b9177-e953-4419-9f35-b6e4323abc8d",
+    "fields": {
+      "name": "AdelFurs",
+      "description": "AdelFurs - меховая мастерская по производству и пошиву шуб из натурального меха, класса люкс. Быстро, качественно, дорого.",
+      "country": "cn",
+      "image": "",
+      "slug": "adelfurs"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "c0aed4d7-8f67-4c92-99d2-d5ab24f69583",
+    "fields": {
+      "name": "Nike",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "nike"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "c2e95066-4fb4-484b-ad16-90b005e53d39",
+    "fields": {
+      "name": "LOITER",
+      "description": "",
+      "country": "cn",
+      "image": "",
+      "slug": "loiter"
+    }
+  },
+  {
+    "model": "products.brand",
+    "pk": "ddd4bb3b-1638-4dc9-9edb-3b917b7e5656",
+    "fields": {
+      "name": "CORVETTO",
+      "description": "asdasd",
+      "country": "cn",
+      "image": "",
+      "slug": "corvetto"
+    }
+  }
+]

@@ -2,54 +2,71 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 
-from common.models import BaseID
+from common.models import BaseID, BaseDate
 from products.models import Product
 
 User = get_user_model()
 
-# from django.db import models
 
-# from products.models import Cart
-# from users.models import User
+class Cart(BaseID, BaseDate):
+    """
+    Корзина
+    """
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="cart",
+    )
+
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
+    def __str__(self):
+        return f"Корзина пользователя {self.user}"
 
 
-# class Order(models.Model):
-#     """
-#     Модель заказа
-#     """
+class CartItem(BaseID):
+    """
+    Позиция в корзине
+    """
 
-#     CREATED = 0
-#     PAID = 1
-#     ON_WAY = 2
-#     DELIVERED = 3
-#     STATUSES = (
-#         (CREATED, "Создан"),
-#         (PAID, "Оплачен"),
-#         (ON_WAY, "В пути"),
-#         (DELIVERED, "Доставлен"),
-#     )
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name="items",
+        verbose_name="Корзина",
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Товар",
+        related_name="products",
+    )
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
 
-#     first_name = models.CharField(max_length=64)
-#     last_name = models.CharField(max_length=64)
-#     email = models.EmailField(max_length=256)
-#     address = models.CharField(max_length=256)
-#     basket_history = models.JSONField(default=dict)
-#     created = models.DateTimeField(auto_now_add=True)
-#     status = models.SmallIntegerField(default=CREATED, choices=STATUSES)
-#     initiator = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = "Позиция в корзине"
+        verbose_name_plural = "Позиции в корзине"
 
-#     def __str__(self):
-#         return f"Order #{self.id}. {self.first_name} {self.last_name}"
+    def __str__(self):
+        return f"Товар {self.product} в корзине {self.cart}"
 
-#     def update_after_payment(self):
-#         baskets = Cart.objects.filter(user=self.initiator)
-#         self.status = self.PAID
-#         self.basket_history = {
-#             "purchased_items": [basket.de_json() for basket in baskets],
-#             "total_sum": float(baskets.total_sum()),
-#         }
-#         baskets.delete()
-#         self.save()
+    @classmethod
+    def add_or_update(cls, cart, product, quantity=1):
+        """
+        Добавляет товар в корзину или обновляет количество, если товар уже есть.
+        """
+
+        item, created = cls.objects.get_or_create(
+            cart=cart, product=product, defaults={"quantity": quantity}
+        )
+        if not created:
+            item.quantity += quantity
+            item.save()
+        return item
 
 
 # ===== ЗАКАЗ =====

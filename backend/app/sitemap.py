@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from products.models import Product, Category
-from seo_config.models import SEO
+from seo.models import SEO
 
 
 class SEOSitemap(Sitemap):

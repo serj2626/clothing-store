@@ -1,0 +1,140 @@
+[
+  {
+    "model": "contacts.contact",
+    "pk": 1,
+    "fields": { "type": "phone", "value": "8-999-999-99-99" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 2,
+    "fields": { "type": "mail", "value": "example@mail.ru" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 3,
+    "fields": { "type": "tg", "value": "asdsadasd" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 4,
+    "fields": {
+      "type": "address",
+      "value": "Санкт-Петербург, ул. Ленсовета д 81"
+    }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 7,
+    "fields": { "type": "phone", "value": "8-888-888-88-88" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 8,
+    "fields": { "type": "latitude", "value": "59.8732" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 9,
+    "fields": { "type": "longitude", "value": "30.3301" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 10,
+    "fields": { "type": "mail", "value": "zzz@mail.ru" }
+  },
+  {
+    "model": "contacts.contact",
+    "pk": 11,
+    "fields": { "type": "insta", "value": "example" }
+  },
+  {
+    "model": "contacts.subscription",
+    "pk": 18,
+    "fields": {
+      "created_at": "2025-06-17T13:54:29.710Z",
+      "updated_at": "2025-06-17T13:54:29.710Z",
+      "email": "serj2626@mail.ru",
+      "verified": false
+    }
+  },
+  {
+    "model": "contacts.feedback",
+    "pk": 1,
+    "fields": {
+      "created_at": "2025-06-14T20:42:42.570Z",
+      "updated_at": "2025-06-14T20:42:42.570Z",
+      "name": "serj",
+      "phone": "8-999-999-99-99",
+      "message": "",
+      "agree": true,
+      "verified": false
+    }
+  },
+  {
+    "model": "contacts.footer",
+    "pk": 1,
+    "fields": {
+      "site_name": "BS",
+      "copyright": "© 2025 ClothCrash. Все права защищены."
+    }
+  },
+  {
+    "model": "contacts.footerlink",
+    "pk": 1,
+    "fields": { "footer": 1, "name": "КОМПАНИЯ" }
+  },
+  {
+    "model": "contacts.footerlink",
+    "pk": 2,
+    "fields": { "footer": 1, "name": "ПОЛЕЗНОЕ" }
+  },
+  {
+    "model": "contacts.footerlink",
+    "pk": 3,
+    "fields": { "footer": 1, "name": "ПОКУПАТЕЛЮ" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 1,
+    "fields": { "link": 1, "name": "О нас", "url": "/about" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 2,
+    "fields": { "link": 1, "name": "Контакты", "url": "/contacts" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 3,
+    "fields": { "link": 2, "name": "Оплата и доставка", "url": "/delivery" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 4,
+    "fields": { "link": 2, "name": "Условия возврата", "url": "/return" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 5,
+    "fields": { "link": 2, "name": "Бонусная система", "url": "/bonus" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 6,
+    "fields": { "link": 3, "name": "Избранное", "url": "/favorite" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 7,
+    "fields": { "link": 3, "name": "Публичная оферта", "url": "/offerta" }
+  },
+  {
+    "model": "contacts.footerlinkitem",
+    "pk": 8,
+    "fields": {
+      "link": 3,
+      "name": "Политика конфиденциальности",
+      "url": "/policy"
+    }
+  }
+]
