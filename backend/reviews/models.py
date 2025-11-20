@@ -1,16 +1,20 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import (
+    FileExtensionValidator,
+    MaxValueValidator,
+    MinValueValidator,
+)
 from django.db import models
-from django.utils.timesince import timesince
 
 from common.mixins import WebpImageMixin
-from common.models import BaseDate, BaseDescription, BaseID
+from common.models import BaseDate, BaseReview
 from common.upload_to import dynamic_upload_to
-from common.validators import validate_image_extension_and_format
 from products.models import Product
+from products.utils.validators import validate_file_size, validate_image_size
 from users.models import User
 
 
-class Review(BaseID, BaseDescription, BaseDate):
+class Review(BaseReview):
     """
     Отзыв продукта
     """
@@ -23,23 +27,23 @@ class Review(BaseID, BaseDescription, BaseDate):
         related_name="reviews",
         verbose_name="Пользователь",
     )
-    name = models.CharField("Имя", max_length=100, null=True, blank=True)
-    email = models.EmailField("Email")
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="reviews"
+        Product,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+        verbose_name="Товар",
     )
     advantages = models.TextField("Достоинства", blank=True, null=True)
     disadvantages = models.TextField("Недостатки", blank=True, null=True)
     rating = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+        'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
-    is_published = models.BooleanField("Опубликован", default=False)
-    likes = models.ManyToManyField(User, related_name="+", blank=True)
-    dislikes = models.ManyToManyField(User, related_name="+", blank=True)
-
-    @property
-    def time_age(self):
-        return timesince(self.created_at) + " назад"
+    likes = models.ManyToManyField(
+        User, related_name="+", blank=True, verbose_name="Лайки"
+    )
+    dislikes = models.ManyToManyField(
+        User, related_name="+", blank=True, verbose_name="Дизлайки"
+    )
 
     class Meta:
         verbose_name = "Отзыв"
@@ -48,10 +52,10 @@ class Review(BaseID, BaseDescription, BaseDate):
         unique_together = ["user", "product"]
 
     def __str__(self):
-        return f"Отзыв от {self.name}"
+        return f"Отзыв от {self.user.email} на {self.product.title}"
 
 
-class ReviewCompanyReply(BaseID, BaseDescription, BaseDate):
+class ReviewCompanyReply(BaseReview):
     """
     Ответ компании на отзыв продукта
     Только пользователи с правами администратора (компания) могут создавать ответы
@@ -77,10 +81,6 @@ class ReviewCompanyReply(BaseID, BaseDescription, BaseDate):
             ("can_reply_to_reviews", "Может отвечать на отзывы"),
         ]
 
-    @property
-    def time_age(self):
-        return timesince(self.created_timestamp)
-
 
 class ReviewPhoto(BaseDate, WebpImageMixin):
     review = models.ForeignKey(
@@ -91,12 +91,23 @@ class ReviewPhoto(BaseDate, WebpImageMixin):
     )
     image = models.ImageField(
         "Фотография",
+        validators=[
+            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            validate_image_size,
+            validate_file_size,
+        ],
         upload_to=dynamic_upload_to,
-        validators=[validate_image_extension_and_format],
     )
     alt = models.CharField(
         "Описание", max_length=100, default="Описание", blank=True, null=True
     )
+
+    def save(self, *args, **kwargs):
+        current_review = self.review
+        count_photos = ReviewPhoto.objects.filter(review=current_review).count()
+        if count_photos >= 5:
+            raise ValidationError("Достигнут максимум 5 фотографий")
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Фотография отзыва"

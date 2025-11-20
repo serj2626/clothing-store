@@ -38,6 +38,7 @@ urlpatterns = [
     path("api/v1/products/", include("products.urls")),
     path("api/v1/legal/", include("legal.urls")),
     path("api/v1/contacts/", include("contacts.urls")),
+    path("api/v1/reviews/", include("reviews.urls")),
     # path("api/v1/orders/", include("orders.urls")),
     path("api/v1/seo/", include("seo.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django-sitemap"),

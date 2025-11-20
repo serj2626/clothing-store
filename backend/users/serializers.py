@@ -45,10 +45,9 @@ class RegisterSerializer(ModelSerializer):
         if User.objects.filter(email=value).exists():
             raise ValidationError("Пользователь с таким email уже существует")
 
-        return value.lower()  # Нормализуем email к нижнему регистру
+        return value.lower()
 
     def validate_phone(self, value):
-        # Удаляем все нецифровые символы для унификации
         cleaned_phone = re.sub(r"[^\d]", "", value)
 
         # Проверяем длину номера (для России обычно 11 цифр, включая код страны)

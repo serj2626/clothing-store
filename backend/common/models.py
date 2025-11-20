@@ -1,6 +1,5 @@
 import uuid
 
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.timesince import timesince
 from django_ckeditor_5.fields import CKEditor5Field
@@ -49,14 +48,8 @@ class BaseDate(models.Model):
         abstract = True
 
 
-class BaseReview(BaseID, BaseDate):
-    name = models.CharField("Имя", max_length=100, null=True, blank=True)
-    email = models.EmailField("Email", null=True, blank=True)
-    rating = models.SmallIntegerField(
-        "Рейтинг", default=5, validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    text = models.TextField("Текст отзыва", max_length=5000, null=True, blank=True)
-    verified = models.BooleanField("Проверен", default=False)
+class BaseReview(BaseID, BaseDescription, BaseDate):
+    is_published = models.BooleanField("Опубликован", default=False)
 
     @property
     def time_age(self):
