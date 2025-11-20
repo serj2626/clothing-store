@@ -7,7 +7,7 @@ from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 from transliterate import slugify as ru_slugify
 
-from .utils.upload_to import get_path_for_product
+from .utils.upload_to import get_path_for_product, get_path_for_product_variant
 from common.mixins import WebpImageMixin
 from common.models import (
     BaseContent,
@@ -91,7 +91,7 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
             validate_image_size,
             validate_file_size,
         ],
-        upload_to='categories/',
+        upload_to=dynamic_upload_to,
         null=True,
         blank=True,
     )
@@ -133,6 +133,10 @@ class ProductColor(BaseTitle):
         help_text='цвета бери тут: https://htmlcolors.com/google-color-picker',
     )
 
+    slug = models.SlugField(
+        "слаг", max_length=100, unique=True, blank=True, null=True
+    )
+
     def clean(self):
         if not (
             self.color.startswith("#")
@@ -140,6 +144,11 @@ class ProductColor(BaseTitle):
             or self.color.startswith("rgba")
         ):
             raise ValidationError("Цвет должен начинаться с # или с rgb/rgba")
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = ru_slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Цвет продукта"
@@ -184,7 +193,7 @@ class Product(
         "артикул", max_length=100, null=True, blank=True, unique=True
     )
     avatar = models.ImageField(
-        upload_to=get_path_for_product,
+        upload_to=dynamic_upload_to,
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["jpg", "jpeg", "png", "webp"]
@@ -257,12 +266,14 @@ class ProductVariant(models.Model):
         "Цена", max_digits=10, decimal_places=2, default=0
     )
     color = models.ForeignKey(
-        ProductColor, on_delete=models.SET_NULL, null=True, blank=True
+        ProductColor,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     size = models.CharField("Размер", max_length=10, choices=SIZE_TYPE)
     quantity = models.PositiveIntegerField("Количество на складе", default=0)
     image = models.ImageField(
-        upload_to="products/",
+        upload_to=dynamic_upload_to,
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["jpg", "jpeg", "png", "webp"]
@@ -273,11 +284,6 @@ class ProductVariant(models.Model):
         null=True,
         blank=True,
     )
-
-    # def save(self, *args, **kwargs):
-    #     if self.image:
-    #         self.image = compress_image(self.image)
-    #     super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Вариант товара"

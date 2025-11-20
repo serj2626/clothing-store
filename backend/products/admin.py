@@ -59,7 +59,7 @@ from .models import (
 class ProductColorAdmin(admin.ModelAdmin):
     '''Admin View for ProductColor'''
 
-    list_display = ("title", "color", "color_preview")
+    list_display = ("title", "color", "color_preview", "slug")
 
     def color_preview(self, obj):
         if obj.color:
@@ -127,9 +127,17 @@ class DiscountAdmin(admin.ModelAdmin):
     filter_horizontal = ("products", "categories")
 
 
-class ProductVariantLine(admin.TabularInline):
+# class ProductVariantLine(admin.TabularInline):
+#     model = ProductVariant
+#     extra = 1
+
+class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
     model = ProductVariant
     extra = 1
+    image_field_name = "image"
+
+    readonly_fields = ("avatar_preview", )
+    fields = ("color", "size", "price", "quantity", "image", "avatar_preview")
 
 
 @admin.register(Category)
@@ -160,11 +168,12 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(AvatarPreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
 
+    image_field_name = "avatar"
     inlines = [
-        ProductVariantLine,
+        ProductVariantInline,
     ]
     list_display = (
         "sku",
@@ -175,14 +184,16 @@ class ProductAdmin(admin.ModelAdmin):
         "is_active",
         "get_count_likes",
         "get_count_reviews",
-        # "get_count",
+        "avatar_preview",
     )
+    readonly_fields = ("avatar_preview",)
     fields = (
         ("brand", "gender"),
         ("title", "category"),
         "sku",
         "is_active",
         "avatar",
+        'avatar_preview'
     )
     save_on_top = True
     list_per_page = 15

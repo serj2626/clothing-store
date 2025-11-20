@@ -42,24 +42,21 @@ class AdminImagePreviewMixin:
     get_image.short_description = "Фото"
 
 
-class AvatarPreviewMixin:
-    """
-    Данный миксин отображает превью аватара в админке.
-    Его нужно использовать в модели, у которых есть изображение
-    """
 
+class AvatarPreviewMixin:
     image_field_name = "avatar"
 
-    def avatar_preview(self):
-        avatar = getattr(self, self.image_field_name, None)
-        if avatar:
+    def avatar_preview(self, obj=None):
+        instance = obj if obj is not None else self
+        image = getattr(instance, self.image_field_name, None)
+        if image:
             return format_html(
-                '<img src="{}" style="max-height: 200px;" />', avatar.url
+                '<img src="{}" style="max-height: 60px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);" />',
+                image.url
             )
         return "Нет изображения"
 
-    avatar_preview.short_description = "Превью аватара"
-
+    avatar_preview.short_description = "Превью"
 
 class SingletonAdminInfoMixin:
     """
