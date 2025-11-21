@@ -19,7 +19,16 @@ class ReviewPhotoInline(admin.TabularInline):
 class ReviewAdmin(admin.ModelAdmin):
     '''Admin View for'''
 
-    list_display = ('user', 'product', 'rating')
+    list_display = (
+        'user',
+        'product',
+        'rating',
+        'is_published',
+        "get_count_likes",
+        "get_count_dislikes",
+    )
+
+    list_editable = ('is_published',)
     filter_horizontal = ('likes', 'dislikes')
     inlines = [ReviewCompanyReplyInline, ReviewPhotoInline]
     fields = (
@@ -30,3 +39,12 @@ class ReviewAdmin(admin.ModelAdmin):
         'dislikes',
         'description',
     )
+
+    # def get_count_likes(self, obj):
+    #     return obj.likes.count()
+
+    # def get_count_dislikes(self, obj):
+    #     return obj.dislikes.count()
+
+    # get_count_likes.short_description = 'Лайки'
+    # get_count_dislikes.short_description = 'Дизлайки'

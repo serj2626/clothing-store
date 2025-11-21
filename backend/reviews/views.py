@@ -32,10 +32,10 @@ class ReviewPagination(PageNumberPagination):
 
 @extend_schema(tags=['Отзывы'])
 class ReviewViewSet(ModelViewSet):
-    queryset = Review.objects.all()
+    queryset = Review.objects.filter(is_published=True).order_by('-created_at')
     serializer_class = ReviewSerializer
     pagination_class = ReviewPagination
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     # ==========
     # BASE METHODS

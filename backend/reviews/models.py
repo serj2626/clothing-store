@@ -51,6 +51,16 @@ class Review(BaseReview):
         ordering = ["-created_at"]
         unique_together = ["user", "product"]
 
+    def get_count_likes(self):
+        return self.likes.count()
+    
+    get_count_likes.short_description = "Количество лайков"
+
+    def get_count_dislikes(self):
+        return self.dislikes.count()
+    
+    get_count_dislikes.short_description = "Количество дизлайков"
+    
     def __str__(self):
         return f"Отзыв от {self.user.email} на {self.product.title}"
 
