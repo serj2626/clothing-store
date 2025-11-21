@@ -1,45 +1,35 @@
-from .serializers import (
-    ReviewSerializer,
-    ReviewCompanyReplySerializer,
-    ReviewPhotoSerializer,
-)
 from drf_spectacular.utils import extend_schema
-from .models import Review, ReviewCompanyReply, ReviewPhoto
-from rest_framework import generics
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
+from rest_framework import filters
 
-
-class ReviewPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 10
-
-    def get_paginated_response(self, data):
-        return Response(
-            {
-                'count': self.page.paginator.count,
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link(),
-                'results': data,
-            }
-        )
+from common.pagination import ListResultsSetPagination
+from .models import Review
+from .serializers import ReviewCompanyReplySerializer, ReviewSerializer
 
 
 @extend_schema(tags=['Отзывы'])
 class ReviewViewSet(ModelViewSet):
-    queryset = Review.objects.filter(is_published=True).order_by('-created_at')
     serializer_class = ReviewSerializer
-    pagination_class = ReviewPagination
-    # permission_classes = [IsAuthenticated]
+    pagination_class = ListResultsSetPagination
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ["rating", "created_at"]
+    ordering = ["-created_at"]
 
-    # ==========
-    # BASE METHODS
-    # ==========
+    def get_queryset(self):
+        qs = Review.objects.filter(is_published=True).all()
+
+        product_id = self.request.query_params.get("product_id")
+        if product_id:
+            qs = qs.filter(product_id=product_id)
+
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
     @extend_schema(
         summary="Получить список отзывов",
@@ -83,12 +73,8 @@ class ReviewViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
-    # ==========
-    # ACTIONS
-    # ==========
     @extend_schema(
         summary="Ответ на отзыв",
-        description="Позволяет авторизованному пользователю оставить ответ на определённый отзыв.",
         request=ReviewCompanyReplySerializer,
         responses=ReviewCompanyReplySerializer,
     )
@@ -96,59 +82,30 @@ class ReviewViewSet(ModelViewSet):
     def reply(self, request, pk=None):
         review = self.get_object()
         serializer = ReviewCompanyReplySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(author=request.user, review=review)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=request.user, review=review)
+        return Response(serializer.data, status=201)
 
-    @extend_schema(
-        summary="Поставить лайк",
-        description="Добавляет лайк к отзыву от имени текущего пользователя.",
-        responses={200: dict},
-    )
     @action(detail=True, methods=['post'])
     def add_like(self, request, pk=None):
         review = self.get_object()
         review.likes.add(request.user)
-        return Response(
-            status=status.HTTP_200_OK, data={'msg': 'Вы поставили лайк'}
-        )
+        return Response({"msg": "Вы поставили лайк"})
 
-    @extend_schema(
-        summary="Поставить дизлайк",
-        description="Добавляет дизлайк к отзыву от имени текущего пользователя.",
-        responses={200: dict},
-    )
     @action(detail=True, methods=['post'])
     def add_dislike(self, request, pk=None):
         review = self.get_object()
         review.dislikes.add(request.user)
-        return Response(
-            status=status.HTTP_200_OK, data={'msg': 'Вы поставили дизлайк'}
-        )
+        return Response({"msg": "Вы поставили дизлайк"})
 
-    @extend_schema(
-        summary="Убрать лайк",
-        description="Удаляет лайк пользователя с отзыва.",
-        responses={200: dict},
-    )
     @action(detail=True, methods=['post'])
     def remove_like(self, request, pk=None):
         review = self.get_object()
         review.likes.remove(request.user)
-        return Response(
-            status=status.HTTP_200_OK, data={'msg': 'Вы удалили лайк'}
-        )
+        return Response({"msg": "Лайк удалён"})
 
-    @extend_schema(
-        summary="Убрать дизлайк",
-        description="Удаляет дизлайк пользователя с отзыва.",
-        responses={200: dict},
-    )
     @action(detail=True, methods=['post'])
     def remove_dislike(self, request, pk=None):
         review = self.get_object()
         review.dislikes.remove(request.user)
-        return Response(
-            status=status.HTTP_200_OK, data={'msg': 'Вы удалили дизлайк'}
-        )
+        return Response({"msg": "Дизлайк удалён"})

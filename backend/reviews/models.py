@@ -6,8 +6,8 @@ from django.core.validators import (
 )
 from django.db import models
 
-from common.mixins import WebpImageMixin
 from common.models import BaseDate, BaseReview
+from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
 from products.models import Product
 from products.utils.validators import validate_file_size, validate_image_size
@@ -26,7 +26,15 @@ class Review(BaseReview):
         blank=True,
         related_name="reviews",
         verbose_name="Пользователь",
+        limit_choices_to={"is_staff": False},
     )
+    # parent = models.ForeignKey(
+    #     "self",
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name="Родительский отзыв",
+    # )
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -39,10 +47,13 @@ class Review(BaseReview):
         'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     likes = models.ManyToManyField(
-        User, related_name="+", blank=True, verbose_name="Лайки"
+        User, related_name="+", blank=True, verbose_name="Лайки",
+        limit_choices_to={"is_staff": False},
     )
     dislikes = models.ManyToManyField(
         User, related_name="+", blank=True, verbose_name="Дизлайки"
+        ,
+        limit_choices_to={"is_staff": False},
     )
 
     class Meta:
@@ -53,14 +64,14 @@ class Review(BaseReview):
 
     def get_count_likes(self):
         return self.likes.count()
-    
-    get_count_likes.short_description = "Количество лайков"
+
+    get_count_likes.short_description = "Кол-во лайков"
 
     def get_count_dislikes(self):
         return self.dislikes.count()
-    
-    get_count_dislikes.short_description = "Количество дизлайков"
-    
+
+    get_count_dislikes.short_description = "Кол-во дизлайков"
+
     def __str__(self):
         return f"Отзыв от {self.user.email} на {self.product.title}"
 
@@ -92,7 +103,7 @@ class ReviewCompanyReply(BaseReview):
         ]
 
 
-class ReviewPhoto(BaseDate, WebpImageMixin):
+class ReviewPhoto(BaseDate):
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
@@ -117,6 +128,7 @@ class ReviewPhoto(BaseDate, WebpImageMixin):
         count_photos = ReviewPhoto.objects.filter(review=current_review).count()
         if count_photos >= 5:
             raise ValidationError("Достигнут максимум 5 фотографий")
+        self.image = compress_image(self.image)
         super().save(*args, **kwargs)
 
     class Meta:

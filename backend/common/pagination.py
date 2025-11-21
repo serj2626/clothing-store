@@ -11,7 +11,11 @@ class ListResultsSetPagination(PageNumberPagination):
         return Response(
             {
                 "current": self.page.number,
-                "next": self.page.next_page_number() if self.page.has_next() else None,
+                "next": (
+                    self.page.next_page_number()
+                    if self.page.has_next()
+                    else None
+                ),
                 "previous": (
                     self.page.previous_page_number()
                     if self.page.has_previous()
@@ -19,5 +23,6 @@ class ListResultsSetPagination(PageNumberPagination):
                 ),
                 "count": self.page.paginator.count,
                 "results": data,
+                "total_pages": self.page.paginator.num_pages,
             }
         )

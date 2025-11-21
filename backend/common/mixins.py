@@ -44,14 +44,14 @@ class AdminImagePreviewMixin:
 
 class AvatarPreviewMixin:
     image_field_name = "avatar"
+    image_height = 60  # можно менять в подклассах
 
     def avatar_preview(self, obj=None):
         instance = obj if obj is not None else self
         image = getattr(instance, self.image_field_name, None)
         if image:
             return format_html(
-                '<img src="{}" style="max-height: 60px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);" />',
-                image.url,
+                f'<img src="{image.url}" style="max-height: {self.image_height}px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);" />'
             )
         return "Нет изображения"
 

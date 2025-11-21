@@ -19,40 +19,6 @@ from .models import (
     ProductVariant,
 )
 
-# class ProductReviewLine(admin.TabularInline):
-#     model = Review
-#     extra = 1
-#     fieldsets = (
-#         (None, {"fields": (("name", "email"), ("rating", "is_published"))}),
-#         ("Отзыв", {"fields": ("advantages", "disadvantages", "description")}),
-#         ("Оценки", {"fields": ("likes", "dislikes")}),
-#     )
-
-
-# class ReviewPhotoInline(admin.TabularInline):
-#     model = ReviewPhoto
-#     extra = 1
-
-
-# @admin.register(Review)
-# class ReviewAdmin(admin.ModelAdmin):
-#     """
-#     Review"""
-
-#     list_display = (
-#         "user",
-#         "name",
-#         "email",
-#         "product",
-#         "advantages",
-#         "disadvantages",
-#         "rating",
-#         "is_published",
-#     )
-#     filter_horizontal = ("likes", "dislikes")
-#     inlines = [ReviewPhotoInline]
-#     save_on_top = True
-
 
 @admin.register(ProductColor)
 class ProductColorAdmin(admin.ModelAdmin):
@@ -122,11 +88,6 @@ class DiscountAdmin(admin.ModelAdmin):
     )
 
     filter_horizontal = ("products", "categories")
-
-
-# class ProductVariantLine(admin.TabularInline):
-#     model = ProductVariant
-#     extra = 1
 
 
 class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
