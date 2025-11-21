@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class SeoConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "seo"
-    verbose_name = "Настройки SEO и Конфигурация"
+    verbose_name = "№6 Настройки SEO и Конфигурация"

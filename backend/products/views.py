@@ -129,7 +129,11 @@ def toggle_product_like(request, product_id):
 
 
 class ProductLastCollectionView(generics.ListAPIView):
-    queryset = Product.objects.all().order_by("-created_at")[:10]
+    queryset = (
+        Product.objects.all()
+        .select_related("brand", 'category')
+        .order_by("-created_at")[:10]
+    )
     serializer_class = ProductSerializer
 
     @extend_schema(
@@ -142,7 +146,7 @@ class ProductLastCollectionView(generics.ListAPIView):
 
 
 class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.select_related("brand", 'category').all()
     serializer_class = ProductSerializer
     pagination_class = ListResultsSetPagination
 
@@ -152,7 +156,7 @@ class ProductListView(generics.ListAPIView):
 
 
 class ProductExampleListView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.select_related("brand", 'category').all()
     serializer_class = ProductSerializer
     pagination_class = ListResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]

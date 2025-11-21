@@ -73,6 +73,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     color_code = serializers.CharField(source="color.color")
     status = serializers.SerializerMethodField()
     image = RelativeOnlyImageField()
+    size = serializers.CharField(source="size.title")
 
     def get_status(self, obj):
         return 'В наличии' if obj.quantity > 0 else 'Нет в наличии'
@@ -80,6 +81,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVariant
         fields = (
+            'id',
             "color",
             "color_code",
             "size",

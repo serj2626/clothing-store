@@ -1,6 +1,23 @@
 from django.contrib import admin
 
-from .models import Contact, Feedback, Footer, FooterLink, FooterLinkItem, Subscription
+from .models import (
+    FAQ,
+    Contact,
+    Feedback,
+    Footer,
+    FooterLink,
+    FooterLinkItem,
+    Subscription,
+)
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    """
+    Админка вопросов и ответов
+    """
+
+    list_display = ("question", "answer")
 
 
 class FooterItemLinkInline(admin.TabularInline):

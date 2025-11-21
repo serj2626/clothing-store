@@ -12,9 +12,7 @@ class ListResultsSetPagination(PageNumberPagination):
             {
                 "current": self.page.number,
                 "next": (
-                    self.page.next_page_number()
-                    if self.page.has_next()
-                    else None
+                    self.page.next_page_number() if self.page.has_next() else None
                 ),
                 "previous": (
                     self.page.previous_page_number()

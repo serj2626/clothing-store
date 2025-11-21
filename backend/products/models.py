@@ -16,10 +16,9 @@ from common.models import (
     BaseName,
     BaseTitle,
 )
-from common.types import COUNTRY_TYPE, GENDER_TYPE, SIZE_TYPE
+from common.types import COUNTRY_TYPE, GENDER_TYPE
 from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
-from common.validators import validate_image_extension_and_format
 from users.models import User
 
 from .utils.validators import validate_file_size, validate_image_size
@@ -42,9 +41,13 @@ class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
         blank=True,
     )
     image = models.ImageField(
-        "Изображение",
-        validators=[validate_image_extension_and_format],
+        'Изображение',
         upload_to=dynamic_upload_to,
+        validators=[
+            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            validate_image_size,
+            validate_file_size,
+        ],
         null=True,
         blank=True,
     )
@@ -57,6 +60,8 @@ class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = ru_slugify(self.name)
+        if self.image:
+            self.image = compress_image(self.image)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -111,6 +116,27 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
 
     def get_absolute_url(self):
         return reverse("category_detail", kwargs={"slug": self.slug})
+
+
+class ProductSize(BaseTitle):
+    """
+    Размер продукта
+    """
+
+    slug = models.SlugField("слаг", max_length=100, unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = ru_slugify(self.title)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Размер продукта"
+        verbose_name_plural = "Размеры продуктов"
+        unique_together = ("title",)
+
+    def __str__(self):
+        return self.title
 
 
 class ProductColor(BaseTitle):
@@ -185,7 +211,6 @@ class Product(
         upload_to=dynamic_upload_to,
         validators=[
             FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
-            validate_image_size,
             validate_file_size,
         ],
         null=True,
@@ -250,16 +275,19 @@ class ProductVariant(models.Model):
     price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
     color = models.ForeignKey(
         ProductColor,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.PROTECT,
+        verbose_name="Цвет",
     )
-    size = models.CharField("Размер", max_length=10, choices=SIZE_TYPE)
+    size = models.ForeignKey(
+        ProductSize,
+        on_delete=models.PROTECT,
+        verbose_name="Размер",
+    )
     quantity = models.PositiveIntegerField("Количество на складе", default=0)
     image = models.ImageField(
         upload_to=dynamic_upload_to,
         validators=[
             FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
-            validate_image_size,
             validate_file_size,
         ],
         null=True,

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+
 from common.mixins import AvatarPreviewMixin
 
 from .models import Review, ReviewCompanyReply, ReviewPhoto

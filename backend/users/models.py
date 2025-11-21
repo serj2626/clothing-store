@@ -98,9 +98,7 @@ class Profile(BaseID, BaseDate):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField("Имя", max_length=50, null=True, blank=True)
-    last_name = models.CharField(
-        "Фамилия", max_length=50, null=True, blank=True
-    )
+    last_name = models.CharField("Фамилия", max_length=50, null=True, blank=True)
     city = models.CharField("Город", max_length=50, null=True, blank=True)
     address = models.CharField("Адрес", max_length=50, null=True, blank=True)
 

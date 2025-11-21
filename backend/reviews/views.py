@@ -1,12 +1,11 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework import status
+from rest_framework import filters
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import filters
 
 from common.pagination import ListResultsSetPagination
+
 from .models import Review
 from .serializers import ReviewCompanyReplySerializer, ReviewSerializer
 
@@ -20,7 +19,11 @@ class ReviewViewSet(ModelViewSet):
     ordering = ["-created_at"]
 
     def get_queryset(self):
-        qs = Review.objects.filter(is_published=True).all()
+        qs = (
+            Review.objects.filter(is_published=True)
+            .select_related("product", "user")
+            .all()
+        )
 
         product_id = self.request.query_params.get("product_id")
         if product_id:

@@ -16,8 +16,16 @@ from .models import (
     Product,
     ProductColor,
     ProductLike,
+    ProductSize,
     ProductVariant,
 )
+
+
+@admin.register(ProductSize)
+class ProductSizeAdmin(admin.ModelAdmin):
+    '''Admin View for'''
+
+    list_display = ('title', 'slug')
 
 
 @admin.register(ProductColor)

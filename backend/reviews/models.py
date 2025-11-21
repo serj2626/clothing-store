@@ -28,13 +28,6 @@ class Review(BaseReview):
         verbose_name="Пользователь",
         limit_choices_to={"is_staff": False},
     )
-    # parent = models.ForeignKey(
-    #     "self",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    #     verbose_name="Родительский отзыв",
-    # )
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -47,12 +40,17 @@ class Review(BaseReview):
         'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     likes = models.ManyToManyField(
-        User, related_name="+", blank=True, verbose_name="Лайки",
+        User,
+        related_name="+",
+        blank=True,
+        verbose_name="Лайки",
         limit_choices_to={"is_staff": False},
     )
     dislikes = models.ManyToManyField(
-        User, related_name="+", blank=True, verbose_name="Дизлайки"
-        ,
+        User,
+        related_name="+",
+        blank=True,
+        verbose_name="Дизлайки",
         limit_choices_to={"is_staff": False},
     )
 
@@ -81,6 +79,10 @@ class ReviewCompanyReply(BaseReview):
     Ответ компании на отзыв продукта
     Только пользователи с правами администратора (компания) могут создавать ответы
     """
+
+    description = models.TextField(
+        "Ответ", default="Добрый день,благоарим Вас за комментарии!"
+    )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="replies")
     author = models.ForeignKey(

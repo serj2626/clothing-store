@@ -9,7 +9,7 @@ from common.models import BaseDate
 
 class Notification(BaseDate):
     NOTIFICATION_TYPES = (
-        ("order_created", "Товар купили"),
+        ("order_created", "Ваш заказ создан"),
         ("comment_publish", "Ваш комментарий опубликован"),
         ("comment_unpublish", "Ваш комментарий не опубликован"),
         ("comment_reply", "Ответ на комментарий"),
