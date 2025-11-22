@@ -1,30 +1,10 @@
-import type {
-  IProduct,
-  IProductImage,
-  IProductVariant,
-  IReview,
-  IReviewResponse,
-} from "~/types";
-
+import type { IProduct } from "~/types";
+import type { IReviewItem } from "~/types/reviews/reviews";
 import { api } from "~/api";
 
 export const useProductDetailStore = defineStore("productDetail", () => {
   // PRODUCT
-  const product = ref<IProduct>({
-    id: "",
-    brand: null,
-    title: "",
-    category: "",
-    avatar: "",
-    price: "",
-    currency: "",
-    is_active: true,
-    count_likes: 0,
-    count_reviews: 0,
-    total_count: 0,
-    details: [],
-    liked: false,
-  });
+  const product = ref<IProduct | null>(null);
 
   // LOADING
   const loading = ref(false);
@@ -34,7 +14,7 @@ export const useProductDetailStore = defineStore("productDetail", () => {
   const variants = ref<IProductVariant[]>([]);
 
   // REVIEWS
-  const reviews = ref<IReview[]>([]);
+  const reviews = ref<IReviewItem[]>([]);
   const currentPage = ref<number>(1);
   const nextPage = ref<number | null>(null);
   const prevPage = ref<number | null>(null);

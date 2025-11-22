@@ -5,22 +5,28 @@ defineProps<{ products: IProduct[] }>();
 </script>
 <template>
   <div class="catalog-list">
+    <!-- <img
+      v-for="product in products"
+      :id="product.id"
+      :key="product.id"
+      :src="getMedia(product.avatar)"
+      alt=""
+    /> -->
     <ProductCard
       v-for="product in products"
       :id="product.id"
       :key="product.id"
+      :sku="product.sku"
       :category="product.category"
       :title="product.title"
-      :price="product.price"
       :variants="product.variants"
       :avatar="product.avatar"
       :count_likes="product.count_likes"
       :count_reviews="product.count_reviews"
       :is_active="product.is_active"
-      :currency="product.currency"
       :total_count="product.total_count"
       :brand="product.brand"
-      :images="product?.images"
+      :images="product?.avatar"
       :liked="product.liked"
     />
   </div>
@@ -28,29 +34,19 @@ defineProps<{ products: IProduct[] }>();
 <style lang="scss">
 .catalog-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 15px;
   align-items: stretch;
 
-  // &:has(.card:hover) {
-  //   .card {
-  //     opacity: 0.8;
-  //     transform: none;
-  //     transition: all 0.6s ease;
-  //   }
-
-  //   .card:hover {
-  //     opacity: 1;
-  //     transform: translateY(-10px);
-  //   }
-  // }
-
-  @media (max-width: $tablet) {
+  @include mediaTablet {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: $mobile) {
-    grid-template-columns: repeat(1, 1fr);
+  @include mediaLaptop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include mediaDesktop {
   }
 }
 </style>

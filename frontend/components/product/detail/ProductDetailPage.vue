@@ -1,33 +1,42 @@
 <script setup lang="ts">
 import { productDetailPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
-import type { ILink } from "~/components/base/BaseBreadCrumbs.vue";
-
+import { api } from "~/api";
+import type { IProduct } from "~/types";
+const { $api } = useNuxtApp();
 const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
 
 const storeDetail = useProductDetailStore();
-const { product, reviews, images, variants } = storeToRefs(storeDetail);
+const { reviews, images, variants } = storeToRefs(storeDetail);
 
-watchEffect(async () => {
-  await storeDetail.fetchProduct(productId);
-});
+// watchEffect(async () => {
+//   await storeDetail.fetchProduct(productId);
+// });
 
-// Получаем отзывы
-await useAsyncData("product-detail-page-product-reviews", () =>
-  storeDetail.fetchAllReviews(1, 5, productId)
+const { data: productData } = await useAsyncData<IProduct>(
+  `product-detail-page-${productId}`,
+  () => $api(api.products.detail(productId)),
+  {
+    watch: [() => productId],
+  }
 );
 
-const currentPage = computed<ILink>(() => ({
-  title: product.value?.title ?? "Товар",
-  url: `/product/${product.value?.id}`,
+// // Получаем отзывы
+// await useAsyncData("product-detail-page-product-reviews", () =>
+//   storeDetail.fetchAllReviews(1, 5, productId)
+// );
+
+const currentPage = computed(() => ({
+  title: productData.value?.title ?? "Товар",
+  url: `/product/${productData.value?.id}`,
 }));
 
-const allImages = computed(() => {
-  return [
-    ...images.value,
-    { id: images.value.length + 1, image: product.value?.avatar },
-  ];
-});
+// const allImages = computed(() => {
+//   return [
+//     ...images.value,
+//     { id: images.value.length + 1, image: product.value?.avatar },
+//   ];
+// });
 </script>
 
 <template>
@@ -37,18 +46,21 @@ const allImages = computed(() => {
         :breadcrumbs="productDetailPageBreadcrumbs"
         :current-page="currentPage"
       />
-      <!-- {{ variants }} -->
+      {{ variants }}
       <div class="product-detail-page__content">
         <NuxtImg
-          v-if="images.length === 0"
-          :src="product?.avatar"
+          :src="getMedia(productData?.avatar ?? '')"
           format="webp"
           lazy="loading"
         />
-        <ProductDetailImages v-else :images="allImages" />
-        <ProductDetailInfo v-if="product" :product :variants />
+        <!-- <ProductDetailImages v-else :images="allImages" /> -->
+        <ProductDetailInfo
+          v-if="productData"
+          :product="productData"
+          :variants="productData.variants"
+        />
       </div>
-      <CommentList v-if="reviews" :reviews />
+      <!-- <CommentList v-if="reviews" :reviews /> -->
     </div>
   </div>
 </template>

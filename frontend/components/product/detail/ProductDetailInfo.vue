@@ -10,10 +10,26 @@ const error = ref("");
 const currentColor = ref<string>("");
 
 const { $api } = useNuxtApp();
-defineProps<{
+const { product, variants } = defineProps<{
   product: IProduct;
   variants: IProductVariant[];
 }>();
+
+const allColors = computed(() => {
+  const res: Record<string, Partial<IProductVariant>> = {};
+
+  for (const item of variants) {
+    if (!res[item.color]) {
+      res[item.color] = {
+        id: item.id,
+        color_code: item.color_code,
+        color: item.color,
+      };
+    }
+  }
+
+  return res;
+});
 
 const activeIndex = ref<number | null>(null);
 
@@ -38,7 +54,7 @@ async function addLikeByProduct(id: string) {
       <span class="title-span">Название: </span>{{ product.title }}
     </p>
     <p class="products-detail-info__article">
-      <span class="title-span">Артикул: </span>{{ product.id }}
+      <span class="title-span">Артикул: </span>{{ product.sku }}
     </p>
     <p
       class="products-detail-info__brand"
@@ -48,19 +64,18 @@ async function addLikeByProduct(id: string) {
       <span class="title-span">Торговая марка: </span>
       {{ product.brand ? product.brand.name : "Без ТМ" }}
     </p>
-    <p class="products-detail-info__price">
+    <!-- <p class="products-detail-info__price">
       <span class="title-span">Цена: </span> {{ product.price }}
       {{ product.currency }}
-    </p>
+    </p> -->
     <div class="products-detail-info__colors">
       <div class="products-detail-info__colors-values">
         <ProductColor
-          v-for="item in variants"
-          :key="item.color"
-          :color="item.color"
-          :title="item.color_name"
+          v-for="item in allColors"
+          :key="item.id"
+          :color="item.color_code"
+          :title="item.color"
           size="22px"
-          @updated:new-color="currentColor = item.color_name"
         />
       </div>
       <div class="products-detail-info__colors-current">

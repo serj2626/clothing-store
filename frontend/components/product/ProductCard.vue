@@ -28,34 +28,26 @@ function sliceTitle(title: string) {
         <button class="product-card__image-icon">
           <Icon :name="HeroIcons.HEART_SOLID" size="24" />
         </button>
-        <NuxtImg
-          v-if="!avatar"
-          format="webp"
-          loading="lazy"
-          class="product-card__image-item"
-          src="favorites/one.png"
-        />
-        <NuxtImg
-          v-else
-          format="webp"
-          loading="lazy"
-          class="product-card__image-item"
-          :src="avatar"
-          :alt="title"
+        <div
+          class="product-card__image-bg"
+          style="width: 100%; height: 100%"
+          :style="{
+            backgroundImage: `url(${getMedia(avatar)})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center ',
+            backgroundRepeat: 'no-repeat',
+          }"
         />
       </div>
 
       <div class="product-card__info">
         <div class="product-card__info-title">{{ sliceTitle(title) }}</div>
-        <div class="product-card__info-price">
-          {{ formatNumberCustom(+price) }} {{ currency }}
-        </div>
         <div v-if="total_count" class="product-card__info-colors">
-          <ProductColor
+          <!-- <ProductColor
             v-for="color in allColors"
             :key="color"
             :color="color"
-          />
+          /> -->
         </div>
         <div v-else class="product-card__info-total">Нет в наличии</div>
         <div v-if="brand" class="product-card__info-brand-yes">
@@ -113,8 +105,12 @@ function sliceTitle(title: string) {
     overflow: hidden;
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 200px;
     display: block;
+
+    @include mediaTablet {
+      height: 300px;
+    }
 
     &-icon {
       position: absolute;
@@ -133,7 +129,7 @@ function sliceTitle(title: string) {
     &-item {
       width: 100%;
       height: 100%;
-      object-fit:  contain;
+      object-fit: contain;
       object-position: center;
     }
   }

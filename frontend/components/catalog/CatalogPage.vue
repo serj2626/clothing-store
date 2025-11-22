@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
+import type { IProductResponse } from "~/types";
+
 
 const productStore = useProductsStore();
 const isLoading = ref(false);
@@ -9,6 +11,11 @@ const error = ref<string | null>(null);
 onMounted(async () => {
   await loadProducts(1);
 });
+
+const { data: productsList } = await useAsyncData<IProductResponse>(
+  "catalog-page-list-products",
+  () => productStore.fetchAllProducts(1)
+);
 
 const loadProducts = async (page: number) => {
   if (isLoading.value) return;
@@ -47,7 +54,10 @@ const loadMore = async () => {
           </div>
           <div class="catalog-content">
             <CatalogFilters />
-            <CatalogList :products="productStore.products" />
+            <CatalogList
+              v-if="productsList?.results"
+              :products="productsList?.results"
+            />
             <LoadMoreObserver
               v-if="productStore.nextPage && !isLoading"
               @intersect="loadMore"

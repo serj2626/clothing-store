@@ -30,7 +30,6 @@ watch(
           <Icon
             class="header-component__wraper-logo-icon"
             :name="HeroIcons.MENU_SOLID"
-            size="50"
             :style="{ color: isHomePage ? '#cca88a' : '' }"
           />
         </button>
@@ -155,12 +154,22 @@ watch(
     &-logo {
       @include header_link;
       position: fixed;
+
       top: 26px;
-      left: 100px;
+      left: 20px;
+
+      @include mediaTablet {
+        top: 26px;
+        left: 100px;
+      }
       &-icon {
         cursor: pointer;
         color: var(--color-header-link);
         font-weight: 900;
+        font-size: 40px;
+        @include mediaTablet {
+          font-size: 50px;
+        }
       }
     }
   }
