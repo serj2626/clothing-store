@@ -92,53 +92,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         )
 
 
-# class ProductReviewSerializer(serializers.ModelSerializer):
-#     """
-#     Сериализатор отзыва о товаре
-#     """
-
-#     class Meta:
-#         model = Review
-#         fields = "__all__"
-
-
-# class ReviewPhotoSerializer(serializers.ModelSerializer):
-#     """
-#     Сериализатор фотографии отзыва о товаре
-#     """
-
-#     class Meta:
-#         model = ReviewPhoto
-#         fields = ("id", "image", "alt")
-
-
-# class ReviewSerializer(serializers.ModelSerializer):
-#     """
-#     Сериализатор отзыва о товаре
-#     """
-
-#     time_age = serializers.ReadOnlyField()
-#     photos = ReviewPhotoSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = Review
-#         fields = (
-#             "id",
-#             # "user",
-#             "name",
-#             "email",
-#             "description",
-#             # "product",
-#             "advantages",
-#             "disadvantages",
-#             "rating",
-#             "time_age",
-#             "created_at",
-#             "updated_at",
-#             "photos",
-#         )
-
-
 class ProductSerializer(serializers.ModelSerializer):
     """
     Сериализатор продукта
@@ -167,7 +120,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "count_likes",
             "count_reviews",
             "total_count",
-            # "reviews",
+            'sku',
             "variants",
             "liked",
         )
