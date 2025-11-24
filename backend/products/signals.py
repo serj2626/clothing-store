@@ -3,7 +3,7 @@ from django.dispatch import receiver
 
 from common.upload import compress_image
 
-from .models import Product, ProductVariant
+from .models import Category, Product, ProductVariant
 
 
 @receiver(post_save, sender=Product)
@@ -11,6 +11,15 @@ def generate_product_sku(sender, instance, created, **kwargs):
     if created and not instance.sku:
         instance.sku = instance.generate_sku()
         instance.save(update_fields=["sku"])
+
+
+@receiver(pre_save, sender=Product)
+@receiver(pre_save, sender=Category)
+def normalize_product_title(sender, instance, **kwargs):
+    if hasattr(instance, "title"):
+        instance.title = instance.title.title().strip()
+    if hasattr(instance, 'name'):
+        instance.name = instance.name.title().strip()
 
 
 @receiver(pre_save, sender=Product)

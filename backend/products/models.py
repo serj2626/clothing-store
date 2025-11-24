@@ -73,7 +73,7 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     Категория товаров
     """
 
-    slug = models.SlugField("слаг", max_length=100, unique=True, blank=True, null=True)
+    slug = models.SlugField("слаг", max_length=100, blank=True, null=True)
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -202,6 +202,7 @@ class Product(
         related_name="products",
         verbose_name="Категория",
     )
+    price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
     gender = models.CharField("Пол", max_length=6, choices=GENDER_TYPE, default="M")
     is_active = models.BooleanField("Активен", default=True)
     sku = models.CharField(
@@ -272,7 +273,6 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="variants"
     )
-    price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
     color = models.ForeignKey(
         ProductColor,
         on_delete=models.PROTECT,

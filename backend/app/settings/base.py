@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "mptt",
+    "import_export",
 ]
 
 SITE_ID = 1

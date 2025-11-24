@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from mptt.admin import DraggableMPTTAdmin
+from import_export.admin import ImportExportModelAdmin
+from mptt.admin import DraggableMPTTAdmin, TreeRelatedFieldListFilter
 
 from common.mixins import (
     AdminImagePreviewMixin,
@@ -19,6 +20,7 @@ from .models import (
     ProductSize,
     ProductVariant,
 )
+from .resources import ProductResource
 
 
 @admin.register(ProductSize)
@@ -104,7 +106,7 @@ class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
     image_field_name = "image"
 
     readonly_fields = ("avatar_preview",)
-    fields = ("color", "size", "price", "quantity", "image", "avatar_preview")
+    fields = ("color", "size", "quantity", "image", "avatar_preview")
 
 
 @admin.register(Category)
@@ -131,13 +133,19 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(AvatarPreviewMixin, admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
+
+    resource_class = ProductResource
 
     image_field_name = "avatar"
     inlines = [
         ProductVariantInline,
     ]
+    list_filter = (
+        ("category", TreeRelatedFieldListFilter),
+        # "in_stock",
+    )
     list_display = (
         "sku",
         "get_title",
