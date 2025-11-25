@@ -17,7 +17,6 @@ export interface IProductVariant {
   quantity: number;
   status: string;
   image: string;
-  price: string;
 }
 
 export interface IProduct {
@@ -33,6 +32,7 @@ export interface IProduct {
   total_count: number;
   variants: IProductVariant[];
   liked: boolean;
+  price: string;
 }
 
 export interface IProductResponse extends IPagination {

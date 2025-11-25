@@ -51,10 +51,13 @@ async function addLikeByProduct(id: string) {
 <template>
   <div class="products-detail-info">
     <p class="products-detail-info__title">
-      <span class="title-span">Название: </span>{{ product.title }}
+      <span class="title-span">Название: </span>{{ product.title || "Без названия" }}
     </p>
     <p class="products-detail-info__article">
-      <span class="title-span">Артикул: </span>{{ product.sku }}
+      <span class="title-span">Артикул: </span>{{ product.sku || "Без артикула" }}
+    </p>
+    <p class="products-detail-info__price">
+      <span class="title-span">Цена: </span>{{ product.price || 0 }}
     </p>
     <p
       class="products-detail-info__brand"
