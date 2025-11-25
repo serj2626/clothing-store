@@ -88,7 +88,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "quantity",
             'status',
             "image",
-            "price",
         )
 
 
@@ -121,6 +120,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "count_reviews",
             "total_count",
             'sku',
+            'price',
             "variants",
             "liked",
         )

@@ -150,6 +150,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "sku",
         "get_title",
         "brand",
+        'price',
         "gender",
         "category",
         "is_active",
@@ -161,7 +162,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
     fields = (
         ("brand", "gender"),
         ("title", "category"),
-        "sku",
+        ("sku", 'price'),
         "is_active",
         "avatar",
         'avatar_preview',
@@ -172,7 +173,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "brand",
         "category",
     )
-    list_editable = ("is_active", "gender", "brand")
+    list_editable = ("is_active",'price', "gender", "brand")
     search_fields = ('sku', "title", "brand__name", "brand__country")
     ordering = ["category"]
 

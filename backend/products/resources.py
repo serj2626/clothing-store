@@ -22,7 +22,7 @@ class ProductResource(resources.ModelResource):
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'brand', 'category', 'gender')
+        fields = ('id', 'title', 'brand', 'price', 'category', 'gender')
         import_id_fields = ('id',)
         skip_unchanged = True
         report_skipped = True
