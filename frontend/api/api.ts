@@ -27,7 +27,7 @@ export const api = {
     detail: (slug: string) => `/products/categories/${slug}`, //Возвращает конкретную категорию
   },
   products: {
-    list: "/products/", // Возвращает список всех продуктов
+    list: (slug: string) => `/products/${slug}/list`, // Возвращает список всех продуктов
     last: "/products/last-collection/", // Возвращает список последних продуктов
     detail: (id: string) => `/products/${id}`, // Возвращает конкретный продукт
     commentsList: (id: string) => `/products/${id}/reviews/list`, // Возвращает список комментарив продукта

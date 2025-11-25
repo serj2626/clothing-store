@@ -116,7 +116,9 @@ def toggle_product_like(request, product_id):
     ip = get_client_ip(request)
     product = Product.objects.get(id=product_id)
 
-    like, created = ProductLike.objects.get_or_create(product=product, ip_address=ip)
+    like, created = ProductLike.objects.get_or_create(
+        product=product, ip_address=ip
+    )
 
     if not created:
         like.delete()
@@ -146,11 +148,22 @@ class ProductLastCollectionView(generics.ListAPIView):
 
 
 class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.select_related("brand", 'category').all()
     serializer_class = ProductSerializer
     pagination_class = ListResultsSetPagination
 
-    @extend_schema(tags=[TAG], summary="Список товаров")
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+        category = Category.objects.get(slug=slug)
+        categories = category.get_descendants(include_self=True)
+
+        return (
+            Product.objects.filter(category__in=categories)
+            .select_related("brand", 'category')
+            .prefetch_related("variants")
+            .all()
+        )
+
+    @extend_schema(tags=[TAG], summary="Список товаров по слагу категории")
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -168,10 +181,18 @@ class ProductExampleListView(generics.ListAPIView):
         tags=[TAG],
         summary="Список товаров",
         parameters=[
-            OpenApiParameter("price_min", OpenApiTypes.NUMBER, description="Цена от"),
-            OpenApiParameter("price_max", OpenApiTypes.NUMBER, description="Цена до"),
-            OpenApiParameter("category", OpenApiTypes.INT, description="ID категории"),
-            OpenApiParameter("brand", OpenApiTypes.INT, description="ID бренда"),
+            OpenApiParameter(
+                "price_min", OpenApiTypes.NUMBER, description="Цена от"
+            ),
+            OpenApiParameter(
+                "price_max", OpenApiTypes.NUMBER, description="Цена до"
+            ),
+            OpenApiParameter(
+                "category", OpenApiTypes.INT, description="ID категории"
+            ),
+            OpenApiParameter(
+                "brand", OpenApiTypes.INT, description="ID бренда"
+            ),
             OpenApiParameter(
                 "gender",
                 OpenApiTypes.STR,

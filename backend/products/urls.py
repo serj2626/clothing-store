@@ -12,7 +12,7 @@ from .views import (  # ReviewCreateView,; ReviewsListByProductView,
 )
 
 urlpatterns = [
-    path("", ProductListView.as_view(), name="product-list"),
+    path("<slug:slug>/list", ProductListView.as_view(), name="product-list"),
     path("example/", ProductListView.as_view(), name="product-list"),
     path(
         "last-collection/",
