@@ -173,7 +173,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "brand",
         "category",
     )
-    list_editable = ("is_active",'price', "gender", "brand")
+    list_editable = ("is_active", 'price', "gender", "brand")
     search_fields = ('sku', "title", "brand__name", "brand__country")
     ordering = ["category"]
 

@@ -1,7 +1,9 @@
 <template>
-  <div class="app">
+  <div class="layout-default">
     <HeaderComponent />
-    <slot />
+    <main>
+      <slot />
+    </main>
     <FooterComponent />
     <BaseButtonScrollToTop />
     <BaseAlertCookie />
@@ -9,10 +11,14 @@
   </div>
 </template>
 <style lang="scss">
-.app {
+.layout-default {
   min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+main {
+  flex-grow: 1;
 }
 </style>

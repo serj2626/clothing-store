@@ -104,13 +104,13 @@ function captchaHandler(val, eventName) {
           type="email"
           placeholder="Введите ваш email"
         />
-        <BaseCaptchaVisible
+        <!-- <BaseCaptchaVisible
           :error="formData.captcha.error"
           @success="(val) => captchaHandler(val, 'success')"
           @error="(err) => captchaHandler(err, 'error')"
           @expired="() => captchaHandler(null, 'expired')"
           @inited="(val) => captchaHandler(val, 'inited')"
-        />
+        /> -->
         <BaseButton
           class="base-form-subscribe__form-btn"
           color="#e0bea2"

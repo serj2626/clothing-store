@@ -17,7 +17,6 @@ const { data: productData } = await useAsyncData<IProduct>(
     watch: [() => productId],
   }
 );
-
 const currentPage = computed(() => ({
   title: productData.value?.title ?? "Товар",
   url: `/product/${productData.value?.id}`,
@@ -48,12 +47,16 @@ const currentImg = computed(() => {
   return activeImg.value || productData.value?.avatar;
 });
 
-// Устанавливаем первое изображение активным при загрузке
-watchEffect(() => {
-  if (allImages.value.length > 0 && !activeImg.value) {
-    activeImg.value = allImages.value[0].image;
-  }
-});
+// // Устанавливаем первое изображение активным при загрузке
+// watchEffect(() => {
+//   if (allImages.value.length > 0 && !activeImg.value) {
+//     activeImg.value = allImages.value[0].image;
+//   }
+// });
+
+function setNewImage(image: string) {
+  activeImg.value = image;
+}
 </script>
 
 <template>
@@ -64,8 +67,13 @@ watchEffect(() => {
         :current-page="currentPage"
       />
       <div class="product-detail-page__content">
-        <div class="product-detail-page__content-images">
-          <!-- Миниатюры слева -->
+        <ProductDetailImages
+          :all-images="allImages"
+          :current-img="currentImg ?? ''"
+          @check-new-image="setNewImage"
+        />
+        <!-- <div class="product-detail-page__content-images">
+    
           <div class="product-detail-page__content-images-thumbnails">
             <div
               v-for="image in allImages"
@@ -78,19 +86,20 @@ watchEffect(() => {
                 :src="getMedia(image.image ?? '')"
                 format="webp"
                 loading="lazy"
+                quality="30"
                 class="thumbnail-img"
               />
             </div>
           </div>
 
-          <!-- Основное изображение -->
+       
           <div class="product-detail-page__content-images-main">
             <div
               class="main-image"
               :style="{ backgroundImage: `url(${getMedia(currentImg ?? '')})` }"
             />
           </div>
-        </div>
+        </div> -->
 
         <ProductDetailInfo
           v-if="productData"
@@ -108,7 +117,7 @@ watchEffect(() => {
     margin-block: 100px;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 20px;
+    gap: 10px;
     align-items: start;
 
     @media (max-width: 1024px) {
@@ -116,112 +125,112 @@ watchEffect(() => {
       gap: 40px;
     }
 
-    &-images {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      height: 650px;
+    // &-images {
+    //   display: grid;
+    //   grid-template-columns: 150px 1fr;
+    //   height: 650px;
 
-      @media (max-width: 768px) {
-        grid-template-columns: 80px 1fr;
-        height: 500px;
-      }
+    //   // @media (max-width: 768px) {
+    //   //   grid-template-columns: 80px 1fr;
+    //   //   height: 500px;
+    //   // }
 
-      @media (max-width: 480px) {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-        height: auto;
-        gap: 15px;
-      }
+    //   // @media (max-width: 480px) {
+    //   //   grid-template-columns: 1fr;
+    //   //   grid-template-rows: auto 1fr;
+    //   //   height: auto;
+    //   //   gap: 15px;
+    //   // }
 
-      // Контейнер для миниатюр
-      &-thumbnails {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        height: 100%;
-        overflow-y: auto;
-        padding-right: 8px;
+    //   // Контейнер для миниатюр
+    //   &-thumbnails {
+    //     display: flex;
+    //     flex-direction: column;
+    //     gap: 12px;
+    //     height: 100%;
+    //     overflow-y: auto;
+    //     padding-right: 8px;
 
-        // Кастомный скроллбар
-        &::-webkit-scrollbar {
-          width: 4px;
-        }
+    //     // Кастомный скроллбар
+    //     &::-webkit-scrollbar {
+    //       width: 4px;
+    //     }
 
-        &::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 2px;
-        }
+    //     &::-webkit-scrollbar-track {
+    //       background: #f1f1f1;
+    //       border-radius: 2px;
+    //     }
 
-        &::-webkit-scrollbar-thumb {
-          background: $accent-dark;
-          border-radius: 2px;
+    //     &::-webkit-scrollbar-thumb {
+    //       background: $accent-dark;
+    //       border-radius: 2px;
 
-          &:hover {
-            background: #794545;
-          }
-        }
+    //       &:hover {
+    //         background: #794545;
+    //       }
+    //     }
 
-        @media (max-width: 480px) {
-          flex-direction: row;
-          height: 80px;
-          overflow-x: auto;
-          overflow-y: hidden;
-          padding-right: 0;
-          padding-bottom: 8px;
-        }
-      }
+    //     @media (max-width: 480px) {
+    //       flex-direction: row;
+    //       height: 80px;
+    //       overflow-x: auto;
+    //       overflow-y: hidden;
+    //       padding-right: 0;
+    //       padding-bottom: 8px;
+    //     }
+    //   }
 
-      // Контейнер для основного изображения
-      &-main {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    //   // Контейнер для основного изображения
+    //   &-main {
+    //     height: 100%;
+    //     // display: flex;
+    //     // align-items: center;
+    //     // justify-content: center;
 
-        .main-image {
-          width: 100%;
-          height: 100%;
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          border-radius: 12px;
-          transition: all 0.3s ease;
-        }
-      }
-    }
+    //     .main-image {
+    //       width: 100%;
+    //       height: 100%;
+    //       background-size: contain;
+    //       background-position: center;
+    //       background-repeat: no-repeat;
+    //       border-radius: 12px;
+    //       transition: all 0.3s ease;
+    //     }
+    //   }
+    // }
   }
 }
 
 // Стили для миниатюр
-.thumbnail-item {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+// .thumbnail-item {
+//   width: 100%;
+//   aspect-ratio: 1;
+//   border-radius: 8px;
+//   overflow: hidden;
+//   cursor: pointer;
+//   border: 2px solid transparent;
+//   transition: all 0.2s ease;
+//   flex-shrink: 0;
 
-  &:hover {
-    border-color: $accent-dark;
-  }
+//   &:hover {
+//     border-color: $accent-dark;
+//   }
 
-  &.active {
-    border-color: $accent-dark;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-  }
+//   &.active {
+//     border-color: $accent-dark;
+//     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+//   }
 
-  .thumbnail-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-  }
+//   .thumbnail-img {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//     border-radius: 6px;
+//   }
 
-  @media (max-width: 480px) {
-    width: 70px;
-    height: 70px;
-  }
-}
+//   @media (max-width: 480px) {
+//     width: 70px;
+//     height: 70px;
+//   }
+// }
 </style>

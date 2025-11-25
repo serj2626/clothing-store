@@ -1,22 +1,8 @@
 <script lang="ts" setup>
 import { api } from "~/api";
+import type { IFooterDataResponse } from "~/types";
 const { $api } = useNuxtApp();
 
-interface IFooterDataResponse {
-  site_name: string;
-  copyright: string;
-  links: ILinkGroup[];
-}
-
-export interface ILinkGroup {
-  name: string;
-  items: ILinkItem[];
-}
-
-export interface ILinkItem {
-  name: string;
-  url: string;
-}
 const { data: footerData } = useAsyncData<IFooterDataResponse>(
   "footer-info",
   () => $api(api.contacts.footer)

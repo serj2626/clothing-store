@@ -14,7 +14,6 @@ const toggleDropdown = () => {
 };
 
 const handleClickOutside = (event: MouseEvent) => {
-  console.log("event.target", event.target);
   if (root.value && !root.value.contains(event.target as Node)) {
     isOpen.value = false;
   }

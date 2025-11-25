@@ -56,7 +56,7 @@ const modules = [Autoplay, Navigation, Pagination];
             <div class="home-section-categories__list-item">
               <NuxtImg
                 class="home-section-categories__list-item-img"
-                :src="item.image"
+                :src="getMedia(item.image ?? '')"
                 format="webp"
                 loading="lazy"
                 :alt="item.name"
