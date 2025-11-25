@@ -18,9 +18,43 @@ watch(
   },
   { immediate: true }
 );
+
+const currentHeight = ref(0);
+
+function setHeight() {
+  currentHeight.value = window.scrollY;
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", setHeight);
+});
+onUnmounted(() => {
+  window.removeEventListener("scroll", setHeight);
+});
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function scrollToCatalog() {
+  if (route.name === "index") {
+    // Уже на главной → просто скроллим
+    const el = document.getElementById("catalog");
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth" });
+  } else {
+    // На другой странице → переход на главную с hash
+    navigateTo("/#catalog");
+  }
+}
 </script>
 <template>
-  <div class="header-component">
+  <div
+    class="header-component"
+    :style="{
+      opacity: currentHeight === 0 || currentHeight < 80 ? 1 : 0,
+    }"
+  >
     <div class="container">
       <div class="header-component__wraper">
         <button

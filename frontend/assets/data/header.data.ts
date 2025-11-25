@@ -8,7 +8,7 @@ interface IHeaderLink {
 
 export const headerLinks: IHeaderLink[] = [
   { title: "Главная", name: "index", to: "/" },
-  { title: "Каталог", name: "catalog", to: "/catalog" },
+  { title: "Каталог", name: "catalog", to: "/#catalog" },
   { title: "О нас", name: "about", to: "/about" },
   { title: "Контакты", name: "contacts", to: "/contacts" },
 ];

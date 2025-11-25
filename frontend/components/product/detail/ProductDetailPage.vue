@@ -72,41 +72,13 @@ function setNewImage(image: string) {
           :current-img="currentImg ?? ''"
           @check-new-image="setNewImage"
         />
-        <!-- <div class="product-detail-page__content-images">
-    
-          <div class="product-detail-page__content-images-thumbnails">
-            <div
-              v-for="image in allImages"
-              :key="image.id"
-              class="thumbnail-item"
-              :class="{ active: currentImg === image.image }"
-              @click="activeImg = image.image"
-            >
-              <NuxtImg
-                :src="getMedia(image.image ?? '')"
-                format="webp"
-                loading="lazy"
-                quality="30"
-                class="thumbnail-img"
-              />
-            </div>
-          </div>
-
-       
-          <div class="product-detail-page__content-images-main">
-            <div
-              class="main-image"
-              :style="{ backgroundImage: `url(${getMedia(currentImg ?? '')})` }"
-            />
-          </div>
-        </div> -->
-
         <ProductDetailInfo
           v-if="productData"
           :product="productData"
           :variants="productData.variants"
         />
       </div>
+      <CommentList :reviews="reviews" />
     </div>
   </div>
 </template>
@@ -114,7 +86,7 @@ function setNewImage(image: string) {
 <style scoped lang="scss">
 .product-detail-page {
   &__content {
-    margin-block: 100px;
+    margin-block: 50px;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 10px;

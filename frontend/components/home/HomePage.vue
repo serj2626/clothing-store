@@ -17,7 +17,11 @@ const { data: categoriesList } = await useAsyncData<ICategoryResponse[]>(
 <template>
   <div class="home-page">
     <HomeSectionHero />
-    <HomeSectionCategories :list="categoriesList || []" />
+    <HomeSectionCategories
+      id="catalog"
+      v-bind="$attrs"
+      :list="categoriesList || []"
+    />
     <BaseFormSubscribe />
   </div>
 </template>

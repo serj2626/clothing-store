@@ -14,7 +14,7 @@ onMounted(async () => {
 
 const { data: productsList } = await useAsyncData<IProductResponse>(
   "catalog-page-list-products",
-  () => productStore.fetchAllProducts(1)
+  () => productStore.fetchAllProducts(1, 15)
 );
 
 const loadProducts = async (page: number) => {

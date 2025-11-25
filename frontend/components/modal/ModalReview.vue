@@ -195,13 +195,13 @@ function captchaHandler(val, eventName) {
             placeholder="Что можно улучшить?"
           />
         </div>
-        <BaseCaptchaVisible
+        <!-- <BaseCaptchaVisible
           :error="formData.captcha.error"
           @success="(val) => captchaHandler(val, 'success')"
           @error="(err) => captchaHandler(err, 'error')"
           @expired="() => captchaHandler(null, 'expired')"
           @inited="(val) => captchaHandler(val, 'inited')"
-        />
+        /> -->
         <div class="image-upload">
           <label>Добавить фото (макс. 3)</label>
           <div class="upload-area" @click="triggerFileInput">
