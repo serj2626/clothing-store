@@ -65,9 +65,11 @@ const modules = [Autoplay, Navigation, Pagination];
                 <p class="home-section-categories__list-item-value">
                   {{ item.name }}
                 </p>
-                <button class="home-section-categories__list-item-button">
-                  Смотреть коллекцию
-                </button>
+                <NuxtLink :to="`/catalog/${item.slug}`">
+                  <button class="home-section-categories__list-item-button">
+                    Смотреть коллекцию
+                  </button>
+                </NuxtLink>
               </div>
             </div>
           </SwiperSlide>

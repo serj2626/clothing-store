@@ -37,15 +37,16 @@ function scrollToTop() {
 }
 
 function scrollToCatalog() {
-  if (route.name === "index") {
-    // Уже на главной → просто скроллим
-    const el = document.getElementById("catalog");
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth" });
-  } else {
-    // На другой странице → переход на главную с hash
-    navigateTo("/#catalog");
-  }
+  const el = document.getElementById("catalog");
+  el && el?.scrollIntoView({ behavior: "smooth" });
+  // if (route.name === "index") {
+  //   const el = document.getElementById("catalog");
+  //   if (!el) return;
+  //   el.scrollIntoView({ behavior: "smooth" });
+  // } else {
+  //   navigateTo("/#catalog");
+    
+  // }
 }
 </script>
 <template>
@@ -76,6 +77,7 @@ function scrollToCatalog() {
               :class="{ active: link.name === routeName }"
               :to="link.to"
               :style="{ color: isHomePage ? '#fff' : '' }"
+              @click="scrollToCatalog"
             >
               {{ link.title }}
             </NuxtLink>

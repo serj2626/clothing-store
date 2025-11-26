@@ -17,6 +17,7 @@ defineProps<{ products: IProduct[] }>();
       :id="product.id"
       :key="product.id"
       :sku="product.sku"
+      :price="product.price"
       :category="product.category"
       :title="product.title"
       :variants="product.variants"

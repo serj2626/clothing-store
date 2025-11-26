@@ -2,19 +2,23 @@
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 import type { IProductResponse } from "~/types";
 
-
 const productStore = useProductsStore();
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 
+const { slug } = useRoute().params;
+
 // Загружаем первую страницу при монтировании
-onMounted(async () => {
-  await loadProducts(1);
-});
+// onMounted(async () => {
+//   await loadProducts(1);
+// });
 
 const { data: productsList } = await useAsyncData<IProductResponse>(
-  "catalog-page-list-products",
-  () => productStore.fetchAllProducts(1, 15)
+  `catalog-page-list-products-${slug}`,
+  () => productStore.fetchAllProducts(1, 15, slug as string),
+  {
+    watch: [() => slug],
+  }
 );
 
 const loadProducts = async (page: number) => {
@@ -67,7 +71,6 @@ const loadMore = async () => {
             </div>
           </div>
         </div>
-        <!-- {{ productStore.products[0] }} -->
       </div>
     </template>
   </div>
@@ -118,3 +121,21 @@ const loadMore = async () => {
   }
 }
 </style>
+
+<!-- <script setup lang="ts">
+import type { IProductResponse } from '~/types';
+
+console.log(useRoute().params.slug);
+const { slug } = useRoute().params;
+
+const productStore = useProductsStore();
+const { data: productsList } = await useAsyncData<IProductResponse>(
+  `catalog-page-list-products-${slug}`,
+  () => productStore.fetchAllProducts(1, 15, slug as string),
+  {
+    watch: [() => slug],
+  }
+);
+</script>
+<template></template>
+<style scoped lang="scss"></style> -->

@@ -4,23 +4,30 @@ import { api } from "~/api";
 import { defineStore } from "pinia";
 
 export const useProductsStore = defineStore("products", () => {
-  const products = ref<IProduct[]>([]); 
+  const products = ref<IProduct[]>([]);
   const error = ref<string | null>(null);
 
-  const currentPage = ref<number>(1); 
+  const currentPage = ref<number>(1);
   const nextPage = ref<number | null>(null);
   const prevPage = ref<number | null>(null);
   const countProducts = ref<number>(0);
 
-  async function fetchAllProducts(page: number = 1, page_size: number = 9) {
+  async function fetchAllProducts(
+    page: number = 1,
+    page_size: number = 9,
+    slug?: string
+  ) {
     const { $api } = useNuxtApp();
     try {
-      const res = await $api<IProductResponse>(api.products.list, {
-        query: {
-          page,
-          page_size,
-        },
-      });
+      const res = await $api<IProductResponse>(
+        api.products.list(slug as string),
+        {
+          query: {
+            page,
+            page_size,
+          },
+        }
+      );
 
       if (res.results) {
         if (page > 1) {
@@ -38,7 +45,7 @@ export const useProductsStore = defineStore("products", () => {
       return res;
     } catch (e: Error) {
       error.value = e.message || "Something went wrong";
-      throw e; 
+      throw e;
     }
   }
 

@@ -34,7 +34,7 @@ function sliceTitle(title: string) {
           :style="{
             backgroundImage: `url(${getMedia(avatar)})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center ',
+            backgroundPosition: 'center top',
             backgroundRepeat: 'no-repeat',
           }"
         />
@@ -105,11 +105,11 @@ function sliceTitle(title: string) {
     overflow: hidden;
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 250px;
     display: block;
 
     @include mediaTablet {
-      height: 300px;
+      height: 400px;
     }
 
     &-icon {
