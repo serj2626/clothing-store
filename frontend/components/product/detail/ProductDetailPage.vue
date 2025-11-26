@@ -89,7 +89,7 @@ function setNewImage(image: string) {
     margin-block: 50px;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 10px;
+    gap: 50px;
     align-items: start;
 
     @media (max-width: 1024px) {

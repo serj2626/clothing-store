@@ -23,7 +23,8 @@ export const api = {
     list: "/products/brands/", //Возвращает список всех брендов
   },
   category: {
-    list: "/products/categories/", //Возвращает список всех категорий
+    listBySlug: (slug: string) => `/products/categories/${slug}/list`, //Возвращает список категорий по слагу
+    list: "/products/categories/", //Возвращает список всех корневых категорий
     detail: (slug: string) => `/products/categories/${slug}`, //Возвращает конкретную категорию
   },
   products: {

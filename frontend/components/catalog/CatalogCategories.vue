@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { api } from "~/api";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import type { ICategoryResponse } from "~/types";
-const { $api } = useNuxtApp();
+import type { ICategoriesBySlugResponse } from "./CatalogPage.vue";
 
-const { data: allCategories } = await useAsyncData<ICategoryResponse[]>(
-  "catalog-page-list-categories",
-  () => $api(api.category.list)
-);
+defineProps<{
+  categories: ICategoriesBySlugResponse[];
+}>();
 
 const currentCategoryId = ref<string | null>(null);
 
@@ -20,55 +17,40 @@ const toggleCategory = (categoryId: string) => {
 <template>
   <aside class="catalog-categories">
     <h2 class="catalog-categories__title">Категории</h2>
-
     <ul class="catalog-categories__list">
       <li
-        v-for="category in allCategories"
-        :key="category.id"
-        class="catalog-categories__item"
-        :class="{
-          'catalog-categories__item--opened': currentCategoryId === category.id,
-          'catalog-categories__item--has-children': category.children?.length,
-        }"
+        v-for="value in categories"
+        :key="value.id"
+        class="catalog-categories__list-item"
+        :class="{ 'is-active': currentCategoryId === value.id }"
       >
-        <div class="catalog-categories__parent" @click="toggleCategory(category.id)">
-          <NuxtLink class="catalog-categories__link">
-            {{ category.name }}
-          </NuxtLink>
-
-          <button
-            v-if="category.children?.length"
-            class="catalog-categories__toggle"
-            aria-label="Toggle subcategories"
-          >
-            <Icon
-              class="catalog-categories__toggle-icon"
-              :name="
-                currentCategoryId === category.id
-                  ? HeroIcons.UP
-                  : HeroIcons.DOWN
-              "
-              size="18"
-            />
-          </button>
-        </div>
-
-        <Transition name="catalog-categories">
-          <ul
-            v-if="category.children && currentCategoryId === category.id"
-            class="catalog-categories__sublist"
-          >
-            <li
-              v-for="child in category.children"
-              :key="child.id"
-              class="catalog-categories__subitem"
+        <BaseAccordion>
+          <template #summary>
+            <div
+              class="catalog-categories__list-item-summary"
+              @click="toggleCategory(value.id)"
             >
-              <NuxtLink class="catalog-categories__sublink">
-                {{ child.name }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </Transition>
+              <span class="catalog-categories__name">{{ value.name }}</span>
+              <button class="catalog-categories__list-item-summary-btn">
+                <Icon
+                  :name="HeroIcons.DOWN"
+                  class="catalog-categories__list-item-summary-btn-icon"
+                  :class="{ 'is-rotated': currentCategoryId === value.id }"
+                />
+              </button>
+            </div>
+          </template>
+
+          <!-- Контент аккордеона -->
+          <template #content>
+            <div class="catalog-categories__content">
+              <!-- Тут можешь добавить подкатегории -->
+              <div class="catalog-categories__subitem">
+                {{ value.children }}
+              </div>
+            </div>
+          </template>
+        </BaseAccordion>
       </li>
     </ul>
   </aside>
@@ -77,17 +59,12 @@ const toggleCategory = (categoryId: string) => {
 <style scoped lang="scss">
 .catalog-categories {
   position: sticky;
-  top: 60px;
-  padding: 16px;
-  background: var(--color-background);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  top: 80px;
 
   &__title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 1.5rem;
-    color:var(--color-section-title);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
   }
 
   &__list {
@@ -96,106 +73,117 @@ const toggleCategory = (categoryId: string) => {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    // gap: 10px;
   }
 
-  &__item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 5px 10px;
-    border-radius: $btn_radius;
-    // &:hover{
-    //   background-color: rgb(238, 235, 235);;
+  &__list-item {
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+
+    &:hover {
+      transform: translateX(2px);
+      // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.13);
+      border-color: #cbd5e0;
+    }
+
+    // &.is-active {
+    //   background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    //   border-color: #667eea;
     // }
   }
 
-  &__parent {
+  &__list-item-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: 12px;
+    padding: 10px;
     cursor: pointer;
-  }
+    width: 100%;
 
-  &__link {
     flex: 1;
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    padding: 0.5rem 0;
-    position: relative;
-
-    &:hover {
-      // color: var(--color-accent);
-
-      &::after {
-        width: 100%;
-      }
-    }
+    flex-shrink: 0;
   }
 
-  &__toggle {
-    background: none;
+  &__name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1rem;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  &__list-item-summary-btn {
+    background: rgba(102, 126, 234, 0.1);
     border: none;
-    padding: 0.25rem;
+    padding: 8px;
     cursor: pointer;
-    color: $accent;
-    transition: all 0.5s ease;
-    border-radius: 4px;
+    color: #667eea;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
 
     &:hover {
-      color: $accent-dark;
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(102, 126, 234, 0.2);
+      transform: scale(1.05);
     }
 
-    &-icon {
-      transition: transform 0.5s ease;
+    &:active {
+      transform: scale(0.95);
     }
   }
 
-  &__sublist {
-    list-style: none;
-    padding: 0.5rem 0 0.5rem 1rem;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border-left: 1px solid var(--color-border);
+  &__list-item-summary-btn-icon {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 16px;
+    height: 16px;
+
+    &.is-rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__content {
+    padding: 0 20px 16px;
   }
 
   &__subitem {
-    display: flex;
-    transition: color 0.2s ease;
-    cursor: pointer;
-    // &:hover {
-    //   color: $accent-dark;
-    // }
-  }
-
-  &__sublink {
-    color: var(--color-text-secondary);
-    text-decoration: none;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    margin: 4px 0;
+    color: #4a5568;
     font-size: 0.9rem;
-    padding: 0.25rem 0;
-    transition: color 0.2s ease;
-    cursor: pointer;
-    // &:hover {
-    //   color: $accent-dark;
-    // }
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+
+    &:hover {
+      background: white;
+      border-left-color: #667eea;
+      color: #2d3748;
+      transform: translateX(4px);
+    }
   }
 }
 
+// Анимации
 .catalog-categories-enter-active,
 .catalog-categories-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
 .catalog-categories-enter-from,
 .catalog-categories-leave-to {
   opacity: 0;
-  transform: translateY(-60px);
+  transform: translateY(-10px);
   max-height: 0;
 }
 
@@ -204,5 +192,19 @@ const toggleCategory = (categoryId: string) => {
   opacity: 1;
   transform: translateY(0);
   max-height: 500px;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .catalog-categories {
+    position: static;
+    margin-bottom: 2rem;
+    padding: 20px;
+
+    &__list-item-summary {
+      padding: 14px 16px;
+      min-height: 56px;
+    }
+  }
 }
 </style>

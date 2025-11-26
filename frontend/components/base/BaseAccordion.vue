@@ -19,10 +19,10 @@ const { isOpen = false } = defineProps<{ isOpen?: boolean }>();
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: var(--bg-color-accordion);
-  padding: 15px 15px 15px 30px;
-  border-radius: 15px;
-  border: 1px solid rgba(#e0bea2, 0.4);
+  // background-color: var(--bg-color-accordion);
+  // padding: 15px 15px 15px 30px;
+  // border-radius: 15px;
+  // border: 1px solid rgba(#e0bea2, 0.4);
   cursor: pointer;
 
   &__content {

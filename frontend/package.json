@@ -20,6 +20,7 @@
     "@vueuse/core": "^13.3.0",
     "eslint": "^9.28.0",
     "maska": "^3.0.0",
+    "medium-zoom": "^1.1.0",
     "nuxt": "^3.17.4",
     "nuxt-swiper": "^2.0.1",
     "vue": "^3.5.16",

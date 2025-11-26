@@ -66,6 +66,7 @@ function sliceTitle(title: string) {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: $bg;
 
   &__info {
     padding: 15px 30px;

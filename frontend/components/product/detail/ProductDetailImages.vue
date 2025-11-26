@@ -39,6 +39,7 @@ defineEmits(["check-new-image"]);
   display: grid;
   grid-template-columns: 150px 1fr;
   height: 650px;
+  gap: 40px;
 
   @media (max-width: 768px) {
     grid-template-columns: 80px 1fr;
@@ -97,6 +98,7 @@ defineEmits(["check-new-image"]);
   border: 2px solid transparent;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  background-color: $bg;
 
   &:hover {
     border-color: $accent-dark;
@@ -121,6 +123,7 @@ defineEmits(["check-new-image"]);
 }
 .product-detail-images__main {
   height: 100%;
+  background-color: $bg;
   // display: flex;
   // align-items: center;
   // justify-content: center;

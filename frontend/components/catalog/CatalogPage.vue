@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import { api } from "~/api";
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 import type { IProductResponse } from "~/types";
 
 const productStore = useProductsStore();
 const isLoading = ref(false);
 const error = ref<string | null>(null);
+const { $api } = useNuxtApp();
 
 const { slug } = useRoute().params;
+
+export interface ICategoriesBySlugResponse {
+  id: string;
+  name: string;
+  slug: string;
+  has_children: boolean;
+  children: ICategoriesBySlugResponse[];
+}
 
 // Загружаем первую страницу при монтировании
 // onMounted(async () => {
@@ -16,6 +26,14 @@ const { slug } = useRoute().params;
 const { data: productsList } = await useAsyncData<IProductResponse>(
   `catalog-page-list-products-${slug}`,
   () => productStore.fetchAllProducts(1, 15, slug as string),
+  {
+    watch: [() => slug],
+  }
+);
+
+const { data: categoriesData } = await useAsyncData<ICategoriesBySlugResponse>(
+  `catalog-page-list-categories-${slug}`,
+  () => $api(api.category.listBySlug(slug as string)),
   {
     watch: [() => slug],
   }
@@ -54,9 +72,10 @@ const loadMore = async () => {
         <BaseBreadCrumbs :breadcrumbs="catalogPageBreadcrumbs" />
         <div class="catalog-layout">
           <div class="catalog-sidebar">
-            <CatalogCategories />
+            <CatalogCategories :categories="categoriesData?.children || []" />
           </div>
           <div class="catalog-content">
+            <h1 style="text-align: center; font-size: 45px;">{{ categoriesData?.name }}</h1>
             <CatalogFilters />
             <CatalogList
               v-if="productsList?.results"
@@ -79,7 +98,7 @@ const loadMore = async () => {
 <style scoped lang="scss">
 .catalog-layout {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   margin-top: 20px;
   margin-bottom: 100px;
   position: relative;
@@ -87,13 +106,13 @@ const loadMore = async () => {
 
 .catalog-sidebar {
   width: 250px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-  height: fit-content;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
+  // flex-shrink: 0;
+  // position: sticky;
+  // top: 20px;
+  // align-self: flex-start;
+  // height: fit-content;
+  // max-height: calc(100vh - 100px);
+  // overflow-y: auto;
 }
 
 .catalog-content {

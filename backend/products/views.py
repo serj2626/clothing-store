@@ -83,6 +83,34 @@ class BrandListView(generics.ListAPIView):
         return super().get(request, *args, **kwargs)
 
 
+class CategoryListBySlugView(APIView):
+    """Возвращает категорию + всё её дерево дочерних категорий"""
+
+    def build_tree(self, node):
+        return {
+            "id": node.id,
+            "name": node.name,
+            "slug": node.slug,
+            'has_children': node.get_children().exists(),
+            "children": [
+                self.build_tree(child)
+                for child in node.get_children()
+            ]
+        }
+
+    @extend_schema(tags=["Категории"], summary="Список категорий по слагу")
+    def get(self, request, slug=None):
+
+        qs = Category.objects.order_by("tree_id", "lft")
+
+        if slug:
+            category = get_object_or_404(qs, slug=slug)
+            data = self.build_tree(category)
+            return Response(data)
+
+        return Response({"error": "Категория не найдена"}, status=404)
+
+
 class CategoryListView(generics.ListAPIView):
     """Список всех категорий с древовидной структурой"""
 
