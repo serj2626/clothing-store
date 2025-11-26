@@ -92,10 +92,7 @@ class CategoryListBySlugView(APIView):
             "name": node.name,
             "slug": node.slug,
             'has_children': node.get_children().exists(),
-            "children": [
-                self.build_tree(child)
-                for child in node.get_children()
-            ]
+            "children": [self.build_tree(child) for child in node.get_children()],
         }
 
     @extend_schema(tags=["Категории"], summary="Список категорий по слагу")
@@ -144,9 +141,7 @@ def toggle_product_like(request, product_id):
     ip = get_client_ip(request)
     product = Product.objects.get(id=product_id)
 
-    like, created = ProductLike.objects.get_or_create(
-        product=product, ip_address=ip
-    )
+    like, created = ProductLike.objects.get_or_create(product=product, ip_address=ip)
 
     if not created:
         like.delete()
@@ -209,18 +204,10 @@ class ProductExampleListView(generics.ListAPIView):
         tags=[TAG],
         summary="Список товаров",
         parameters=[
-            OpenApiParameter(
-                "price_min", OpenApiTypes.NUMBER, description="Цена от"
-            ),
-            OpenApiParameter(
-                "price_max", OpenApiTypes.NUMBER, description="Цена до"
-            ),
-            OpenApiParameter(
-                "category", OpenApiTypes.INT, description="ID категории"
-            ),
-            OpenApiParameter(
-                "brand", OpenApiTypes.INT, description="ID бренда"
-            ),
+            OpenApiParameter("price_min", OpenApiTypes.NUMBER, description="Цена от"),
+            OpenApiParameter("price_max", OpenApiTypes.NUMBER, description="Цена до"),
+            OpenApiParameter("category", OpenApiTypes.INT, description="ID категории"),
+            OpenApiParameter("brand", OpenApiTypes.INT, description="ID бренда"),
             OpenApiParameter(
                 "gender",
                 OpenApiTypes.STR,

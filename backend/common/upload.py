@@ -4,7 +4,7 @@ from django.core.files.base import ContentFile
 from PIL import Image
 
 
-def compress_image(image_field, quality=70):
+def compress_image(image_field, quality=90):
     """
     Компрессия изображения
     """

@@ -5,6 +5,28 @@ const { currentImg, allImages } = defineProps<{
 }>();
 
 defineEmits(["check-new-image"]);
+
+const showZoom = ref(false);
+const lensX = ref(0);
+const lensY = ref(0);
+
+/**
+ * Функция, которая
+ * @param {MouseEvent} e - Событие мыши.
+ * @returns {void} - Изменяет значения lensX и lensY.
+ */
+function moveLens(e: MouseEvent) {
+  const container = e.currentTarget as HTMLElement;
+  const rect = container.getBoundingClientRect();
+
+  // координаты мыши внутри блока
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  // проценты для background-position
+  lensX.value = (x / rect.width) * 100;
+  lensY.value = (y / rect.height) * 100;
+}
 </script>
 <template>
   <div class="product-detail-images">
@@ -26,10 +48,30 @@ defineEmits(["check-new-image"]);
       </div>
     </div>
 
-    <div class="product-detail-images__main">
+    <div
+      class="product-detail-images__main"
+      data-clickable
+      @mousemove="
+        moveLens;
+        showZoom = true;
+      "
+      @mouseenter="showZoom = true"
+      @mouseleave="showZoom = false"
+      @touchstart.prevent="console.log('touchstart')"
+      @touchend.prevent="console.log('touchend')"
+    >
       <div
         class="product-detail-images__main-bg"
         :style="{ backgroundImage: `url(${getMedia(currentImg ?? '')})` }"
+      />
+      <div
+        v-if="showZoom"
+        class="product-detail-images__main-zoom"
+        :style="{
+          backgroundImage: `url(${getMedia(currentImg ?? '')})`,
+          backgroundPosition: `${lensX}% ${lensY}%`,
+          backgroundSize: '200%', // увеличиваем в 2 раза
+        }"
       />
     </div>
   </div>
@@ -124,9 +166,22 @@ defineEmits(["check-new-image"]);
 .product-detail-images__main {
   height: 100%;
   background-color: $bg;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+  position: relative;
+  cursor: crosshair;
+
+  &-zoom {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background-color: $white;
+    cursor: zoom-in;
+    border: 1px solid rgba(0, 0, 0, 0.166);
+    pointer-events: none;
+    border-radius: 8px;
+  }
 
   &-bg {
     width: 100%;
@@ -137,5 +192,18 @@ defineEmits(["check-new-image"]);
     border-radius: 12px;
     transition: all 0.3s ease;
   }
+}
+.product-detail-images__main-zoom {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 100%;          // справа от основного изображения
+  width: 300px;        // ширина лупы
+  height: 300px;       // высота лупы
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 8px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 200%; // увеличиваем в 2 раза
 }
 </style>

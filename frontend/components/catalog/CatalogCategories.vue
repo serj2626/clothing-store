@@ -116,13 +116,13 @@ const toggleCategory = (categoryId: string) => {
   }
 
   &__list-item-summary-btn {
-    background: rgba(102, 126, 234, 0.1);
+    // background: rgba(102, 126, 234, 0.1);
     border: none;
     padding: 8px;
     cursor: pointer;
-    color: #667eea;
+    // color: #667eea;
     transition: all 0.3s ease;
-    border-radius: 8px;
+    // border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,8 +142,8 @@ const toggleCategory = (categoryId: string) => {
 
   &__list-item-summary-btn-icon {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
 
     &.is-rotated {
       transform: rotate(180deg);

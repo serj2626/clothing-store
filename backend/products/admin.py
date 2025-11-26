@@ -48,9 +48,7 @@ class ProductColorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Brand)
-class BrandAdmin(
-    AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin
-):
+class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.ModelAdmin):
     """
     Админка брендов
     """
@@ -113,9 +111,7 @@ class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-    mptt_indent_field = (
-        "name"  # поле, по которому делается отступ для вложенности
-    )
+    mptt_indent_field = "name"  # поле, по которому делается отступ для вложенности
     list_display = (
         "tree_actions",  # стрелочки для раскрытия/сворачивания дерева
         "indented_title",  # название с отступом
@@ -123,9 +119,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
         'slug',
         "get_image",
     )
-    list_display_links = (
-        "indented_title",
-    )  # по клику на название — редактирование
+    list_display_links = ("indented_title",)  # по клику на название — редактирование
     prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
 
     def get_image(self, obj):
@@ -139,9 +133,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(
-    ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin
-):
+class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
 
     resource_class = ProductResource
@@ -150,7 +142,10 @@ class ProductAdmin(
     inlines = [
         ProductVariantInline,
     ]
-    list_filter = ("brand",("category", TreeRelatedFieldListFilter),)
+    list_filter = (
+        "brand",
+        ("category", TreeRelatedFieldListFilter),
+    )
     list_display = (
         "sku",
         "get_title",
