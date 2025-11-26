@@ -22,12 +22,13 @@ class RecursiveSerializer(serializers.Serializer):
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
-    children = RecursiveSerializer(many=True, read_only=True)
+    # children = RecursiveSerializer(many=True, read_only=True)
     image = RelativeOnlyImageField()
 
     class Meta:
         model = Category
-        fields = ("id", "name", "slug", "image", "children", "is_active")
+        # fields = ("id", "name", "slug", "image", "children", "is_active")
+        fields = ("id", "name", "slug", "image", "is_active")
 
 
 class CategoryDetailSerializer(CategoryListSerializer):

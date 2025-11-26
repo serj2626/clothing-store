@@ -1,7 +1,5 @@
 from django.urls import path
-
-# from .views import create_checkout_session
-from .views import (  # ReviewCreateView,; ReviewsListByProductView,
+from .views import (
     BrandListView,
     CategoryDetailView,
     CategoryListBySlugView,

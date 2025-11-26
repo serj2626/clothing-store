@@ -197,10 +197,10 @@ function moveLens(e: MouseEvent) {
   position: absolute;
   z-index: 1000;
   top: 0;
-  left: 100%;          // справа от основного изображения
-  width: 300px;        // ширина лупы
-  height: 300px;       // высота лупы
-  border: 1px solid rgba(0,0,0,0.2);
+  left: 100%; // справа от основного изображения
+  width: 300px; // ширина лупы
+  height: 300px; // высота лупы
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   pointer-events: none;
   background-repeat: no-repeat;

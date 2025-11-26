@@ -27,7 +27,9 @@ def normalize_product_title(sender, instance, **kwargs):
 def compress_image_before_save(sender, instance, **kwargs):
 
     if hasattr(instance, "avatar") and instance.avatar:
-        instance.avatar = compress_image(instance.avatar)
+        instance.avatar = compress_image(
+            image_field=instance.avatar, quality=90
+        )
 
     if hasattr(instance, "image") and instance.image:
-        instance.image = compress_image(instance.image)
+        instance.image = compress_image(image_field=instance.image, quality=80)
