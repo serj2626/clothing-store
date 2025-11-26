@@ -1,0 +1,107 @@
+[
+  {
+    "model": "products.productsize",
+    "pk": 1,
+    "fields": { "title": "40 RU / 40", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 2,
+    "fields": { "title": "41 RU / 41", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 3,
+    "fields": { "title": "42 RU / 42", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 4,
+    "fields": { "title": "43 RU / 43", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 5,
+    "fields": { "title": "44 RU / 44", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 6,
+    "fields": { "title": "46-48 (S)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 7,
+    "fields": { "title": "50 (M)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 8,
+    "fields": { "title": "52-54 (L)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 9,
+    "fields": { "title": "56 (XL)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 10,
+    "fields": { "title": "58-60 (XXL)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 11,
+    "fields": { "title": "48 (M)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 12,
+    "fields": { "title": "54 (XXL)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 13,
+    "fields": { "title": "46 (S)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 14,
+    "fields": { "title": "44 (XS)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 15,
+    "fields": { "title": "40 (XXS)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 16,
+    "fields": { "title": "42 (XS)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 17,
+    "fields": { "title": "44 (S)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 18,
+    "fields": { "title": "46 (M)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 19,
+    "fields": { "title": "50 (XL)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 20,
+    "fields": { "title": "48 (L)", "slug": null }
+  },
+  {
+    "model": "products.productsize",
+    "pk": 21,
+    "fields": { "title": "52 (XXL)", "slug": null }
+  }
+]

@@ -1,0 +1,308 @@
+[
+  {
+    "model": "products.product",
+    "pk": "150daab5-0b33-4768-8f69-40222315bf7d",
+    "fields": {
+      "content": "",
+      "title": "Пальто Однобортное На Пуговицах",
+      "created_at": "2025-11-24T20:53:00.631Z",
+      "updated_at": "2025-11-26T16:54:39.133Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "3ad8f3d6-b336-46ed-a783-b074b02caf1a",
+      "price": "6500.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "NON-VE-M-BF7D7",
+      "avatar": "uploads/product/2025/11/5e00662f43374e0d863a79ca36c80543.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "3de75072-4b12-42d9-b0e8-89e2b8003fd0",
+    "fields": {
+      "content": "",
+      "title": "Джинсы Прямые С Низкой Посадкой",
+      "created_at": "2025-11-24T21:00:27.140Z",
+      "updated_at": "2025-11-24T21:41:37.467Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "a0215fc7-1980-4a97-b00e-d4bf48af963a",
+      "price": "3250.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-NI-M-3FD09",
+      "avatar": "uploads/product/2025/11/b9d37b2fb23249f5b88a87bd7c64e0fd.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "49d6bf48-5d1e-4c9c-8c03-0f75dbf16d36",
+    "fields": {
+      "content": "",
+      "title": "Сникерсы",
+      "created_at": "2025-11-21T21:18:23.620Z",
+      "updated_at": "2025-11-26T16:59:37.536Z",
+      "brand": "e03f067b-7c74-4350-aa5b-d34b10f85995",
+      "category": "6d9cf7ce-1bf5-4235-bbb5-6192c148bce8",
+      "price": "8400.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "HE-OB-M-6D363",
+      "avatar": "uploads/product/2025/11/d0c0d48a531a4ae583f3c946c5bbaee9.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "64782283-6ad5-48d6-a2e8-d27ef820b394",
+    "fields": {
+      "content": "",
+      "title": "Футболка Хлопковая",
+      "created_at": "2025-11-24T21:05:04.131Z",
+      "updated_at": "2025-11-24T21:41:37.499Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "bd4e1907-2189-4b89-9922-55367a7add3c",
+      "price": "500.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-VE-M-B39410",
+      "avatar": "uploads/product/2025/11/20caac0d2a1e4a699e0f7a8f48ef8e78.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "68b5172a-5f7f-4893-a385-5259c693f66a",
+    "fields": {
+      "content": "",
+      "title": "Топ Вискозный",
+      "created_at": "2025-11-26T09:02:23.877Z",
+      "updated_at": "2025-11-26T19:41:33.278Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "468aaf42-333f-4bca-acbb-480373769029",
+      "price": "0.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-MA-F-F66A17",
+      "avatar": "uploads/product/2025/11/9e646f81049c4b1cbc9814154ff6af3d.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "78b9f0e0-6ec3-43d9-804f-b2d36b875b1f",
+    "fields": {
+      "content": "",
+      "title": "Худи Из Футера С Начесом",
+      "created_at": "2025-11-26T08:56:02.161Z",
+      "updated_at": "2025-11-26T08:56:02.161Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "a982a709-8f53-408d-961b-f4d17172dff4",
+      "price": "1400.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-TO-F-5B1F16",
+      "avatar": "uploads/product/2025/11/47861534e4934520968506f48637d60c.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "7a54b401-efff-446e-8be6-f7b5449e10af",
+    "fields": {
+      "content": "",
+      "title": "Куртка Стеганая С Капюшоном",
+      "created_at": "2025-11-26T08:50:24.018Z",
+      "updated_at": "2025-11-26T16:50:45.558Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "67657f03-df8c-407a-89ec-6f0138f22fa5",
+      "price": "2500.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-VE-M-10AF14",
+      "avatar": "uploads/product/2025/11/be45ab6a8f4542d79cb1c422951ae761.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "88943569-cdb1-4f84-85f0-ffce2e32e0d5",
+    "fields": {
+      "content": "",
+      "title": "Ботинки Henderson",
+      "created_at": "2025-11-21T21:00:11.661Z",
+      "updated_at": "2025-11-26T17:01:25.826Z",
+      "brand": "e03f067b-7c74-4350-aa5b-d34b10f85995",
+      "category": "6d9cf7ce-1bf5-4235-bbb5-6192c148bce8",
+      "price": "10500.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "HE-OB-M-E0D51",
+      "avatar": "uploads/product/2025/11/06c9ae3fc22f43508ce1f48bf499dbe1.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "8bfc1de3-92b2-4ce3-8818-61131c9c2fa3",
+    "fields": {
+      "content": "",
+      "title": "Джинсы Базовые Слим",
+      "created_at": "2025-11-24T20:57:48.056Z",
+      "updated_at": "2025-11-26T17:14:38.992Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "a0215fc7-1980-4a97-b00e-d4bf48af963a",
+      "price": "3200.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-NI-M-2FA38",
+      "avatar": "uploads/product/2025/11/e6a123fa50e74817b062204c300d9b52.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "a5ad1367-fc24-4eed-aa69-dbba6c0412ee",
+    "fields": {
+      "content": "",
+      "title": "Юбка-Трапеция В Клетку",
+      "created_at": "2025-11-26T08:45:08.496Z",
+      "updated_at": "2025-11-26T17:09:06.842Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "21776026-62df-4b0c-8345-90f8b6426045",
+      "price": "1000.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-JUB-F-12EE13",
+      "avatar": "uploads/product/2025/11/c533d2384e904e11ad96ebbe970efd92.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "bc979272-042c-4a79-a557-5ba55939a32e",
+    "fields": {
+      "content": "",
+      "title": "Платье С Коротким Рукавом Из Искусственной Замши",
+      "created_at": "2025-11-26T08:52:10.089Z",
+      "updated_at": "2025-11-26T17:10:03.073Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "3159d393-94e5-4e08-8617-a152d9ddd603",
+      "price": "2800.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-PL-F-A32E15",
+      "avatar": "uploads/product/2025/11/f6b22fdc9fcd491bacb820395d3d0274.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "c8bd5ff1-3d24-47f0-98c5-22c98d2bf1a2",
+    "fields": {
+      "content": "",
+      "title": "Водолазка Базовая Хлопковая",
+      "created_at": "2025-11-24T21:37:38.064Z",
+      "updated_at": "2025-11-26T17:04:51.081Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "ff030468-662b-4b94-8cfd-d0c44beeabcb",
+      "price": "1800.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-LO-M-F1A212",
+      "avatar": "uploads/product/2025/11/c76e59eba65c43f49ebc668259f51b40.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "cb172d42-da67-471c-b9bb-e5bb8afdd150",
+    "fields": {
+      "content": "",
+      "title": "Майка Базовая",
+      "created_at": "2025-11-24T21:29:10.297Z",
+      "updated_at": "2025-11-24T21:41:36.138Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "379502b5-d08f-4a86-bbbd-65d9c73f4911",
+      "price": "500.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-MA-M-D15011",
+      "avatar": "uploads/product/2025/11/58555f96d76141a0bf25e24d2bf4795b.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "cc85ad6d-b47f-4dc2-b1c7-4bd14f841842",
+    "fields": {
+      "content": "",
+      "title": "Рубашка Базовая С V-Образным Вырезом",
+      "created_at": "2025-11-26T09:05:02.867Z",
+      "updated_at": "2025-11-26T16:41:21.208Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "bd02720e-fd85-4af0-841f-37741579efd9",
+      "price": "500.00",
+      "gender": "F",
+      "is_active": true,
+      "sku": "OO-RU-F-184218",
+      "avatar": "uploads/product/2025/11/c3fd9d438019499d95f37f8a64e6b5f0.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "e7ab6fe0-c139-4258-ad7e-f737520f2e39",
+    "fields": {
+      "content": "",
+      "title": "Сникерсы",
+      "created_at": "2025-11-21T21:15:17.572Z",
+      "updated_at": "2025-11-26T16:55:33.595Z",
+      "brand": "e03f067b-7c74-4350-aa5b-d34b10f85995",
+      "category": "6d9cf7ce-1bf5-4235-bbb5-6192c148bce8",
+      "price": "9000.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "HE-OB-M-2E392",
+      "avatar": "uploads/product/2025/11/3497caeb23fa494aad6a31cc5b538667.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "e875c968-7c74-432f-a788-b0dd55a72fa8",
+    "fields": {
+      "content": "",
+      "title": "Жилет Стеганый С Воротником-Стойкой",
+      "created_at": "2025-11-24T20:50:44.349Z",
+      "updated_at": "2025-11-26T17:02:52.578Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "3ad8f3d6-b336-46ed-a783-b074b02caf1a",
+      "price": "2200.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-VE-M-2FA86",
+      "avatar": "uploads/product/2025/11/4e1e165286e7408bb5f09b942d7123ef.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "ede4a8a0-e86d-4e62-a517-638c70e95663",
+    "fields": {
+      "content": "",
+      "title": "Куртка-Бомбер Стеганая",
+      "created_at": "2025-11-24T20:43:00.345Z",
+      "updated_at": "2025-11-24T21:41:36.178Z",
+      "brand": "9e7a74b7-35c3-47d9-b998-8ab40bbc5296",
+      "category": "3ad8f3d6-b336-46ed-a783-b074b02caf1a",
+      "price": "2800.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "OO-VE-M-56635",
+      "avatar": "uploads/product/2025/11/ad8f5455975f40c5963783066a5d9ab1.webp"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": "f6e011a9-143d-4f65-a181-59cb55f04877",
+    "fields": {
+      "content": "",
+      "title": "Кроссовки",
+      "created_at": "2025-11-21T21:21:38.741Z",
+      "updated_at": "2025-11-26T16:58:06.390Z",
+      "brand": "e03f067b-7c74-4350-aa5b-d34b10f85995",
+      "category": "6d9cf7ce-1bf5-4235-bbb5-6192c148bce8",
+      "price": "8000.00",
+      "gender": "M",
+      "is_active": true,
+      "sku": "HE-OB-M-48774",
+      "avatar": "uploads/product/2025/11/19313c2630d946e1abc8c1a2392b2a0b.webp"
+    }
+  }
+]

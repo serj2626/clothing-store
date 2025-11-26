@@ -1,0 +1,79 @@
+[
+  {
+    "model": "products.productcolor",
+    "pk": 1,
+    "fields": { "title": "Черный", "color": "#000000", "slug": "chernyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 2,
+    "fields": { "title": "Белый", "color": "#fff", "slug": "belyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 3,
+    "fields": { "title": "Синий", "color": "#0078e8", "slug": "sinij" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 4,
+    "fields": { "title": "Желтый", "color": "#eafc19", "slug": "zheltyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 5,
+    "fields": { "title": "Бирезовый", "color": "#07deda", "slug": "birezovyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 6,
+    "fields": {
+      "title": "Фиолетовый",
+      "color": "#e807d5",
+      "slug": "fioletovyj"
+    }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 7,
+    "fields": { "title": "Зеленый", "color": "#05f05f", "slug": "zelenyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 8,
+    "fields": { "title": "Серый", "color": "#a6a1ad", "slug": "seryj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 9,
+    "fields": { "title": "Красный", "color": "#f2020e", "slug": "krasnyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 10,
+    "fields": {
+      "title": "Коричневый",
+      "color": "#4B2E19",
+      "slug": "korichnevyj"
+    }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 11,
+    "fields": { "title": "Бежевый", "color": "#F5E8C7", "slug": "bezhevyj" }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 12,
+    "fields": {
+      "title": "Слоновая кость",
+      "color": "#FFF8E7",
+      "slug": "slonovaja-kost"
+    }
+  },
+  {
+    "model": "products.productcolor",
+    "pk": 13,
+    "fields": { "title": "Розовый", "color": "#FFB6C1", "slug": "rozovyj" }
+  }
+]
