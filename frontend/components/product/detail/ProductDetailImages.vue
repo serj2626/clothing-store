@@ -27,8 +27,6 @@ function moveLens(e: MouseEvent) {
   lensX.value = (x / rect.width) * 100;
   lensY.value = (y / rect.height) * 100;
 }
-
-
 </script>
 <template>
   <div class="product-detail-images">
@@ -66,20 +64,7 @@ function moveLens(e: MouseEvent) {
         class="product-detail-images__main-bg"
         :style="{ backgroundImage: `url(${getMedia(currentImg ?? '')})` }"
       />
-      <!-- <div
-        v-if="showZoom"
-        class="product-detail-images__main-zoom"
-        :style="{
-          backgroundImage: `url(${getMedia(currentImg ?? '')})`,
-          backgroundPosition: `${lensX}% ${lensY}%`,
-          backgroundSize: '200%', // увеличиваем в 2 раза
-        }"
-      /> -->
     </div>
-  </div>
-
-  <div class="img-magnifier-container">
-    <img id="myimage" :src="getMedia(currentImg ?? '')" width="600" height="400" alt="Girl" />
   </div>
 </template>
 <style scoped lang="scss">
