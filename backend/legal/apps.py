@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class LegalConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'legal'
-    verbose_name = '№7 Юридическая информация'
+    verbose_name = '№8 Юридическая информация'

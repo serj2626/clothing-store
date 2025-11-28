@@ -1,16 +1,15 @@
 from django.db.models import Sum
 from rest_framework import serializers
 
-from common.utils import RelativeOnlyImageField, get_client_ip
+from common.utils import RelativeOnlyImageField
 
-from .models import (  # Favorite,
+from .models import (
     Brand,
     Category,
     Favorite,
     Product,
-    ProductLike,
     ProductVariant,
-)
+)  # Favorite,
 
 
 class RecursiveSerializer(serializers.Serializer):
@@ -92,18 +91,45 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         )
 
 
+class ProductLastListSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор последнего списка продуктов
+    """
+
+    brand = serializers.SerializerMethodField()
+    avatar = RelativeOnlyImageField()
+
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "brand",
+            "title",
+            "avatar",
+            "is_active",
+            'sku',
+            'price',
+        )
+
+    def get_brand(self, obj):
+        return {
+            'name': obj.brand.name,
+            'slug': obj.brand.slug,
+        }
+
+
 class ProductSerializer(serializers.ModelSerializer):
     """
     Сериализатор продукта
     """
 
-    liked = serializers.SerializerMethodField()
+    # liked = serializers.SerializerMethodField()
     variants = ProductVariantSerializer(many=True, read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
     brand = BrandSerializer(read_only=True)
-    count_likes = serializers.SerializerMethodField()
-    count_reviews = serializers.SerializerMethodField()
+    # count_likes = serializers.SerializerMethodField()
+    # count_reviews = serializers.SerializerMethodField()
     total_count = serializers.SerializerMethodField()
     avatar = RelativeOnlyImageField()
 
@@ -117,30 +143,29 @@ class ProductSerializer(serializers.ModelSerializer):
             "avatar",
             "is_active",
             "category",
-            "count_likes",
-            "count_reviews",
+            # "count_likes",
+            # "count_reviews",
             "total_count",
             'sku',
             'price',
             "variants",
-            "liked",
         )
 
-    def get_count_likes(self, obj):
-        return obj.likes.count()
+    # def get_count_likes(self, obj):
+    #     return obj.likes.count()
 
-    def get_count_reviews(self, obj):
-        return obj.reviews.count()
+    # def get_count_reviews(self, obj):
+    #     return obj.reviews.count()
 
     def get_total_count(self, obj):
         return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
 
-    def get_liked(self, obj):
-        request = self.context.get("request")
-        if not request:
-            return False
-        ip = get_client_ip(request)
-        return ProductLike.objects.filter(product=obj, ip_address=ip).exists()
+    # def get_liked(self, obj):
+    #     request = self.context.get("request")
+    #     if not request:
+    #         return False
+    #     ip = get_client_ip(request)
+    #     return ProductLike.objects.filter(product=obj, ip_address=ip).exists()
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

@@ -217,6 +217,7 @@ class Product(
         null=True,
         blank=True,
     )
+    # likes = GenericRelation("Like")
 
     @property
     def count(self):
@@ -240,29 +241,6 @@ class Product(
 
     def __str__(self):
         return self.title
-
-
-class ProductLike(models.Model):
-    """
-    Лайк товара
-    """
-
-    product = models.ForeignKey(
-        "Product",
-        on_delete=models.CASCADE,
-        related_name="likes",
-        verbose_name="Товар",
-    )
-    ip_address = models.GenericIPAddressField("IP", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-
-    class Meta:
-        unique_together = ("product", "ip_address")  # один лайк с одного IP
-        verbose_name = "Лайк"
-        verbose_name_plural = "Лайки"
-
-    def __str__(self):
-        return f"{self.ip_address} -> {self.product.title}"
 
 
 class ProductVariant(models.Model):

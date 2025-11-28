@@ -16,7 +16,6 @@ from .models import (
     Discount,
     Product,
     ProductColor,
-    ProductLike,
     ProductSize,
     ProductVariant,
 )
@@ -63,19 +62,6 @@ class BrandAdmin(AdminImagePreviewMixin, AdminShortDescriptionMixin, admin.Model
     search_fields = ("name", "country")
 
     prepopulated_fields = {"slug": ("name",)}
-
-
-@admin.register(ProductLike)
-class ProductLikeAdmin(admin.ModelAdmin):
-    """
-    Админка лайков
-    """
-
-    list_display = (
-        "product",
-        "ip_address",
-        "created_at",
-    )
 
 
 @admin.register(Discount)
@@ -154,8 +140,8 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "gender",
         "category",
         "is_active",
-        "get_count_likes",
-        "get_count_reviews",
+        # "get_count_likes",
+        # "get_count_reviews",
         "avatar_preview",
     )
     readonly_fields = ("avatar_preview",)
@@ -173,19 +159,19 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
     search_fields = ('sku', "title", "brand__name", "brand__country")
     ordering = ["category"]
 
-    def get_count_likes(self, obj):
-        return obj.likes.count()
+    # def get_count_likes(self, obj):
+    #     return obj.likes.count()
 
     def get_title(self, obj):
         return f"{obj.title[:20]}..."
 
-    def get_count_reviews(self, obj):
-        return obj.reviews.count() if obj.reviews else 0
+    # def get_count_reviews(self, obj):
+    #     return obj.reviews.count() if obj.reviews else 0
 
     # def get_count(self, obj):
     #     return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
 
-    get_count_likes.short_description = "Лайки"
-    get_count_reviews.short_description = "Отзывы"
+    # get_count_likes.short_description = "Лайки"
+    # get_count_reviews.short_description = "Отзывы"
     # get_count.short_description = "Количество"
     get_title.short_description = "Название"

@@ -1,6 +1,5 @@
 import stripe
 from django.conf import settings
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -8,21 +7,21 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import filters, generics
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.pagination import ListResultsSetPagination
-from common.utils import get_cache_ttl, get_client_ip
+from common.utils import get_cache_ttl
 
 from .filters import ProductFilter
-from .models import Brand, Category, Favorite, Product, ProductLike
+from .models import Brand, Category, Favorite, Product
 from .serializers import (
     BrandSerializer,
     CategoryDetailSerializer,
     CategoryListSerializer,
     FavoriteSerializer,
+    ProductLastListSerializer,
     ProductSerializer,
 )
 
@@ -86,22 +85,22 @@ class CategoryDetailView(generics.RetrieveAPIView):
     lookup_field = "slug"
 
 
-@extend_schema(tags=[TAG], summary="Поставить лайк товару")
-@api_view(["POST"])
-def toggle_product_like(request, product_id):
-    ip = get_client_ip(request)
-    product = Product.objects.get(id=product_id)
+# @extend_schema(tags=[TAG], summary="Поставить лайк товару")
+# @api_view(["POST"])
+# def toggle_product_like(request, product_id):
+#     ip = get_client_ip(request)
+#     product = Product.objects.get(id=product_id)
 
-    like, created = ProductLike.objects.get_or_create(product=product, ip_address=ip)
+#     like, created = ProductLike.objects.get_or_create(product=product, ip_address=ip)
 
-    if not created:
-        like.delete()
-        liked = False
-    else:
-        liked = True
+#     if not created:
+#         like.delete()
+#         liked = False
+#     else:
+#         liked = True
 
-    total_likes = ProductLike.objects.filter(product=product).count()
-    return JsonResponse({"liked": liked, "total_likes": total_likes})
+#     total_likes = ProductLike.objects.filter(product=product).count()
+#     return JsonResponse({"liked": liked, "total_likes": total_likes})
 
 
 @extend_schema(
@@ -116,7 +115,7 @@ class ProductLastCollectionView(generics.ListAPIView):
         .select_related("brand", 'category')
         .order_by("-created_at")[:10]
     )
-    serializer_class = ProductSerializer
+    serializer_class = ProductLastListSerializer
 
 
 @extend_schema(tags=[TAG], summary="Список товаров по слагу категории")
@@ -134,6 +133,7 @@ class ProductListView(generics.ListAPIView):
             Product.objects.filter(category__in=categories)
             .select_related("brand", 'category')
             .prefetch_related("variants")
+            .order_by("category__name", 'title')
             .all()
         )
 

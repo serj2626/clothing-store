@@ -48,7 +48,7 @@ class BaseDate(models.Model):
         abstract = True
 
 
-class BaseReview(BaseID, BaseDescription, BaseDate):
+class BaseReview(BaseDescription, BaseDate, models.Model):
     is_published = models.BooleanField("Опубликован", default=False)
 
     @property

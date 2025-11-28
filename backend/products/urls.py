@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (
+from .views import (  # toggle_product_like,
     BrandListView,
     CategoryDetailView,
     CategoryListBySlugView,
@@ -8,7 +8,6 @@ from .views import (
     ProductDetailView,
     ProductLastCollectionView,
     ProductListView,
-    toggle_product_like,
 )
 
 urlpatterns = [
@@ -30,7 +29,7 @@ urlpatterns = [
     #     ReviewCreateView.as_view(),
     #     name="product_detail_create_review",
     # ),
-    path("<uuid:product_id>/like/", toggle_product_like, name="product-like"),
+    # path("<uuid:product_id>/like/", toggle_product_like, name="product-like"),
     path("categories/", CategoryListView.as_view(), name="category-list"),
     path(
         "categories/<slug:slug>/list",
