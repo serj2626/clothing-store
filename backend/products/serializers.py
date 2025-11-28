@@ -3,13 +3,7 @@ from rest_framework import serializers
 
 from common.utils import RelativeOnlyImageField
 
-from .models import (
-    Brand,
-    Category,
-    Favorite,
-    Product,
-    ProductVariant,
-)  # Favorite,
+from .models import Brand, Category, Favorite, Product, ProductVariant  # Favorite,
 
 
 class RecursiveSerializer(serializers.Serializer):

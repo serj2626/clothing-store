@@ -6,6 +6,9 @@ migrate:
 
 make:
 	python manage.py makemigrations
+	
+show:
+	python manage.py showmigrations
 
 redis:
 	docker start my-redis
