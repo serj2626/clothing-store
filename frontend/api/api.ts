@@ -15,6 +15,7 @@ export const api = {
     feedback: "/contacts/feedback/", //Запрос на создание обратной связи
     footer: "/contacts/footer/", //Запрос на получение данных для футера
     subscription: "/contacts/subscription/", //Запрос на создание подписки
+    faq: "/contacts/faq/", //Запрос на получение списка вопросов и ответов
   },
   orders: {
     checkout: "/orders/checkout/", //Запрос на создание заказа

@@ -5,16 +5,26 @@ from rest_framework import generics
 
 from common.mixins import BaseSectionViewMixin
 from common.utils import get_cache_ttl
+from common.pagination import ListResultsSetPagination
 
-from .models import Contact, Feedback, Footer, Subscription
+from .models import Contact, Feedback, Footer, Subscription, FAQ
 from .serializers import (
     ContactSerializer,
     FeedbackSerializer,
     FooterSerializer,
     SubscriptionSerializer,
+    FAQListSerializer,
 )
 
 TAG = "Контакты"
+
+
+@extend_schema(tags=[TAG], summary="FAQ")
+@method_decorator(cache_page(get_cache_ttl()), name='dispatch')
+class FAQListView(generics.ListAPIView):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQListSerializer
+    pagination_class = ListResultsSetPagination
 
 
 @extend_schema(tags=[TAG], summary="Подписаться на рассылку")

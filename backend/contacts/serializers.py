@@ -1,6 +1,20 @@
 from rest_framework import serializers
 
-from .models import Contact, Feedback, Footer, FooterLink, FooterLinkItem, Subscription
+from .models import (
+    Contact,
+    Feedback,
+    Footer,
+    FooterLink,
+    FooterLinkItem,
+    Subscription,
+    FAQ,
+)
+
+
+class FAQListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ('id', "question", "answer")
 
 
 class FooterLinkItemSerializer(serializers.ModelSerializer):

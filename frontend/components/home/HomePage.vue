@@ -22,6 +22,7 @@ const { data: categoriesList } = await useAsyncData<ICategoryResponse[]>(
       v-bind="$attrs"
       :list="categoriesList || []"
     />
+    <FaqComponent />
     <BaseFormSubscribe />
   </div>
 </template>

@@ -1,43 +1,68 @@
-<script setup lang="ts">
-const { isOpen = false } = defineProps<{ isOpen?: boolean }>();
+<script setup>
+defineProps({
+  isOpen: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(["update:isOpen"]);
+
+const toggle = () => {
+  emit("update:isOpen");
+};
 </script>
 <template>
-  <div
-    class="base-accordion-component"
-    :class="{ 'base-accordion-component_open': isOpen }"
-  >
-    <div class="base-accordion-component__summary">
+  <div class="accordion" :class="{ accordion_open: isOpen }" @click="toggle">
+    <div class="accordion__summary">
       <slot name="summary" />
     </div>
-    <div class="base-accordion-component__content">
-      <slot />
+    <div class="accordion__content">
+      <slot name="content" />
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
-.base-accordion-component {
+.accordion {
   display: flex;
   flex-direction: column;
+  padding: 10px;
   width: 100%;
-  // background-color: var(--bg-color-accordion);
-  // padding: 15px 15px 15px 30px;
-  // border-radius: 15px;
-  // border: 1px solid rgba(#e0bea2, 0.4);
   cursor: pointer;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $accent-dark;
+    transform: scaleY(.1);
+    transition: transform 0.3s ease;
+  }
 
   &__content {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    color: rgb(96, 94, 94);
+    font-size: 15px;
+
+    padding-top: 0;
+    transition: max-height 0.2s cubic-bezier(0, 1, 0, 1), padding-top 0.2s ease;
   }
 
   &_open {
-    transition: all 0.3s ease-in;
-    box-shadow: 0 5px 15px $accent;
-    gap: 15px;
-    &:deep(.base-accordion-component__content) {
+    &::before {
+      transform: scaleY(1);
+    }
+    &:deep(.accordion__content) {
+      padding-right: 30px;
       max-height: 1000px;
-      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+      padding-top: 15px;
+      transition: max-height 0.2s cubic-bezier(1, 0, 1, 0),
+        padding-top 0.2s ease;
     }
   }
 }
