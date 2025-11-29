@@ -53,7 +53,7 @@ class Review(LikeableMixin, CommentableMixin, BaseReview):
         return f"Отзыв от {self.user.email} на {self.product.title}"
 
 
-class Comment(LikeableMixin, BaseDate, models.Model):
+class Comment(LikeableMixin, BaseDate):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
 
@@ -71,6 +71,12 @@ class Comment(LikeableMixin, BaseDate, models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False, verbose_name="Проверен?")
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"Комментарий от {self.user}"
@@ -86,7 +92,9 @@ class ReviewPhoto(BaseDate):
     image = models.ImageField(
         "Фотография",
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
             validate_image_size,
             validate_file_size,
         ],
@@ -98,7 +106,9 @@ class ReviewPhoto(BaseDate):
 
     def save(self, *args, **kwargs):
         current_review = self.review
-        count_photos = ReviewPhoto.objects.filter(review=current_review).count()
+        count_photos = ReviewPhoto.objects.filter(
+            review=current_review
+        ).count()
         if count_photos >= 5:
             raise ValidationError("Достигнут максимум 5 фотографий")
         self.image = compress_image(self.image)
@@ -168,6 +178,8 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ("user", "content_type", "object_id")
+        verbose_name = "Лайк"
+        verbose_name_plural = "Лайки"
 
     def __str__(self):
         return f"Лайк от {self.user} -> {self.content_object}"
