@@ -16,6 +16,9 @@ redis:
 shell:
 	python manage.py shell
 
+plus:
+	python3 manage.py shell_plus --ipython
+
 createsuperuser:
 	python manage.py createsuperuser
 

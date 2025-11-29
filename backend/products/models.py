@@ -7,7 +7,7 @@ from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 from transliterate import slugify as ru_slugify
 
-from common.mixins import WebpImageMixin
+from common.mixins import CommentableMixin, LikeableMixin, WebpImageMixin
 from common.models import (
     BaseContent,
     BaseDate,
@@ -181,6 +181,8 @@ class Product(
     BaseTitle,
     BaseDate,
     BaseContent,
+    LikeableMixin,
+    CommentableMixin,
 ):
     """
     Продукт
@@ -217,7 +219,6 @@ class Product(
         null=True,
         blank=True,
     )
-    # likes = GenericRelation("Like")
 
     @property
     def count(self):

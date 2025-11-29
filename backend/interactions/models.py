@@ -1,4 +1,4 @@
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import (
@@ -9,6 +9,7 @@ from django.core.validators import (
 from django.db import models
 from django.utils.timesince import timesince
 
+from common.mixins import CommentableMixin, LikeableMixin
 from common.models import BaseDate, BaseReview
 from common.upload import compress_image
 from common.upload_to import dynamic_upload_to
@@ -17,7 +18,7 @@ from products.utils.validators import validate_file_size, validate_image_size
 from users.models import User
 
 
-class Review(BaseReview):
+class Review(LikeableMixin, CommentableMixin, BaseReview):
     """
     Отзыв продукта
     """
@@ -42,9 +43,6 @@ class Review(BaseReview):
         'Рейтинг', validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
-    likes = GenericRelation("Like", related_query_name="review")
-    comments = GenericRelation("Comment", related_query_name="review")
-
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
@@ -55,7 +53,7 @@ class Review(BaseReview):
         return f"Отзыв от {self.user.email} на {self.product.title}"
 
 
-class Comment(models.Model):
+class Comment(LikeableMixin, BaseDate, models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
 
@@ -73,8 +71,6 @@ class Comment(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
-
-    likes = GenericRelation("Like", related_query_name="comment")
 
     def __str__(self):
         return f"Комментарий от {self.user}"

@@ -84,7 +84,7 @@ const toggleCategory = (categoryId: string) => {
     &:hover {
       transform: translateX(2px);
       // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.13);
+      box-shadow:-10px 0 10px 5px rgba(0, 0, 0, 0.13);
       border-color: #cbd5e0;
     }
 

@@ -133,7 +133,7 @@ class ProductListView(generics.ListAPIView):
             Product.objects.filter(category__in=categories)
             .select_related("brand", 'category')
             .prefetch_related("variants")
-            .order_by("category__name", 'title')
+            .order_by('price')
             .all()
         )
 

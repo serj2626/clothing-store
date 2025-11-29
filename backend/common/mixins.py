@@ -1,4 +1,10 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import MultipleObjectsReturned
+from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from rest_framework.exceptions import NotFound
@@ -6,6 +12,42 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.upload import compress_image
+
+if TYPE_CHECKING:
+    from interactions.models import Comment, Like
+
+
+class CommentableMixin(models.Model):
+    comments: GenericRelation["Comment"] = GenericRelation(
+        "interactions.Comment",
+        related_query_name="%(class)s_comments",
+    )
+
+    class Meta:
+        abstract = True
+
+    @property
+    def comments_count(self) -> int:
+        return self.comments.count()
+
+
+class LikeableMixin(models.Model):
+    likes: GenericRelation["Like"] = GenericRelation(
+        "interactions.Like",
+        related_query_name="%(class)s_likes",
+    )
+
+    class Meta:
+        abstract = True
+
+    @property
+    def likes_count(self) -> int:
+        return self.likes.count()
+
+    def is_liked_by(self, user) -> bool:
+        if user.is_anonymous:
+            return False
+        return self.likes.filter(user=user).exists()
 
 
 class WebpImageMixin:
