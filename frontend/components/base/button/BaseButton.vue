@@ -19,11 +19,12 @@ const {
 
 <template>
   <button
+    :disabled="disabled"
     :class="[
       'base-button',
       { 'base-button_outline': outline },
       `base-button__${size}`,
-      { 'base-button-fill_disabled': disabled },
+      { 'base-button_disabled': disabled },
     ]"
   >
     {{ label }}
@@ -75,6 +76,10 @@ const {
 
   &__lg {
     padding: 16px 28px;
+  }
+  &_disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 </style>

@@ -62,7 +62,6 @@ const loadMore = async () => {
   }
 };
 </script>
-
 <template>
   <div class="catalog-page">
     <div v-if="isLoading && productStore.products.length === 0">Loading...</div>
@@ -75,7 +74,9 @@ const loadMore = async () => {
             <CatalogCategories :categories="categoriesData?.children || []" />
           </div>
           <div class="catalog-content">
-            <h1 style="text-align: center; font-size: 45px;">{{ categoriesData?.name }}</h1>
+            <h1 style="text-align: center; font-size: 45px">
+              {{ categoriesData?.name }}
+            </h1>
             <CatalogFilters />
             <CatalogList
               v-if="productsList?.results"
@@ -94,32 +95,38 @@ const loadMore = async () => {
     </template>
   </div>
 </template>
-
 <style scoped lang="scss">
 .catalog-layout {
-  display: flex;
-  gap: 40px;
   margin-top: 20px;
   margin-bottom: 100px;
-  position: relative;
+  
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 .catalog-sidebar {
   width: 250px;
-  // flex-shrink: 0;
-  // position: sticky;
-  // top: 20px;
-  // align-self: flex-start;
-  // height: fit-content;
-  // max-height: calc(100vh - 100px);
-  // overflow-y: auto;
+  float: left;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 
 .catalog-content {
-  flex: 1;
+  float: left;
+  width: calc(100% - 290px); /* 100% минус сайдбар + отступ */
+  margin-left: 40px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  
+  /* Если контент выше сайдбара - он займет всю ширину автоматически */
 }
 
 .loading-indicator {
@@ -129,32 +136,19 @@ const loadMore = async () => {
 }
 
 @media (max-width: 768px) {
-  .catalog-layout {
-    flex-direction: column;
-  }
-
   .catalog-sidebar {
     width: 100%;
+    float: none;
     position: static;
     max-height: none;
+    margin-bottom: 20px;
+  }
+  
+  .catalog-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px 0;
+    float: none;
   }
 }
 </style>
-
-<!-- <script setup lang="ts">
-import type { IProductResponse } from '~/types';
-
-console.log(useRoute().params.slug);
-const { slug } = useRoute().params;
-
-const productStore = useProductsStore();
-const { data: productsList } = await useAsyncData<IProductResponse>(
-  `catalog-page-list-products-${slug}`,
-  () => productStore.fetchAllProducts(1, 15, slug as string),
-  {
-    watch: [() => slug],
-  }
-);
-</script>
-<template></template>
-<style scoped lang="scss"></style> -->

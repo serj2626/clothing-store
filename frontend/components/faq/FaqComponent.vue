@@ -6,11 +6,11 @@ const faqStore = useFaqStore();
 const { faqList, next } = storeToRefs(faqStore);
 const { fetchAllFaqList } = faqStore;
 
-await useAsyncData<IFaqResponse>("faq-list-data", () => fetchAllFaqList(1, 9));
+await useAsyncData<IFaqResponse>("faq-list-data", () => fetchAllFaqList(1, 6));
 
 const loadMore = () => {
   if (next.value) {
-    fetchAllFaqList(next.value as number);
+    fetchAllFaqList(next.value as number, 6);
   }
 };
 </script>

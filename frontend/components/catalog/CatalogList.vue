@@ -5,13 +5,6 @@ defineProps<{ products: IProduct[] }>();
 </script>
 <template>
   <div class="catalog-list">
-    <!-- <img
-      v-for="product in products"
-      :id="product.id"
-      :key="product.id"
-      :src="getMedia(product.avatar)"
-      alt=""
-    /> -->
     <ProductCard
       v-for="product in products"
       :id="product.id"
@@ -48,6 +41,7 @@ defineProps<{ products: IProduct[] }>();
   }
 
   @include mediaDesktop {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>

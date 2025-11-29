@@ -58,4 +58,7 @@ body {
     max-width: 1400px;
     padding-inline: 0;
   }
+  @include mediaDesktopWide {
+    max-width: 1600px;
+  }
 }

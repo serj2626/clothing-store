@@ -39,14 +39,6 @@ function scrollToTop() {
 function scrollToCatalog() {
   const el = document.getElementById("catalog");
   el && el?.scrollIntoView({ behavior: "smooth" });
-  // if (route.name === "index") {
-  //   const el = document.getElementById("catalog");
-  //   if (!el) return;
-  //   el.scrollIntoView({ behavior: "smooth" });
-  // } else {
-  //   navigateTo("/#catalog");
-    
-  // }
 }
 </script>
 <template>
@@ -54,6 +46,7 @@ function scrollToCatalog() {
     class="header-component"
     :style="{
       opacity: currentHeight === 0 || currentHeight < 80 ? 1 : 0,
+      backgroundColor: routeName === 'index' ? 'transparent' : '#fff',
     }"
   >
     <div class="container">
@@ -129,9 +122,8 @@ function scrollToCatalog() {
   left: 0;
   z-index: 100;
 
-  background-color: transparent;
   width: 100%;
-  padding-block: 35px;
+  padding-block: 15px;
 
   &__wraper {
     display: flex;
@@ -188,16 +180,16 @@ function scrollToCatalog() {
     }
 
     &-logo {
-      @include header_link;
-      position: fixed;
+      // @include header_link;
+      // position: fixed;
 
-      top: 26px;
-      left: 20px;
+      // top: 26px;
+      // left: 20px;
 
-      @include mediaTablet {
-        top: 26px;
-        left: 100px;
-      }
+      // @include mediaTablet {
+      //   top: 26px;
+      //   left: 100px;
+      // }
       &-icon {
         cursor: pointer;
         color: var(--color-header-link);

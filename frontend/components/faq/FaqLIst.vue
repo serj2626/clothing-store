@@ -28,7 +28,12 @@ const toogle = (index: number) => {
 </script>
 <template>
   <ul class="faq-list">
-    <li v-for="value in faqData" :key="value.id" class="faq-list__item">
+    <li
+      v-for="value in faqData"
+      :key="value.id"
+      class="faq-list__item"
+      :class="{ 'faq-list__item--active': activeFaqIndex === value.id }"
+    >
       <BaseAccordion
         :is-open="activeFaqIndex === value.id"
         @update:is-open="toogle(value.id)"
@@ -49,7 +54,9 @@ const toogle = (index: number) => {
         <template #content> {{ value.answer }}</template>
       </BaseAccordion>
     </li>
-    <button :disabled="!isNext" @click="loadMore">Загрузить еще...</button>
+    <button v-if="isNext" :disabled="!isNext" @click="loadMore">
+      {{ isNext ? "Загрузить еще..." : "Данные закончились" }}
+    </button>
   </ul>
 </template>
 <style scoped lang="scss">
@@ -57,9 +64,31 @@ const toogle = (index: number) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width:70%;
+  width: 100%;
+  margin-inline: auto;
 }
 .faq-list__item {
   border-radius: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $accent-dark;
+    transform: scaleY(0.08);
+    transition: transform 0.3s ease;
+  }
+
+  &--active {
+    &::before {
+      transform: scaleY(1);
+    }
+  }
 }
 .faq-list__item-header {
   display: flex;
@@ -71,6 +100,8 @@ const toogle = (index: number) => {
 
   &-icon {
     transition: rotate 0.3s ease-in-out;
+    font-size: 22px;
+    color: $accent-dark;
     &--active {
       rotate: 180deg;
     }

@@ -31,17 +31,17 @@ const toggle = () => {
   cursor: pointer;
   position: relative;
 
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: $accent-dark;
-    transform: scaleY(.1);
-    transition: transform 0.3s ease;
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   width: 3px;
+  //   background: $accent-dark;
+  //   transform: scaleY(.08);
+  //   transition: transform 0.3s ease;
+  // }
 
   &__content {
     overflow: hidden;
@@ -54,9 +54,9 @@ const toggle = () => {
   }
 
   &_open {
-    &::before {
-      transform: scaleY(1);
-    }
+    // &::before {
+    //   transform: scaleY(1);
+    // }
     &:deep(.accordion__content) {
       padding-right: 30px;
       max-height: 1000px;

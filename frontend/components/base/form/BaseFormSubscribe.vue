@@ -117,6 +117,7 @@ function captchaHandler(val, eventName) {
           radius="5px"
           size="lg"
           label="Подписаться"
+          :disabled="!formData.email.value.length"
         />
         <p class="base-form-subscribe__form-text">
           Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих

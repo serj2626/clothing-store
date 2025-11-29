@@ -58,8 +58,8 @@ const toggleCategory = (categoryId: string) => {
 
 <style scoped lang="scss">
 .catalog-categories {
-  position: sticky;
-  top: 80px;
+  // position: sticky;
+  // top: 80px;
 
   &__title {
     font-size: 1.5rem;
