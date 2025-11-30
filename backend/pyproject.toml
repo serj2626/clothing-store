@@ -35,8 +35,8 @@ exclude = [
     "static",
     "app",
     "templates",
-    "*/apps.py",  # ← Добавьте эту строку
-    "*/signals.py"  # ← И эту на всякий случай
+    "*/apps.py",
+    "*/signals.py" 
 ]
 
 

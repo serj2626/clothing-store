@@ -39,8 +39,16 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
-            "id", "user", "product", "advantages", "disadvantages",
-            "rating", "likes_count", "comments_count", "is_liked", "comments",
+            "id",
+            "user",
+            "product",
+            "advantages",
+            "disadvantages",
+            "rating",
+            "likes_count",
+            "comments_count",
+            "is_liked",
+            "comments",
         ]
 
     def get_is_liked(self, obj):
@@ -48,7 +56,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         if user.is_anonymous:
             return False
         return obj.likes.filter(user=user).exists()
-
 
 
 class LikeToggleSerializer(serializers.Serializer):

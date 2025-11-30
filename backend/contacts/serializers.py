@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
 from .models import (
+    FAQ,
     Contact,
     Feedback,
     Footer,
     FooterLink,
     FooterLinkItem,
     Subscription,
-    FAQ,
 )
 
 

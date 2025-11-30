@@ -92,9 +92,7 @@ class ReviewPhoto(BaseDate):
     image = models.ImageField(
         "Фотография",
         validators=[
-            FileExtensionValidator(
-                allowed_extensions=["jpg", "jpeg", "png", "webp"]
-            ),
+            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
             validate_image_size,
             validate_file_size,
         ],
@@ -106,9 +104,7 @@ class ReviewPhoto(BaseDate):
 
     def save(self, *args, **kwargs):
         current_review = self.review
-        count_photos = ReviewPhoto.objects.filter(
-            review=current_review
-        ).count()
+        count_photos = ReviewPhoto.objects.filter(review=current_review).count()
         if count_photos >= 5:
             raise ValidationError("Достигнут максимум 5 фотографий")
         self.image = compress_image(self.image)

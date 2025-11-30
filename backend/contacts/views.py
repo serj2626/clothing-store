@@ -4,16 +4,16 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from common.mixins import BaseSectionViewMixin
-from common.utils import get_cache_ttl
 from common.pagination import ListResultsSetPagination
+from common.utils import get_cache_ttl
 
-from .models import Contact, Feedback, Footer, Subscription, FAQ
+from .models import FAQ, Contact, Feedback, Footer, Subscription
 from .serializers import (
     ContactSerializer,
+    FAQListSerializer,
     FeedbackSerializer,
     FooterSerializer,
     SubscriptionSerializer,
-    FAQListSerializer,
 )
 
 TAG = "Контакты"

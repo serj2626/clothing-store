@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ContactView, FeedbackView, FooterView, SubscriptionView, FAQListView
+from .views import ContactView, FAQListView, FeedbackView, FooterView, SubscriptionView
 
 urlpatterns = [
     path("", ContactView.as_view(), name="contact"),
