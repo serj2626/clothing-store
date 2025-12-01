@@ -13,7 +13,8 @@ def create_or_update_profile(sender, instance, created, **kwargs):
         Profile.objects.get_or_create(user=instance)
         Cart.objects.create(user=instance)
     else:
-        instance.profile.save()
+        if hasattr(instance, "profile"):
+            instance.profile.save()
 
 
 @receiver(post_delete, sender=User)

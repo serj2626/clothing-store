@@ -20,7 +20,7 @@ from users.models import User
 
 class Review(LikeableMixin, CommentableMixin, BaseReview):
     """
-    Отзыв продукта
+    Отзыв на продукт
     """
 
     user = models.ForeignKey(
@@ -49,11 +49,19 @@ class Review(LikeableMixin, CommentableMixin, BaseReview):
         ordering = ["-created_at"]
         unique_together = ["user", "product"]
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"Отзыв от {self.user.email} на {self.product.title}"
 
 
 class Comment(LikeableMixin, BaseDate):
+    """
+    Комментарий к товару/отзыву
+    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
 
@@ -83,10 +91,14 @@ class Comment(LikeableMixin, BaseDate):
 
 
 class ReviewPhoto(BaseDate):
+    """
+    Фотография отзыва
+    """
+
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
-        related_name="photos",
+        related_name="images",
         verbose_name="Отзыв",
     )
     image = models.ImageField(
@@ -119,6 +131,10 @@ class ReviewPhoto(BaseDate):
 
 
 class Notification(BaseDate):
+    """
+    Уведомление
+    """
+
     NOTIFICATION_TYPES = (
         ("order_created", "Ваш заказ создан"),
         ("comment_publish", "Ваш комментарий опубликован"),
@@ -154,7 +170,7 @@ class Notification(BaseDate):
 
 class Like(models.Model):
     """
-    Лайк
+    Лайк на товар/отзыв/комментарий
     """
 
     user = models.ForeignKey(

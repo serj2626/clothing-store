@@ -97,58 +97,32 @@ const loadMore = async () => {
 </template>
 <style scoped lang="scss">
 .catalog-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr; // sidebar + основной контент
+  gap: 20px;
   margin-top: 20px;
   margin-bottom: 100px;
-  
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+  height: 100%; // чтобы sidebar мог скроллиться
 }
 
 .catalog-sidebar {
-  width: 250px;
-  float: left;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
+  grid-column: 1;
+  overflow-y: auto; // вертикальный скролл, если контента много
+  max-height: 100vh; // ограничение высоты, чтобы скролл работал
+  padding: 20px;
+  padding-left: 0;
 }
 
 .catalog-content {
-  float: left;
-  width: calc(100% - 290px); /* 100% минус сайдбар + отступ */
-  margin-left: 40px;
+  grid-column: 2;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  
-  /* Если контент выше сайдбара - он займет всю ширину автоматически */
 }
 
-.loading-indicator {
-  padding: 20px;
-  text-align: center;
-  color: #666;
-}
-
-@media (max-width: 768px) {
-  .catalog-sidebar {
-    width: 100%;
-    float: none;
-    position: static;
-    max-height: none;
-    margin-bottom: 20px;
-  }
-  
-  .catalog-content {
-    width: 100%;
-    margin-left: 0;
-    padding: 20px 0;
-    float: none;
-  }
+// Если нужно, чтобы после sidebar текст/контент занимал всю ширину:
+.catalog-content-fullwidth {
+  grid-column: 1 / -1; // растягиваем на все колонки
 }
 </style>

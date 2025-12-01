@@ -5,6 +5,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -42,7 +48,6 @@ INSTALLED_APPS = [
     'interactions',
     # "3rd_party",
     "django_filters",
-    "rest_framework",
     "django_redis",
     "corsheaders",
     "django_extensions",
@@ -51,6 +56,16 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "mptt",
     "import_export",
+    # allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.vk",
+    "allauth.socialaccount.providers.yandex",
+    # DRF интеграция
+    "rest_framework",
+    # "dj_rest_auth",
+    # "dj_rest_auth.registration",
     "debug_toolbar",
 ]
 
@@ -63,6 +78,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -70,6 +86,10 @@ MIDDLEWARE = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+}
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

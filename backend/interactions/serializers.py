@@ -2,9 +2,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
-from .models import Comment, Review
+from common.utils import RelativeOnlyImageField
+
+from .models import Comment, Review, ReviewPhoto
 
 User = get_user_model()
+
+
+class ReviewPhotoSerializer(serializers.ModelSerializer):
+    image = RelativeOnlyImageField()
+
+    class Meta:
+        model = ReviewPhoto
+        fields = ["id", "image"]
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -35,6 +45,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     comments_count = serializers.IntegerField(source="comments.count", read_only=True)
     is_liked = serializers.SerializerMethodField()
     comments = CommentSerializer(many=True, read_only=True)
+    images = ReviewPhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Review
@@ -49,6 +60,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "comments_count",
             "is_liked",
             "comments",
+            "images",
         ]
 
     def get_is_liked(self, obj):

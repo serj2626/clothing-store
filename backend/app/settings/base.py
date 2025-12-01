@@ -18,13 +18,6 @@ if MODE == "PROD":
 else:
     from .dev import *
 
-from .drf import *
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-CORS_ALLOW_CREDENTIALS = True
-
 
 SITE_ID = 1
 
@@ -86,6 +79,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 from .ckeditor5 import *
+from .auth import *
+from .drf import *
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "no-reply@yourdomain.com"
 
 
 RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")

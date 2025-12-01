@@ -77,21 +77,29 @@ const toggleCategory = (categoryId: string) => {
   }
 
   &__list-item {
-    border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
 
-    &:hover {
-      transform: translateX(2px);
-      // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-      box-shadow:-10px 0 10px 5px rgba(0, 0, 0, 0.13);
-      border-color: #cbd5e0;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 2px;
+      transform: scaleY(0);
+      background-color: $accent-dark;
+      transition: transform 0.3s ease;
     }
 
-    // &.is-active {
-    //   background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-    //   border-color: #667eea;
-    // }
+    &:hover {
+      transform: translateX(5px);
+      &::after {
+        transform: scaleY(0.6);
+      }
+    }
   }
 
   &__list-item-summary {
@@ -116,13 +124,10 @@ const toggleCategory = (categoryId: string) => {
   }
 
   &__list-item-summary-btn {
-    // background: rgba(102, 126, 234, 0.1);
     border: none;
     padding: 8px;
     cursor: pointer;
-    // color: #667eea;
     transition: all 0.3s ease;
-    // border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
