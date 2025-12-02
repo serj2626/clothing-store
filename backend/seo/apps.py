@@ -7,4 +7,4 @@ class SeoConfig(AppConfig):
     verbose_name = "№6 Настройки SEO и Конфигурация"
 
     def ready(self):
-        from . import signals
+        import seo.signals

@@ -54,7 +54,7 @@ class SEO(BaseSEO):
             "Activity — действие пользователя (логирование действий, редко используется)",
         )
 
-    slug = models.SlugField(
+    slug = models.CharField(
         "URL путь",
         max_length=255,
         unique=True,

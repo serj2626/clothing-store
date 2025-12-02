@@ -67,9 +67,7 @@ class BaseID(models.Model):
 
 
 class BaseContent(models.Model):
-    content = CKEditor5Field(
-        blank=True, verbose_name="Описание", config_name="extends"
-    )
+    content = CKEditor5Field(blank=True, verbose_name="Описание", config_name="extends")
 
     class Meta:
         abstract = True
@@ -90,21 +88,15 @@ class BaseName(models.Model):
 
 
 class BaseDescription(models.Model):
-    description = models.TextField(
-        verbose_name="Описание", null=True, blank=True
-    )
+    description = models.TextField(verbose_name="Описание", null=True, blank=True)
 
     class Meta:
         abstract = True
 
 
 class BaseDate(models.Model):
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата создания"
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name="Дата обновления"
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     class Meta:
         abstract = True

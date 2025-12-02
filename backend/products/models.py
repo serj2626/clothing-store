@@ -87,7 +87,6 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
         "Изображение",
         validators=[
             FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
-            validate_image_size,
             validate_file_size,
         ],
         upload_to=dynamic_upload_to,
