@@ -13,7 +13,7 @@ const currentPath = computed(() =>
 export interface ISeoMeta {
   id: number;
 
-  title: string;
+  seo_title: string;
   description: string;
   keywords: string;
 
@@ -58,7 +58,7 @@ const json_ld = computed(() => data.value?.json_ld || null);
 // });
 
 useSeoMeta({
-  title: () => data.value?.title || title,
+  title: () => data.value?.seo_title || title,
   keywords: () => data.value?.keywords || "",
   description: () => data.value?.description || "",
   ogTitle: () => data.value?.og_title || title,

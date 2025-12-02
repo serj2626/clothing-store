@@ -123,6 +123,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
     """Админка товаров"""
 
     resource_class = ProductResource
+    image_height = 100
 
     image_field_name = "avatar"
     inlines = [
@@ -145,14 +146,43 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "avatar_preview",
     )
     readonly_fields = ("avatar_preview",)
-    fields = (
-        ("brand", "gender"),
-        ("title", "category"),
-        ("sku", 'price'),
-        "is_active",
-        "avatar",
-        'avatar_preview',
+
+    fieldsets = (
+        (
+            "Основное",
+            {
+                "fields": (
+                    ("brand", "gender"),
+                    ("title", "category"),
+                    ("sku", "price"),
+                    "is_active",
+                )
+            },
+        ),
+        (
+            "Изображение",
+            {
+                "fields": ("avatar", "avatar_preview"),
+                "classes": ("collapse",),  # если хочешь свернуть
+            },
+        ),
+        (
+            "SEO",
+            {
+                "classes": ("collapse",),
+                "fields": [
+                    'title_seo',
+                    'og_title',
+                    "description",
+                    "keywords",
+                    "og_description",
+                    "json_ld",
+                ],
+            },
+        ),
+        ("Дополнительно", {"fields": ("priority", "changefreq")}),
     )
+
     save_on_top = True
     list_per_page = 15
     list_editable = ("is_active", 'price', "gender", "brand")
