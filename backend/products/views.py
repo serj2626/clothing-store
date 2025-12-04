@@ -18,6 +18,7 @@ from .filters import ProductFilter
 from .models import Brand, Category, Favorite, Product
 from .serializers import (
     BrandSerializer,
+    CategoryBySlugSerializer,
     CategoryDetailSerializer,
     CategoryListSerializer,
     FavoriteSerializer,
@@ -31,41 +32,24 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 TAG = "Товары и Корзина"
 
 
+@extend_schema(tags=["Категории"], summary="Список кат")
+# @method_decorator(cache_page(get_cache_ttl()), name='dispatch')
+class CategoryListBySlugView(generics.RetrieveAPIView):
+    """Возвращает категорию + всё её дерево дочерних категорий"""
+
+    serializer_class = CategoryBySlugSerializer
+    lookup_field = "slug"
+    queryset = Category.objects.all()
+
+
 @extend_schema(tags=[TAG], summary="Список брендов")
-@method_decorator(cache_page(get_cache_ttl()), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl()), name='dispatch')
 class BrandListView(generics.ListAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
 
-
-@method_decorator(cache_page(get_cache_ttl()), name='dispatch')
-class CategoryListBySlugView(APIView):
-    """Возвращает категорию + всё её дерево дочерних категорий"""
-
-    def build_tree(self, node):
-        return {
-            "id": node.id,
-            "name": node.name,
-            "slug": node.slug,
-            'has_children': node.get_children().exists(),
-            "children": [self.build_tree(child) for child in node.get_children()],
-        }
-
-    @extend_schema(tags=["Категории"], summary="Список категорий по слагу")
-    def get(self, request, slug=None):
-
-        qs = Category.objects.order_by("tree_id", "lft")
-
-        if slug:
-            category = get_object_or_404(qs, slug=slug)
-            data = self.build_tree(category)
-            return Response(data)
-
-        return Response({"error": "Категория не найдена"}, status=404)
-
-
 @extend_schema(tags=["Категории"], summary="Список категорий")
-@method_decorator(cache_page(get_cache_ttl()), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl()), name='dispatch')
 class CategoryListView(generics.ListAPIView):
     """Список всех категорий с древовидной структурой"""
 
@@ -76,7 +60,7 @@ class CategoryListView(generics.ListAPIView):
 
 
 @extend_schema(tags=["Категории"], summary="Детали категории")
-@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class CategoryDetailView(generics.RetrieveAPIView):
     """Детальная информация о категории"""
 
@@ -108,7 +92,7 @@ class CategoryDetailView(generics.RetrieveAPIView):
     summary="Последние добавленные товары",
     description="Возвращает последние 10 товаров",
 )
-@method_decorator(cache_page(get_cache_ttl()), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl()), name='dispatch')
 class ProductLastCollectionView(generics.ListAPIView):
     queryset = (
         Product.objects.all()
@@ -119,7 +103,7 @@ class ProductLastCollectionView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Список товаров по слагу категории")
-@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     pagination_class = ListResultsSetPagination
@@ -172,7 +156,7 @@ class ProductExampleListView(generics.ListAPIView):
 
 
 @extend_schema(tags=[TAG], summary="Детали товара")
-@method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
+# @method_decorator(cache_page(get_cache_ttl(10)), name='dispatch')
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

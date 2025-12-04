@@ -44,14 +44,18 @@ class Brand(BaseID, BaseName, BaseDescription, WebpImageMixin):
         'Изображение',
         upload_to=dynamic_upload_to,
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
             validate_image_size,
             validate_file_size,
         ],
         null=True,
         blank=True,
     )
-    slug = models.SlugField("URL", max_length=100, unique=True, blank=True, null=True)
+    slug = models.SlugField(
+        "URL", max_length=100, unique=True, blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Бренд"
@@ -85,7 +89,9 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
     image = models.ImageField(
         "Изображение",
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
             validate_file_size,
         ],
         upload_to=dynamic_upload_to,
@@ -95,8 +101,35 @@ class Category(MPTTModel, BaseID, BaseName, WebpImageMixin):
 
     is_active = models.BooleanField("Активна", default=True)
 
+    @property
+    def available_colors(self):
+        """Получить все цвета из характеристик категории и её потомков."""
+        # Берём текущую категорию и все её дочерние
+        categories = self.get_descendants(include_self=True)
+
+        color_ids = (
+            CategoryCharacteristic.objects.filter(category__in=categories)
+            .values_list("color", flat=True)
+            .distinct()
+        )
+
+        return ProductColor.objects.filter(id__in=color_ids)
+
+    @property
+    def available_sizes(self):
+        """Получить все размеры из характеристик категории и её потомков."""
+        categories = self.get_descendants(include_self=True)
+
+        size_ids = (
+            CategoryCharacteristic.objects.filter(category__in=categories)
+            .values_list("size", flat=True)
+            .distinct()
+        )
+
+        return ProductSize.objects.filter(id__in=size_ids)
+
     class MPTTMeta:
-        order_insertion_by = ["name"]  # только это поле здесь
+        order_insertion_by = ["name"]
 
     class Meta:
         unique_together = ["slug", "parent"]
@@ -122,7 +155,9 @@ class ProductSize(BaseTitle):
     Размер продукта
     """
 
-    slug = models.SlugField("слаг", max_length=100, unique=True, blank=True, null=True)
+    slug = models.SlugField(
+        "слаг", max_length=100, unique=True, blank=True, null=True
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -151,7 +186,9 @@ class ProductColor(BaseTitle):
         help_text='цвета бери тут: https://htmlcolors.com/google-color-picker',
     )
 
-    slug = models.SlugField("слаг", max_length=100, unique=True, blank=True, null=True)
+    slug = models.SlugField(
+        "слаг", max_length=100, unique=True, blank=True, null=True
+    )
 
     def clean(self):
         if not (
@@ -203,8 +240,12 @@ class Product(
         related_name="products",
         verbose_name="Категория",
     )
-    price = models.DecimalField("Цена", max_digits=10, decimal_places=2, default=0)
-    gender = models.CharField("Пол", max_length=6, choices=GENDER_TYPE, default="M")
+    price = models.DecimalField(
+        "Цена", max_digits=10, decimal_places=2, default=0
+    )
+    gender = models.CharField(
+        "Пол", max_length=6, choices=GENDER_TYPE, default="M"
+    )
     is_active = models.BooleanField("Активен", default=True)
     sku = models.CharField(
         "артикул", max_length=100, null=True, blank=True, unique=True
@@ -212,7 +253,9 @@ class Product(
     avatar = models.ImageField(
         upload_to=dynamic_upload_to,
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
             validate_file_size,
         ],
         null=True,
@@ -265,7 +308,9 @@ class ProductVariant(models.Model):
     image = models.ImageField(
         upload_to=dynamic_upload_to,
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "webp"]),
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            ),
             validate_file_size,
         ],
         null=True,
@@ -278,12 +323,47 @@ class ProductVariant(models.Model):
         unique_together = ("product", "color", "size")
 
 
+class CategoryCharacteristic(models.Model):
+    """
+    Доступная характеристика категории
+    (комбинация цвета и/или размера)
+    """
+
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="characteristics"
+    )
+    color = models.ForeignKey(
+        ProductColor,
+        on_delete=models.PROTECT,
+        verbose_name="Цвет",
+        null=True,
+        blank=True,
+    )
+    size = models.ForeignKey(
+        ProductSize,
+        on_delete=models.PROTECT,
+        verbose_name="Размер",
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Характеристика категории"
+        verbose_name_plural = "Характеристики категорий"
+        unique_together = ("category", "color", "size")
+
+    def __str__(self):
+        return f"{self.category.name}-{self.color.title}-{self.size.title}"
+
+
 class Favorite(BaseDate):
     """
     Избранное
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="favorites"
+    )
     product = models.ForeignKey(
         ProductVariant,
         on_delete=models.SET_NULL,
@@ -306,7 +386,9 @@ class Discount(models.Model):
 
     amount = models.DecimalField("Скидка в %", max_digits=5, decimal_places=2)
     start_date = models.DateTimeField("Начало действия", default=timezone.now)
-    end_date = models.DateTimeField("Окончание действия", null=True, blank=True)
+    end_date = models.DateTimeField(
+        "Окончание действия", null=True, blank=True
+    )
     is_active = models.BooleanField("Активна", default=True)
     products = models.ManyToManyField(
         "Product",

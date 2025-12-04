@@ -3,7 +3,16 @@ from rest_framework import serializers
 
 from common.utils import RelativeOnlyImageField
 
-from .models import Brand, Category, Favorite, Product, ProductVariant  # Favorite,
+from .models import (
+    Brand,
+    Category,
+    CategoryCharacteristic,
+    Favorite,
+    Product,
+    ProductColor,
+    ProductSize,
+    ProductVariant,
+)
 
 
 class RecursiveSerializer(serializers.Serializer):
@@ -14,13 +23,63 @@ class RecursiveSerializer(serializers.Serializer):
         return serializer.data
 
 
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductColor
+        fields = ("title", 'slug')
+
+
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductSize
+        fields = ("title",)
+
+
+class CategoryCharacteristicSerializer(serializers.ModelSerializer):
+    color = ColorSerializer()
+    size = SizeSerializer()
+
+    class Meta:
+        model = CategoryCharacteristic
+        fields = ("color", "size")
+
+
+class CategoryBySlugSerializer(serializers.ModelSerializer):
+    children = RecursiveSerializer(many=True, read_only=True)
+    has_children = serializers.SerializerMethodField()
+    available_colors = serializers.SerializerMethodField()
+    available_sizes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "name",
+            "slug",
+            "children",
+            "has_children",
+            "available_colors",
+            "available_sizes",
+        )
+
+    def get_has_children(self, obj):
+        return obj.get_children().exists()
+
+    def get_available_colors(self, obj):
+        colors = obj.available_colors
+        return ColorSerializer(colors, many=True).data
+
+    def get_available_sizes(self, obj):
+        sizes = obj.available_sizes
+        return SizeSerializer(sizes, many=True).data
+
+
 class CategoryListSerializer(serializers.ModelSerializer):
     # children = RecursiveSerializer(many=True, read_only=True)
     image = RelativeOnlyImageField()
 
     class Meta:
         model = Category
-        # fields = ("id", "name", "slug", "image", "children", "is_active")
         fields = ("id", "name", "slug", "image", "is_active")
 
 
@@ -105,6 +164,7 @@ class ProductLastListSerializer(serializers.ModelSerializer):
             'price',
         )
 
+
 class ProductSerializer(serializers.ModelSerializer):
     """
     Сериализатор продукта
@@ -161,19 +221,3 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ["id", "product"]
-
-
-# class CartItemSerializer(serializers.ModelSerializer):
-#     product = ProductSerializer(read_only=True)
-
-#     class Meta:
-#         model = CartItem
-#         fields = ["id", "product", "quantity"]
-
-
-# class CartSerializer(serializers.ModelSerializer):
-#     items = CartItemSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = Cart
-#         fields = ["items", "created_at", "updated_at"]

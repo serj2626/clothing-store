@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { api } from "~/api";
 import { catalogPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
-import type { IProductResponse } from "~/types";
+import type { ICatalogResponse, IProductResponse } from "~/types";
 
 const productStore = useProductsStore();
 const isLoading = ref(false);
@@ -9,19 +9,6 @@ const error = ref<string | null>(null);
 const { $api } = useNuxtApp();
 
 const { slug } = useRoute().params;
-
-export interface ICategoriesBySlugResponse {
-  id: string;
-  name: string;
-  slug: string;
-  has_children: boolean;
-  children: ICategoriesBySlugResponse[];
-}
-
-// Загружаем первую страницу при монтировании
-// onMounted(async () => {
-//   await loadProducts(1);
-// });
 
 const { data: productsList } = await useAsyncData<IProductResponse>(
   `catalog-page-list-products-${slug}`,
@@ -31,7 +18,7 @@ const { data: productsList } = await useAsyncData<IProductResponse>(
   }
 );
 
-const { data: categoriesData } = await useAsyncData<ICategoriesBySlugResponse>(
+const { data: categoriesData } = await useAsyncData<ICatalogResponse>(
   `catalog-page-list-categories-${slug}`,
   () => $api(api.category.listBySlug(slug as string)),
   {
@@ -74,10 +61,15 @@ const loadMore = async () => {
             <CatalogCategories :categories="categoriesData?.children || []" />
           </div>
           <div class="catalog-content">
+            {{ categoriesData?.available_colors }}
+            {{ categoriesData?.available_sizes }}
             <h1 style="text-align: center; font-size: 45px">
               {{ categoriesData?.name }}
             </h1>
-            <CatalogFilters />
+            <CatalogFilters
+              :colors="categoriesData?.available_colors || []"
+              :sizes="categoriesData?.available_sizes || []"
+            />
             <CatalogList
               v-if="productsList?.results"
               :products="productsList?.results"
@@ -110,6 +102,7 @@ const loadMore = async () => {
   overflow-y: auto; // вертикальный скролл, если контента много
   max-height: 100vh; // ограничение высоты, чтобы скролл работал
   padding: 20px;
+  height: 100%;
   padding-left: 0;
 }
 

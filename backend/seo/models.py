@@ -8,8 +8,6 @@ from django.db import models
 from PIL import Image
 
 
-
-
 def validate_image_extension(value):
     ext = os.path.splitext(value.name)[1].lower()
     valid_extensions = [".jpg", ".jpeg", ".png", ".webp"]

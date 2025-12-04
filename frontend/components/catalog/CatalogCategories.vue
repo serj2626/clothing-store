@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import type { ICategoriesBySlugResponse } from "./CatalogPage.vue";
-
+import type { ICatalogResponse } from "~/types";
 defineProps<{
-  categories: ICategoriesBySlugResponse[];
+  categories: ICatalogResponse[];
 }>();
 
 const currentCategoryId = ref<string | null>(null);
@@ -95,7 +94,7 @@ const toggleCategory = (categoryId: string) => {
     }
 
     &:hover {
-      transform: translateX(5px);
+      transform: translateX(2px);
       &::after {
         transform: scaleY(0.6);
       }
@@ -107,7 +106,7 @@ const toggleCategory = (categoryId: string) => {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px;
+    // padding: 10px;
     cursor: pointer;
     width: 100%;
 

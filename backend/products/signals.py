@@ -1,9 +1,52 @@
-from django.db.models.signals import post_delete, post_save, pre_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
+from .utils.service import generate_json_ld_by_pruduct
 from common.upload import compress_image
 
-from .models import Category, Product, ProductVariant
+from .models import Category, CategoryCharacteristic, Product, ProductVariant
+
+
+@receiver(post_save, sender=ProductVariant)
+def add_characteristics_in_category(sender, instance, created, **kwargs):
+    product = instance.product
+    category = product.category
+
+    if not category:
+        return
+
+    CategoryCharacteristic.objects.get_or_create(
+        category=category,
+        color=instance.color,
+        size=instance.size,
+    )
+
+
+# @receiver(post_save, sender=ProductVariant)
+# def update_category_characteristics(sender, instance, created, **kwargs):
+#     product = instance.product
+#     category = product.category
+
+#     if not category:
+#         return
+
+#     if created:
+#         CategoryCharacteristic.objects.get_or_create(
+#             category=category,
+#             color=instance.color,
+#             size=instance.size
+#         )
+#     else:
+#         # Если цвет или размер обновились – актуализируем характеристики
+#         old = sender.objects.get(pk=instance.pk)
+
+#         if old.color != instance.color or old.size != instance.size:
+#             # Добавляем новую
+#             CategoryCharacteristic.objects.get_or_create(
+#                 category=category,
+#                 color=instance.color,
+#                 size=instance.size
+#             )
 
 
 @receiver(post_save, sender=Product)
@@ -27,7 +70,9 @@ def normalize_product_title(sender, instance, **kwargs):
 def compress_image_before_save(sender, instance, **kwargs):
 
     if hasattr(instance, "avatar") and instance.avatar:
-        instance.avatar = compress_image(image_field=instance.avatar, quality=90)
+        instance.avatar = compress_image(
+            image_field=instance.avatar, quality=90
+        )
 
     if hasattr(instance, "image") and instance.image:
         instance.image = compress_image(image_field=instance.image, quality=80)
@@ -38,9 +83,10 @@ def generate_product_seo(sender, instance: Product, **kwargs):
     """
     Автоматически заполняет SEO поля для продукта при сохранении
     """
-    # Базовый title
     if instance.title:
-        instance.title_seo = f"{instance.title} — купить в интернет-магазине одежды"
+        instance.title_seo = (
+            f"{instance.title} — купить в интернет-магазине одежды"
+        )
     else:
         instance.title_seo = "Товар — интернет-магазин одежды"
 
@@ -57,40 +103,10 @@ def generate_product_seo(sender, instance: Product, **kwargs):
     )
 
     instance.description = " | ".join(parts)
-
-    # OpenGraph
     instance.og_title = instance.title_seo
     instance.og_description = instance.description
+    instance.json_ld = generate_json_ld_by_pruduct(instance)
 
-    # JSON-LD для продукта
-    product_json_ld = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": instance.title or "Товар",
-        "image": instance.avatar.url if instance.avatar else None,
-        "description": instance.description,
-        "sku": instance.sku or "",
-        "brand": {
-            "@type": "Brand",
-            "name": instance.brand.name if instance.brand else "",
-        },
-        "offers": {
-            "@type": "Offer",
-            "priceCurrency": "RUB",
-            "price": str(instance.price),
-            "availability": (
-                "https://schema.org/InStock"
-                if instance.is_active
-                else "https://schema.org/OutOfStock"
-            ),
-            "url": f"/products/{instance.id}/",  # или slug, если есть
-        },
-    }
-
-    instance.json_ld = product_json_ld
-
-    # Сохраняем снова, чтобы записать SEO поля
-    # Используем update_fields, чтобы избежать рекурсии сигнала
     instance.save(
         update_fields=[
             "title_seo",

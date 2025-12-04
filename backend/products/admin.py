@@ -13,6 +13,7 @@ from common.mixins import (
 from .models import (
     Brand,
     Category,
+    CategoryCharacteristic,
     Discount,
     Product,
     ProductColor,
@@ -20,6 +21,22 @@ from .models import (
     ProductVariant,
 )
 from .resources import ProductResource
+
+
+@admin.register(CategoryCharacteristic)
+class CategoryCharacteristicAdmin(admin.ModelAdmin):
+    '''Admin View for CategoryCharacteristic'''
+
+    list_display = ('category', 'color', 'size')
+    list_per_page = 20
+    list_filter = ('category', 'color', 'size')
+    list_filter = (
+        ("category", TreeRelatedFieldListFilter),
+        "color",
+        "size",
+    )
+    search_fields = ('category__name', 'color__title', 'size__title')
+    ordering = ["category"]
 
 
 @admin.register(ProductSize)
@@ -97,16 +114,16 @@ class ProductVariantInline(AvatarPreviewMixin, admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-    mptt_indent_field = "name"  # поле, по которому делается отступ для вложенности
+    mptt_indent_field = "name"
     list_display = (
-        "tree_actions",  # стрелочки для раскрытия/сворачивания дерева
-        "indented_title",  # название с отступом
+        "tree_actions",
+        "indented_title",
         "is_active",
         'slug',
         "get_image",
     )
-    list_display_links = ("indented_title",)  # по клику на название — редактирование
-    prepopulated_fields = {"slug": ("name",)}  # автозаполнение slug из name
+    list_display_links = ("indented_title",)
+    prepopulated_fields = {"slug": ("name",)}
 
     def get_image(self, obj):
         if obj.image and obj.parent is None:
@@ -141,8 +158,6 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
         "gender",
         "category",
         "is_active",
-        # "get_count_likes",
-        # "get_count_reviews",
         "avatar_preview",
     )
     readonly_fields = ("avatar_preview",)
@@ -166,21 +181,6 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
                 "classes": ("collapse",),  # если хочешь свернуть
             },
         ),
-        # (
-        #     "SEO",
-        #     {
-        #         "classes": ("collapse",),
-        #         "fields": [
-        #             'title_seo',
-        #             'og_title',
-        #             "description",
-        #             "keywords",
-        #             "og_description",
-        #             "json_ld",
-        #         ],
-        #     },
-        # ),
-        # ("Дополнительно", {"fields": ("priority", "changefreq")}),
     )
 
     save_on_top = True
@@ -189,19 +189,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
     search_fields = ('sku', "title", "brand__name", "brand__country")
     ordering = ["category"]
 
-    # def get_count_likes(self, obj):
-    #     return obj.likes.count()
-
     def get_title(self, obj):
         return f"{obj.title[:20]}..."
 
-    # def get_count_reviews(self, obj):
-    #     return obj.reviews.count() if obj.reviews else 0
-
-    # def get_count(self, obj):
-    #     return obj.variants.aggregate(Sum("quantity")).get("quantity__sum", 0)
-
-    # get_count_likes.short_description = "Лайки"
-    # get_count_reviews.short_description = "Отзывы"
-    # get_count.short_description = "Количество"
     get_title.short_description = "Название"
