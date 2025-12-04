@@ -61,8 +61,8 @@ const loadMore = async () => {
             <CatalogCategories :categories="categoriesData?.children || []" />
           </div>
           <div class="catalog-content">
-            {{ categoriesData?.available_colors }}
-            {{ categoriesData?.available_sizes }}
+            <!-- {{ categoriesData?.available_colors }}
+            {{ categoriesData?.available_sizes }} -->
             <h1 style="text-align: center; font-size: 45px">
               {{ categoriesData?.name }}
             </h1>

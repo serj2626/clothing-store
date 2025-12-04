@@ -1,56 +1,37 @@
 <script setup lang="ts">
-import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { AvailableSizes } from "~/types";
 
 defineProps<{
   sizes: AvailableSizes[];
 }>();
-
-const showSizes = ref<boolean>(true);
-
-const toogleSizes = () => {
-  showSizes.value = !showSizes.value;
-};
 </script>
+
 <template>
-  <BaseAccordion :is-open="showSizes" @update:is-open="toogleSizes">
-    <template #summary>
-      <div class="filter-sizes">
-        <span class="filter-sizes__title">Цвет</span>
-        <button style="flex-shrink: 0" class="filter-sizes__btn">
-          <Icon
-            style="color: #e0bea2"
-            :name="HeroIcons.DOWN"
-            class="filter-sizes__btn-icon"
-          />
-        </button>
-      </div>
-    </template>
-    <template #content>
-      <ul>
-        <li v-for="size in sizes" :key="size.title">
-          {{ size.title }}
-        </li>
-      </ul>
-    </template>
-  </BaseAccordion>
+  <FilterContent title="Размер">
+    <ul class="filter-sizes">
+      <li v-for="size in sizes" :key="size.title" class="filter-sizes__item">
+        {{ size.title }}
+      </li>
+    </ul>
+  </FilterContent>
 </template>
 <style scoped lang="scss">
 .filter-sizes {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
-}
-.filter-sizes__title {
-}
-.filter-sizes__btn {
-}
-.filter-sizes__btn-icon {
-  font-size: 18px;
-}
+  width: 100%;
+  width: max-content;
+  &__item {
+    width: 100%;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-in-out;
 
-:deep(.accordion) {
-  width: fit-content;
+    &:hover {
+      background-color: $accent;
+    }
+  }
 }
 </style>

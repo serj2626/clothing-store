@@ -1,56 +1,40 @@
 <script setup lang="ts">
-import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { AvailableColors } from "~/types";
 
 defineProps<{
   colors: AvailableColors[];
 }>();
-
-const showColors = ref<boolean>(true);
-
-const toogleColors = () => {
-  showColors.value = !showColors.value;
-};
 </script>
+
 <template>
-  <BaseAccordion :is-open="showColors" @update:is-open="toogleColors">
-    <template #summary>
-      <div class="filter-colors">
-        <span class="filter-colors__title">Цвет</span>
-        <button style="flex-shrink: 0" class="filter-colors__btn">
-          <Icon
-            style="color: #e0bea2"
-            :name="HeroIcons.DOWN"
-            class="filter-colors__btn-icon"
-          />
-        </button>
-      </div>
-    </template>
-    <template #content>
-      <ul>
-        <li v-for="color in colors" :key="color.slug">
-          {{ color.title }}
-        </li>
-      </ul>
-    </template>
-  </BaseAccordion>
+  <FilterContent title="Цвет">
+    <ul class="filter-colors">
+      <li
+        v-for="value in colors"
+        :key="value.title"
+        class="filter-colors__item"
+      >
+        {{ value.title }}
+      </li>
+    </ul>
+  </FilterContent>
 </template>
 <style scoped lang="scss">
 .filter-colors {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
-}
-.filter-colors__title {
-}
-.filter-colors__btn {
-}
-.filter-colors__btn-icon {
-  font-size: 18px;
-}
+  width: max-content;
 
-:deep(.accordion) {
-  width: fit-content;
+  &__item {
+    cursor: pointer;
+    padding: 5px 40px;
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $accent;
+    }
+  }
 }
 </style>
