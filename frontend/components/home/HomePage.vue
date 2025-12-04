@@ -17,6 +17,7 @@ const { data: categoriesList } = await useAsyncData<ICategoryResponse[]>(
 <template>
   <div class="home-page">
     <HomeSectionHero />
+    <HomeBrandList />
     <HomeSectionCategories
       id="catalog"
       v-bind="$attrs"

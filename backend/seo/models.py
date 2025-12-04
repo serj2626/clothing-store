@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.db import models
 from PIL import Image
 
-from common.models import BaseSEO
+
 
 
 def validate_image_extension(value):
@@ -19,7 +19,7 @@ def validate_image_extension(value):
         )
 
 
-class SEO(BaseSEO):
+class SEO(models.Model):
     """
     SEO модель
     """
@@ -53,6 +53,55 @@ class SEO(BaseSEO):
             "activity",
             "Activity — действие пользователя (логирование действий, редко используется)",
         )
+
+    class ChangeFrequency(models.TextChoices):
+        """
+        Перечисление частоты обновления сайта
+        """
+
+        ALWAYS = "always", "Всегда"
+        HOURLY = "hourly", "Каждый час"
+        DAILY = "daily", "Ежедневно"
+        WEEKLY = "weekly", "Еженедельно"
+        MONTHLY = "monthly", "Ежемесячно"
+        YEARLY = "yearly", "Ежегодно"
+        NEVER = "never", "Никогда"
+
+    description = models.TextField(
+        "Описание (meta description)",
+        blank=True,
+    )
+    keywords = models.TextField(
+        "Ключевые слова (meta keywords)",
+        blank=True,
+        null=True,
+        help_text="Через запятую",
+    )
+    title = models.CharField(
+        "Заголовок (title)",
+        max_length=255,
+        blank=True,
+        help_text="Макс. 255 символов",
+    )
+    og_title = models.CharField("OG Заголовок", max_length=255, blank=True)
+    og_description = models.TextField("OG Описание", blank=True)
+    # Для sitemap
+    priority = models.DecimalField(
+        "Приоритет в sitemap",
+        max_digits=2,
+        decimal_places=1,
+        default=0.5,
+        help_text="От 0.1 до 1.0",
+    )
+    changefreq = models.CharField(
+        "Частота изменений",
+        max_length=10,
+        choices=ChangeFrequency.choices,
+        default=ChangeFrequency.WEEKLY,
+    )
+    json_ld = models.JSONField(
+        blank=True, null=True, help_text="JSON-LD schema.org data"
+    )
 
     slug = models.CharField(
         "URL путь",

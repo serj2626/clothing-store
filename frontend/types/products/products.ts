@@ -3,7 +3,7 @@ import type { IPagination } from "../common/pagination";
 export interface IBrand {
   id: string;
   country: string;
-  image: string;
+  image: string | null;
   name: string;
   description: string;
   slug: string;

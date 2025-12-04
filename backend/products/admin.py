@@ -166,21 +166,21 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
                 "classes": ("collapse",),  # если хочешь свернуть
             },
         ),
-        (
-            "SEO",
-            {
-                "classes": ("collapse",),
-                "fields": [
-                    'title_seo',
-                    'og_title',
-                    "description",
-                    "keywords",
-                    "og_description",
-                    "json_ld",
-                ],
-            },
-        ),
-        ("Дополнительно", {"fields": ("priority", "changefreq")}),
+        # (
+        #     "SEO",
+        #     {
+        #         "classes": ("collapse",),
+        #         "fields": [
+        #             'title_seo',
+        #             'og_title',
+        #             "description",
+        #             "keywords",
+        #             "og_description",
+        #             "json_ld",
+        #         ],
+        #     },
+        # ),
+        # ("Дополнительно", {"fields": ("priority", "changefreq")}),
     )
 
     save_on_top = True

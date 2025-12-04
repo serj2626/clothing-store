@@ -14,7 +14,6 @@ from common.models import (
     BaseDescription,
     BaseID,
     BaseName,
-    BaseSEO,
     BaseTitle,
 )
 from common.types import COUNTRY_TYPE, GENDER_TYPE
@@ -183,7 +182,6 @@ class Product(
     BaseContent,
     LikeableMixin,
     CommentableMixin,
-    BaseSEO,
 ):
     """
     Продукт

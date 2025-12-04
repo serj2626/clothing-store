@@ -90,7 +90,7 @@ class ProductLastListSerializer(serializers.ModelSerializer):
     Сериализатор последнего списка продуктов
     """
 
-    brand = serializers.SerializerMethodField()
+    brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
     avatar = RelativeOnlyImageField()
 
     class Meta:
@@ -104,13 +104,6 @@ class ProductLastListSerializer(serializers.ModelSerializer):
             'sku',
             'price',
         )
-
-    def get_brand(self, obj):
-        return {
-            'name': obj.brand.name,
-            'slug': obj.brand.slug,
-        }
-
 
 class ProductSerializer(serializers.ModelSerializer):
     """

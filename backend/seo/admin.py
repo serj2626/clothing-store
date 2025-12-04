@@ -17,13 +17,13 @@ class RobotsTXTAdmin(admin.ModelAdmin):
 class SEOAdmin(admin.ModelAdmin):
     list_display = (
         "slug",
-        "title_seo",
+        "title",
         "canonical_url",
         "noindex",
         "nofollow",
         "has_json_ld",
     )
-    search_fields = ("slug", "title_seo", "keywords")
+    search_fields = ("slug", "title", "keywords")
     list_editable = ("canonical_url", "noindex", "nofollow")
     save_on_top = True
     readonly_fields = ("lastmod",)
@@ -34,7 +34,7 @@ class SEOAdmin(admin.ModelAdmin):
     has_json_ld.short_description = "JSON-LD"
 
     fieldsets = (
-        ("Базовое", {"fields": ("slug", "title_seo", "description", "keywords")}),
+        ("Базовое", {"fields": ("slug", "title", "description", "keywords")}),
         ("Доп", {"fields": ("canonical_url", "noindex", "nofollow")}),
         (
             "Open Graph (соцсети)",
