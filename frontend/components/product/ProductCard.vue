@@ -2,14 +2,14 @@
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { IProduct } from "~/types";
 
-const props = defineProps<IProduct>();
+defineProps<IProduct>();
 
-const allColors = computed(() => {
-  const colors = props.variants.map((item) => {
-    return item.color;
-  });
-  return colors;
-});
+// const allColors = computed(() => {
+//   const colors = props.variants.map((item) => {
+//     return item.color;
+//   });
+//   return colors;
+// });
 // const allSizes = computed(() => {
 //   const sizes = props.variants.map((item) => {
 //     return item.size;
@@ -42,16 +42,16 @@ function sliceTitle(title: string) {
 
       <div class="product-card__info">
         <div class="product-card__info-title">{{ sliceTitle(title) }}</div>
-        <div v-if="total_count" class="product-card__info-colors">
-          <!-- <ProductColor
+        <!-- <div v-if="total_count" class="product-card__info-colors">
+         <ProductColor
             v-for="color in allColors"
             :key="color"
             :color="color"
-          /> -->
+          />
         </div>
-        <div v-else class="product-card__info-total">Нет в наличии</div>
+        <div v-else class="product-card__info-total">Нет в наличии</div> -->
         <div v-if="brand" class="product-card__info-brand-yes">
-          {{ brand.name }}
+          {{ brand }}
         </div>
         <div v-else class="product-card__info-brand-no">Без ТМ</div>
       </div>

@@ -22,16 +22,16 @@ export interface IProductVariant {
 export interface IProduct {
   id: string;
   sku: string;
-  brand: IBrand;
+  brand: string;
   title: string;
   category: string;
   avatar: string;
   is_active: boolean;
-  count_likes: number;
-  count_reviews: number;
+  count_likes?: number;
+  count_reviews?: number;
   total_count: number;
   variants: IProductVariant[];
-  liked: boolean;
+  liked?: boolean;
   price: string;
 }
 

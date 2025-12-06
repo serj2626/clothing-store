@@ -15,9 +15,6 @@ const { data: productNewsCollection } = await useAsyncData<IProduct[]>(
   <div class="news-page">
     <div class="container">
       <BaseBreadCrumbs :breadcrumbs="newsPageBreadcrumbs" />
-      <div class="news-page__content">
-        <h2 class="news-page__content-title">Новые коллекции</h2>
-      </div>
       <NewsProductsList
         v-if="productNewsCollection"
         :products="productNewsCollection"
@@ -26,13 +23,3 @@ const { data: productNewsCollection } = await useAsyncData<IProduct[]>(
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.news-page {
-  &__content {
-    &-title {
-      @include title_page;
-    }
-  }
-}
-</style>

@@ -2,6 +2,7 @@ export const enum HeroIcons {
   ABOUT_SOLID = "heroicons:information-circle",
   // ADDRESS = "heroicons-outline:map-pin",
   ARROW_RIGHT_SOLID = "heroicons:chevron-double-right",
+  ARROW_LEFT_SOLID = "heroicons:chevron-double-left",
   ARROW_TOP = "heroicons-outline:arrow-up",
   BASKET = "heroicons-outline:shopping-cart",
   BASKET_SOLID = "heroicons:shopping-bag",

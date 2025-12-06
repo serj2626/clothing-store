@@ -15,13 +15,10 @@ defineProps<{ products: IProduct[] }>();
       :title="product.title"
       :variants="product.variants"
       :avatar="product.avatar"
-      :count_likes="product.count_likes"
-      :count_reviews="product.count_reviews"
       :is_active="product.is_active"
       :total_count="product.total_count"
       :brand="product.brand"
       :images="product?.avatar"
-      :liked="product.liked"
     />
   </div>
 </template>

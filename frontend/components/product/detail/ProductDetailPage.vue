@@ -78,7 +78,7 @@ function setNewImage(image: string) {
           :variants="productData.variants"
         />
       </div>
-      <CommentList :reviews="reviews" />
+      <CommentList :reviews="[]" />
     </div>
   </div>
 </template>

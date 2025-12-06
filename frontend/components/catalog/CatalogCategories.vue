@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { HeroIcons } from "~/assets/icons/types/hero-icons";
 import type { ICatalogResponse } from "~/types";
 defineProps<{
   categories: ICatalogResponse[];
@@ -7,49 +6,32 @@ defineProps<{
 
 const currentCategoryId = ref<string | null>(null);
 
-const toggleCategory = (categoryId: string) => {
-  currentCategoryId.value =
-    currentCategoryId.value === categoryId ? null : categoryId;
+const getPaddingLeft = (indent: number) => {
+  return Number(indent) + 20 + "px";
 };
 </script>
 
 <template>
   <aside class="catalog-categories">
-    <h2 class="catalog-categories__title">Категории</h2>
     <ul class="catalog-categories__list">
       <li
         v-for="value in categories"
         :key="value.id"
-        class="catalog-categories__list-item"
-        :class="{ 'is-active': currentCategoryId === value.id }"
+        :class="[
+          'catalog-categories__list-item',
+          { 'is-active': currentCategoryId === value.id },
+        ]"
+        :style="{ paddingLeft: getPaddingLeft(+value.indent) }"
       >
-        <BaseAccordion>
-          <template #summary>
-            <div
-              class="catalog-categories__list-item-summary"
-              @click="toggleCategory(value.id)"
-            >
-              <span class="catalog-categories__name">{{ value.name }}</span>
-              <button class="catalog-categories__list-item-summary-btn">
-                <Icon
-                  :name="HeroIcons.DOWN"
-                  class="catalog-categories__list-item-summary-btn-icon"
-                  :class="{ 'is-rotated': currentCategoryId === value.id }"
-                />
-              </button>
-            </div>
-          </template>
+        <span class="catalog-categories__name">
+          <!-- Генерируем отступ в виде символов -->
+          <!-- {{ '-'.repeat((value.indent - 1)*2 || 0 * 2) }}  -->
+          {{ value.name }}
+        </span>
 
-          <!-- Контент аккордеона -->
-          <template #content>
-            <div class="catalog-categories__content">
-              <!-- Тут можешь добавить подкатегории -->
-              <div class="catalog-categories__subitem">
-                {{ value.children }}
-              </div>
-            </div>
-          </template>
-        </BaseAccordion>
+        <div v-if="value.has_children">
+          <CatalogCategories :categories="value.children" />
+        </div>
       </li>
     </ul>
   </aside>
@@ -57,9 +39,6 @@ const toggleCategory = (categoryId: string) => {
 
 <style scoped lang="scss">
 .catalog-categories {
-  // position: sticky;
-  // top: 80px;
-
   &__title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -72,7 +51,8 @@ const toggleCategory = (categoryId: string) => {
     margin: 0;
     display: flex;
     flex-direction: column;
-    // gap: 10px;
+    gap: 10px;
+    margin-top: 10px;
   }
 
   &__list-item {
@@ -81,24 +61,24 @@ const toggleCategory = (categoryId: string) => {
     position: relative;
     transition: transform 0.3s ease;
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 2px;
-      transform: scaleY(0);
-      background-color: $accent-dark;
-      transition: transform 0.3s ease;
-    }
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   bottom: 0;
+    //   width: 2px;
+    //   transform: scaleY(0);
+    //   background-color: $accent-dark;
+    //   transition: transform 0.3s ease;
+    // }
 
-    &:hover {
-      transform: translateX(2px);
-      &::after {
-        transform: scaleY(0.6);
-      }
-    }
+    // &:hover {
+    //   transform: translateX(2px);
+    //   &::after {
+    //     transform: scaleY(0.6);
+    //   }
+    // }
   }
 
   &__list-item-summary {

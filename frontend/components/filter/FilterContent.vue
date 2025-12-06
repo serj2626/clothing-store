@@ -76,6 +76,9 @@ onBeforeUnmount(() => {
       background: transparent;
       border: none;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &-icon {
         font-size: 18px;
@@ -97,7 +100,6 @@ onBeforeUnmount(() => {
     max-height: 260px;
     overflow-y: auto;
     border-radius: 8px;
-    overflow: hidden;
   }
 }
 
