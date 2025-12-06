@@ -9,6 +9,8 @@ defineProps({
 const emit = defineEmits(["update:isOpen"]);
 
 const toggle = () => {
+  if (window.getSelection()?.toString()) return;
+
   emit("update:isOpen");
 };
 </script>
@@ -31,18 +33,6 @@ const toggle = () => {
   cursor: pointer;
   position: relative;
 
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   left: 0;
-  //   top: 0;
-  //   bottom: 0;
-  //   width: 3px;
-  //   background: $accent-dark;
-  //   transform: scaleY(.08);
-  //   transition: transform 0.3s ease;
-  // }
-
   &__content {
     overflow: hidden;
     max-height: 0;
@@ -50,19 +40,16 @@ const toggle = () => {
     font-size: 15px;
 
     padding-top: 0;
-    transition: max-height 0.2s cubic-bezier(0, 1, 0, 1), padding-top 0.2s ease;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding-top 0.3s ease;
   }
 
   &_open {
-    // &::before {
-    //   transform: scaleY(1);
-    // }
     &:deep(.accordion__content) {
       padding-right: 30px;
       max-height: 1000px;
       padding-top: 15px;
-      transition: max-height 0.2s cubic-bezier(1, 0, 1, 0),
-        padding-top 0.2s ease;
+      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0),
+        padding-top 0.3s ease;
     }
   }
 }

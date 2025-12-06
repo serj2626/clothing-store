@@ -27,20 +27,6 @@ const toogle = (index: number) => {
     activeFaqIndex.value = index;
   }
 };
-
-// const addActiveIndex = (index: number) => {
-//   if (!activeIndexList.value.includes(index)) {
-//     activeIndexList.value.push(index);
-//   } else {
-//     activeIndexList.value = activeIndexList.value.filter(
-//       (item) => item !== index
-//     );
-//   }
-// };
-
-// const indexInList = (index: number) => {
-//   return activeIndexList.value.includes(index);
-// }
 </script>
 <template>
   <ul class="faq-list">
@@ -67,7 +53,9 @@ const toogle = (index: number) => {
             />
           </div>
         </template>
-        <template #content> {{ value.answer }}</template>
+        <template #content>
+          {{ value.answer }}
+        </template>
       </BaseAccordion>
     </li>
   </ul>
@@ -91,8 +79,8 @@ const toogle = (index: number) => {
   &__item {
     display: inline-block;
     width: 100%;
-    margin-bottom: 20px; 
-    break-inside: avoid; 
+    margin-bottom: 20px;
+    break-inside: avoid;
     border-radius: 3px;
     background-color: #e0bea22d;
     padding: 10px;
