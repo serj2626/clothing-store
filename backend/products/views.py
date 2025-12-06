@@ -1,8 +1,6 @@
 import stripe
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
@@ -12,7 +10,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.pagination import ListResultsSetPagination
-from common.utils import get_cache_ttl
 
 from .filters import ProductFilter
 from .models import Brand, Category, Favorite, Product
@@ -47,6 +44,7 @@ class CategoryListBySlugView(generics.RetrieveAPIView):
 class BrandListView(generics.ListAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
+
 
 @extend_schema(tags=["Категории"], summary="Список категорий")
 # @method_decorator(cache_page(get_cache_ttl()), name='dispatch')

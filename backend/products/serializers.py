@@ -49,6 +49,7 @@ class CategoryBySlugSerializer(serializers.ModelSerializer):
     has_children = serializers.SerializerMethodField()
     available_colors = serializers.SerializerMethodField()
     available_sizes = serializers.SerializerMethodField()
+    indent = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
@@ -60,7 +61,11 @@ class CategoryBySlugSerializer(serializers.ModelSerializer):
             "has_children",
             "available_colors",
             "available_sizes",
+            "indent",
         )
+
+    def get_indent(self, obj):
+        return obj.level
 
     def get_has_children(self, obj):
         return obj.get_children().exists()
@@ -174,7 +179,7 @@ class ProductSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True)
     category = serializers.CharField(source="category.name")
-    brand = BrandSerializer(read_only=True)
+    brand = serializers.CharField(source="brand.name")
     # count_likes = serializers.SerializerMethodField()
     # count_reviews = serializers.SerializerMethodField()
     total_count = serializers.SerializerMethodField()

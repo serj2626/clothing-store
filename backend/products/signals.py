@@ -1,10 +1,10 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
-from .utils.service import generate_json_ld_by_pruduct
 from common.upload import compress_image
 
 from .models import Category, CategoryCharacteristic, Product, ProductVariant
+from .utils.service import generate_json_ld_by_pruduct
 
 
 @receiver(post_save, sender=ProductVariant)
@@ -70,9 +70,7 @@ def normalize_product_title(sender, instance, **kwargs):
 def compress_image_before_save(sender, instance, **kwargs):
 
     if hasattr(instance, "avatar") and instance.avatar:
-        instance.avatar = compress_image(
-            image_field=instance.avatar, quality=90
-        )
+        instance.avatar = compress_image(image_field=instance.avatar, quality=90)
 
     if hasattr(instance, "image") and instance.image:
         instance.image = compress_image(image_field=instance.image, quality=80)
@@ -84,9 +82,7 @@ def generate_product_seo(sender, instance: Product, **kwargs):
     Автоматически заполняет SEO поля для продукта при сохранении
     """
     if instance.title:
-        instance.title_seo = (
-            f"{instance.title} — купить в интернет-магазине одежды"
-        )
+        instance.title_seo = f"{instance.title} — купить в интернет-магазине одежды"
     else:
         instance.title_seo = "Товар — интернет-магазин одежды"
 

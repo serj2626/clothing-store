@@ -41,23 +41,23 @@ def create_seo_for_category(sender, instance, created, **kwargs):
         )
 
 
-@receiver(pre_save, sender=Category)
-def update_seo_if_slug_changed(sender, instance, **kwargs):
-    """Обновить SEO, если slug категории изменён."""
-    if not instance.pk:
-        return
+# @receiver(pre_save, sender=Category)
+# def update_seo_if_slug_changed(sender, instance, **kwargs):
+#     """Обновить SEO, если slug категории изменён."""
+#     if not instance.pk:
+#         return
 
-    old = Category.objects.get(pk=instance.pk)
+#     old = Category.objects.get(pk=instance.pk)
 
-    if old.slug != instance.slug:
-        old_slug = f"catalog/{old.slug}"
-        new_slug = f"catalog/{instance.slug}"
+#     if old.slug != instance.slug:
+#         old_slug = f"catalog/{old.slug}"
+#         new_slug = f"catalog/{instance.slug}"
 
-        try:
-            seo = SEO.objects.get(slug=old_slug)
-            seo.slug = new_slug
-            seo.title_seo = instance.name
-            seo.og_title = instance.name
-            seo.save()
-        except SEO.DoesNotExist:
-            pass
+#         try:
+#             seo = SEO.objects.get(slug=old_slug)
+#             seo.slug = new_slug
+#             seo.title = instance.name
+#             seo.og_title = instance.name
+#             seo.save()
+#         except SEO.DoesNotExist:
+#             pass
