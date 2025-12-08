@@ -19,20 +19,23 @@ export interface IProductVariant {
   image: string;
 }
 
-export interface IProduct {
+export interface ILastProduct {
   id: string;
-  sku: string;
   brand: string;
   title: string;
-  category: string;
   avatar: string;
   is_active: boolean;
+  sku: string;
+  price: string;
+}
+
+export interface IProduct extends ILastProduct {
+  category: string;
   count_likes?: number;
   count_reviews?: number;
   total_count: number;
-  variants: IProductVariant[];
+  variants?: IProductVariant[];
   liked?: boolean;
-  price: string;
 }
 
 export interface IProductResponse extends IPagination {

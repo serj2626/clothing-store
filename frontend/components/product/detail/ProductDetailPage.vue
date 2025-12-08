@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { productDetailPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
+// import { productDetailPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 import { api } from "~/api";
 import type { IProduct } from "~/types";
 
@@ -7,8 +7,12 @@ const { $api } = useNuxtApp();
 const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
 
-const storeDetail = useProductDetailStore();
-const { reviews, images, variants } = storeToRefs(storeDetail);
+// const storeDetail = useProductDetailStore();
+// const { reviews, images, variants } = storeToRefs(storeDetail);
+
+const history = useState("routeHistory");
+
+console.log("История маршрутов:", history.value);
 
 const { data: productData } = await useAsyncData<IProduct>(
   `product-detail-page-${productId}`,
@@ -19,7 +23,7 @@ const { data: productData } = await useAsyncData<IProduct>(
 );
 const currentPage = computed(() => ({
   title: productData.value?.title ?? "Товар",
-  url: `/product/${productData.value?.id}`,
+  url: `/products/${productData.value?.id}`,
 }));
 
 const activeImg = ref<string | null>(null);
@@ -62,10 +66,7 @@ function setNewImage(image: string) {
 <template>
   <div class="product-detail-page">
     <div class="container">
-      <BaseBreadCrumbs
-        :breadcrumbs="productDetailPageBreadcrumbs"
-        :current-page="currentPage"
-      />
+      <BaseBreadCrumbs :current-page="currentPage" />
       <div class="product-detail-page__content">
         <ProductDetailImages
           :all-images="allImages"
@@ -75,10 +76,11 @@ function setNewImage(image: string) {
         <ProductDetailInfo
           v-if="productData"
           :product="productData"
-          :variants="productData.variants"
+          :variants="productData.variants ?? []"
         />
       </div>
       <CommentList :reviews="[]" />
+      <ProductDetailComments />
     </div>
   </div>
 </template>

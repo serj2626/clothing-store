@@ -125,7 +125,6 @@ const mapTheme = {
 .base-map {
   width: 100%;
   height: var(--mob-height);
-  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   background: #000;
@@ -146,10 +145,10 @@ const mapTheme = {
 
   &__marker {
     position: relative;
-    color: #00fffc;
+    color: $accent-dark;
     filter: 
-      drop-shadow(0 0 8px #00fffc80)
-      drop-shadow(0 0 16px #00fffc40);
+      drop-shadow(0 0 8px $accent)
+      drop-shadow(0 0 16px $accent);
     z-index: 1;
 
     .pulse-effect {
@@ -158,7 +157,7 @@ const mapTheme = {
       left: 0;
       width: 100%;
       height: 100%;
-      background: #00fffc;
+      background: $accent;
       border-radius: 50%;
       opacity: 0.4;
       transform: scale(0);

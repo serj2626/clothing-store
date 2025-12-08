@@ -15,9 +15,9 @@ export default defineNuxtPlugin(() => {
       // options.baseURL = import.meta.server ? config.ssrApiUrl : config.public.browserApiUrl
 
       // Логирование запросов в debug режиме
-      if (config.public.isDebug) {
-        console.log("making req", options.baseURL, request.toString());
-      }
+      // if (config.public.isDebug) {
+      //   console.log("making req", options.baseURL, request.toString());
+      // }
 
       // Получаем access-токен из хранилища (Pinia, localStorage и т.д.)
       const token = auth.accessToken; // или: useCookie('access_token').value

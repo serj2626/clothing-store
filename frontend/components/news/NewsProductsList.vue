@@ -6,10 +6,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import type { IProduct } from "~/types";
+import type { ILastProduct } from "~/types";
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
 
-defineProps<{ products: IProduct[] }>();
+defineProps<{ products: ILastProduct[] }>();
 
 // ссылка на инстанс swiper
 const swiperInstance = ref<SwiperType | null>(null);
@@ -85,13 +85,19 @@ const goPrev = () => swiperInstance.value?.slidePrev();
 
   &__header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    align-items: start;
     padding-block: 30px;
+    @include mediaTablet {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     &-title {
       font-size: 22px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--color-section-title);
       margin: 0;
     }

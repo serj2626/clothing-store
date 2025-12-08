@@ -45,7 +45,7 @@ interface IModalMenu {
 
 export const menuModalLinks: IModalMenu[] = [
   { title: "Главная", url: "/", icon: HeroIcons.HOME_SOLID },
-  { title: "Каталог", url: "/catalog", icon: HeroIcons.CATALOG_SOLID },
+  // { title: "Каталог", url: "/catalog", icon: HeroIcons.CATALOG_SOLID },
   { title: "О нас", url: "/about", icon: HeroIcons.ABOUT_SOLID },
   { title: "Контакты", url: "/contacts", icon: HeroIcons.PHONE_SOLID },
   { title: "Личный кабинет", url: "/account", icon: HeroIcons.USER_SOLID },

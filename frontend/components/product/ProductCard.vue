@@ -1,21 +1,8 @@
 <script setup lang="ts">
 import { HeroIcons } from "~/assets/icons/types/hero-icons";
-import type { IProduct } from "~/types";
+import type { ILastProduct } from "~/types";
 
-defineProps<IProduct>();
-
-// const allColors = computed(() => {
-//   const colors = props.variants.map((item) => {
-//     return item.color;
-//   });
-//   return colors;
-// });
-// const allSizes = computed(() => {
-//   const sizes = props.variants.map((item) => {
-//     return item.size;
-//   });
-//   return sizes;
-// });
+defineProps<ILastProduct>();
 
 function sliceTitle(title: string) {
   return title.length > 26 ? `${title.slice(0, 26)}.....` : title;
@@ -32,7 +19,7 @@ function sliceTitle(title: string) {
           class="product-card__image-bg"
           style="width: 100%; height: 100%"
           :style="{
-            backgroundImage: `url(${getMedia(avatar)})`,
+            backgroundImage: `url(${getPhoto(avatar)})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center top',
             backgroundRepeat: 'no-repeat',
@@ -41,19 +28,12 @@ function sliceTitle(title: string) {
       </div>
 
       <div class="product-card__info">
-        <div class="product-card__info-title">{{ sliceTitle(title) }}</div>
-        <!-- <div v-if="total_count" class="product-card__info-colors">
-         <ProductColor
-            v-for="color in allColors"
-            :key="color"
-            :color="color"
-          />
+        <div class="product-card__info-title">
+          {{ sliceTitle(title) }}
         </div>
-        <div v-else class="product-card__info-total">Нет в наличии</div> -->
-        <div v-if="brand" class="product-card__info-brand-yes">
-          {{ brand }}
+        <div class="product-card__info-brand-yes">
+          {{ brand || "Без ТМ" }}
         </div>
-        <div v-else class="product-card__info-brand-no">Без ТМ</div>
       </div>
     </article>
   </NuxtLink>

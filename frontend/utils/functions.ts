@@ -8,6 +8,11 @@ interface FormData {
   [key: string]: FormField;
 }
 
+/**
+ * 
+ * @param formData - форма
+ * @returns 
+ */
 export const clearForm = (formData: FormData) => {
   for (const key in formData) {
     if (key === "remember") {
@@ -20,6 +25,11 @@ export const clearForm = (formData: FormData) => {
   }
 };
 
+/**
+ * 
+ * @param videoUrl  
+ * @returns  
+ */
 export const getVideo = (videoUrl: string | undefined) => {
   return [useRuntimeConfig().public.mediaUrl, videoUrl].join("");
 };
@@ -47,3 +57,17 @@ export function formatDate(dateStr: string) {
 
   return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }
+
+export const getPhoto = (photoUrl?: string | null): string => {
+  if (!photoUrl) {
+    return "/img_not_found.webp";
+  }
+
+  const mediaUrl = useRuntimeConfig().public.mediaUrl;
+
+  // Экранируем URL
+  const encodedPhotoUrl = encodeURI(photoUrl);
+  const cleanMediaUrl = mediaUrl.replace(/\/+$/, "");
+
+  return `${cleanMediaUrl}/${encodedPhotoUrl}`;
+};
