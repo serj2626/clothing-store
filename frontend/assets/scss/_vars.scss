@@ -19,6 +19,7 @@ $default_cubic: cubic-bezier(0.4, 0, 0.2, 1);
 $default_transition: 0.3s $default_cubic;
 
 $btn_radius: 10px;
+$btn_small_radius: 4px;
 $btn_bg: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
 // Breakpoints
 $mobile: 375px;

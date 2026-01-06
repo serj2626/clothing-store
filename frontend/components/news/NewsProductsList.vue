@@ -36,17 +36,11 @@ const goPrev = () => swiperInstance.value?.slidePrev();
   <div class="swiper-container">
     <div class="swiper-container__header">
       <h1 class="swiper-container__header-title">Новые коллекции</h1>
-      <!-- кастомные кнопки -->
       <div class="swiper-container__header-buttons">
-        <button class="swiper-prev" @click="goPrev">
-          <Icon :name="HeroIcons.ARROW_LEFT_SOLID" class="swiper-prev--icon" />
-        </button>
-        <button class="swiper-next" @click="goNext">
-          <Icon :name="HeroIcons.ARROW_RIGHT_SOLID" class="swiper-next--icon" />
-        </button>
+        <BaseButtonSwiper type="prev" @go-prev="goPrev" />
+        <BaseButtonSwiper type="next" @go-next="goNext" />
       </div>
     </div>
-    <!-- swiper -->
     <Swiper
       class="swiper-wrapper"
       :modules="[Pagination, Navigation, Autoplay]"
@@ -105,28 +99,6 @@ const goPrev = () => swiperInstance.value?.slidePrev();
     &-buttons {
       display: flex;
       gap: 10px;
-
-      .swiper-prev,
-      .swiper-next {
-        cursor: pointer;
-        padding: 8px 12px;
-        background-color: $accent-dark;
-        color: #fff;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: $accent;
-        }
-
-        &--icon {
-          width: 22px;
-          height: 22px;
-        }
-      }
     }
   }
 }
