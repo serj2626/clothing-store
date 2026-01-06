@@ -157,7 +157,7 @@ const generateStars = (rating: number) => {
         <Swiper
           class="swiper-wrapper"
           :modules="[Navigation, Autoplay]"
-          :autoplay="{ delay: 4000, disableOnInteraction: false }"
+          :autoplay="{ delay: 4000, disableOnInteraction: true }"
           :slides-per-view="4"
           :space-between="24"
           :loop="true"

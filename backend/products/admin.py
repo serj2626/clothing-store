@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from import_export.admin import ImportExportModelAdmin
@@ -9,6 +10,7 @@ from common.mixins import (
     AdminShortDescriptionMixin,
     AvatarPreviewMixin,
 )
+from interactions.models import Comment
 
 from .models import (
     Brand,
@@ -135,6 +137,11 @@ class CategoryAdmin(DraggableMPTTAdmin):
     get_image.short_description = "Фото"
 
 
+class CommentInline(GenericTabularInline):
+    model = Comment
+    extra = 0
+
+
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin):
     """Админка товаров"""
@@ -143,9 +150,7 @@ class ProductAdmin(ImportExportModelAdmin, AvatarPreviewMixin, admin.ModelAdmin)
     image_height = 100
 
     image_field_name = "avatar"
-    inlines = [
-        ProductVariantInline,
-    ]
+    inlines = [ProductVariantInline, CommentInline]
     list_filter = (
         "brand",
         ("category", TreeRelatedFieldListFilter),

@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class CommentableMixin(models.Model):
     comments: GenericRelation["Comment"] = GenericRelation(
         "interactions.Comment",
-        related_query_name="%(class)s_comments",
+        related_query_name="comments",
     )
 
     class Meta:
@@ -34,7 +34,7 @@ class CommentableMixin(models.Model):
 class LikeableMixin(models.Model):
     likes: GenericRelation["Like"] = GenericRelation(
         "interactions.Like",
-        related_query_name="%(class)s_likes",
+        related_query_name="likes",
     )
 
     class Meta:

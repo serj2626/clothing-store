@@ -5,3 +5,6 @@ class InteractionsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'interactions'
     verbose_name = '№2 Отзывы, комментарии и лайки'
+
+    def ready(self):
+        import interactions.signals

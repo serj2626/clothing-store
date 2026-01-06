@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "mptt",
     "import_export",
+    "channels",
 ]
 
 

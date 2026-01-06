@@ -44,8 +44,8 @@ class Review(LikeableMixin, CommentableMixin, BaseReview):
     )
 
     class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
+        verbose_name = "Отзыв на товар"
+        verbose_name_plural = "Отзывы на товары"
         ordering = ["-created_at"]
         unique_together = ["user", "product"]
 

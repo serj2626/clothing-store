@@ -35,14 +35,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="wrapperRef" class="filter-content">
-    <div class="filter-content__header">
+    <div class="filter-content__header" @click="toggle">
       <span class="filter-content__header-title">
         {{ title || "Без названия" }}
       </span>
 
-      <button class="filter-content__header-btn" @click="toggle">
+      <button class="filter-content__header-btn">
         <Icon
-          style="color: #e0bea2"
+          style="color: black"
           :name="HeroIcons.UP"
           class="filter-content__header-btn-icon"
           :class="{ 'filter-content__header-btn-icon--active': !showContent }"
@@ -67,6 +67,16 @@ onBeforeUnmount(() => {
     align-items: center;
     justify-content: space-between;
     gap: 15px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      color: $accent;
+
+      .filter-content__header-btn-icon {
+        color: $accent;
+      }
+    }
 
     &-title {
       font-weight: 600;
@@ -75,7 +85,6 @@ onBeforeUnmount(() => {
     &-btn {
       background: transparent;
       border: none;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
