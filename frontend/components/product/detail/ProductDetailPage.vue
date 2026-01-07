@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { productDetailPageBreadcrumbs } from "~/assets/data/breadcrumbs.data";
 import { api } from "~/api";
 import type { IProduct } from "~/types";
 
@@ -7,14 +6,11 @@ const { $api } = useNuxtApp();
 const { id } = useRoute().params;
 const productId = Array.isArray(id) ? id[0] : id;
 
-// const storeDetail = useProductDetailStore();
-// const { reviews, images, variants } = storeToRefs(storeDetail);
-
 const history = useState("routeHistory");
 
 console.log("История маршрутов:", history.value);
 
-const { data: productData } = await useAsyncData<IProduct>(
+const { data: product } = await useAsyncData<IProduct>(
   `product-detail-page-${productId}`,
   () => $api(api.products.detail(productId)),
   {
@@ -22,23 +18,23 @@ const { data: productData } = await useAsyncData<IProduct>(
   }
 );
 const currentPage = computed(() => ({
-  title: productData.value?.title ?? "Товар",
-  url: `/products/${productData.value?.id}`,
+  title: product.value?.title ?? "Товар",
+  url: `/products/${product.value?.id}`,
 }));
 
 const activeImg = ref<string | null>(null);
 
 // Все изображения: основное + варианты
 const allImages = computed(() => {
-  const mainImage = productData.value?.avatar
+  const mainImage = product.value?.avatar
     ? {
         id: "main",
-        image: productData.value.avatar,
+        image: product.value.avatar,
       }
     : null;
 
   const variantImages =
-    productData.value?.variants?.map((variant) => ({
+    product.value?.variants?.map((variant) => ({
       id: variant.id,
       image: variant.image,
     })) || [];
@@ -48,15 +44,8 @@ const allImages = computed(() => {
 
 // Активное изображение
 const currentImg = computed(() => {
-  return activeImg.value || productData.value?.avatar;
+  return activeImg.value || product.value?.avatar;
 });
-
-// // Устанавливаем первое изображение активным при загрузке
-// watchEffect(() => {
-//   if (allImages.value.length > 0 && !activeImg.value) {
-//     activeImg.value = allImages.value[0].image;
-//   }
-// });
 
 function setNewImage(image: string) {
   activeImg.value = image;
@@ -74,9 +63,9 @@ function setNewImage(image: string) {
           @check-new-image="setNewImage"
         />
         <ProductDetailInfo
-          v-if="productData"
-          :product="productData"
-          :variants="productData.variants ?? []"
+          v-if="product"
+          :product="product"
+          :variants="product.variants ?? []"
         />
       </div>
       <ProductDetailComments />

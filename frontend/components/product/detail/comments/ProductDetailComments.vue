@@ -80,12 +80,14 @@ const goPrev = () => swiperInstance.value?.slidePrev();
           @go-next="goNext"
         />
       </div>
-      <BaseButton
-        class="comments-section__all-views"
-        size="lg"
-        :outline="true"
-        label="Смотреть все отзывы"
-      />
+      <NuxtLink :to="`/reviews/${$route.params.id}`">
+        <BaseButton
+          class="comments-section__all-views"
+          size="lg"
+          :outline="true"
+          label="Смотреть все отзывы"
+        />
+      </NuxtLink>
     </div>
   </div>
 </template>

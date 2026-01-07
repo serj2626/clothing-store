@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ICatalogResponse } from '~/types';
+import type { ICatalogResponse } from "~/types";
 
 defineProps<{
   categories: ICatalogResponse[];
@@ -10,9 +10,7 @@ defineProps<{
     <li
       v-for="value in categories"
       :key="value.id"
-      :class="[
-        'catalog-categories__list-item',
-      ]"
+      class="catalog-categories-list__item"
       :style="{ paddingLeft: value.indent }"
     >
       <span v-if="value.has_children">
@@ -21,4 +19,10 @@ defineProps<{
     </li>
   </ul>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.catalog-categories-list {
+  &__item {
+    cursor: pointer;
+  }
+}
+</style>

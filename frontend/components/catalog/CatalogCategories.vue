@@ -9,6 +9,17 @@ const currentCategoryId = ref<string | null>(null);
 const getPaddingLeft = (indent: number) => {
   return Number(indent) + 20 + "px";
 };
+const getPaddingLineLeft = (indent: number) => {
+  let lines = "";
+  for (let index = 0; index < indent; index++) {
+    lines += "-";
+  }
+  return lines;
+};
+
+const checkCat = (index: string) => {
+  currentCategoryId.value = currentCategoryId.value === index ? null : index;
+};
 </script>
 
 <template>
@@ -21,15 +32,14 @@ const getPaddingLeft = (indent: number) => {
           'catalog-categories__list-item',
           { 'is-active': currentCategoryId === value.id },
         ]"
-        :style="{ paddingLeft: getPaddingLeft(+value.indent) }"
+        @click="checkCat(value.id)"
       >
-        <span class="catalog-categories__name">
-          <!-- Генерируем отступ в виде символов -->
-          <!-- {{ '-'.repeat((value.indent - 1)*2 || 0 * 2) }}  -->
+        <span class="catalog-categories__list-item-name">
+          {{ "-".repeat((+value.indent - 1) * 2 || 0 * 2) }}
           {{ value.name }}
         </span>
 
-        <div v-if="value.has_children">
+        <div v-if="value.has_children && currentCategoryId === value.id">
           <CatalogCategories :categories="value.children" />
         </div>
       </li>
@@ -60,25 +70,28 @@ const getPaddingLeft = (indent: number) => {
     overflow: hidden;
     position: relative;
     transition: transform 0.3s ease;
+    margin-bottom: 5px;
 
-    // &::after {
-    //   content: "";
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   bottom: 0;
-    //   width: 2px;
-    //   transform: scaleY(0);
-    //   background-color: $accent-dark;
-    //   transition: transform 0.3s ease;
-    // }
+    &.is-active {
+      .catalog-categories__list-item-name {
+        color: $accent-dark;
+      }
+    }
 
-    // &:hover {
-    //   transform: translateX(2px);
-    //   &::after {
-    //     transform: scaleY(0.6);
-    //   }
-    // }
+    &:hover {
+      .catalog-categories__list-item-name {
+        color: $accent-dark;
+      }
+    }
+
+    &-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2d3748;
+      line-height: 1.4;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
   }
 
   &__list-item-summary {
@@ -92,14 +105,6 @@ const getPaddingLeft = (indent: number) => {
 
     flex: 1;
     flex-shrink: 0;
-  }
-
-  &__name {
-    font-weight: 600;
-    color: #2d3748;
-    font-size: 1rem;
-    line-height: 1.4;
-    flex: 1;
   }
 
   &__list-item-summary-btn {
